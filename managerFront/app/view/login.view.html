@@ -1,0 +1,136 @@
+
+    	<div class="container" >
+    		<div class="row">
+    			<div class="col-md-4 col-md-offset-4 " style="margin-top: 20%;">
+    				<div class="login-panel panel panel-default text-center">
+    					<div class="panel-heading">
+    						<h3 class="panel-title">Please Sign In</h3>
+    					</div>
+    					<!--div-->
+    					<div id="login-content" style="margin-top: 30px;">
+    						<form class="form-horizontal" action="admin/verify.php" name="form1" method="post">
+
+    							<div class="form-group">
+    								<label style="margin-right:15px;" >Username</label>
+
+    								<!-- <input id='user' name="userName" value='' /> -->
+
+    								<select id="user" class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" name="userName"  panelHeight="auto" style="width:150px">
+    									<option value="admin">admin</option>
+    								</select>
+
+
+    							</div>
+
+
+    							<div class="form-group">
+    								<label style="margin-right:15px;" >Password</label>
+
+
+    								<input class="text-input " name="pwd" type="password" style="width:150px" />
+
+
+    							</div>
+
+
+    							<div class="form-group">
+    								<label style="margin-right:45px;">Store</label>
+
+    								<select id="dataBase" class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" name="dataBase"  panelHeight="auto" style="width:150px">
+    									<?php
+    									for($index = 0; $index < count($storeList); $index++)
+    									{
+    										echo "<option value='".$storeList[$index]['value']."'>".$storeList[$index]['name']."</option>";
+    									}
+    									?>
+    								</select>
+
+    							</div>
+
+    							<div class="form-group">
+    								<label style="margin-right:15px;" >Language</label>
+    								<select class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" id="language_id" name="language_id"  panelHeight="auto" style="width:150px">
+    									<option value='au'>English</option>
+    									<option value='cn'>中文</option>
+    									<!--class="easyui-combobox"-->
+
+
+    								</select>
+    							</div>
+
+    							<div>
+
+
+
+    								<input  type="submit" class="btn btn-lg btn-success " value="Log in" style=" width: 250px;margin-top: 20px; margin-bottom: 30px;" />
+
+    							</div>
+
+    						</form>
+
+    					</div>
+
+
+    				</div>
+
+
+
+
+
+    			<script type="text/javascript">
+
+    				$(document).ready(function(){
+
+    					$('#activate_area').hide();
+
+    					$('#activate_button').click(function(){
+
+    						$('#activate_area').slideToggle();
+
+
+    					});
+
+
+
+    					$("#submit_activate_button").click(function(){
+
+    						var activate_code=$('#activate_code').val();
+    						var dataBase_validate=$('#dataBase_validate').val();
+
+
+    						$.ajax({
+    							type:"POST",
+    							data:{activate_code:activate_code,dataBase_validate:dataBase_validate},
+    							url:"./admin/activate.php",
+    							dataType:"json",
+    							success:function(data){
+
+    								if(data['res']=='ok'){
+
+    									alert("Congratulations!!! Your license has been successfully activated!!! You can login at any time.");
+
+    									window.location.href="./index.php";
+    								}else if(data['res']=='failed'){
+
+    									alert("Your license has a error. Please contact iiyum to get your new activating code. ErrorCode:172");
+    								}else{
+    									alert(data['res']);
+
+    								}
+
+
+
+    							}
+
+
+    						});
+
+    					});
+
+
+
+    				});
+
+
+
+    			</script>

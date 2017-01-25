@@ -1,0 +1,108 @@
+
+
+    <div id="wrapper">
+
+        <div id="page-wrapper">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{title}}</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-database fa-fw"></i> Current Database List
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" type="button">
+                                        Actions
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li (click)="editCurrentStore()" ><a href="#">Edit</a>
+                                        </li>
+                                        <li (click)="showAddNewStore()"><a id="addNewStore" href="#" >Add New database</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div id="morris-area-chart"></div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Store Code</th>
+                                        <th>Database Name</th>
+                                        <th>Licence Number</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tr *ngFor="#database of databases">
+                                        <td> {{ database.store_code }} </td>
+                                        <td> {{ database.db_name }} </td>
+                                        <td> {{ database.validate_code }}</td>
+                                        <td> </td>
+                                    </tr>
+
+
+
+                                    <td> <input #newStoreName type="text" name="store_code" /> </td>
+                                    <td> <input #newDBName type="text" name="db_name" /> </td>
+                                    <td><input #newValidateCode type="text" name="validate_code" />  </td>
+
+
+
+                                    </tbody>
+                                </table>
+
+
+
+
+                                <button class="btn" (click)="addNewStore(newStoreName.value, newDBName.value, newValidateCode.value); newStoreName.value='';newDBName.value='';newValidateCode.value=''">
+                                    Submit
+                                </button>
+
+
+
+                                <!--<button (click)="addNewStore()" class="btn" type="text" name="validate_code" > Submit new</button>-->
+                            </div>
+
+
+
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default">
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+    <!-- /#wrapper -->
+
+

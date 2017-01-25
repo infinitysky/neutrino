@@ -1,0 +1,213 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Report System - Login</title>
+
+
+	<link rel="stylesheet" type="text/css" href="./library/bootstrap/css/bootstrap.css" />
+
+
+
+
+
+	<!-- Bootstrap Core CSS -->
+
+
+	<!-- MetisMenu CSS -->
+
+	<!-- Custom CSS -->
+	<!--<link href="../dist/css/sb-admin-2.css" rel="stylesheet">-->
+
+	<!-- Custom Fonts -->
+	<link href="./library/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+        <script type="text/javascript" src="./library/jquery-2.2.2.min.js"></script>
+        <script type="text/javascript" src="./library/bootstrap/js/bootstrap.js"></script>
+
+        <!-- Metis Menu Plugin JavaScript -->
+
+
+
+        <style type="text/css">
+        	.Absolute-Center.is-Responsive {
+        		width: 50%; 
+        		height: 50%;
+
+        	}
+        	
+        	body{
+        		background:url('./public/images/GHr12sH.jpg') no-repeat center center fixed;;
+        		/*background: url(http://i.imgur.com/GHr12sH.jpg) no-repeat center center fixed;*/
+        		-webkit-background-size: cover;
+        		-moz-background-size: cover;
+        		-o-background-size: cover;
+        		background-size: cover;
+        		
+        		width: 100%;
+        	}
+
+        </style>
+
+
+        
+
+    </head>
+
+    <body>
+
+    	<div class="container" >
+    		<div class="row">
+    			<div class="col-md-4 col-md-offset-4 " style="margin-top: 20%;">
+    				<div class="login-panel panel panel-default text-center">
+    					<div class="panel-heading">
+    						<h3 class="panel-title">Please Sign In</h3>
+    					</div>
+    					<!--div-->
+    					<div id="login-content" style="margin-top: 30px;">
+    						<form class="form-horizontal" action="admin/verify.php" name="form1" method="post">
+
+    							<div class="form-group">
+    								<label style="margin-right:15px;" >Username</label>
+
+    								<!-- <input id='user' name="userName" value='' /> -->
+
+    								<select id="user" class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" name="userName"  panelHeight="auto" style="width:150px">
+    									<option value="admin">admin</option>
+    								</select>
+
+
+    							</div>
+
+
+    							<div class="form-group">
+    								<label style="margin-right:15px;" >Password</label>
+
+
+    								<input class="text-input " name="pwd" type="password" style="width:150px" />
+
+
+    							</div>
+
+
+    							<div class="form-group">
+    								<label style="margin-right:45px;">Store</label>
+
+    								<select id="dataBase" class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" name="dataBase"  panelHeight="auto" style="width:150px">
+    									<?php
+    									for($index = 0; $index < count($storeList); $index++)
+    									{
+    										echo "<option value='".$storeList[$index]['value']."'>".$storeList[$index]['name']."</option>";
+    									}
+    									?>
+    								</select>
+
+    							</div>
+
+    							<div class="form-group">
+    								<label style="margin-right:15px;" >Language</label>
+    								<select class="btn btn-default dropdown-toggle btn-select2" data-toggle="dropdown" id="language_id" name="language_id"  panelHeight="auto" style="width:150px">
+    									<option value='au'>English</option>
+    									<option value='cn'>中文</option>
+    									<!--class="easyui-combobox"-->
+
+
+    								</select>
+    							</div>
+
+    							<div>
+
+
+
+    								<input  type="submit" class="btn btn-lg btn-success " value="Log in" style=" width: 250px;margin-top: 20px; margin-bottom: 30px;" />
+
+    							</div>
+
+    						</form>
+
+    					</div>
+
+
+    				</div>
+
+
+
+
+
+
+    			</body>
+
+    			</html>
+    			<script type="text/javascript">
+
+    				$(document).ready(function(){
+
+    					$('#activate_area').hide();
+
+    					$('#activate_button').click(function(){
+
+    						$('#activate_area').slideToggle();
+
+
+    					});
+
+
+
+    					$("#submit_activate_button").click(function(){
+
+    						var activate_code=$('#activate_code').val();
+    						var dataBase_validate=$('#dataBase_validate').val();
+
+
+    						$.ajax({
+    							type:"POST",
+    							data:{activate_code:activate_code,dataBase_validate:dataBase_validate},
+    							url:"./admin/activate.php",
+    							dataType:"json",
+    							success:function(data){
+
+    								if(data['res']=='ok'){
+
+    									alert("Congratulations!!! Your license has been successfully activated!!! You can login at any time.");
+
+    									window.location.href="./index.php";
+    								}else if(data['res']=='failed'){
+
+    									alert("Your license has a error. Please contact iiyum to get your new activating code. ErrorCode:172");
+    								}else{
+    									alert(data['res']);
+
+    								}
+
+
+
+    							}
+
+
+    						});
+
+    					});
+
+
+
+    				});
+
+
+
+    			</script>

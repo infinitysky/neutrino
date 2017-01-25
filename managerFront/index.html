@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+    <!--<link rel="shortcut icon" type="image/png" href="logo.png"/>-->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>iSmart Mobile Report System</title>
+
+
+    <script type="text/javascript" src="./library/jquery-2.2.2.min.js"></script>
+    <script type="text/javascript" src="./library/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./library/bootstrap/css/bootstrap.css" />
+
+
+
+    <!-- MetisMenu CSS -->
+    <link href="./bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet" />
+
+    <!-- Timeline CSS -->
+    <link href="./dist/css/timeline.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link href="./dist/css/sb-admin-2.css" rel="stylesheet" />
+
+    <!-- Morris Charts CSS -->
+    <link href="./bower_components/morrisjs/morris.css" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="./bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- Set the base href -->
+    <script>document.write('<base href="' + document.location + '" />');</script>
+
+    <!-- online -->
+
+    <!-- IE required polyfills, in this exact order -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.0/es6-shim.min.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.20/system-polyfills.js"></script>-->
+    <!--<script src="https://npmcdn.com/angular2@2.0.0-beta.11/es6/dev/src/testing/shims_for_IE.js"></script>-->
+    <!---->
+    <!--<script src="https://code.angularjs.org/2.0.0-beta.11/angular2-polyfills.js"></script>-->
+    <!--<script src="https://code.angularjs.org/tools/system.js"></script>-->
+    <!--<script src="https://npmcdn.com/typescript@1.8.9/lib/typescript.js"></script>-->
+    <!--<script src="https://code.angularjs.org/2.0.0-beta.11/Rx.js"></script>-->
+    <!--<script src="https://code.angularjs.org/2.0.0-beta.11/angular2.dev.js"></script>-->
+
+    <!--&lt;!&ndash; Add the router library &ndash;&gt;-->
+    <!--<script src="https://code.angularjs.org/2.0.0-beta.11/router.dev.js"></script>-->
+
+
+
+    <!--local load-->
+    <script src="./library/angular2-11/http.js"></script>
+    <script src="./library/angular2-11/es6-shim.min.js"></script>
+    <script src="./library/angular2-11/system-polyfills.js"></script>
+    <script src="./library/angular2-11/shims_for_IE.js"></script>
+
+    <script src="./library/angular2-11/angular2-polyfills.js"></script>
+    <script src="./library/angular2-11/system.js"></script>
+    <script src="./library/angular2-11/typescript.js"></script>
+    <script src="./library/angular2-11/Rx.js"></script>
+    <script src="./library/angular2-11/angular2.dev.js"></script>
+    <script src="./library/angular2-11/router.dev.js"></script>
+    <script src="./library/angular2-11/http.js"></script>
+
+
+
+
+
+
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="./bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="./bower_components/raphael/raphael-min.js"></script>
+    <script src="./bower_components/morrisjs/morris.min.js"></script>
+
+    <script src="./js/morris-data.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="./dist/js/sb-admin-2.js"></script>
+
+    <!--<script src="./js/morris-data.js"></script>-->
+
+
+
+    <!--Report system JS-->
+    <script type="text/javascript" src="./public/js/language_id.js"></script>
+
+
+    <script type="text/javascript" src="./public/js/date.js"></script>
+    <script type="text/javascript" src="./public/js/language_id.js"></script>
+    <script type="text/javascript" src="./public/js/last_date.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="./public/icon.css" />
+    <!--<link rel="stylesheet" type="text/css" href="./public/themes/gray/easyui.css" />-->
+
+    <!--<script type="text/javascript" src="./public/jquery.js"></script>-->
+    <!--<script type="text/javascript" src="./public/jquery.easyui.min.js"></script>-->
+    <!-- <script type="text/javascript" src="../public/easyui-lang-zh_CN.js"></script> -->
+    <script type="text/javascript" src="./public/click-event.js"></script>
+    <script type="text/javascript" src="./public/d3.min.js"></script>
+
+
+    <style type="text/css">
+
+        .center-fix {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center; }
+
+        .main-spinner {
+            font-size: 5em;
+            color: cornflowerblue; }
+
+    </style>
+
+
+
+
+
+
+
+    <script>
+        System.config({
+            transpiler: 'typescript',
+            typescriptOptions: { emitDecoratorMetadata: true },
+            packages: {'app': {defaultExtension: 'ts'}}
+        });
+        System.import('app/main')
+                .then(null, console.error.bind(console));
+
+
+    </script>
+</head>
+
+<body>
+<report-system>
+    <i class="center-fix main-spinner fa fa-spin fa-spinner"></i>
+</report-system>
+</body>
+</html>
+
+
+<!--
+Copyright 2016 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->
