@@ -96,7 +96,12 @@ export class ReportComponent implements OnInit {
     ];
 
 
-    this.getCharDatas();
+    setTimeout(() =>
+      {
+        this.getCharDatas();
+      },
+      5000);
+    //this.getCharDatas();
 
 
  //   this.testname='123123';
