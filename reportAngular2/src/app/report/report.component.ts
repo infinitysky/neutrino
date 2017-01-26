@@ -1,6 +1,8 @@
 import { Component, OnInit,AfterViewInit } from '@angular/core';
 
 import { GraphDataService } from '../graph-data.service'
+
+import { barchartDataClass } from "../interface/barchart.interface"
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
@@ -9,6 +11,8 @@ import { GraphDataService } from '../graph-data.service'
 })
 export class ReportComponent implements OnInit {
   title = 'report works!';
+  barcharDataArray:barchartDataClass[];
+
   public testname:string;
   public testArray:Array<any>;
   public testData:any;
@@ -56,6 +60,21 @@ export class ReportComponent implements OnInit {
   // events
   public chartClicked(e:any):void {
     console.log(e);
+    var tem:Array<any>=[{data: [22, 55, 80, 71, 64, 33, 31], label: 'Series D'}];
+
+    var newColor:Array<any>=[ { // grey
+      backgroundColor: 'rgba(148,159,177,0.2)',
+      borderColor: 'rgba(148,159,555,51)',
+      pointBackgroundColor: 'rgba(148,159,177,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    }];
+
+    this.lineChartData.push(tem);
+    this.lineChartColors.push(newColor);
+    this.lineChartData=this.lineChartData.slice();
+    this.lineChartColors=this.lineChartColors.slice();
   }
 
   public chartHovered(e:any):void {
@@ -63,14 +82,21 @@ export class ReportComponent implements OnInit {
   }
 
   constructor(private  dataService:GraphDataService) {
-    this.dataService.getBarCharData();
-    this.testData=this.dataService.myDatas;
-    console.log("remote"+this.testData);
-    console.log('process getCharDatas');
+    // this.lineChartData=[
+    //   {data:0, label: 'N.A'},
+    //   {data:0, label: 'N.A'},
+    //   {data:0, label: 'N.A'}
+    //
+    //      ];
+    this.lineChartData=[
+      {data:0, label: 'N.A'},
+      {data:0, label: 'N.A'},
+      {data:0, label: 'N.A'}
 
-    console.log('Finish getCharDatas');
-    console.log('process consoleCheck');
-    this.consoleCheck();
+    ];
+
+
+    this.getCharDatas();
 
 
  //   this.testname='123123';
@@ -94,13 +120,14 @@ export class ReportComponent implements OnInit {
 
   ngOnInit() {
 
+
   }
   ngAfterViewInit(){
 
   }
 
   public getCharDatas():any {
-     var v1= this.dataService.getBarChar().subscribe(
+     this.dataService.getBarChar().subscribe(
       // the first argument is a function which runs on success
       data => { this.charData = data},
       // the second argument is a function which runs on error
@@ -109,20 +136,40 @@ export class ReportComponent implements OnInit {
       () => {
         console.log('done loading bar Char Data');
         console.log('Stage 1');
-        console.log(this.charData);
+
         this.chartArrayA=this.charData.Sa;
         this.chartArrayB=this.charData.Sb;
         this.chartArrayC=this.charData.Sc;
-        this.lineChartData = [
+
+
+
+
+        this.lineChartData= [
           {data:  this.charData.Sa, label: 'Series A'},
           {data:  this.charData.Sb, label: 'Series B'},
           {data:  this.charData.Sc, label: 'Series C'}
         ];
-        return this.charData;
+        // var i=0;
+        // for(i=0;i<tempArray.length;i++){
+        //   this.lineChartData.push(tempArray[i]);
+        // }
+        //
+        // console.log("temp Array: "+tempArray);
+
+        // this.barcharDataArray.push(new barchartDataClass(this.charData.Sa,'Series A'));
+        // this.barcharDataArray.push(new barchartDataClass(this.charData.Sb,'Series B'));
+        // this.barcharDataArray.push(new barchartDataClass(this.charData.Sc,'Series C'));
+
+
+
+
+       // this.lineChartData=this.lineChartData.slice();
+        console.log("lineChartData Array: "+this.lineChartData);
+
       }
 
     );
-     console.log("my this.lineChartData  :"+ v1.data);
+
 
 
 

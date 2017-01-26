@@ -53,7 +53,9 @@ export class GraphDataService {
       .map((res:Response) => res.json());
   }
 
-
+  getMysection(){
+    
+  }
   logError(err) {
     console.error('There was an error: ' + err);
   }
