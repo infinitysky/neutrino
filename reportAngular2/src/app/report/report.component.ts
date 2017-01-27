@@ -100,18 +100,9 @@ export class ReportComponent implements OnInit {
       {
         this.getCharDatas();
       },
-      5000);
+      3000);
     //this.getCharDatas();
 
-
- //   this.testname='123123';
- //    this.lineChartData=[
- //      {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
- //      {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
- //      {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
- //    ];
- //
- //
 
 
   }
@@ -169,6 +160,10 @@ export class ReportComponent implements OnInit {
 
 
        // this.lineChartData=this.lineChartData.slice();
+
+        //let tem:Array<any>=[{data: [22, 55, 80, 71, 64, 33, 31], label: 'Series D'}];
+        //this.lineChartData.push([{data: [22, 55, 80, 71, 64, 33, 31], label: 'Series D'}]);
+        this.lineChartData=this.lineChartData.slice();
         console.log("lineChartData Array: "+this.lineChartData);
 
       }

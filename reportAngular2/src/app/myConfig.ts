@@ -15,7 +15,7 @@ export interface ApplicationConfig {
 // Configuration values for our app
 export const MY_CONFIG: ApplicationConfig = {
   appName: 'My new App',
-  apiEndpoint: 'http://127.0.0.1:8080',
+  apiEndpoint: 'http://127.0.0.1',
   getBarChart: '/uniBackEnd/index.php/BarChart'
 
 };
