@@ -10,7 +10,7 @@ import { HeaderpageComponent } from './headerpage/headerpage.component';
 import { OkrOverviewComponent } from './okr-overview/okr-overview.component';
 import { FooterpageComponent } from './footerpage/footerpage.component';
 import { OkrDashboardComponent } from './okr-dashboard/okr-dashboard.component';
-
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 @NgModule({
   declarations: [
@@ -20,10 +20,11 @@ import { OkrDashboardComponent } from './okr-dashboard/okr-dashboard.component';
     OkrOverviewComponent,
     FooterpageComponent,
     OkrDashboardComponent,
-    
- 
+
+
   ],
   imports: [
+    ChartsModule,
     BrowserModule,
     FormsModule,
     HttpModule,

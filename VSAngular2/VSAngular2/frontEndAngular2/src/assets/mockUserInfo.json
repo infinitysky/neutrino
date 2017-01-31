@@ -1,0 +1,12 @@
+{
+	"user_id":2,
+  "username":"manager",
+	"email":"manager@admin.com",
+	"account_status":1,
+	"first_name":"Manager",
+	"last_name":"Rock",
+	"dob":"1922-21-20",
+	"mobile_number":"04336564",
+	"statu":"success"
+
+}

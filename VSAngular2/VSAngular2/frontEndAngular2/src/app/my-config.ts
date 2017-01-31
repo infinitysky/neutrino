@@ -16,9 +16,11 @@ export interface ApplicationConfig {
 // Configuration values for our app
 export const MY_CONFIG: ApplicationConfig = {
   appName: 'My new App',
-  apiEndpoint: 'http://127.0.0.1',
+  apiEndpoint: 'http://127.0.0.1:4200',
   getBarChartUrl: '/uniBackEnd/index.php/BarChart',
-  getUserInfoUrl:'/neutrino/backEndAPI/index.php/Login'
+  //getUserInfoUrl:'/neutrino/backEndAPI/index.php/Login'
+  getUserInfoUrl:'/assets/mockUserInfo.json'
+
 
 };
 

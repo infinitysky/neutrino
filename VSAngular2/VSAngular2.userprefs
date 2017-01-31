@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{8D0381B5-D62C-4F18-BD70-AF5C54AF9093}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="VSAngular2/frontEndAngular2/src/app/footerpage/footerpage.component.ts">
+    <Files>
+      <File FileName="VSAngular2/frontEndAngular2/src/app/footerpage/footerpage.component.ts" Line="9" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.VSAngular2 PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
