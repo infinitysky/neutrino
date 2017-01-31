@@ -1,0 +1,157 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Users extends CI_Controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model('Users_model');
+        $this->load->library('form_validation');        
+	    $this->load->library('datatables');
+    }
+
+    public function index()
+    {
+        //$this->load->view('users/users_list');
+        //echo $this->Users_model->json();
+        $myanswer=$this->Users_model->get_All();
+        //$myanswer=$this->Users_model->get_All()
+        echo json_encode($myanswer);
+
+
+    } 
+    
+    public function json() {
+        header('Content-Type: application/json');
+        echo $this->Users_model->json();
+    }
+
+    public function read($id) 
+    {
+        $row = $this->Users_model->get_by_id($id);
+        if ($row) {
+            $data = array(
+		'user_id' => $row->user_id,
+		'email' => $row->email,
+		'username' => $row->username,
+		'password' => $row->password,
+		'account_status' => $row->account_status,
+	    );
+            echo json_encode($data);
+            //$this->load->view('users/users_read', $data);
+        } else {
+            //$this->session->set_flashdata('message', 'Record Not Found');
+            //redirect(site_url('users'));
+        }
+    }
+
+    public function create() 
+    {
+        $data = array(
+            'button' => 'Create',
+            'action' => site_url('users/create_action'),
+	    'user_id' => set_value('user_id'),
+	    'email' => set_value('email'),
+	    'username' => set_value('username'),
+	    'password' => set_value('password'),
+	    'account_status' => set_value('account_status'),
+	);
+        $this->load->view('users/users_form', $data);
+    }
+    
+    public function create_action() 
+    {
+        $this->_rules();
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->create();
+        } else {
+            $data = array(
+		'email' => $this->input->post('email',TRUE),
+		'username' => $this->input->post('username',TRUE),
+		'password' => $this->input->post('password',TRUE),
+		'account_status' => $this->input->post('account_status',TRUE),
+	    );
+
+            $this->Users_model->insert($data);
+            $this->session->set_flashdata('message', 'Create Record Success');
+            redirect(site_url('users'));
+        }
+    }
+    
+    public function update($id) 
+    {
+        $row = $this->Users_model->get_by_id($id);
+
+        if ($row) {
+            $data = array(
+                'button' => 'Update',
+                'action' => site_url('users/update_action'),
+		'user_id' => set_value('user_id', $row->user_id),
+		'email' => set_value('email', $row->email),
+		'username' => set_value('username', $row->username),
+		'password' => set_value('password', $row->password),
+		'account_status' => set_value('account_status', $row->account_status),
+	    );
+            $this->load->view('users/users_form', $data);
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('users'));
+        }
+    }
+    
+    public function update_action() 
+    {
+        $this->_rules();
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->update($this->input->post('user_id', TRUE));
+        } else {
+            $data = array(
+		'email' => $this->input->post('email',TRUE),
+		'username' => $this->input->post('username',TRUE),
+		'password' => $this->input->post('password',TRUE),
+		'account_status' => $this->input->post('account_status',TRUE),
+	    );
+
+            $this->Users_model->update($this->input->post('user_id', TRUE), $data);
+            $this->session->set_flashdata('message', 'Update Record Success');
+            redirect(site_url('users'));
+        }
+    }
+    
+    public function delete($id) 
+    {
+        $row = $this->Users_model->get_by_id($id);
+
+        if ($row) {
+            $this->Users_model->delete($id);
+            $this->session->set_flashdata('message', 'Delete Record Success');
+            redirect(site_url('users'));
+        } else {
+            $this->session->set_flashdata('message', 'Record Not Found');
+            redirect(site_url('users'));
+        }
+    }
+
+    public function _rules() 
+    {
+	$this->form_validation->set_rules('email', 'email', 'trim|required');
+	$this->form_validation->set_rules('username', 'username', 'trim|required');
+	$this->form_validation->set_rules('password', 'password', 'trim|required');
+	$this->form_validation->set_rules('account_status', 'account status', 'trim|required');
+
+	$this->form_validation->set_rules('user_id', 'user_id', 'trim');
+	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+
+}
+
+/* End of file Users.php */
+/* Location: ./application/controllers/Users.php */
+/* Please DO NOT modify this information : */
+/* Generated by Harviacode Codeigniter CRUD Generator 2017-01-30 11:54:10 */
+/* http://harviacode.com */
