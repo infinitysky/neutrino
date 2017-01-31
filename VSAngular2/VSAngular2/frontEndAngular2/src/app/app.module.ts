@@ -7,6 +7,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderpageComponent } from './headerpage/headerpage.component';
+import { OkrOverviewComponent } from './okr-overview/okr-overview.component';
+import { FooterpageComponent } from './footerpage/footerpage.component';
+import { OkrDashboardComponent } from './okr-dashboard/okr-dashboard.component';
 
 
 @NgModule({
@@ -14,6 +17,9 @@ import { HeaderpageComponent } from './headerpage/headerpage.component';
     AppComponent,
     NavigationComponent,
     HeaderpageComponent,
+    OkrOverviewComponent,
+    FooterpageComponent,
+    OkrDashboardComponent,
     
  
   ],
