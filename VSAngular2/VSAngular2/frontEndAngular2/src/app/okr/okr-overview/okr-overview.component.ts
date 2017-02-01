@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./okr-overview.component.css']
 })
 export class OkrOverviewComponent implements OnInit {
-    public pageTitle = 'OKRs Overview';
+
   constructor() { }
 
   ngOnInit() {

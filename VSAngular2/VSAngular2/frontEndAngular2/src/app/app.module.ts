@@ -9,6 +9,7 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 //developed module import here
 import { HomeModule } from './home/home.module'
 import { AboutModule } from './about/about.module'
+import {OkrModule} from './okr/okr.module'
 
 //developed component import here
 import { AppComponent } from './app.component';
@@ -38,8 +39,9 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
 
 
     //Developed Module regist here
-      HomeModule,
-      AboutModule
+    HomeModule,
+    AboutModule,
+    OkrModule
 
   ],
   providers: [],

@@ -1,0 +1,154 @@
+<div class="normalheader ">
+
+  <div class="hpanel">
+
+
+    <div class="panel-body">
+
+      <a class="small-header-action" >
+        <div class="clip-header">
+          <i class="fa fa-arrow-up"></i>
+        </div>
+      </a>
+
+      <!--<div id="hbreadcrumb" class="pull-right m-t-lg">-->
+      <!--<ol class="hbreadcrumb breadcrumb">-->
+      <!--<li><a href="index.html">Dashboard</a></li>-->
+      <!--<li>-->
+      <!--<span>App views</span>-->
+      <!--</li>-->
+      <!--<li class="active">-->
+      <!--<span>Mailbox</span>-->
+      <!--</li>-->
+      <!--</ol>-->
+      <!--</div>-->
+
+      <h2 class="font-light m-b-xs">
+        {{pageTitle}}
+      </h2>
+
+      <small>{{subPageTitle}}</small>
+
+    </div>
+
+  </div>
+</div>
+<div class="content animate-panel ">
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="hpanel">
+        <div class="panel-body">
+
+          <ul class="mailbox-list">
+            <li class="active">
+              <a href="#">
+                <span class="pull-right">12</span>
+                <i class="fa fa-envelope"></i> Inbox
+              </a>
+            </li>
+            <li>
+              <a routerLink="./setting-time-frame"><i class="fa fa-paper-plane"></i><strong>Time Frame</strong></a>
+            </li>
+
+          </ul>
+          <hr>
+
+          <ul class="mailbox-list">
+            <li>
+              <a href="#"><i class="fa fa-tag text-success"></i> Promos</a>
+            </li>
+
+            <li>
+              <a href="#"><i class="fa fa-flag text-primary"></i> Updates</a>
+            </li>
+          </ul>
+
+          <hr>
+
+          <ul class="mailbox-list">
+            <li>
+              <a href="#"><i class="fa fa-gears"></i> Settings</a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-info-circle"></i> Support</a>
+            </li>
+          </ul>
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+    <!--right context-->
+
+    <div class="col-md-9">
+      <div class="hpanel">
+
+        <div class="panel-heading hbuilt">
+          <div class="text-center p-xs font-normal">
+            <div class="input-group"><input type="text" class="form-control input-sm" placeholder="Search email in your inbox..."> <span class="input-group-btn"> <button type="button" class="btn btn-sm btn-default">Search
+                            </button> </span></div>
+          </div>
+        </div>
+
+
+        <div class="panel-body">
+
+          <div class="row">
+
+
+            <div class="col-md-6 m-b-md">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> Refresh</button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-eye"></i></button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-exclamation"></i></button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-check"></i></button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-tag"></i></button>
+              </div>
+            </div>
+
+            <div class="col-md-6 mailbox-pagination m-b-md">
+              <div class="btn-group">
+
+                <button class="btn btn-primary" (click)="lgModal.show()">Add New Time Frame</button>
+
+
+                <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h5 class="modal-title">Large modal</h5>
+                      </div>
+                      <div class="modal-body">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque beatae accusantium maiores, placeat, quasi laborum in vitae accusamus veritatis inventore nulla et quibusdam debitis ipsam consectetur eum, velit ea praesentium!
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum a velit esse est, voluptatum quam eos ipsum laudantium facere iusto. Provident deleniti non temporibus ex tenetur, assumenda labore eos!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <button class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i></button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-arrow-right"></i></button>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right sidebar -->
+
+</div>

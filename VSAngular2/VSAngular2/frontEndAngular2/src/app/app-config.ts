@@ -10,6 +10,7 @@ export interface ApplicationConfig {
   apiEndpoint: string;
   getBarChartUrl:string;
   getUserInfoUrl:string;
+  getTimeFrameUrl:string;
 
 }
 
@@ -19,7 +20,8 @@ export const MY_CONFIG: ApplicationConfig = {
   apiEndpoint: 'http://127.0.0.1:4200',
   getBarChartUrl: '/uniBackEnd/index.php/BarChart',
   //getUserInfoUrl:'/neutrino/backEndAPI/index.php/Login'
-  getUserInfoUrl:'/assets/mockUserInfo.json'
+  getUserInfoUrl:'/assets/mockUserInfo.json',
+  getTimeFrameUrl:''
 
 
 };

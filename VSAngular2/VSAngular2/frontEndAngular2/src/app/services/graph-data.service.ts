@@ -7,7 +7,7 @@ import {Http, Response, Headers, RequestOptions} from "@angular/http";
 //import {Observable} from 'rxjs/Rx';
 import 'rxjs/Rx';
 // Import the config-related things
-import { MY_CONFIG, ApplicationConfig } from '../my-config';
+import { MY_CONFIG, ApplicationConfig } from '../app-config';
 
 @Injectable()
 export class GraphDataService {
