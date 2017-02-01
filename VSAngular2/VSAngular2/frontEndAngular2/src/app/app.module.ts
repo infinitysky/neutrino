@@ -4,22 +4,28 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module';
 
+import { ChartsModule } from 'ng2-charts/ng2-charts';
+
+//developed module import here
+import { HomeModule } from './home/home.module'
+import { AboutModule } from './about/about.module'
+
+//developed component import here
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderpageComponent } from './headerpage/headerpage.component';
-import { OkrOverviewComponent } from './okr-overview/okr-overview.component';
 import { FooterpageComponent } from './footerpage/footerpage.component';
-import { OkrDashboardComponent } from './okr-dashboard/okr-dashboard.component';
-import { ChartsModule } from 'ng2-charts/ng2-charts';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+
+    //developed component regist here
     NavigationComponent,
     HeaderpageComponent,
-    OkrOverviewComponent,
     FooterpageComponent,
-    OkrDashboardComponent,
+
 
 
   ],
@@ -28,7 +34,13 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+
+
+    //Developed Module regist here
+      HomeModule,
+      AboutModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
