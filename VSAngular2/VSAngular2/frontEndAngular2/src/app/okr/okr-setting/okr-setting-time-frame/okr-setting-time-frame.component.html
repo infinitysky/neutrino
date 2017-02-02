@@ -41,14 +41,14 @@
         <div class="panel-body">
 
           <ul class="mailbox-list">
-            <li class="active">
-              <a href="#">
+            <li >
+              <a routerLink="/okr/okr-setting">
                 <span class="pull-right">12</span>
                 <i class="fa fa-envelope"></i> Inbox
               </a>
             </li>
-            <li>
-              <a routerLink="./setting-time-frame"><i class="fa fa-paper-plane"></i><strong>Time Frame</strong></a>
+            <li class="active">
+              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-paper-plane"></i><strong>Time Frame</strong></a>
             </li>
 
           </ul>
@@ -114,30 +114,34 @@
             <div class="col-md-6 mailbox-pagination m-b-md">
               <div class="btn-group">
 
-                <button class="btn btn-primary" (click)="lgModal.show()">Add New Time Frame</button>
+                <!--<button class="btn btn-primary" (click)="lgModal.show()">Add New Time Frame</button>-->
 
 
-                <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h5 class="modal-title">Large modal</h5>
-                      </div>
-                      <div class="modal-body">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque beatae accusantium maiores, placeat, quasi laborum in vitae accusamus veritatis inventore nulla et quibusdam debitis ipsam consectetur eum, velit ea praesentium!
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum a velit esse est, voluptatum quam eos ipsum laudantium facere iusto. Provident deleniti non temporibus ex tenetur, assumenda labore eos!
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <!--<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">-->
+                  <!--<div class="modal-dialog">-->
+                    <!--<div class="modal-content">-->
+                      <!--<div class="modal-header">-->
+                        <!--<button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">-->
+                          <!--<span aria-hidden="true">&times;</span>-->
+                        <!--</button>-->
+                        <!--<h5 class="modal-title">Large modal</h5>-->
+                      <!--</div>-->
+                      <!--<div class="modal-body">-->
+                        <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque beatae accusantium maiores, placeat, quasi laborum in vitae accusamus veritatis inventore nulla et quibusdam debitis ipsam consectetur eum, velit ea praesentium!-->
+                        <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum a velit esse est, voluptatum quam eos ipsum laudantium facere iusto. Provident deleniti non temporibus ex tenetur, assumenda labore eos!-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
 
 
                 <button class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i></button>
                 <button class="btn btn-default btn-sm"><i class="fa fa-arrow-right"></i></button>
               </div>
+
+              <template ngbModalContainer></template>
+              <app-time-frame-setting-modal></app-time-frame-setting-modal>
+
             </div>
 
 

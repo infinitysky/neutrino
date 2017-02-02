@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { TimeFrameSettingModalComponent }from './time-frame-setting-modal/time-frame-setting-modal.component';
+
 @Component({
-  selector: 'app-okr-setting-time-frame',
+  selector: 'setting-content',
   templateUrl: './okr-setting-time-frame.component.html',
   styleUrls: ['./okr-setting-time-frame.component.css']
 })

@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 //developed module import here
 import { HomeModule } from './home/home.module'
 import { AboutModule } from './about/about.module'
@@ -29,13 +31,16 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
 
 
 
+
   ],
   imports: [
+    NgbModule.forRoot(),
     ChartsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
+
 
 
     //Developed Module regist here

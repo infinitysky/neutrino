@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class OkrSettingComponent implements OnInit {
   public pageTitle="OKRs Setting";
   public subPageTitle="MainView";
+
+
   constructor() { }
 
   ngOnInit() {
