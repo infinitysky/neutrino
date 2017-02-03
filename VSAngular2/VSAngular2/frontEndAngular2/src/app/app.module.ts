@@ -7,7 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { AlertModule } from 'ng2-bootstrap';
+import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 //developed module import here
 import { HomeModule } from './home/home.module'
 import { AboutModule } from './about/about.module'
@@ -34,6 +35,7 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
 
   ],
   imports: [
+    NKDatetimeModule,
     NgbModule.forRoot(),
     ChartsModule,
     BrowserModule,

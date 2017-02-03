@@ -35,7 +35,10 @@
 </div>
 <div class="content animate-panel ">
 
+
   <div class="row">
+
+    <!--Start Left navagation-->
     <div class="col-md-3">
       <div class="hpanel">
         <div class="panel-body">
@@ -47,10 +50,9 @@
                 <i class="fa fa-envelope"></i> Inbox
               </a>
             </li>
-            <li class="active">
-              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-paper-plane"></i><strong>Time Frame</strong></a>
+            <li>
+              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-paper-plane"></i> Time Frame</a>
             </li>
-
           </ul>
           <hr>
 
@@ -80,79 +82,95 @@
 
       </div>
     </div>
+    <!--End Left navagation-->
 
 
-    <!--right context-->
-
+    <!--Start right context-->
     <div class="col-md-9">
       <div class="hpanel">
 
-        <div class="panel-heading hbuilt">
-          <div class="text-center p-xs font-normal">
-            <div class="input-group"><input type="text" class="form-control input-sm" placeholder="Search email in your inbox..."> <span class="input-group-btn"> <button type="button" class="btn btn-sm btn-default">Search
-                            </button> </span></div>
-          </div>
-        </div>
-
 
         <div class="panel-body">
-
+          <!--Left Button Group-->
           <div class="row">
-
-
             <div class="col-md-6 m-b-md">
               <div class="btn-group">
-                <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> Refresh</button>
-                <button class="btn btn-default btn-sm"><i class="fa fa-eye"></i></button>
-                <button class="btn btn-default btn-sm"><i class="fa fa-exclamation"></i></button>
-                <button class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                <button class="btn btn-default btn-sm"><i class="fa fa-check"></i></button>
-                <button class="btn btn-default btn-sm"><i class="fa fa-tag"></i></button>
+
+
               </div>
             </div>
 
+            <!--Right Button Group-->
             <div class="col-md-6 mailbox-pagination m-b-md">
               <div class="btn-group">
 
-                <!--<button class="btn btn-primary" (click)="lgModal.show()">Add New Time Frame</button>-->
+                <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
 
+                <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <app-time-frame-setting-modal></app-time-frame-setting-modal>
 
-                <!--<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">-->
-                  <!--<div class="modal-dialog">-->
-                    <!--<div class="modal-content">-->
-                      <!--<div class="modal-header">-->
-                        <!--<button type="button" class="close" (click)="lgModal.hide()" aria-label="Close">-->
-                          <!--<span aria-hidden="true">&times;</span>-->
-                        <!--</button>-->
-                        <!--<h5 class="modal-title">Large modal</h5>-->
-                      <!--</div>-->
-                      <!--<div class="modal-body">-->
-                        <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque beatae accusantium maiores, placeat, quasi laborum in vitae accusamus veritatis inventore nulla et quibusdam debitis ipsam consectetur eum, velit ea praesentium!-->
-                        <!--Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum nostrum a velit esse est, voluptatum quam eos ipsum laudantium facere iusto. Provident deleniti non temporibus ex tenetur, assumenda labore eos!-->
-                      <!--</div>-->
-                    <!--</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-
-
-                <button class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i></button>
-                <button class="btn btn-default btn-sm"><i class="fa fa-arrow-right"></i></button>
               </div>
-
-              <template ngbModalContainer></template>
-              <app-time-frame-setting-modal></app-time-frame-setting-modal>
-
             </div>
 
 
           </div>
 
+          <div class="table-responsive">
+            <!--Start Table List-->
+            <table class="table table-hover table-mailbox">
+              <tbody>
+
+              <tr>
+                <td>Name</td>
+                <td>Starting Date</td>
+                <td>Ending Date</td>
+                <td>Edit</td>
+              </tr>
+
+              <tr class="unread">
+                <td class="">
+                  <div class="checkbox checkbox-single checkbox-success">
+                    <input type="checkbox" checked>
+                    <label></label>
+                  </div>
+                </td>
+                <td><a href="#">Joseph Hurley</a></td>
+                <td><a href="#">Nullam tempus leo id urna sagittis blandit.</a></td>
+                <td><i class="fa fa-paperclip"></i></td>
+                <td class="text-right mail-date">Sun, Aug 10</td>
+              </tr>
+
+
+
+              <tr>
+                <td class="">
+                  <div class="checkbox">
+                    <input type="checkbox">
+                    <label></label>
+                  </div>
+                </td>
+                <td><a href="#">Marshall Horne</a></td>
+                <td><a href="#">Praesent nec nisl sed neque ornare maximus at ac enim.</a>
+                </td>
+                <td></td>
+                <td class="text-right mail-date">Wed, Jan 13</td>
+              </tr>
+
+              </tbody>
+            </table>
+
+
+            <!--End Table List-->
+          </div>
         </div>
+
+        <div class="panel-footer">
+          <i class="fa fa-eye"> </i> 6 unread
+        </div>
+
       </div>
     </div>
+    <!--End right context-->
 
   </div>
-
-  <!-- Right sidebar -->
-
 </div>

@@ -37,7 +37,8 @@
 
 
   <div class="row">
-    <!--left navagation-->
+
+    <!--Start Left navagation-->
     <div class="col-md-3">
       <div class="hpanel">
         <div class="panel-body">
@@ -52,7 +53,6 @@
             <li>
               <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-paper-plane"></i> Time Frame</a>
             </li>
-
           </ul>
           <hr>
 
@@ -82,25 +82,20 @@
 
       </div>
     </div>
+    <!--End Left navagation-->
 
 
-    <!--right context-->
+    <!--Start right context-->
     <div class="col-md-9">
       <div class="hpanel">
-
         <div class="panel-heading hbuilt">
           <div class="text-center p-xs font-normal">
             <div class="input-group"><input type="text" class="form-control input-sm" placeholder="Search email in your inbox..."> <span class="input-group-btn"> <button type="button" class="btn btn-sm btn-default">Search
                             </button> </span></div>
           </div>
         </div>
-
-
         <div class="panel-body">
-
           <div class="row">
-
-
             <div class="col-md-6 m-b-md">
               <div class="btn-group">
                 <button class="btn btn-default btn-sm"><i class="fa fa-refresh"></i> Refresh</button>
@@ -111,23 +106,76 @@
                 <button class="btn btn-default btn-sm"><i class="fa fa-tag"></i></button>
               </div>
             </div>
-
             <div class="col-md-6 mailbox-pagination m-b-md">
               <div class="btn-group">
                 <button class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i></button>
                 <button class="btn btn-default btn-sm"><i class="fa fa-arrow-right"></i></button>
               </div>
             </div>
-
-
           </div>
 
+          <div class="table-responsive">
+            <!--Start Table List-->
+            <table class="table table-hover table-mailbox">
+              <tbody>
+
+              <tr class="unread active">
+                <td class="">
+                  <div class="checkbox checkbox-single">
+                    <input type="checkbox" checked>
+                    <label></label>
+                  </div>
+                </td>
+                <td><a href="#">Ferdinand Meadows</a></td>
+                <td><a href="#">Aenean hendrerit ligula eget augue gravida semper.</a></td>
+                <td><i class="fa fa-paperclip"></i></td>
+                <td class="text-right mail-date">Sat, Aug 29</td>
+              </tr>
+
+              <tr class="unread">
+                <td class="">
+                  <div class="checkbox checkbox-single checkbox-success">
+                    <input type="checkbox" checked>
+                    <label></label>
+                  </div>
+                </td>
+                <td><a href="#">Joseph Hurley</a></td>
+                <td><a href="#">Nullam tempus leo id urna sagittis blandit.</a></td>
+                <td><i class="fa fa-paperclip"></i></td>
+                <td class="text-right mail-date">Sun, Aug 10</td>
+              </tr>
+
+
+
+              <tr>
+                <td class="">
+                  <div class="checkbox">
+                    <input type="checkbox">
+                    <label></label>
+                  </div>
+                </td>
+                <td><a href="#">Marshall Horne</a></td>
+                <td><a href="#">Praesent nec nisl sed neque ornare maximus at ac enim.</a>
+                </td>
+                <td></td>
+                <td class="text-right mail-date">Wed, Jan 13</td>
+              </tr>
+
+              </tbody>
+            </table>
+
+
+            <!--End Table List-->
+          </div>
         </div>
+
+        <div class="panel-footer">
+          <i class="fa fa-eye"> </i> 6 unread
+        </div>
+
       </div>
     </div>
+    <!--End right context-->
 
   </div>
-
-  <!-- Right sidebar -->
-
 </div>

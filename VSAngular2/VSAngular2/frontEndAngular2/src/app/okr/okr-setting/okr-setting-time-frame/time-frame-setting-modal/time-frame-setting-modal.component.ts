@@ -1,35 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons,NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 
 @Component({
   selector: 'app-time-frame-setting-modal',
   templateUrl: './time-frame-setting-modal.component.html',
-  styleUrls: ['./time-frame-setting-modal.component.css']
+  styleUrls: ['./time-frame-setting-modal.component.css'],
+
 })
+
 export class TimeFrameSettingModalComponent implements OnInit {
 
-  closeResult: string;
-
-  constructor(private modalService: NgbModal) {}
-
-  open(content) {
-    this.modalService.open(content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
 
   ngOnInit() {
   }
