@@ -6,9 +6,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { AlertModule } from 'ng2-bootstrap';
-import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
+import {CalendarModule} from 'primeng/primeng';
+
+import { DataTableModule, SharedModule } from 'primeng/primeng';
+
+
 //developed module import here
 import { HomeModule } from './home/home.module'
 import { AboutModule } from './about/about.module'
@@ -35,8 +37,10 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
 
   ],
   imports: [
-    NKDatetimeModule,
-    NgbModule.forRoot(),
+    DataTableModule,
+    SharedModule,
+    CalendarModule,
+
     ChartsModule,
     BrowserModule,
     FormsModule,
@@ -48,7 +52,7 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
     //Developed Module regist here
     HomeModule,
     AboutModule,
-    OkrModule
+    OkrModule,
 
   ],
   providers: [],

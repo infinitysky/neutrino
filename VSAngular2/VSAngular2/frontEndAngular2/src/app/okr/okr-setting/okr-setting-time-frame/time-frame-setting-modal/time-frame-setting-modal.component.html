@@ -1,4 +1,7 @@
 
+
+
+
 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addTimeFrameModal"><i class="fa fa-plus"></i>
   Add New
 </button>
@@ -29,13 +32,41 @@
             <label >Starting Date</label>
 
             <div ><!---->
-              <i class="el-input__icon el-icon-date"></i>
-              <datetime [(ngModel)]="date"></datetime>
-              <input id="datapicker2" type="text" placeholder="Pick A Starting Date"  class="form-control">
-              <!--<input type="date" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">-->
+
+
+              <!--<input id="datapicker2" type="text" value="02-16-2012" class="form-control">-->
+
+
+              <!--<ng2-datepicker [options]="options" [(ngModel)]="date"></ng2-datepicker>-->
+              <datetime [ngModel]="dateFrom"
+                        style="float: left"
+                        (ngModelChange)="handleDateFromChange($event)"
+                        [timepicker]="false"></datetime>
+
+
             </div>
           </fieldset>
 
+        <fieldset class="form-group">
+          <label >Ending Date</label>
+
+          <div ><!---->
+
+
+            <!--<input id="datapicker2" type="text" value="02-16-2012" class="form-control">-->
+
+
+            <!--<ng2-datepicker [options]="options" [(ngModel)]="date"></ng2-datepicker>-->
+
+            <datetime [(ngModel)]="dateTo"
+                      [timepicker]="false"
+                      [datepicker]="datepickerToOpts"></datetime>
+          </div>
+        </fieldset>
+
+
+        <h5><strong>dateFrom:</strong> {{getDate(dateFrom) | date: "medium"}}</h5>
+        <h5><strong>dateTo:</strong> {{getDate(dateTo) | date: "medium"}}</h5>
 
 
       </div>

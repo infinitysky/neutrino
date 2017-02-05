@@ -12,7 +12,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   public pageTitle="OKRs Setting";
   public subPageTitle="Time Frame Setting";
 
-
+  dateValue:Date;
 
 
   constructor() { }
