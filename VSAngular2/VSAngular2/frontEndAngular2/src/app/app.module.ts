@@ -8,8 +8,10 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import {CalendarModule} from 'primeng/primeng';
 
-import { DataTableModule, SharedModule } from 'primeng/primeng';
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 //developed module import here
 import { HomeModule } from './home/home.module'
@@ -37,8 +39,12 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
 
   ],
   imports: [
-    DataTableModule,
-    SharedModule,
+
+
+
+    Ng2Bs3ModalModule,
+
+
     CalendarModule,
 
     ChartsModule,

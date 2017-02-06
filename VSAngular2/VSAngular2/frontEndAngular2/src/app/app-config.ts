@@ -10,18 +10,28 @@ export interface ApplicationConfig {
   apiEndpoint: string;
   getBarChartUrl:string;
   getUserInfoUrl:string;
-  getTimeFrameUrl:string;
+
+
+
+  getAllTimeFrameUrl:string;
+  createTimeFrameUrl:string;
+
 
 }
 
 // Configuration values for our app
 export const MY_CONFIG: ApplicationConfig = {
   appName: 'My new App',
-  apiEndpoint: 'http://127.0.0.1:4200',
+  apiEndpoint: 'http://127.0.0.1',
   getBarChartUrl: '/uniBackEnd/index.php/BarChart',
   //getUserInfoUrl:'/neutrino/backEndAPI/index.php/Login'
   getUserInfoUrl:'/assets/mockUserInfo.json',
-  getTimeFrameUrl:''
+
+
+  //time frame Urls:
+  getAllTimeFrameUrl:'/neutrino/backEndAPI/index.php/Time_frames/getall',
+  createTimeFrameUrl:'/neutrino/backEndAPI/index.php/Time_frames/getall',
+
 
 
 };

@@ -7,6 +7,15 @@ class Users extends CI_Controller
 {
     function __construct()
     {
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }
+
         parent::__construct();
         $this->load->model('Users_model');
         $this->load->library('form_validation');        
@@ -15,18 +24,25 @@ class Users extends CI_Controller
 
     public function index()
     {
+
+
+
+    }
+
+
+    public function getall()
+    {
         //$this->load->view('users/users_list');
         //echo $this->Users_model->json();
         $myanswer=$this->Users_model->get_All();
         //$myanswer=$this->Users_model->get_All()
-        echo json_encode($myanswer);
+        $this->json($myanswer);
 
+    }
 
-    } 
-    
-    public function json() {
+    public function json($resArray) {
         header('Content-Type: application/json');
-        echo $this->Users_model->json();
+        echo json_encode($resArray);
     }
 
     public function read($id) 

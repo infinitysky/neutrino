@@ -7,20 +7,38 @@ class Time_frames extends CI_Controller
 {
     function __construct()
     {
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+
         parent::__construct();
+
         $this->load->model('Time_frames_model');
         $this->load->library('form_validation');        
-	$this->load->library('datatables');
+	    $this->load->library('datatables');
     }
 
     public function index()
     {
-        $this->load->view('time_frames/time_frames_list');
-    } 
+
+
+    }
+
+
+    public function getall()
+    {
+        $tempData=$this->Time_frames_model->get_all();
+        echo $this->json($tempData);
+
+    }
+
     
-    public function json() {
+    public function json($resArray) {
         header('Content-Type: application/json');
-        echo $this->Time_frames_model->json();
+
+        echo json_encode($resArray);
+        //echo $this->Time_frames_model->json();
     }
 
     public function read($id) 
@@ -43,14 +61,13 @@ class Time_frames extends CI_Controller
     public function create() 
     {
         $data = array(
-            'button' => 'Create',
-            'action' => site_url('time_frames/create_action'),
-	    'time_freame_id' => set_value('time_freame_id'),
+         'time_freame_id' => set_value('time_freame_id'),
 	    'time_frame_description' => set_value('time_frame_description'),
 	    'time_frame_start' => set_value('time_frame_start'),
 	    'time_frame_end' => set_value('time_frame_end'),
-	);
-        $this->load->view('time_frames/time_frames_form', $data);
+	    );
+        //$this->load->view('time_frames/time_frames_form', $data);
+        echo json_encode($data);
     }
     
     public function create_action() 

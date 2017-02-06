@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50549
 File Encoding         : 65001
 
-Date: 2017-01-30 16:57:19
+Date: 2017-02-06 18:42:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -132,7 +132,7 @@ CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role` varchar(255) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of roles
@@ -164,8 +164,8 @@ CREATE TABLE `teams_users` (
   PRIMARY KEY (`id`),
   KEY `fk_from_teams` (`team_id`),
   KEY `fk_from_users_idx` (`user_id`),
-  CONSTRAINT `fk_from_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_from_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_from_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_from_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
@@ -177,16 +177,18 @@ CREATE TABLE `teams_users` (
 -- ----------------------------
 DROP TABLE IF EXISTS `time_frames`;
 CREATE TABLE `time_frames` (
-  `time_freame_id` int(11) NOT NULL,
+  `time_freame_id` int(11) NOT NULL AUTO_INCREMENT,
   `time_frame_description` text COLLATE utf8mb4_bin,
-  `time_frame_start` date DEFAULT NULL,
-  `time_frame_end` date DEFAULT NULL,
+  `time_frame_start` timestamp NULL DEFAULT NULL,
+  `time_frame_end` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`time_freame_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of time_frames
 -- ----------------------------
+INSERT INTO `time_frames` VALUES ('1', 0x3332323233, '2017-02-06 00:00:00', '2017-02-18 00:00:00');
+INSERT INTO `time_frames` VALUES ('2', 0x3534333533343533, '2017-02-06 18:40:11', '2017-02-06 18:40:18');
 
 -- ----------------------------
 -- Table structure for time_frames_goals
@@ -199,8 +201,8 @@ CREATE TABLE `time_frames_goals` (
   PRIMARY KEY (`id`),
   KEY `fk_from_goals` (`goal_id`),
   KEY `fk_from_time_frame` (`time_frame_id`),
-  CONSTRAINT `fk_from_time_frame` FOREIGN KEY (`time_frame_id`) REFERENCES `time_frames` (`time_freame_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_from_goals` FOREIGN KEY (`goal_id`) REFERENCES `goals` (`goal_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_from_goals` FOREIGN KEY (`goal_id`) REFERENCES `goals` (`goal_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_from_time_frame` FOREIGN KEY (`time_frame_id`) REFERENCES `time_frames` (`time_freame_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
@@ -218,8 +220,8 @@ CREATE TABLE `time_frames_objectives` (
   PRIMARY KEY (`id`),
   KEY `fk_from_golas` (`objective_id`),
   KEY `fk_from_time_frames` (`time_frame_id`),
-  CONSTRAINT `time_frames_objectives_ibfk_2` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `time_frames_objectives_ibfk_1` FOREIGN KEY (`time_frame_id`) REFERENCES `time_frames` (`time_freame_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `time_frames_objectives_ibfk_1` FOREIGN KEY (`time_frame_id`) REFERENCES `time_frames` (`time_freame_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `time_frames_objectives_ibfk_2` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
@@ -474,8 +476,8 @@ CREATE TABLE `users_roles` (
   PRIMARY KEY (`id`),
   KEY `fk_from_users` (`user_id`),
   KEY `fk_from_roles` (`role_id`),
-  CONSTRAINT `fk_from_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_from_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_from_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_from_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------

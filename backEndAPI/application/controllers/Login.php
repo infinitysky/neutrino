@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-header('Content-type: application/json');
+
 //include APPPATH . 'third_party/OAuth2/Autoloader.php';
 
 /**
@@ -13,6 +13,7 @@ class Login extends CI_Controller
 {
     function __construct()
     {
+        header('Content-type: application/json');
     	header('Access-Control-Allow-Origin: *');
    		header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
     	header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
@@ -52,6 +53,7 @@ class Login extends CI_Controller
         if(empty($Data)){
 
             echo json_encode( $this->create_error_messageArray("Message Empty"));
+
             return 0;
 
         }else {
@@ -120,6 +122,14 @@ class Login extends CI_Controller
         return $tempMessageArray;
 
     }
+
+    public function json($resArray) {
+        header('Content-Type: application/json');
+
+        echo json_encode($resArray);
+        //echo $this->Time_frames_model->json();
+    }
+
 
 
 

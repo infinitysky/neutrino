@@ -1,3 +1,8 @@
+
+
+
+
+
 <div class="normalheader ">
 
   <div class="hpanel">
@@ -107,7 +112,9 @@
                 <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
 
                 <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> Edit</button>
+
                 <app-time-frame-setting-modal></app-time-frame-setting-modal>
+
 
               </div>
             </div>
@@ -129,34 +136,14 @@
                 <td>Edit</td>
               </tr>
 
-              <tr class="unread">
-                <td class="">
-                  <div class="checkbox checkbox-single checkbox-success">
-                    <input type="checkbox" checked>
-                    <label></label>
-                  </div>
-                </td>
-                <td><a href="#">Joseph Hurley</a></td>
-                <td><a href="#">Nullam tempus leo id urna sagittis blandit.</a></td>
-                <td><i class="fa fa-paperclip"></i></td>
-                <td class="text-right mail-date">Sun, Aug 10</td>
+              <tr *ngFor="let tf of timeframes">
+                <td> {{ tf.time_frame_description }} </td>
+                <td> {{ tf.time_frame_start }} </td>
+                <td> {{ tf.time_frame_end }}</td>
+                <td> </td>
               </tr>
 
 
-
-              <tr>
-                <td class="">
-                  <div class="checkbox">
-                    <input type="checkbox">
-                    <label></label>
-                  </div>
-                </td>
-                <td><a href="#">Marshall Horne</a></td>
-                <td><a href="#">Praesent nec nisl sed neque ornare maximus at ac enim.</a>
-                </td>
-                <td></td>
-                <td class="text-right mail-date">Wed, Jan 13</td>
-              </tr>
 
               </tbody>
             </table>
