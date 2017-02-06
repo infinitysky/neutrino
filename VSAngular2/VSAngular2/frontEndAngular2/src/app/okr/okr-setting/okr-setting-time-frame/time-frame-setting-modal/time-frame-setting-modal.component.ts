@@ -27,6 +27,7 @@ export class TimeFrameSettingModalComponent implements OnInit {
   public pushData:any;
   public databases;
   public timeFrames:Timeframeclass[];
+  public errorMessage:any;
 
   private myDateRangePickerOptionsNormal: IMyOptions = {
     clearBtnTxt: 'Clear',
@@ -177,28 +178,20 @@ export class TimeFrameSettingModalComponent implements OnInit {
   }
 
 
-  createNewTimeFrame(timeFrameName:string){
-     {
-      if (!timeFrameName || !this.startDate ||!this.endDate ) {
-        alert("Do not leave any empty!");
-        return;
-      }
-      this._settingTimeFrameService.addNewTimeFrame(timeFrameName, this.startDate, this.endDate)
-        .subscribe(
-          //database  => this.databases.push(database),
-          data  => {this.pushData = data, this.timeFrames.push(data)},
-          //pushData  => this.databases.push(this.pushData.data),
-          err => console.error(err),
-          () => {
-           // this.displayMessage=this.pushData.message
+  createNewTimeFrame (timeFrameName:string) {
 
-          });
-      //.do(pushData=>console.log());
-
-      //alert( this.pushData.message);
-      //console.log(this.pushData);
+    if (!timeFrameName || !this.startDate ||!this.endDate ) {
+      alert("Do not leave any empty!");
+      return;
     }
+
+    this._settingTimeFrameService.addNewTimeFrame(timeFrameName, this.startDate, this.endDate)
+      .subscribe(
+        data  => this.timeFrames.push(data),
+        error =>  this.errorMessage = <any>error);
   }
+
+
 
 
 }

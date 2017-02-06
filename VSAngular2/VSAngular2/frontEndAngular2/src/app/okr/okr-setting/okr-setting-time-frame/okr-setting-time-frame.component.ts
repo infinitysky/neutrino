@@ -34,15 +34,19 @@ import  {Timeframeclass} from './timeframeclass';
 export class OkrSettingTimeFrameComponent implements OnInit {
   public pageTitle="OKRs Setting";
   public subPageTitle="Time Frame Setting";
-  public timeframes: Timeframeclass[];
+  public timeFrames: Timeframeclass[]=[];
   public timeFramesData:any;
+  public errorMessage:any;
 
-
+  public isLoaded:boolean=true;
   constructor(private _settingTimeFrameService: SettingTimeFrameService,private router: Router) { }
 
   ngOnInit():void {
     this.getTimeFrames();
 
+  }
+  editButton(){
+    this.isLoaded=!this.isLoaded;
   }
 
 
@@ -54,18 +58,26 @@ export class OkrSettingTimeFrameComponent implements OnInit {
 
 
   getTimeFrames() {
-
     this._settingTimeFrameService.getAllTimeFrames()
       .subscribe(
-        data => {  this.timeFramesData = data },
-        err => console.error(err),
-        () => {
-          console.log('done'),
-            console.log("this.timeFramesData.data "+this.timeFramesData[0].time_freame_id),
-            this.timeframes=this.timeFramesData.Data
-        }
-      );
+        data => this.timeFrames = data,
+        error =>  this.errorMessage = <any>error);
   }
 
+/*
+  getHeroes() {
+    this.heroService.getHeroes()
+      .subscribe(
+        heroes => this.heroes = heroes,
+        error =>  this.errorMessage = <any>error);
+  }
+  addHero (name: string) {
+    if (!name) { return; }
+    this.heroService.addHero(name)
+      .subscribe(
+        hero  => this.heroes.push(hero),
+        error =>  this.errorMessage = <any>error);
+  }
+*/
 
 }

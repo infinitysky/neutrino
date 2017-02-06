@@ -26,6 +26,27 @@ export class SettingTimeFrameService {
 
   constructor(private http: Http) { }
 
+  private extractData(res: Response) {
+    let body = res.json();
+    return body.data || { };
+  }
+
+
+  private handleError (error: Response | any) {
+    // In a real world app, we might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
+
+
 
   getAllTimeFrames(): Observable<Timeframeclass[]> {
 
@@ -37,35 +58,36 @@ export class SettingTimeFrameService {
   }
 
 
-  private handleError(error: any): Promise<any> {
+  private handleErrorObservable(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
 
-  private handleErrorObservable (error: Response) {
-    // in a real world app, we may send the error to some remote logging infrastructure
-    // instead of just logging it to the console
-    console.error(error);
-    return Observable.throw(error.json().error || 'Server error');
-  }
 
-  addNewTimeFrame(time_frame_description: string, time_frame_start: Date,time_frame_end:Date) : Observable<Timeframeclass>  {
 
-    let body = JSON.stringify({ time_frame_description,time_frame_start,time_frame_end });
+  addNewTimeFrame(timeframe_description: string, timeframe_start: number,time_frame_end:number) : Observable<Timeframeclass>  {
+
+    let body = JSON.stringify({ time_frame_description:timeframe_description,time_frame_start:timeframe_start,timeframe_end:time_frame_end });
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    console.log(body);
+    //console.log('messagebody: '+body);
 
     return this.http.post(this.createTimeFrameAPi, body, options)
-      .map(res => res.json())
-      //.map(res =>  <DatabasesClass> res.json().data)
-      .do(data => console.log(data))
-      .catch(this.handleError)
+      .map(this.extractData)
+      .catch(this.handleErrorObservable)
 
   }
 
+
+  addHero (name: string): Observable<Timeframeclass> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.createTimeFrameAPi, { name }, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
 
 
 

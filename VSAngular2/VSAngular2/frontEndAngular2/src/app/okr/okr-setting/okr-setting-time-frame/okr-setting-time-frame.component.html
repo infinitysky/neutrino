@@ -111,7 +111,7 @@
 
                 <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
 
-                <button class="btn btn-default btn-sm"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
 
                 <app-time-frame-setting-modal></app-time-frame-setting-modal>
 
@@ -129,18 +129,18 @@
             <table class="table table-hover table-mailbox">
               <tbody>
 
-              <tr>
-                <td>Name</td>
+              <tr class="active">
+                <td style="width: 30px">Name                 </td>
                 <td>Starting Date</td>
                 <td>Ending Date</td>
-                <td>Edit</td>
+                <td [hidden]=isLoaded>Edit</td>
               </tr>
 
-              <tr *ngFor="let tf of timeframes">
+              <tr *ngFor="let tf of timeFrames">
                 <td> {{ tf.time_frame_description }} </td>
-                <td> {{ tf.time_frame_start }} </td>
-                <td> {{ tf.time_frame_end }}</td>
-                <td> </td>
+                <td> {{ tf.time_frame_start | date:'dd/MM/y'}} </td>
+                <td> {{ tf.time_frame_end | date:'dd/MM/y'}}</td>
+                <td [hidden]=isLoaded> </td>
               </tr>
 
 

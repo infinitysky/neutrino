@@ -33,11 +33,11 @@ class Login extends CI_Controller
         //print_r(json_decode(file_get_contents('php://input')));
         $Data = json_decode(trim(file_get_contents('php://input')), true);
 
-       $mockData=array(
-           "email"=>"manager@admin.com",
-           "password"=>"1234"
-       );
-       $Data=$mockData;
+    //    $mockData=array(
+    //        "email"=>"manager@admin.com",
+    //        "password"=>"1234"
+    //    );
+    //    $Data=$mockData;
 
         $validatedData=$this->dataValidate($Data);
 
