@@ -109,15 +109,14 @@ export class SettingTimeFrameService {
 
   addNewTimeFrame(timeframe_description: string, timeframe_start: number,timeframe_end:number) : Observable<Timeframeclass>  {
 
-    let body = JSON.stringify({ time_frame_description:timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end });
+    let body = JSON.stringify({ time_frame_description : timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end });
     let body2 = "{time_frame_description:timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end}";
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     console.log('Post message body: '+body);
-
-    return this.http.post(this.createTimeFrameAPi, {headers: this.headers})
+    return this.http.post(this.createTimeFrameAPi,body, {headers: this.headers})
       //.map(this.extractDataObservable)
       .map(res => res.json())
       .catch(this.handleErrorObservable)

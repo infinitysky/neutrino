@@ -30,9 +30,9 @@ import {Timeframeclass} from './timeframeclass';
 
 
 
+
+//import swal from 'sweetalert2'
 declare var swal: any;
-
-
 @Component({
   selector: 'setting-content',
   providers: [SettingTimeFrameService],
@@ -65,7 +65,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   backdrop: string | boolean = true;
 
   editDateRangeNormal:IMyDateRange=null;
-
+  public checkFlag:number=0;
 
 
 
@@ -108,41 +108,57 @@ export class OkrSettingTimeFrameComponent implements OnInit {
 
 
   deleteTimeFrame(tf) {
-    this._settingTimeFrameService
-      .deleteTheTimeFrame(tf.time_freame_id)
-      .subscribe(
-        data =>{this.tempData=data},
-        error => {this.errorMessage = <any>error},
-        ()=>{
-          console.log(this.tempData);
-          this.timeFrames = this.timeFrames.filter(h => h !== tf);
-          swal("Deleted!", "Your time frame has been deleted.", "success");
-        }
-      );
+   this.showAlert();
+
+      // this._settingTimeFrameService
+      //   .deleteTheTimeFrame(tf.time_freame_id)
+      //   .subscribe(
+      //     data =>{this.tempData=data},
+      //     error => {this.errorMessage = <any>error},
+      //     ()=>{
+      //       console.log(this.tempData);
+      //       this.timeFrames = this.timeFrames.filter(h => h !== tf);
+      //       //swal("Deleted!", "Your time frame has been deleted.", "success");
+      //     }
+      //   );
+
+
+
   }
 
+ deleteFlag(){
+    console.log("before"+this.checkFlag);
+    this.checkFlag=1;
+   console.log("after"+this.checkFlag);
+ }
 
-
-  deletaAction(timeFrame){
+  showAlert() {
     swal({
         title: "Are you sure?",
-        text: "Your will not be able to recover this time frame !",
+        text: "Your will not be able to recover this time frame!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel plx!",
-        closeOnConfirm: false,
-        closeOnCancel: false },
+
+        confirmButtonText:'Yes, delete it!',
+        cancelButtonText: "No, cancel plx!"
+
+    },
       function (isConfirm) {
         if (isConfirm) {
-
+          swal("Deleted!", "Your time frame has been deleted.", "success");
 
         } else {
           swal("Cancelled", "Your time frame is safe :)", "error");
         }
       });
+
+
+
+
   }
+
+
 
   updateTimeFrame(tf) {
     console.log(tf);
@@ -150,12 +166,13 @@ export class OkrSettingTimeFrameComponent implements OnInit {
 
   }
 
-  createNewTimeFrame (timeFrameName:string) {
-    if (!timeFrameName || !this.startDate ||!this.endDate ) {
+  createNewTimeFrame (timeFrameNameInput:string) {
+    if (!timeFrameNameInput || !this.startDate ||!this.endDate ) {
       alert("Do not leave any empty!");
       return;
     }
-    this._settingTimeFrameService.addNewTimeFrame(timeFrameName, this.startDate, this.endDate)
+    console.log("timeFrameName: "+ timeFrameNameInput +"this.startDate" + this.startDate + "this.endDate ： " + this.endDate);
+    this._settingTimeFrameService.addNewTimeFrame(timeFrameNameInput, this.startDate, this.endDate)
       .subscribe(
         data  => {this.tempData = data},
         error =>  this.errorMessage = <any>error,
@@ -163,7 +180,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
           console.log( "this.tempData + "+JSON.stringify(this.tempData));
           //this.childtimeFrames=this.tempData;
           this.timeFrames.push(this.tempData);
-          this.showAddRecordSuccessAlert();
+         // this.showAddRecordSuccessAlert();
         }
       );
     this.modal.close();

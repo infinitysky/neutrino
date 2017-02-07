@@ -74,8 +74,8 @@ class Time_frames extends CI_Controller
 
 
 
-    private function read($id)
-	    {
+    public function read($id)
+	{
 		$row = $this->Time_frames_model->get_by_id($id);
 		if ($row) {
 			$data = array(
@@ -95,6 +95,8 @@ class Time_frames extends CI_Controller
 	public function create() 
 	{
         $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+		
 		$checkArray=$this->dataValidate($Data);
         if($checkArray!=0){
             $last_insert_id=$this->Time_frames_model->insert($checkArray);
@@ -105,7 +107,7 @@ class Time_frames extends CI_Controller
 
 
 
-    private function update($id)
+    public function update($id)
 	    {
 		$row = $this->Time_frames_model->get_by_id($id);
 		
@@ -145,7 +147,7 @@ class Time_frames extends CI_Controller
 		}
 	}
 
-    private function delete($id)
+    public function delete($id)
 	    {
 
 
