@@ -1,9 +1,14 @@
 <?php
 
+//require APPPATH . '/libraries/REST_Controller.php';
+//use Restserver\Libraries\REST_Controller;
+
+
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
+//REST_Controller
 class Time_frames extends CI_Controller
+//class Time_frames extends REST_Controller
 {
 	function __construct()
 	    {
@@ -22,16 +27,36 @@ class Time_frames extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('datatables');
 	}
-	
+
+	//Main entrance
+    public function items($id)
+    {
+        //GET, POST, OPTIONS, PUT, DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }elseif ($method == "GET"){
+
+            $this->read($id);
+        }elseif ($method == "PUT"){
+
+            $this->update($id);
+        }elseif ($method == "DELETE"){
+
+            $this->delete($id);
+        }
+
+    }
+
 	public function index()
-	    {
-		
-		
+    {
+        $this->getall();
+
 	}
 	
 	
 	public function getall()
-	    {
+    {
 		$tempData=$this->Time_frames_model->get_all();
 		echo $this->json($tempData);
 		
@@ -44,8 +69,12 @@ class Time_frames extends CI_Controller
        
     }
 
-	
-	public function read($id) 
+
+
+
+
+
+    private function read($id)
 	    {
 		$row = $this->Time_frames_model->get_by_id($id);
 		if ($row) {
@@ -53,13 +82,13 @@ class Time_frames extends CI_Controller
 					'time_freame_id' => $row->time_freame_id,
 					'time_frame_description' => $row->time_frame_description,
 					'time_frame_start' => $row->time_frame_start,
-					'time_frame_end' => $row->time_frame_end,
+					'time_frame_end' => $row->time_frame_end
 				    );
-			$this->load->view('time_frames/time_frames_read', $data);
+			$this->json($data);
 		}
 		else {
-			$this->session->set_flashdata('message', 'Record Not Found');
-			redirect(site_url('time_frames'));
+		    $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
 		}
 	}
 	
@@ -67,22 +96,16 @@ class Time_frames extends CI_Controller
 	{
         $Data = json_decode(trim(file_get_contents('php://input')), true);
 		$checkArray=$this->dataValidate($Data);
-        if($checkFlag!=0){
-            $this->create_action($processArray);
+        if($checkArray!=0){
+            $last_insert_id=$this->Time_frames_model->insert($checkArray);
+            $this->read($last_insert_id);
         }
 
+	}
 
-	}
-	
-	public function create_action($processArray) 
-	{
-		
-		$this->Time_frames_model->insert($processArray);
-			
-		
-	}
-	
-	public function update($id) 
+
+
+    private function update($id)
 	    {
 		$row = $this->Time_frames_model->get_by_id($id);
 		
@@ -96,8 +119,9 @@ class Time_frames extends CI_Controller
 			$this->load->view('time_frames/time_frames_form', $data);
 		}
 		else {
-			$this->session->set_flashdata('message', 'Record Not Found');
-			redirect(site_url('time_frames'));
+
+			$tempReturnArray=$this->create_error_messageArray('Record Not Found');
+			$this->json($tempReturnArray);
 		}
 	}
 	
@@ -120,44 +144,43 @@ class Time_frames extends CI_Controller
 			redirect(site_url('time_frames'));
 		}
 	}
-	
-	public function delete($id) 
+
+    private function delete($id)
 	    {
+
+
 		$row = $this->Time_frames_model->get_by_id($id);
 		
 		if ($row) {
-			$this->Time_frames_model->delete($id);
-			$this->session->set_flashdata('message', 'Delete Record Success');
-			redirect(site_url('time_frames'));
+			$affectRow=$this->Time_frames_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
 		}
 		else {
-			$this->session->set_flashdata('message', 'Record Not Found');
-			redirect(site_url('time_frames'));
+			//$this->session->set_flashdata('message', 'Record Not Found');
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+
 		}
 	}
 	
-	public function _rules() 
-	    {
-		$this->form_validation->set_rules('time_frame_description', 'time frame description', 'trim|required');
-		$this->form_validation->set_rules('time_frame_start', 'time frame start', 'trim|required');
-		$this->form_validation->set_rules('time_frame_end', 'time frame end', 'trim|required');
-		
-		$this->form_validation->set_rules('time_freame_id', 'time_freame_id', 'trim');
-		$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-	}
-	
-	
+    public function create_error_messageArray($message){
+        $tempMessageArray=array(
+            "statu"=>"error",
+            "errorMassage"=>$message
+        );
+        return $tempMessageArray;
+    }
+
 	public function dataValidate($Data){
-		
 		if(empty($Data)){
-			
 			echo json_encode( $this->create_error_messageArray("Message Empty"));
-			
 			return 0;
-			
 		}
 		else {
-			
 			if (empty($Data['time_frame_description'])) {
 				echo json_encode($this->create_error_messageArray("time_frame_description Empty"));
 				return 0;
@@ -171,16 +194,20 @@ class Time_frames extends CI_Controller
 				return 0;
 			}
 			else {
+
+                $start_epoch =  $Data['time_frame_start'];
+                $dt_start = new DateTime("@$start_epoch");
+                $end_epoch =  $Data['time_frame_end'];
+                $dt_end = new DateTime("@$end_epoch");
+
 				$processArray = array(
 				                    "time_frame_description" => $Data['time_frame_description'],
-				                    "time_frame_start" => $Data['time_frame_start'],
-                                    "time_frame_end" => $Data['time_frame_end'],
+				                    "time_frame_start" => $dt_start->format('Y-m-d H:i:s'),
+                                    "time_frame_end" => $dt_end->format('Y-m-d H:i:s'),
 				                );
 				return $processArray;
 			}
 		}
-		
-		
 	}
     
 

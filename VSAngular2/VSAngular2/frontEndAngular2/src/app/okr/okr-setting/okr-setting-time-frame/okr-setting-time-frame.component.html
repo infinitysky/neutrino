@@ -56,7 +56,7 @@
               </a>
             </li>
             <li>
-              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-paper-plane"></i> Time Frame</a>
+              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-calendar-check-o"></i> Time Frame</a>
             </li>
           </ul>
           <hr>
@@ -100,6 +100,7 @@
           <div class="row">
             <div class="col-md-6 m-b-md">
               <div class="btn-group">
+                <button class="btn btn-default btn-sm"><i class="fa fa-refresh" (click)="refreshButton()"></i> Refresh</button>
 
 
               </div>
@@ -112,8 +113,12 @@
                 <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
 
                 <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <button type="button" class="btn btn-default btn-sm"  (click)="modal.open()"><i class="fa fa-plus"></i>
+                  Add New
+                </button>
 
-                <app-time-frame-setting-modal></app-time-frame-setting-modal>
+
+                <!--<app-time-frame-setting-modal></app-time-frame-setting-modal>-->
 
 
               </div>
@@ -130,17 +135,24 @@
               <tbody>
 
               <tr class="active">
-                <td style="width: 30px">Name                 </td>
+                <td >ID</td>
+                <td >Name</td>
                 <td>Starting Date</td>
                 <td>Ending Date</td>
                 <td [hidden]=isLoaded>Edit</td>
               </tr>
 
               <tr *ngFor="let tf of timeFrames">
+                <td >{{ tf.time_freame_id}}</td>
                 <td> {{ tf.time_frame_description }} </td>
                 <td> {{ tf.time_frame_start | date:'dd/MM/y'}} </td>
                 <td> {{ tf.time_frame_end | date:'dd/MM/y'}}</td>
-                <td [hidden]=isLoaded> </td>
+                <td [hidden]=isLoaded>
+                  <!--Delete the record-->
+                  <button class="btn btn-default btn-sm" (click)="deleteTimeFrame(tf);" ><i class="fa fa-trash-o"></i> </button>
+                  <!--Edit the record-->
+                  <button class="btn btn-default btn-sm" ><i class="fa fa-pencil-square-o"></i> </button>
+                </td>
               </tr>
 
 
@@ -163,3 +175,113 @@
 
   </div>
 </div>
+
+
+
+
+
+<!--Add New Record modal module-->
+
+<modal [animation]="animation" [keyboard]="keyboard"   #modal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Create New Time Frame</h4>
+  </modal-header>
+  <modal-body>
+
+    <div class="stage">
+
+      <fieldset >
+        <label >Time Frame Name</label>
+        <div class="palos-input block" >
+
+          <input type="text" placeholder="Name of time frame" autocomplete="off" class="form-control" #timeFrameName> <!---->
+
+        </div>
+      </fieldset>
+
+      <div class="selector-ctn ">
+        <fieldset class="form-group">
+          <label >Starting Date And Enging Date</label>
+          <div class="datepicker " ><!---->
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+
+            <my-date-range-picker [options]="myDateRangePickerOptionsNormal"
+                                  (dateRangeChanged)="onDateRangeChanged($event)"
+                                  (inputFieldChanged)="onInputFieldChanged($event)"
+                                  (calendarViewChanged)="onCalendarViewChanged($event)"
+                                  [selDateRange]=""
+                                  [placeholder]="placeholderTxt" #dateRange></my-date-range-picker >
+
+          </div>
+        </fieldset>
+
+
+      </div>
+    </div>
+
+
+  </modal-body>
+  <modal-footer>
+
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="createNewTimeFrame(timeFrameName.value); timeFrameName.value=''" > Save changes</button>
+
+  </modal-footer>
+</modal>
+
+
+
+
+
+<!--Add New Record modal module-->
+
+<modal [animation]="animation" [keyboard]="keyboard"  #editmodal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Create New Time Frame</h4>
+  </modal-header>
+  <modal-body>
+
+    <div class="stage">
+
+      <fieldset >
+        <label >Time Frame Name</label>
+        <div class="palos-input block" >
+
+          <input type="text" placeholder="Name of time frame" autocomplete="off" class="form-control" #timeFrameName> <!---->
+
+        </div>
+      </fieldset>
+
+      <div class="selector-ctn ">
+        <fieldset class="form-group">
+          <label >Starting Date And Enging Date</label>
+          <div class="datepicker " ><!---->
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+
+            <my-date-range-picker [options]="myDateRangePickerOptionsNormal"
+                                  (dateRangeChanged)="onDateRangeChanged($event)"
+                                  (inputFieldChanged)="onInputFieldChanged($event)"
+                                  (calendarViewChanged)="onCalendarViewChanged($event)"
+                                  [selDateRange]=""
+                                  [placeholder]="placeholderTxt" #dateRange></my-date-range-picker >
+
+          </div>
+        </fieldset>
+
+
+      </div>
+    </div>
+
+
+  </modal-body>
+  <modal-footer>
+
+    <button type="button" class="btn btn-default" data-dismiss="editmodal" (click)="editmodal.dismiss()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="createNewTimeFrame(timeFrameName.value); timeFrameName.value=''" > Save changes</button>
+
+  </modal-footer>
+</modal>

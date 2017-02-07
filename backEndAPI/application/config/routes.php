@@ -52,3 +52,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+//$route['Time_frames/item/(:any)'] = 'pages/view/$1';
+//$route['Time_frames/item/:num'] = 'Time_frames/item/$1';
+$route["Time_frames"]["item/:num"]    = "/Time_frames/item/";
+
+

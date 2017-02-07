@@ -1,4 +1,7 @@
 import { Component, OnInit,Input,ViewChild } from '@angular/core';
+import { Subscription }   from 'rxjs/Subscription';
+
+
 
 
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
@@ -9,6 +12,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 import {SettingTimeFrameService} from '../setting-time-frame.service';
 import {Timeframeclass} from '../timeframeclass';
+
 @Component({
   selector: 'app-time-frame-setting-modal',
   providers: [SettingTimeFrameService],
@@ -26,8 +30,41 @@ export class TimeFrameSettingModalComponent implements OnInit {
 
   public pushData:any;
   public databases;
-  public timeFrames:Timeframeclass[];
+  @Input() childtimeFrames:Timeframeclass[]=[];
   public errorMessage:any;
+  public tempData:any;
+
+
+
+  subscription: Subscription;
+
+
+
+  //component functions
+  ngOnInit() {
+    console.log('onInit(): SampleDateRangePickerNormal');
+  }
+
+  constructor( private _settingTimeFrameService:SettingTimeFrameService
+  ) {
+    console.log('constructor(): SampleDateRangePickerNormal');
+  }
+
+  onInputFieldChanged(event: IMyInputFieldChanged) {
+    console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
+  }
+
+  onCalendarViewChanged(event: IMyCalendarViewChanged) {
+    console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
+  }
+
+
+
+
+
+
+  //calander setting and functions
+
 
   private myDateRangePickerOptionsNormal: IMyOptions = {
     clearBtnTxt: 'Clear',
@@ -57,10 +94,7 @@ export class TimeFrameSettingModalComponent implements OnInit {
 
   placeholderTxt: string = '';
 
-  constructor( private _settingTimeFrameService:SettingTimeFrameService
-  ) {
-    console.log('constructor(): SampleDateRangePickerNormal');
-  }
+
 
   clearDateRange() {
     this.selectedDateRangeNormal = null;
@@ -94,9 +128,7 @@ export class TimeFrameSettingModalComponent implements OnInit {
     this.placeholderTxt = checked ? 'Select a date range' : '';
   }
 
-  ngOnInit() {
-    console.log('onInit(): SampleDateRangePickerNormal');
-  }
+
 
   onDateRangeChanged(event: IMyDateRangeModel) {
     console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' - beginJsDate: ', new Date(event.beginJsDate).toLocaleDateString(), ' - End: ', event.endDate, ' - endJsDate: ', new Date(event.endJsDate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
@@ -115,17 +147,25 @@ export class TimeFrameSettingModalComponent implements OnInit {
     }
   }
 
-  onInputFieldChanged(event: IMyInputFieldChanged) {
-    console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
+
+
+  ngOnDestroy() {
+    // prevent memory leak when component destroyed
+    this.subscription.unsubscribe();
+    if (this.childtimeFrames != undefined) {
+      // this.childtimeFrames.unsubscribe();
+    }
   }
 
-  onCalendarViewChanged(event: IMyCalendarViewChanged) {
-    console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
-  }
+
 
   getCopyOfOptions(): IMyOptions {
     return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
   }
+
+
+
+
 
 
   //Modal configration
@@ -177,6 +217,17 @@ export class TimeFrameSettingModalComponent implements OnInit {
 
   }
 
+/*
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.create(name)
+      .then(hero => {
+        this.heroes.push(hero);
+        this.selectedHero = null;
+      });
+  }
+  */
 
   createNewTimeFrame (timeFrameName:string) {
 
@@ -187,9 +238,27 @@ export class TimeFrameSettingModalComponent implements OnInit {
 
     this._settingTimeFrameService.addNewTimeFrame(timeFrameName, this.startDate, this.endDate)
       .subscribe(
-        data  => this.timeFrames.push(data),
-        error =>  this.errorMessage = <any>error);
+        data  => {this.tempData = data},
+        error =>  this.errorMessage = <any>error,
+        ()=>{
+          console.log( "this.tempData + "+JSON.stringify(this.tempData));
+          //this.childtimeFrames=this.tempData;
+          this.childtimeFrames.push(this.tempData);
+
+
+        }
+      );
+
+    // this._settingTimeFrameService.createTimeFrame(timeFrameName, this.startDate, this.endDate)
+    //   .then(timeFramedata => {
+    //     this.timeFrames.push(timeFramedata);
+    //
+    //   });
+
+    this.modal.close();
+
   }
+
 
 
 
