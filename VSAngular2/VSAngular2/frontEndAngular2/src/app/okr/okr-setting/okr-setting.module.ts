@@ -13,6 +13,12 @@ import {OkrSettingNavigationComponent} from './okr-setting-navigation/okr-settin
 
 
 import { OkrSettingTimeFrameModule }from './okr-setting-time-frame/okr-setting-time-frame.module';
+import {OkrSettingTeamModule} from './okr-setting-team/okr-setting-team.module';
+import {OkrSettingGoalModule} from './okr-setting-goal/okr-setting-goal.module';
+import {OkrSettingObjectiveModule} from './okr-setting-objective/okr-setting-objective.module';
+import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-key-result.module';
+
+
 @NgModule({
   imports: [
     HttpModule,
@@ -20,6 +26,10 @@ import { OkrSettingTimeFrameModule }from './okr-setting-time-frame/okr-setting-t
 
     OkrSettingRoutingModule,
     OkrSettingTimeFrameModule,
+    OkrSettingTeamModule,
+    OkrSettingGoalModule,
+    OkrSettingObjectiveModule,
+    OkrSettingKeyResultModule
 
 
 

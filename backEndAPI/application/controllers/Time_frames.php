@@ -31,6 +31,7 @@ class Time_frames extends CI_Controller
 	//Main entrance
     public function items($id)
     {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
         //GET, POST, OPTIONS, PUT, DELETE
         $method = $_SERVER['REQUEST_METHOD'];
         if($method == "OPTIONS") {
@@ -40,7 +41,7 @@ class Time_frames extends CI_Controller
             $this->read($id);
         }elseif ($method == "PUT"){
 
-            $this->update($id);
+            $this->update($id,$Data);
         }elseif ($method == "DELETE"){
 
             $this->delete($id);
@@ -58,10 +59,30 @@ class Time_frames extends CI_Controller
 	public function getall()
     {
 		$tempData=$this->Time_frames_model->get_all();
-		echo $this->json($tempData);
-		
+
+        //reformat date to (dd/mm/yyyy)
+        $tempData=$this->reFormatDate($tempData);
+        echo $this->json($tempData);
 	}
-	
+
+
+	//Warning Because  the DateRangePicker required a specified date format. So every date type must been reformatted before it been send to front.
+	public function reFormatDate($processArray){
+        $arrlength = count($processArray);
+	    for ($i=0;$i<$arrlength;$i++){
+
+            $startDate=new DateTime($processArray[$i]->time_frame_start);
+            $endDate= new DateTime($processArray[$i]->time_frame_end);
+            $processArray[$i]->time_frame_start=$startDate->format('d-m-Y');
+            $processArray[$i]->time_frame_end=$endDate->format('d-m-Y');
+
+
+        }
+
+       return $processArray;
+
+
+    }
 
     public function json($resArray) {
         header('Content-Type: application/json');
@@ -70,19 +91,18 @@ class Time_frames extends CI_Controller
     }
 
 
-
-
-
-
     public function read($id)
 	{
 		$row = $this->Time_frames_model->get_by_id($id);
 		if ($row) {
+            $startDate=new DateTime($row->time_frame_start);
+            $endDate=new DateTime($row->time_frame_end);
+
 			$data = array(
 					'time_freame_id' => $row->time_freame_id,
 					'time_frame_description' => $row->time_frame_description,
-					'time_frame_start' => $row->time_frame_start,
-					'time_frame_end' => $row->time_frame_end
+					'time_frame_start' => $startDate->format('d/m/y'),
+					'time_frame_end' => $endDate->format('d/m/y')
 				    );
 			$this->json($data);
 		}
@@ -107,19 +127,25 @@ class Time_frames extends CI_Controller
 
 
 
-    public function update($id)
-	    {
+    public function update($id,$updateData)
+    {
 		$row = $this->Time_frames_model->get_by_id($id);
 		
 		if ($row) {
-			$data = array(
-					'time_freame_id' => set_value('time_freame_id', $row->time_freame_id),
-					'time_frame_description' => set_value('time_frame_description', $row->time_frame_description),
-					'time_frame_start' => set_value('time_frame_start', $row->time_frame_start),
-					'time_frame_end' => set_value('time_frame_end', $row->time_frame_end),
-				    );
-			$this->load->view('time_frames/time_frames_form', $data);
-		}
+            $processArray=$this->dataValidate($updateData);
+            $data = array(
+                'time_frame_description' =>$processArray['time_frame_description'],
+                'time_frame_start' => $processArray['time_frame_start'],
+                'time_frame_end' => $processArray['time_frame_end'],
+            );
+            $affectedRowsNumber=$this->Time_frames_model->update($id, $data);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectedRowsNumber
+            );
+            $this->json($tempReturnArray);
+
+        }
 		else {
 
 			$tempReturnArray=$this->create_error_messageArray('Record Not Found');
@@ -127,28 +153,9 @@ class Time_frames extends CI_Controller
 		}
 	}
 	
-	public function update_action() 
-	    {
-		$this->_rules();
-		
-		if ($this->form_validation->run() == FALSE) {
-			$this->update($this->input->post('time_freame_id', TRUE));
-		}
-		else {
-			$data = array(
-					'time_frame_description' => $this->input->post('time_frame_description',TRUE),
-					'time_frame_start' => $this->input->post('time_frame_start',TRUE),
-					'time_frame_end' => $this->input->post('time_frame_end',TRUE),
-				    );
-			
-			$this->Time_frames_model->update($this->input->post('time_freame_id', TRUE), $data);
-			$this->session->set_flashdata('message', 'Update Record Success');
-			redirect(site_url('time_frames'));
-		}
-	}
 
     public function delete($id)
-	    {
+    {
 
 
 		$row = $this->Time_frames_model->get_by_id($id);
@@ -198,22 +205,22 @@ class Time_frames extends CI_Controller
 			else {
 
                 $start_epoch =  $Data['time_frame_start'];
-                $dt_start = new DateTime("@$start_epoch");
+                //$dt_start = new DateTime("@$start_epoch");
                 $end_epoch =  $Data['time_frame_end'];
-                $dt_end = new DateTime("@$end_epoch");
+                //$dt_end = new DateTime("@$end_epoch");
+                $dt_start = date('Y-m-d', "$start_epoch");
+                $dt_end = date('Y-m-d', "$end_epoch");
 
 				$processArray = array(
 				                    "time_frame_description" => $Data['time_frame_description'],
-				                    "time_frame_start" => $dt_start->format('Y-m-d H:i:s'),
-                                    "time_frame_end" => $dt_end->format('Y-m-d H:i:s'),
+				                    "time_frame_start" => $dt_start,
+                                    "time_frame_end" => $dt_end,
 				                );
 				return $processArray;
 			}
 		}
 	}
-    
 
-	
 }
 
 

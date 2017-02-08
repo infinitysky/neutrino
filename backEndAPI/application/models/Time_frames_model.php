@@ -43,10 +43,10 @@ class Time_frames_model extends CI_Model
     // get total rows
     function total_rows($q = NULL) {
         $this->db->like('time_freame_id', $q);
-	$this->db->or_like('time_frame_description', $q);
-	$this->db->or_like('time_frame_start', $q);
-	$this->db->or_like('time_frame_end', $q);
-	$this->db->from($this->table);
+        $this->db->or_like('time_frame_description', $q);
+        $this->db->or_like('time_frame_start', $q);
+        $this->db->or_like('time_frame_end', $q);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
@@ -54,10 +54,10 @@ class Time_frames_model extends CI_Model
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
         $this->db->like('time_freame_id', $q);
-	$this->db->or_like('time_frame_description', $q);
-	$this->db->or_like('time_frame_start', $q);
-	$this->db->or_like('time_frame_end', $q);
-	$this->db->limit($limit, $start);
+        $this->db->or_like('time_frame_description', $q);
+        $this->db->or_like('time_frame_start', $q);
+        $this->db->or_like('time_frame_end', $q);
+        $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
 
@@ -75,8 +75,12 @@ class Time_frames_model extends CI_Model
     // update data
     function update($id, $data)
     {
+        $this->db->trans_start();
         $this->db->where($this->id, $id);
         $this->db->update($this->table, $data);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return  $affectedRowsNumber;
     }
 
     // delete data

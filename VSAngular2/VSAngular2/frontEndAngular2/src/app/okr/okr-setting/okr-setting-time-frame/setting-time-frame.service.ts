@@ -53,8 +53,17 @@ export class SettingTimeFrameService {
 
 
   private extractDataObservable(res: Response) {
-    let body = res.json()  ;
-    return body.data || { };
+    let body=null;
+    console.log(res.status);
+    if(res.status < 200 || res.status >= 300) {
+      body=res;
+        throw new Error('This request has failed ' + res.status);
+      }
+      // If everything went fine, return the response
+      else {
+          body = res.json()  ;
+      }
+    return body;
   }
 
   private handleErrorObservable (error: Response | any) {
@@ -83,40 +92,52 @@ export class SettingTimeFrameService {
 
 
 
-  createTimeFrame (timeframe_description: string, timeframe_start: number,timeframe_end:number): Observable<Timeframeclass> {
+  // createTimeFrame (timeframe_description: string, timeframe_start: number,timeframe_end:number): Observable<Timeframeclass> {
+  //   let headers = new Headers({ 'Content-Type': 'application/json' });
+  //   let options = new RequestOptions({ headers: headers });
+  //   let body = JSON.stringify({ time_frame_description:timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end });
+  //
+  //   return this.http.post(this.createTimeFrameAPi, body, options)
+  //     .map(res => res.json())
+  //     .catch(this.handleErrorObservable);
+  // }
+
+  deleteTheTimeFrame(timeFrame: Timeframeclass): Observable<Timeframeclass> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    let body = JSON.stringify({ time_frame_description:timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end });
-
-    return this.http.post(this.createTimeFrameAPi, body, options)
-      .map(res => res.json())
-      .catch(this.handleErrorObservable);
-  }
-
-  deleteTheTimeFrame(timeFrame_id): Observable<Timeframeclass> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
 
 
-    const url = `${this.OperationAPI}/${timeFrame_id}`;
+    const url = `${this.OperationAPI}/${timeFrame.time_freame_id}`;
 
     return this.http.delete(url, options)
       .map(res => res.json())
       .catch(this.handleErrorObservable);
   }
 
+  update(timeFrame: Timeframeclass): Observable<Timeframeclass> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let httpBody = JSON.stringify(timeFrame)
+
+    const url = `${this.OperationAPI}/${timeFrame.time_freame_id}`;
+    return this.http
+      .put(url,httpBody , options)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+  }
+
 
 
   addNewTimeFrame(timeframe_description: string, timeframe_start: number,timeframe_end:number) : Observable<Timeframeclass>  {
 
-    let body = JSON.stringify({ time_frame_description : timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end });
-    let body2 = "{time_frame_description:timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end}";
+    let httpBody = JSON.stringify({ time_frame_description : timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end });
+   // let body2 = "{time_frame_description:timeframe_description,time_frame_start:timeframe_start,time_frame_end :timeframe_end}";
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    console.log('Post message body: '+body);
-    return this.http.post(this.createTimeFrameAPi,body, {headers: this.headers})
+    //console.log('Post message body: '+httpBody);
+    return this.http.post(this.createTimeFrameAPi,httpBody, {headers: this.headers})
       //.map(this.extractDataObservable)
       .map(res => res.json())
       .catch(this.handleErrorObservable)

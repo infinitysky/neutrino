@@ -56,27 +56,31 @@
               </a>
             </li>
             <li>
-              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-calendar-check-o"></i> Time Frame</a>
+              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-paper-plane"></i> Time Frame</a>
             </li>
           </ul>
           <hr>
 
           <ul class="mailbox-list">
             <li>
-              <a href="#"><i class="fa fa-tag text-success"></i> Promos</a>
+              <a href="#"><i class="fa fa-tag text-success"></i> Team </a>
             </li>
 
             <li>
-              <a href="#"><i class="fa fa-flag text-primary"></i> Updates</a>
+              <a href="#"><i class="fa fa-flag text-primary"></i> Goal </a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-flag text-primary"></i> Objective </a>
+            </li>
+            <li>
+              <a href="#"><i class="fa fa-flag text-primary"></i> key Result </a>
             </li>
           </ul>
 
           <hr>
 
           <ul class="mailbox-list">
-            <li>
-              <a href="#"><i class="fa fa-gears"></i> Settings</a>
-            </li>
+
             <li>
               <a href="#"><i class="fa fa-info-circle"></i> Support</a>
             </li>
@@ -113,7 +117,7 @@
                 <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
 
                 <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
-                <button type="button" class="btn btn-default btn-sm"  (click)="modal.open()"><i class="fa fa-plus"></i>
+                <button type="button" class="btn btn-default btn-sm"  (click)="addTimeFrameButton()"><i class="fa fa-plus"></i>
                   Add New
                 </button>
 
@@ -123,8 +127,6 @@
 
               </div>
             </div>
-
-
           </div>
 
 
@@ -145,13 +147,13 @@
               <tr *ngFor="let tf of timeFrames">
                 <td >{{ tf.time_freame_id}}</td>
                 <td> {{ tf.time_frame_description }} </td>
-                <td> {{ tf.time_frame_start | date:'dd/MM/y'}} </td>
-                <td> {{ tf.time_frame_end | date:'dd/MM/y'}}</td>
+                <td> {{ tf.time_frame_start }} </td>
+                <td> {{ tf.time_frame_end }}</td>
                 <td [hidden]=isLoaded>
                   <!--Delete the record-->
-                  <button class="btn btn-default btn-sm" (click)="deleteTimeFrame(tf);" ><i class="fa fa-trash-o"></i> </button>
+                  <button class="btn btn-default btn-sm" (click)="deleteTimeFrameButton(tf);" ><i class="fa fa-trash-o"></i> </button>
                   <!--Edit the record-->
-                  <button class="btn btn-default btn-sm" ><i class="fa fa-pencil-square-o"></i> </button>
+                  <button class="btn btn-default btn-sm" (click)="editTimeFramesButton(tf)"><i class="fa fa-pencil-square-o"></i> </button>
                 </td>
               </tr>
 
@@ -190,7 +192,7 @@
         <label >Time Frame Name</label>
         <div class="palos-input block" >
 
-          <input type="text" placeholder="Name of time frame" autocomplete="off" class="form-control" #timeFrameNameInput> <!---->
+          <input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{timeFrameNameInputBoxValue}}" #timeFrameNameInput> <!---->
 
         </div>
       </fieldset>
@@ -205,8 +207,8 @@
                                   (dateRangeChanged)="onDateRangeChanged($event)"
                                   (inputFieldChanged)="onInputFieldChanged($event)"
                                   (calendarViewChanged)="onCalendarViewChanged($event)"
-                                  [selDateRange]=""
-                                  [placeholder]="placeholderTxt" #dateRange></my-date-range-picker >
+                                  [selDateRange]="edit_dateRange"
+                                  [placeholder]="rangeTextPlaceholder" #dateRange></my-date-range-picker >
 
           </div>
         </fieldset>
@@ -214,62 +216,10 @@
     </div>
   </modal-body>
   <modal-footer>
-    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.dismiss()">Close</button>
-    <button type="button" class="btn btn-primary" autofocus (click)="createNewTimeFrame(timeFrameNameInput.value); timeFrameNameInput.value=''" > Save changes</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(timeFrameNameInput.value);" > Save changes</button>
   </modal-footer>
 </modal>
 
 
 
-
-
-<!--Add Edit modal module-->
-
-<!--<modal [animation]="animation" [keyboard]="keyboard"  #editmodal>-->
-  <!--<div class="color-line"></div>-->
-  <!--<modal-header [show-close]="true">-->
-    <!--<h4 class="modal-title">Create New Time Frame</h4>-->
-  <!--</modal-header>-->
-  <!--<modal-body>-->
-
-    <!--<div class="stage">-->
-
-      <!--<fieldset >-->
-        <!--<label >Time Frame Name</label>-->
-        <!--<div class="palos-input block" >-->
-
-          <!--<input type="text" placeholder="Name of time frame" autocomplete="off" class="form-control" #timeFrameName> &lt;!&ndash;&ndash;&gt;-->
-
-        <!--</div>-->
-      <!--</fieldset>-->
-
-      <!--<div class="selector-ctn ">-->
-        <!--<fieldset class="form-group">-->
-          <!--<label >Starting Date And Enging Date</label>-->
-          <!--<div class="datepicker " >&lt;!&ndash;&ndash;&gt;-->
-            <!--&lt;!&ndash;<i class="el-input__icon el-icon-date"></i>&ndash;&gt;-->
-            <!--&lt;!&ndash;<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;&ndash;&gt;-->
-
-            <!--<my-date-range-picker [options]="myDateRangePickerOptionsNormal"-->
-                                  <!--(dateRangeChanged)="onDateRangeChanged($event)"-->
-                                  <!--(inputFieldChanged)="onInputFieldChanged($event)"-->
-                                  <!--(calendarViewChanged)="onCalendarViewChanged($event)"-->
-                                  <!--[selDateRange]=""-->
-                                  <!--[placeholder]="placeholderTxt" #editdateRange></my-date-range-picker >-->
-
-          <!--</div>-->
-        <!--</fieldset>-->
-
-
-      <!--</div>-->
-    <!--</div>-->
-
-
-  <!--</modal-body>-->
-  <!--<modal-footer>-->
-
-    <!--<button type="button" class="btn btn-default" data-dismiss="editmodal" (click)="editmodal.dismiss()">Close</button>-->
-    <!--<button type="button" class="btn btn-primary" autofocus (click)="createNewTimeFrame(timeFrameName.value); timeFrameName.value=''" > Save changes</button>-->
-
-  <!--</modal-footer>-->
-<!--</modal>-->
