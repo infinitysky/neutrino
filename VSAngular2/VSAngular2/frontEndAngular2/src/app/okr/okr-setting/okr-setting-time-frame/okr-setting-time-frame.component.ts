@@ -2,12 +2,12 @@ import { Component, OnInit,ViewChild, Input } from '@angular/core';
 
 import { Http,Response, Headers,RequestOptions } from '@angular/http';
 
-import { Router }            from '@angular/router';
+import { Router } from '@angular/router';
 
 import 'rxjs';
 
-import { Observable }        from 'rxjs/Observable';
-import { Subject }           from 'rxjs/Subject';
+import { Observable }  from 'rxjs/Observable';
+import { Subject }  from 'rxjs/Subject';
 // Observable class extensions
 import 'rxjs/add/observable/of';
 // Observable operators
@@ -18,15 +18,11 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import {IMyOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged} from 'mydaterangepicker';
-
-
-
-
-import { OkrSettingNavigationComponent} from '../okr-setting-navigation/okr-setting-navigation.component'
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-
 import { SettingTimeFrameService} from './setting-time-frame.service';
-import {Timeframeclass} from './timeframeclass';
+
+
+import {Timeframeclass} from './time-frame-class';
 
 
 
@@ -42,8 +38,6 @@ declare var swal: any;
 export class OkrSettingTimeFrameComponent implements OnInit {
   public pageTitle="OKRs Setting";
   public subPageTitle="Time Frame Setting";
-
-
 
   public timeFrames : Timeframeclass[];
 

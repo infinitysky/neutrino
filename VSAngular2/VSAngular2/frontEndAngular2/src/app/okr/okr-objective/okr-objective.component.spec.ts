@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { OkrSettingNavigationComponent } from './okr-setting-navigation.component';
+import { OkrObjectiveComponent } from './okr-objective.component';
 
-describe('OkrSettingNavigationComponent', () => {
-  let component: OkrSettingNavigationComponent;
-  let fixture: ComponentFixture<OkrSettingNavigationComponent>;
+describe('OkrObjectiveComponent', () => {
+  let component: OkrObjectiveComponent;
+  let fixture: ComponentFixture<OkrObjectiveComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OkrSettingNavigationComponent ]
+      declarations: [ OkrObjectiveComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OkrSettingNavigationComponent);
+    fixture = TestBed.createComponent(OkrObjectiveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
 
-import {Timeframeclass} from './timeframeclass'
+import {Timeframeclass} from './time-frame-class'
 
 import { MY_CONFIG, ApplicationConfig } from '../../../app-config';
 

@@ -11,7 +11,7 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 
 import {SettingTimeFrameService} from '../setting-time-frame.service';
-import {Timeframeclass} from '../timeframeclass';
+import {Timeframeclass} from '../time-frame-class';
 
 @Component({
   selector: 'app-time-frame-setting-modal',

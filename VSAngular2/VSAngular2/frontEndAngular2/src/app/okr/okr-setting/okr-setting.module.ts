@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
 import { OkrSettingRoutingModule } from './okr-setting-routing.module';
-import {OkrSettingNavigationModule} from './okr-setting-navigation/okr-setting-navigation.module'
-
 import { OkrSettingComponent } from './okr-setting.component';
-import {OkrSettingNavigationComponent} from './okr-setting-navigation/okr-setting-navigation.component'
+
 
 
 
@@ -21,6 +20,7 @@ import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-ke
 
 @NgModule({
   imports: [
+    FormsModule,
     HttpModule,
     CommonModule,
 
@@ -34,6 +34,6 @@ import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-ke
 
 
   ],
-  declarations: [OkrSettingComponent,OkrSettingNavigationComponent]
+  declarations: [OkrSettingComponent]
 })
 export class OkrSettingModule { }
