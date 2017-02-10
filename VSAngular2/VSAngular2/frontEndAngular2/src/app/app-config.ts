@@ -12,11 +12,44 @@ export interface ApplicationConfig {
   getUserInfoUrl:string;
 
 
-  timeFrameOperationUrl:string;
-  getAllTimeFrameUrl:string;
-  createTimeFrameUrl:string;
+  timeFrameOperateUrl:string;
+  timeFrameGetAllUrl:string;
+  timeFrameCreateUrl:string;
 
 
+  teamGetAllUrl:string;
+  teamCreateUrl:string;
+  teamOperateUrl:string;
+
+  goalGetAllUrl:string;
+  goalCreateUrl:string;
+  goalOperateUrl:string;
+
+
+  objectiveGetAllUrl:string;
+  objectiveCreateUrl:string;
+  objectiveOperateUrl:string;
+
+  keyResultGetAllUrl:string;
+  keyResultCreateUrl:string;
+  keyResultOperateUrl:string;
+
+  
+  activityGetAllUrl:string;
+  activityCreateUrl:string;
+  activityOperateUrl:string;
+
+
+  
+  companyGetAllUrl:string;
+  companyCreateUrl:string;
+  companyOperateUrl:string;
+
+
+  
+  userGetAllUrl:string;
+  userCreateUrl:string;
+  userOperateUrl:string;
 
 
 }
@@ -33,9 +66,51 @@ export const MY_CONFIG: ApplicationConfig = {
 
 
   //time frame Urls:
-  getAllTimeFrameUrl:'/neutrino/backEndAPI/index.php/Time_frames/',
-  createTimeFrameUrl:'/neutrino/backEndAPI/index.php/Time_frames/create',
-  timeFrameOperationUrl:'/neutrino/backEndAPI/index.php/Time_frames/items',
+  timeFrameGetAllUrl:'/neutrino/backEndAPI/index.php/Time_frames/',
+  timeFrameCreateUrl:'/neutrino/backEndAPI/index.php/Time_frames/create',
+  timeFrameOperateUrl:'/neutrino/backEndAPI/index.php/Time_frames/items',
+
+
+    //team Urls:
+  teamGetAllUrl:'/neutrino/backEndAPI/index.php/Teams/',
+  teamCreateUrl:'/neutrino/backEndAPI/index.php/Teams/create',
+  teamOperateUrl:'/neutrino/backEndAPI/index.php/Teams/items',
+
+
+    //goal Urls:
+  goalGetAllUrl:'/neutrino/backEndAPI/index.php/Goals/',
+  goalCreateUrl:'/neutrino/backEndAPI/index.php/Goals/create',
+  goalOperateUrl:'/neutrino/backEndAPI/index.php/Goals/items',
+
+
+    //objective Urls:
+  objectiveGetAllUrl:'/neutrino/backEndAPI/index.php/Objectives/',
+  objectiveCreateUrl:'/neutrino/backEndAPI/index.php/Objectives/create',
+  objectiveOperateUrl:'/neutrino/backEndAPI/index.php/Objectives/items',
+
+
+  //key result Urls:
+  keyResultGetAllUrl:'/neutrino/backEndAPI/index.php/Key_results/',
+  keyResultCreateUrl:'/neutrino/backEndAPI/index.php/Key_results/create',
+  keyResultOperateUrl:'/neutrino/backEndAPI/index.php/Key_results/items',
+
+
+   //activity Urls:
+  activityGetAllUrl:'/neutrino/backEndAPI/index.php/Activities/',
+  activityCreateUrl:'/neutrino/backEndAPI/index.php/Activities/create',
+  activityOperateUrl:'/neutrino/backEndAPI/index.php/Activities/items',
+
+
+    //company Urls:
+  companyGetAllUrl:'/neutrino/backEndAPI/index.php/company/',
+  companyCreateUrl:'/neutrino/backEndAPI/index.php/company/create',
+  companyOperateUrl:'/neutrino/backEndAPI/index.php/company/items',
+
+
+    //User Urls:
+  userGetAllUrl:'/neutrino/backEndAPI/index.php/Time_frames/',
+  userCreateUrl:'/neutrino/backEndAPI/index.php/Time_frames/create',
+  userOperateUrl:'/neutrino/backEndAPI/index.php/Time_frames/items',
 
 
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50549
 File Encoding         : 65001
 
-Date: 2017-02-06 18:42:23
+Date: 2017-02-10 10:34:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -42,6 +42,24 @@ CREATE TABLE `activities_users` (
 
 -- ----------------------------
 -- Records of activities_users
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for company_details
+-- ----------------------------
+DROP TABLE IF EXISTS `company_details`;
+CREATE TABLE `company_details` (
+  `company_info_id` int(11) NOT NULL,
+  `company_name` text COLLATE utf8mb4_bin,
+  `company_mission` text COLLATE utf8mb4_bin,
+  `company_vision` text COLLATE utf8mb4_bin,
+  `company_address` text COLLATE utf8mb4_bin,
+  `company_phone` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  PRIMARY KEY (`company_info_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of company_details
 -- ----------------------------
 
 -- ----------------------------
@@ -146,12 +164,17 @@ CREATE TABLE `teams` (
   `team_id` int(11) NOT NULL AUTO_INCREMENT,
   `team_description` text COLLATE utf8mb4_bin,
   `team_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `parent_team_id` int(11) unsigned zerofill DEFAULT '00000000000',
+  `team_leader_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`team_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of teams
 -- ----------------------------
+INSERT INTO `teams` VALUES ('1', 0x666466646664, 'ddf', '00000000000', null);
+INSERT INTO `teams` VALUES ('2', 0x66646664, 'dfdf', '00000000000', null);
+INSERT INTO `teams` VALUES ('3', 0x34343431, 'ggfs', '00000000000', null);
 
 -- ----------------------------
 -- Table structure for teams_users
@@ -179,16 +202,30 @@ DROP TABLE IF EXISTS `time_frames`;
 CREATE TABLE `time_frames` (
   `time_freame_id` int(11) NOT NULL AUTO_INCREMENT,
   `time_frame_description` text COLLATE utf8mb4_bin,
-  `time_frame_start` timestamp NULL DEFAULT NULL,
-  `time_frame_end` timestamp NULL DEFAULT NULL,
+  `time_frame_start` date DEFAULT NULL,
+  `time_frame_end` date DEFAULT NULL,
   PRIMARY KEY (`time_freame_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of time_frames
 -- ----------------------------
-INSERT INTO `time_frames` VALUES ('1', 0x3332323233, '2017-02-06 00:00:00', '2017-02-18 00:00:00');
-INSERT INTO `time_frames` VALUES ('2', 0x3534333533343533, '2017-02-06 18:40:11', '2017-02-06 18:40:18');
+INSERT INTO `time_frames` VALUES ('23', 0x36343536, '2017-02-09', '2017-03-11');
+INSERT INTO `time_frames` VALUES ('26', 0x6E65776E65776E6577, '2017-01-31', '2017-02-24');
+INSERT INTO `time_frames` VALUES ('32', 0x34333234333234, '2030-01-17', '2004-02-17');
+INSERT INTO `time_frames` VALUES ('33', 0x373737383738363735, '2017-01-31', '2017-03-11');
+INSERT INTO `time_frames` VALUES ('35', 0x6E65776E65776E65776E653277616464206E6577, '2017-01-31', '2017-02-17');
+INSERT INTO `time_frames` VALUES ('36', 0x37373737, '2017-01-31', '2017-02-24');
+INSERT INTO `time_frames` VALUES ('38', 0x3737373737, '2017-01-31', '2017-03-11');
+INSERT INTO `time_frames` VALUES ('39', 0x34353366343335333435, '2017-01-31', '2017-02-24');
+INSERT INTO `time_frames` VALUES ('40', 0x393939393939, '2017-02-01', '2017-03-10');
+INSERT INTO `time_frames` VALUES ('41', 0x6E65773838, '2017-01-31', '2017-02-24');
+INSERT INTO `time_frames` VALUES ('42', 0x3735363735363735, '2017-02-15', '2017-03-10');
+INSERT INTO `time_frames` VALUES ('43', 0x3735363735363735, '2017-02-15', '2017-03-10');
+INSERT INTO `time_frames` VALUES ('44', 0x373536373536373530303030, '2017-02-15', '2017-03-10');
+INSERT INTO `time_frames` VALUES ('45', 0x32333432333432, '1970-01-01', '1970-01-01');
+INSERT INTO `time_frames` VALUES ('46', 0x6A7936363636, '2017-01-03', '2017-02-24');
+INSERT INTO `time_frames` VALUES ('48', 0x343433323432, '2017-01-31', '2017-02-24');
 
 -- ----------------------------
 -- Table structure for time_frames_goals

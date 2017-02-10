@@ -1,25 +1,22 @@
 import { Injectable } from '@angular/core';
 
 import { Http,Response, Headers,RequestOptions } from '@angular/http';
-
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import 'rxjs/Rx';
 
-
-import {Timeframeclass} from './time-frame-class'
+import {Timeframeclass} from '../classes/time-frame-class'
 
 import { MY_CONFIG, ApplicationConfig } from '../../../app-config';
 
 @Injectable()
 export class SettingTimeFrameService {
 
-  private getAllTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.getAllTimeFrameUrl;
-  private createTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.createTimeFrameUrl;
-  private OperationAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameOperationUrl;
+  private getAllTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameGetAllUrl;
+  private createTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameCreateUrl;
+  private OperationAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameOperateUrl;
 
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -38,13 +35,6 @@ export class SettingTimeFrameService {
       .map(res => res.json() as Timeframeclass[])
       // .do(data => console.log(data)) // eyeball results in the console
       .catch(this.handleErrorObservable);
-  }
-
-
-  getAllTimeFrames_not_working (): Observable<Timeframeclass[]> {
-    return this.http.get(this.getAllTimeFrameAPi)
-      .map(this.extractData)
-      .catch(this.handleError);
   }
 
 */

@@ -19,10 +19,11 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import {IMyOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged} from 'mydaterangepicker';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
-import { SettingTimeFrameService} from './setting-time-frame.service';
 
 
-import {Timeframeclass} from './time-frame-class';
+import { SettingTimeFrameService} from '../../okr-shared/services/okr-time-frame.service';
+
+import {Timeframeclass} from '../../okr-shared/classes/time-frame-class';
 
 
 
@@ -78,7 +79,8 @@ export class OkrSettingTimeFrameComponent implements OnInit {
 
 
   constructor(private _settingTimeFrameService: SettingTimeFrameService,
-              private router: Router
+              private router: Router,
+              private toastyService:ToastyService, private toastyConfig: ToastyConfig
    ) {
 
     console.log('constructor(): SampleDateRangePickerNormal');
@@ -154,13 +156,14 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   }
 
 
-//TODO: Fix the date format handling issus.
+//TODO: Fix the date format handling issue.
   updateTimeFrame(editTimeFrame,timeFrameNameInput:string) {
     console.log(editTimeFrame);
 
     if (!timeFrameNameInput || !this.startDateInEpoch ||!this.endDateInEpoch ) {
       //alert("Do not leave any empty!");
-      swal("Warning", "Do not leave any empty!", "warning");
+      //swal("Warning", "Do not leave any empty!", "warning");
+      this.showUnChangedInfoToast();
       return;
     }
 
@@ -468,6 +471,34 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   closeModal(){
 
   }
+
+
+  //toast info
+  showUnChangedInfoToast() {
+    // Just add default Toast with title only
+    this.toastyService.default('Hi there');
+    // Or create the instance of ToastOptions
+    var toastOptions:ToastOptions = {
+      title: "Warning",
+      msg: "You did not change any thing",
+      showClose: true,
+      timeout: 5000,
+      theme: 'default',
+      onAdd: (toast:ToastData) => {
+        console.log('Toast ' + toast.id + ' has been added!');
+      },
+      onRemove: function(toast:ToastData) {
+        console.log('Toast ' + toast.id + ' has been removed!');
+      }
+    };
+    // Add see all possible types in one shot
+    //this.toastyService.info(toastOptions);
+    //this.toastyService.success(toastOptions);
+    this.toastyService.wait(toastOptions);
+   // this.toastyService.error(toastOptions);
+    //this.toastyService.warning(toastOptions);
+  }
+
 
   /*
    add(name: string): void {

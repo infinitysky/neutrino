@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { SettingTimeFrameService } from './setting-time-frame.service';
+import { SettingTimeFrameService } from './okr-time-frame.service';
 
 describe('SettingTimeFrameService', () => {
   beforeEach(() => {

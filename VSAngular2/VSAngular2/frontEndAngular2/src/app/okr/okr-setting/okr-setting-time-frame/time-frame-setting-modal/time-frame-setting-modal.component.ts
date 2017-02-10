@@ -10,8 +10,8 @@ import {IMyOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCa
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 
-import {SettingTimeFrameService} from '../setting-time-frame.service';
-import {Timeframeclass} from '../time-frame-class';
+import {SettingTimeFrameService} from '../../../okr-shared/services/okr-time-frame.service';
+import {Timeframeclass} from '../../../okr-shared/classes/time-frame-class';
 
 @Component({
   selector: 'app-time-frame-setting-modal',

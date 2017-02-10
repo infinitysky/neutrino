@@ -45,6 +45,9 @@ class Teams_model extends CI_Model
         $this->db->like('team_id', $q);
 	$this->db->or_like('team_description', $q);
 	$this->db->or_like('team_name', $q);
+	$this->db->or_like('parent_team_id', $q);
+        $this->db->or_like('team_leader_id', $q);
+
 	$this->db->from($this->table);
         return $this->db->count_all_results();
     }
@@ -55,6 +58,8 @@ class Teams_model extends CI_Model
         $this->db->like('team_id', $q);
 	$this->db->or_like('team_description', $q);
 	$this->db->or_like('team_name', $q);
+	$this->db->or_like('parent_team_id', $q);
+        $this->db->or_like('team_leader_id', $q);
 	$this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }

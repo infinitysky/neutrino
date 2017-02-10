@@ -11,8 +11,11 @@ import { AboutComponent } from './about.component';
 
 import {CalendarModule} from 'primeng/primeng';
 
+import {ToastyModule} from 'ng2-toasty';
+
 @NgModule({
   imports: [
+    ToastyModule.forRoot(),
     FormsModule,
     HttpModule,
     CalendarModule,
