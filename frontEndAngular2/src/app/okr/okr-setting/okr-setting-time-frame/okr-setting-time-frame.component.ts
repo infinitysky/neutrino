@@ -20,6 +20,8 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 import {IMyOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged} from 'mydaterangepicker';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
+//import swal from 'sweetalert2'
+declare var swal: any;
 
 import { SettingTimeFrameService} from '../../okr-shared/services/okr-time-frame.service';
 
@@ -28,8 +30,7 @@ import {Timeframeclass} from '../../okr-shared/classes/time-frame-class';
 
 
 
-//import swal from 'sweetalert2'
-declare var swal: any;
+
 @Component({
   selector: 'setting-content',
   providers: [SettingTimeFrameService],

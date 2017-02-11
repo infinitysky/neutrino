@@ -14,9 +14,10 @@ import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 //developed module import here
-import { HomeModule } from './home/home.module'
-import { AboutModule } from './about/about.module'
-import {OkrModule} from './okr/okr.module'
+import { HomeModule } from './home/home.module';
+import { AboutModule } from './about/about.module';
+import {OkrModule} from './okr/okr.module';
+import {NotFoundModule} from './not-found/not-found.module';
 
 //developed component import here
 import { AppComponent } from './app.component';

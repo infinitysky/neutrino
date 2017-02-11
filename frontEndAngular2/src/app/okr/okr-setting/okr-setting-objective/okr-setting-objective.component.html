@@ -117,7 +117,7 @@
                 <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
 
                 <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
-                <button type="button" class="btn btn-default btn-sm"  (click)="addTimeFrameButton()"><i class="fa fa-plus"></i>
+                <button type="button" class="btn btn-default btn-sm"  (click)="addObjectiveButton()"><i class="fa fa-plus"></i>
                   Add New
                 </button>
 
@@ -144,16 +144,15 @@
                 <td [hidden]=isLoaded>Edit</td>
               </tr>
 
-              <tr *ngFor="let tf of timeFrames">
-                <td >{{ tf.time_freame_id}}</td>
-                <td> {{ tf.time_frame_description }} </td>
-                <td> {{ tf.time_frame_start }} </td>
-                <td> {{ tf.time_frame_end }}</td>
+              <tr *ngFor="let objt of objectives">
+                <td >{{ objt.objective_id}}</td>
+                <td> {{ objt.objective_description }} </td>
+
                 <td [hidden]=isLoaded>
                   <!--Delete the record-->
-                  <button class="btn btn-default btn-sm" (click)="deleteTimeFrameButton(tf);" ><i class="fa fa-trash-o"></i> </button>
+                  <button class="btn btn-default btn-sm" (click)="deleteObjectiveButton(objt);" ><i class="fa fa-trash-o"></i> </button>
                   <!--Edit the record-->
-                  <button class="btn btn-default btn-sm" (click)="editTimeFramesButton(tf)"><i class="fa fa-pencil-square-o"></i> </button>
+                  <button class="btn btn-default btn-sm" (click)="editObjectiveButton(objt)"><i class="fa fa-pencil-square-o"></i> </button>
                 </td>
               </tr>
 
@@ -192,7 +191,7 @@
         <label >Time Frame Name</label>
         <div class="palos-input block" >
 
-          <input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{timeFrameNameInputBoxValue}}" #timeFrameNameInput> <!---->
+          <input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{ObjectiveNameInputBoxValue}}" #ObjectiveNameInput> <!---->
 
         </div>
       </fieldset>
@@ -203,12 +202,6 @@
           <div class="datepicker " ><!---->
             <!--<i class="el-input__icon el-icon-date"></i>-->
             <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
-            <my-date-range-picker [options]="myDateRangePickerOptionsNormal"
-                                  (dateRangeChanged)="onDateRangeChanged($event)"
-                                  (inputFieldChanged)="onInputFieldChanged($event)"
-                                  (calendarViewChanged)="onCalendarViewChanged($event)"
-                                  [selDateRange]="edit_dateRange"
-                                  [placeholder]="rangeTextPlaceholder" #dateRange></my-date-range-picker >
 
           </div>
         </fieldset>
@@ -217,7 +210,7 @@
   </modal-body>
   <modal-footer>
     <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
-    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(timeFrameNameInput.value);" > Save changes</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(ObjectiveNameInput.value);" > Save changes</button>
   </modal-footer>
 </modal>
 

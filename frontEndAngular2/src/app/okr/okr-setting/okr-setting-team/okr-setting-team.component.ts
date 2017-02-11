@@ -20,11 +20,14 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
+declare var swal: any;
+
+
 import {SettingTeamService} from '../../okr-shared/services/okr-team.service'
 
 import {Teamclass} from '../../okr-shared/classes/team-class';
 
-declare var swal: any;
+
 @Component({
   selector: 'app-okr-setting-team',
   templateUrl: './okr-setting-team.component.html',
@@ -54,10 +57,6 @@ export class OkrSettingTeamComponent implements OnInit {
 
   public editTeam:any;
 
-
-  edit_startDate:Date;
-  edit_EndDate:Date;
-  edit_dateRange:string="";
   editModeIO:number=0;//this is for check edit Mode on or off.
   teamNameInputBoxValue:string="Please enter the team name";
   teamDescriptionInputBoxValue:string="Please enter the team description";
@@ -69,8 +68,6 @@ export class OkrSettingTeamComponent implements OnInit {
 
     console.log('constructor(): SampleDateRangePickerNormal');
     this.team=[];
-    this.edit_startDate = new Date();
-    this.edit_EndDate = new Date();
     this.editModeIO=0;
     this.editTeam=null;
 
@@ -129,10 +126,7 @@ export class OkrSettingTeamComponent implements OnInit {
     this.teamNameInputBoxValue=Team.team_name;
     this.teamDescriptionInputBoxValue=Team.team_description;
 
-    //this.edit_dateRange=Team.time_frame_start+' - '+Team.time_frame_end;
-    // this.edit_startDate=Team.time_frame_start;
-    // this.edit_EndDate=Team.time_frame_end;
-
+  
 
 
     this.modal.open();
@@ -158,18 +152,13 @@ export class OkrSettingTeamComponent implements OnInit {
         error =>  this.errorMessage = <any>error,
         ()=>{
           console.log( "this.tempData + "+JSON.stringify(this.tempData));
-          //this.childTeams=this.tempData;
           console.log(this.tempData);
           if(this.tempData.affectRows>0){
             swal("Success!", "Your time frame has been updated.", "success");
-           // this.Teams = this.Teams.filter(currentTeams => currentTeams !== Team);
-
-
-
+           
           }else{
             swal("Error!", "Your time frame did not been deleted successfully.", "error");
           }
-         // this.Teams.push(this.tempData);
 
         }
       );
@@ -208,38 +197,6 @@ export class OkrSettingTeamComponent implements OnInit {
       return;
     }
 
-  //  // console.log("TeamName: "+ TeamNameInput +"this.startDate" + this.startDate + "this.endDate ： " + this.endDate);
-  //   this._settingTeamService.addNew(TeamNameInput, this.startDateInEpoch, this.endDateInEpoch)
-  //     .subscribe(
-  //       data  => {this.tempData = data},
-  //       error =>  this.errorMessage = <any>error,
-  //       ()=>{
-  //         console.log( "this.tempData + "+JSON.stringify(this.tempData));
-  //         //this.childTeams=this.tempData;
-
-  //         //TODO: Fix the error handle issue when the system fail to create new time frame.
-  //         if(!this.tempData){
-  //           console.log(this.tempData);
-  //           swal({
-  //             title: "Error!",
-  //             text: "Your time frame has not created successfully.!",
-  //             type: "error"
-  //           });
-
-  //         }else{
-  //          // swal("Error!", "Your time frame not been deleted successfully.", "error");
-  //           this.Team.push(this.tempData);
-  //           swal({
-  //             title: "Success!",
-  //             text: "The New Record has been add into the system!",
-  //             type: "success"
-  //           });
-
-
-  //         }
-
-  //       }
-  //     );
     this.modal.close();
   }
 
