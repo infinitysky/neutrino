@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50549
 File Encoding         : 65001
 
-Date: 2017-02-10 10:34:44
+Date: 2017-02-13 11:39:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -68,13 +68,33 @@ CREATE TABLE `company_details` (
 DROP TABLE IF EXISTS `goals`;
 CREATE TABLE `goals` (
   `goal_id` int(11) NOT NULL AUTO_INCREMENT,
+  `goal_name` text COLLATE utf8mb4_bin,
   `goal_description` text COLLATE utf8mb4_bin,
+  `time_frame_id` int(11) NOT NULL,
   PRIMARY KEY (`goal_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of goals
 -- ----------------------------
+INSERT INTO `goals` VALUES ('1', 0x4D79676F6C652031, 0x676F6C6520313233, '22');
+
+-- ----------------------------
+-- Table structure for goals_copy
+-- ----------------------------
+DROP TABLE IF EXISTS `goals_copy`;
+CREATE TABLE `goals_copy` (
+  `goal_id` int(11) NOT NULL AUTO_INCREMENT,
+  `goal_name` text COLLATE utf8mb4_bin,
+  `goal_description` text COLLATE utf8mb4_bin,
+  `time_frame_id` int(11) NOT NULL,
+  PRIMARY KEY (`goal_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Records of goals_copy
+-- ----------------------------
+INSERT INTO `goals_copy` VALUES ('1', 0x4D79676F6C652031, 0x676F6C6520313233, '22');
 
 -- ----------------------------
 -- Table structure for goals_objectives
@@ -101,7 +121,8 @@ CREATE TABLE `goals_objectives` (
 DROP TABLE IF EXISTS `key_results`;
 CREATE TABLE `key_results` (
   `result_id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` text COLLATE utf8mb4_bin,
+  `result_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `result_description` text COLLATE utf8mb4_bin,
   PRIMARY KEY (`result_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -115,6 +136,7 @@ CREATE TABLE `key_results` (
 DROP TABLE IF EXISTS `objectives`;
 CREATE TABLE `objectives` (
   `objective_id` int(11) NOT NULL AUTO_INCREMENT,
+  `objective_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_description` text COLLATE utf8mb4_bin,
   PRIMARY KEY (`objective_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;

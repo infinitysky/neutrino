@@ -51,8 +51,7 @@
           <ul class="mailbox-list">
             <li >
               <a routerLink="/okr/okr-setting">
-                <span class="pull-right">12</span>
-                <i class="fa fa-envelope"></i> Inbox
+                <i class="fa fa-id-card-o"></i> Company information
               </a>
             </li>
             <li>
@@ -117,6 +116,9 @@
                 <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
 
                 <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <button type="button" class="btn btn-default btn-sm"  (click)="quickSetModal.open()"><i class="fa fa-plus"></i>
+                  Quick Set
+                </button>
                 <button type="button" class="btn btn-default btn-sm"  (click)="addTimeFrameButton()"><i class="fa fa-plus"></i>
                   Add New
                 </button>
@@ -223,3 +225,53 @@
 
 <ng2-toasty [position]="'top-center'"></ng2-toasty>
 
+
+
+
+<modal [animation]="animation" [keyboard]="keyboard"   #quickSetModal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Create New Time Frame</h4>
+  </modal-header>
+  <modal-body>
+    <div class="stage">
+      <!--<fieldset >-->
+        <!--<label >Time Frame Name</label>-->
+        <!--<div class="palos-input block" >-->
+
+          <!--<input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{timeFrameNameInputBoxValue}}" #timeFrameNameInput> &lt;!&ndash;&ndash;&gt;-->
+
+        <!--</div>-->
+      <!--</fieldset>-->
+
+      <div class="selector-ctn ">
+        <fieldset class="form-group">
+          <label >Starting Year</label>
+          <div class="palos-input block" >
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+
+            <input type="text" placeholder="Please enter your Starting Year" autocomplete="off" class="form-control"  #timeFrameStartingYearInput> <!---->
+
+
+          </div>
+        </fieldset>
+        <br>
+        <fieldset class="form-group">
+          <label >Ending Year</label>
+          <div class="palos-input block" >
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+
+            <input type="text" placeholder="Please enter your Ending Year" autocomplete="off" class="form-control"  #timeFrameEndingYearInput> <!---->
+
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="quickSetModal.close()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(timeFrameNameInput.value);" > Save changes</button>
+  </modal-footer>
+</modal>

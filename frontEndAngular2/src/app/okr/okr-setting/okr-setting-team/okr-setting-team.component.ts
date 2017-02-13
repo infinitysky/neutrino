@@ -39,7 +39,7 @@ export class OkrSettingTeamComponent implements OnInit {
   public pageTitle="OKRs Setting";
   public subPageTitle="Team Setting";
 
-  public team : Teamclass[];
+  public teams : Teamclass[];
 
   public TeamsData:any;
   public errorMessage:any;
@@ -67,7 +67,7 @@ export class OkrSettingTeamComponent implements OnInit {
   constructor(private _settingTeamService: SettingTeamService){
 
     console.log('constructor(): SampleDateRangePickerNormal');
-    this.team=[];
+    this.teams=[];
     this.editModeIO=0;
     this.editTeam=null;
 
@@ -101,7 +101,7 @@ export class OkrSettingTeamComponent implements OnInit {
           console.log(this.tempData);
           if(this.tempData.affectRows>0){
             swal("Deleted!", "Your time frame has been deleted.", "success");
-            this.team = this.team.filter(currentTeams => currentTeams !== Team);
+            this.teams = this.teams.filter(currentTeams => currentTeams !== Team);
 
           }else{
             swal("Error!", "Your time frame did not been deleted successfully.", "error");
@@ -125,9 +125,6 @@ export class OkrSettingTeamComponent implements OnInit {
     this.editTeam=Team;
     this.teamNameInputBoxValue=Team.team_name;
     this.teamDescriptionInputBoxValue=Team.team_description;
-
-  
-
 
     this.modal.open();
 
@@ -155,7 +152,7 @@ export class OkrSettingTeamComponent implements OnInit {
           console.log(this.tempData);
           if(this.tempData.affectRows>0){
             swal("Success!", "Your time frame has been updated.", "success");
-           
+
           }else{
             swal("Error!", "Your time frame did not been deleted successfully.", "error");
           }
@@ -174,13 +171,14 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
   getTeams() {
+    console.log("get All teams");
     this._settingTeamService.getAllTeams()
       .subscribe(
         data => this.TeamsData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          //console.log( "this.TeamsData + "+JSON.stringify(this.TeamsData));
-          this.team=this.TeamsData;
+          console.log( "this.TeamsData + "+JSON.stringify(this.TeamsData));
+          this.teams=this.TeamsData;
         }
       );
 
@@ -220,8 +218,11 @@ export class OkrSettingTeamComponent implements OnInit {
 
   //component functions
   ngOnInit() {
-    console.log('onInit(): SampleDateRangePickerNormal');
+
+
     this.getTeams();
+
+
   }
 
 

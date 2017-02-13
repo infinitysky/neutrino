@@ -66,7 +66,11 @@ class Users_model extends CI_Model
     // insert data
     function insert($data)
     {
+        $this->db->trans_start();
         $this->db->insert($this->table, $data);
+        $insert_id=$this->db->insert_id();
+        $this->db->trans_complete();
+        return  $insert_id;
     }
 
     // update data
@@ -81,6 +85,7 @@ class Users_model extends CI_Model
     {
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
+        return  $this->db->affected_rows();
     }
 
 }

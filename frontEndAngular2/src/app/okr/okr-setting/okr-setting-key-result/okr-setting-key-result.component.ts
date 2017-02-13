@@ -30,6 +30,7 @@ import {Keyresultclass} from '../../okr-shared/classes/key-restult-class';
 @Component({
   selector: 'app-okr-setting-key-result',
   templateUrl: './okr-setting-key-result.component.html',
+   providers: [SettingKeyResultService],
   styleUrls: ['./okr-setting-key-result.component.css']
 })
 export class OkrSettingKeyResultComponent implements OnInit {
@@ -40,7 +41,6 @@ export class OkrSettingKeyResultComponent implements OnInit {
   public pageTitle="OKRs Setting";
   public subPageTitle="KeyResult Setting";
 
-  public keyresults : Keyresultclass[];
 
   public KeyResultsData:any;
   public errorMessage:any;
@@ -61,7 +61,8 @@ export class OkrSettingKeyResultComponent implements OnInit {
 
    constructor(private _settingKeyResultService: SettingKeyResultService){
 
-    this.keyresults=[];
+
+    this.keyResults=[];
     this.editModeIO=0;
     this.editKeyResult=null;
     this.keyResultNameInputBoxValue='';
@@ -75,11 +76,11 @@ export class OkrSettingKeyResultComponent implements OnInit {
     this.isLoaded=!this.isLoaded;
   }
   refreshButton(){
-    this.getKeyResults();
+    this.getAllKeyResults();
   }
   addKeyResultButton(){
 
-    
+
     this.editModeIO=0;
     this.modal.open();
   }
@@ -92,7 +93,8 @@ export class OkrSettingKeyResultComponent implements OnInit {
         data =>{this.tempData=data},
         error => {this.errorMessage = <any>error},
         ()=>{
-          console.log(this.tempData);
+
+
           if(this.tempData.affectRows>0){
             swal("Deleted!", "Your key result has been deleted.", "success");
             this.keyResults = this.keyResults.filter(currentKeyResults => currentKeyResults !== KeyResult);
@@ -120,7 +122,7 @@ export class OkrSettingKeyResultComponent implements OnInit {
     this.keyResultNameInputBoxValue=KeyResult.KeyResult_name;
     this.keyResultDescriptionInputBoxValue=KeyResult.KeyResult_description;
 
-  
+
     this.modal.open();
 
   }
@@ -128,7 +130,8 @@ export class OkrSettingKeyResultComponent implements OnInit {
 
 //TODO: Fix the date format handling issue.
   updateKeyResult(editKeyResult,KeyResultNameInput:string) {
-    console.log(editKeyResult);
+
+
 
     if (!KeyResultNameInput  ) {
       //alert("Do not leave any empty!");
@@ -137,17 +140,18 @@ export class OkrSettingKeyResultComponent implements OnInit {
       return;
     }
 
-    console.log("editKeyResult: "+ JSON.stringify(editKeyResult));
+
+
     this._settingKeyResultService.update(editKeyResult)
       .subscribe(
         data  => {this.tempData = data},
         error =>  this.errorMessage = <any>error,
         ()=>{
-          console.log( "this.tempData + "+JSON.stringify(this.tempData));
-          console.log(this.tempData);
+
+
           if(this.tempData.affectRows>0){
             swal("Success!", "Your key result has been updated.", "success");
-           
+
           }else{
             swal("Error!", "Your key result did not been deleted successfully.", "error");
           }
@@ -165,13 +169,16 @@ export class OkrSettingKeyResultComponent implements OnInit {
 
 
 
-  getKeyResults() {
+  getAllKeyResults() {
+
     this._settingKeyResultService.getAll()
       .subscribe(
         data => this.KeyResultsData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          //console.log( "this.KeyResultsData + "+JSON.stringify(this.KeyResultsData));
+
+
+
           this.keyResults=this.KeyResultsData;
         }
       );
@@ -212,8 +219,8 @@ export class OkrSettingKeyResultComponent implements OnInit {
 
   //component functions
   ngOnInit() {
-    console.log('onInit(): SampleDateRangePickerNormal');
-    this.getKeyResults();
+
+    this.getAllKeyResults();
   }
 
 

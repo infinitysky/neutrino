@@ -7,6 +7,15 @@ class Objectives_key_results extends CI_Controller
 {
     function __construct()
     {
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        };
+
         parent::__construct();
         $this->load->model('Objectives_key_results_model');
         $this->load->library('form_validation');        
@@ -15,13 +24,82 @@ class Objectives_key_results extends CI_Controller
 
     public function index()
     {
-        $this->load->view('objectives_key_results/objectives_key_results_list');
-    } 
-    
-    public function json() {
-        header('Content-Type: application/json');
-        echo $this->Objectives_key_results_model->json();
+        $this->getall();
     }
+
+
+    public function json($resArray) {
+        header('Content-Type: application/json');
+        echo json_encode($resArray);
+    }
+
+
+
+    public function create_error_messageArray($message){
+        $tempMessageArray=array(
+            "statu"=>"error",
+            "errorMassage"=>$message
+        );
+        return $tempMessageArray;
+    }
+
+    public function dataValidate($Data){
+        if(empty($Data)){
+            echo json_encode( $this->create_error_messageArray("Message Empty"));
+            return 0;
+        }
+        else {
+
+
+            //  goal_description can be empty
+            if (empty($Data['goal_name'])) {
+                echo json_encode($this->create_error_messageArray("team_name Empty"));
+                return 0;
+            }elseif (empty($Data['goal_name'])){
+                echo json_encode($this->create_error_messageArray("goal_name Empty"));
+                return 0;
+            }
+            elseif (empty($Data['time_frame_id'])){
+                echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
+                return 0;
+            }
+            else {
+
+                $processArray = array(
+                    'goal_id' =>$Data['goal_id'],
+                    'goal_name' => $Data['goal_name'],
+                    'goal_description' => $Data['goal_description'],
+                    'time_frame_id'=>$Data['time_frame_id'],
+                );
+                return $processArray;
+            }
+        }
+    }
+
+    //Main entrance
+    public function items($id)
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        //GET, POST, OPTIONS, PUT, DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }elseif ($method == "GET"){
+
+            $this->read($id);
+        }elseif ($method == "PUT"){
+
+            $this->update($id,$Data);
+        }elseif ($method == "DELETE"){
+
+            $this->delete($id);
+        }
+
+    }
+
+
+
+
 
     public function read($id) 
     {

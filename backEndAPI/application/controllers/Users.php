@@ -14,7 +14,7 @@ class Users extends CI_Controller
         $method = $_SERVER['REQUEST_METHOD'];
         if($method == "OPTIONS") {
             die();
-        }
+        };
 
         parent::__construct();
         $this->load->model('Users_model');
@@ -24,10 +24,9 @@ class Users extends CI_Controller
 
     public function index()
     {
-
-
-
+        $this->getall();
     }
+
 
 
     public function getall()

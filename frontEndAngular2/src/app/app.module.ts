@@ -49,6 +49,8 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
     Ng2Bs3ModalModule,
 
 
+
+
     CalendarModule,
 
     ChartsModule,

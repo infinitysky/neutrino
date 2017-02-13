@@ -86,9 +86,12 @@ class Time_frames_model extends CI_Model
     // delete data
     function delete($id)
     {
+        $this->db->trans_start();
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
-        return  $this->db->affected_rows();
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return  $affectedRowsNumber;
     }
 
 }

@@ -20,7 +20,7 @@ class Login extends CI_Controller
     	$method = $_SERVER['REQUEST_METHOD'];
 	    if($method == "OPTIONS") {
 	        die();
-	    }
+	    };
         parent::__construct();
         $this->load->model('Login_model');
         $this->load->library('datatables');

@@ -16,9 +16,9 @@ import {Goalclass} from '../classes/goal-class'
 @Injectable()
 export class SettingGoalService {
 
-  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultGetAllUrl;
-  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultCreateUrl;
-  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultOperateUrl;
+  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalGetAllUrl;
+  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalCreateUrl;
+  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalOperateUrl;
 
 
   private headers = new Headers({'Content-Type': 'application/json'});
@@ -92,7 +92,7 @@ export class SettingGoalService {
   update(goal: Goalclass): Observable<Goalclass> {
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers: headers});
-    
+
     let httpBody = JSON.stringify(goal)
 
     const url = `${this.operateAPI}/${goal.goal_id}`;

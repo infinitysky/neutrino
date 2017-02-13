@@ -13,6 +13,7 @@ class Time_frames_objectives_model extends CI_Model
     function __construct()
     {
         parent::__construct();
+        $this->load->database();
     }
 
     // datatables
@@ -61,23 +62,35 @@ class Time_frames_objectives_model extends CI_Model
     // insert data
     function insert($data)
     {
+        $this->db->trans_start();
         $this->db->insert($this->table, $data);
+        $insert_id=$this->db->insert_id();
+        $this->db->trans_complete();
+        return  $insert_id;
     }
+
 
     // update data
     function update($id, $data)
     {
+        $this->db->trans_start();
         $this->db->where($this->id, $id);
         $this->db->update($this->table, $data);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return  $affectedRowsNumber;
     }
 
     // delete data
     function delete($id)
     {
+        $this->db->trans_start();
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return  $affectedRowsNumber;
     }
-
 }
 
 /* End of file Time_frames_objectives_model.php */

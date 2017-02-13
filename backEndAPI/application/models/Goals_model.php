@@ -43,7 +43,12 @@ class Goals_model extends CI_Model
     // get total rows
     function total_rows($q = NULL) {
         $this->db->like('goal_id', $q);
-	$this->db->or_like('goal_description', $q);
+	    $this->db->or_like('goal_description', $q);
+        $this->db->or_like('goal_name', $q);
+        $this->db->or_like('time_frame_id', $q);
+
+
+
 	$this->db->from($this->table);
         return $this->db->count_all_results();
     }
@@ -52,29 +57,44 @@ class Goals_model extends CI_Model
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
         $this->db->like('goal_id', $q);
-	$this->db->or_like('goal_description', $q);
-	$this->db->limit($limit, $start);
+	    $this->db->or_like('goal_description', $q);
+        $this->db->or_like('goal_name', $q);
+        $this->db->or_like('time_frame_id', $q);
+	    $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
 
     // insert data
     function insert($data)
     {
+        $this->db->trans_start();
         $this->db->insert($this->table, $data);
+        $insert_id=$this->db->insert_id();
+        $this->db->trans_complete();
+        return  $insert_id;
     }
+
 
     // update data
     function update($id, $data)
     {
+        $this->db->trans_start();
         $this->db->where($this->id, $id);
         $this->db->update($this->table, $data);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return  $affectedRowsNumber;
     }
 
     // delete data
     function delete($id)
     {
+        $this->db->trans_start();
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return  $affectedRowsNumber;
     }
 
 }

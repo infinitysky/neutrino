@@ -23,12 +23,18 @@ import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 declare var swal: any;
 
 
-import {SettingObjectiveService} from '../../okr-shared/services/okr-objective.service';
+
+import {  SettingObjectiveService } from '../../okr-shared/services/okr-objective.service';
+
+
 import {Objectiveclass} from '../../okr-shared/classes/objective-class';
+
 @Component({
   selector: 'app-okr-setting-objective',
   templateUrl: './okr-setting-objective.component.html',
-  providers: [ SettingObjectiveService ],
+
+
+  providers: [SettingObjectiveService],
   styleUrls: ['./okr-setting-objective.component.css']
 })
 export class OkrSettingObjectiveComponent implements OnInit {
@@ -71,7 +77,7 @@ export class OkrSettingObjectiveComponent implements OnInit {
 
   constructor(private _settingObjectiveService: SettingObjectiveService){
 
-    console.log('constructor(): SampleDateRangePickerNormal');
+
     this.Objectives=[];
     this.edit_startDate = new Date();
     this.edit_EndDate = new Date();
@@ -105,7 +111,8 @@ export class OkrSettingObjectiveComponent implements OnInit {
         data =>{this.tempData=data},
         error => {this.errorMessage = <any>error},
         ()=>{
-          console.log(this.tempData);
+
+
           if(this.tempData.affectRows>0){
             swal("Deleted!", "Your time frame has been deleted.", "success");
             this.Objectives = this.Objectives.filter(currentObjectives => currentObjectives !== Objective);
@@ -127,13 +134,13 @@ export class OkrSettingObjectiveComponent implements OnInit {
   }
 
 
-  editObjectivesButton(Objective){
+  editObjectiveButton(Objective){
     this.editModeIO=1;
     this.editObjective=Objective;
     this.ObjectiveNameInputBoxValue=Objective.Objective_name;
     this.ObjectiveDescriptionInputBoxValue=Objective.Objective_description;
 
-  
+
 
 
     this.modal.open();
@@ -143,7 +150,7 @@ export class OkrSettingObjectiveComponent implements OnInit {
 
 //TODO: Fix the date format handling issue.
   updateObjective(editObjective,ObjectiveNameInput:string) {
-    console.log(editObjective);
+
 
     if (!ObjectiveNameInput  ) {
       //alert("Do not leave any empty!");
@@ -152,17 +159,18 @@ export class OkrSettingObjectiveComponent implements OnInit {
       return;
     }
 
-    console.log("editObjective: "+ JSON.stringify(editObjective));
+
+
     this._settingObjectiveService.update(editObjective)
       .subscribe(
         data  => {this.tempData = data},
         error =>  this.errorMessage = <any>error,
         ()=>{
-          console.log( "this.tempData + "+JSON.stringify(this.tempData));
-          console.log(this.tempData);
+
+
           if(this.tempData.affectRows>0){
             swal("Success!", "Your time frame has been updated.", "success");
-           
+
           }else{
             swal("Error!", "Your time frame did not been deleted successfully.", "error");
           }
@@ -181,12 +189,15 @@ export class OkrSettingObjectiveComponent implements OnInit {
 
 
   getObjectives() {
+
+
     this._settingObjectiveService.getAll()
       .subscribe(
         data => this.ObjectivesData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          //console.log( "this.ObjectivesData + "+JSON.stringify(this.ObjectivesData));
+
+
           this.Objectives=this.ObjectivesData;
         }
       );
@@ -227,7 +238,7 @@ export class OkrSettingObjectiveComponent implements OnInit {
 
   //component functions
   ngOnInit() {
-    console.log('onInit(): SampleDateRangePickerNormal');
+
     this.getObjectives();
   }
 

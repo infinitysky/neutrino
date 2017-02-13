@@ -20,6 +20,10 @@ import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
+
+
+import {SelectModule} from 'ng2-select';
+
 //import swal from 'sweetalert2'
 declare var swal: any;
 
@@ -29,8 +33,15 @@ import { SettingGoalService } from '../../okr-shared/services/okr-goal.service';
 import {Goalclass} from '../../okr-shared/classes/goal-class';
 
 
+
+import { SettingTimeFrameService } from '../../okr-shared/services/okr-time-frame.service';
+import { Timeframeclass } from '../../okr-shared/classes/time-frame-class';
+
+
+
 @Component({
   selector: 'app-okr-setting-goal',
+  providers: [SettingGoalService,SettingTimeFrameService],
   templateUrl: './okr-setting-goal.component.html',
   styleUrls: ['./okr-setting-goal.component.css']
 })
@@ -40,13 +51,15 @@ public pageTitle="OKRs Setting";
   public subPageTitle="Goals Setting";
 
   public goals : Goalclass[];
+  public timeframes:Timeframeclass[];
+
 
   public goalsData:any;
   public errorMessage:any;
 
   public isLoaded:boolean=true;
   selectedGoal: Goalclass;
-
+  public selectedValue:any;
   public tempData:any;
 
   animation: boolean = true;
@@ -58,9 +71,13 @@ public pageTitle="OKRs Setting";
   goalNameInputBoxValue:string;
   goalDescriptionInputBoxValue:string;
 
-   constructor(private _settingGoalService: SettingGoalService){
+
+
+   constructor(private _settingGoalService: SettingGoalService,private _settingTimeFrameService:SettingTimeFrameService){
 
     this.goals=[];
+
+    this.timeframes=[];
     this.editModeIO=0;
     this.editGoal=null;
     this.goalNameInputBoxValue='';
@@ -68,7 +85,23 @@ public pageTitle="OKRs Setting";
 
 
 
+
     }
+
+
+
+  //forms
+  submitted = false;
+
+  onSubmit() {
+    this.submitted = true;
+  }
+  // Reset the form with a new hero AND restore 'pristine' class state
+  // by toggling 'active' flag which causes the form
+  // to be removed/re-added in a tick via NgIf
+  // TODO: Workaround until NgForm has a reset method (#6822)
+  active = true;
+
 
   editButton(){
     this.isLoaded=!this.isLoaded;
@@ -78,9 +111,15 @@ public pageTitle="OKRs Setting";
   }
   addGoalButton(){
 
-    
+
     this.editModeIO=0;
+
+    this.active = false;
+    setTimeout(() => this.active = true, 0);
+
+    this.getAllTimeFrames();
     this.modal.open();
+
   }
 
   deleteGoalButton(Goal) {
@@ -91,7 +130,7 @@ public pageTitle="OKRs Setting";
         data =>{this.tempData=data},
         error => {this.errorMessage = <any>error},
         ()=>{
-          console.log(this.tempData);
+
           if(this.tempData.affectRows>0){
             swal("Deleted!", "Your goal has been deleted.", "success");
             this.goals = this.goals.filter(currentGoals => currentGoals !== Goal);
@@ -119,15 +158,15 @@ public pageTitle="OKRs Setting";
     this.goalNameInputBoxValue=Goal.Goal_name;
     this.goalDescriptionInputBoxValue=Goal.Goal_description;
 
-  
+    this.getAllTimeFrames();
     this.modal.open();
 
   }
 
-
 //TODO: Fix the date format handling issue.
   updateGoal(editGoal,GoalNameInput:string) {
-    console.log(editGoal);
+
+
 
     if (!GoalNameInput  ) {
       //alert("Do not leave any empty!");
@@ -136,17 +175,18 @@ public pageTitle="OKRs Setting";
       return;
     }
 
-    console.log("editGoal: "+ JSON.stringify(editGoal));
+
+
     this._settingGoalService.update(editGoal)
       .subscribe(
         data  => {this.tempData = data},
         error =>  this.errorMessage = <any>error,
         ()=>{
-          console.log( "this.tempData + "+JSON.stringify(this.tempData));
-          console.log(this.tempData);
+
+
           if(this.tempData.affectRows>0){
             swal("Success!", "Your goal has been updated.", "success");
-           
+
           }else{
             swal("Error!", "Your goal did not been deleted successfully.", "error");
           }
@@ -170,15 +210,13 @@ public pageTitle="OKRs Setting";
         data => this.goalsData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          //console.log( "this.goalsData + "+JSON.stringify(this.goalsData));
+
+
           this.goals=this.goalsData;
         }
       );
 
   }
-
-
-
 
 
   createNewGoal (GoalNameInput:string) {
@@ -211,7 +249,8 @@ public pageTitle="OKRs Setting";
 
   //component functions
   ngOnInit() {
-    console.log('onInit(): SampleDateRangePickerNormal');
+
+
     this.getGoals();
   }
 
@@ -269,6 +308,24 @@ public pageTitle="OKRs Setting";
 
   }
 
+
+
+
+  getAllTimeFrames() {
+    this._settingTimeFrameService.getAllTimeFrames()
+      .subscribe(
+        data => this.tempData = data,
+        error =>  this.errorMessage = <any>error,
+        ()=>{
+          this.timeframes=this.tempData;
+         // this.timeFrameDropDownList=this.tempData;
+
+
+          //console.log( "this.timeFrameDropDownList + "+JSON.stringify(this.timeFrameDropDownList));
+        }
+      );
+
+  }
 
 
 

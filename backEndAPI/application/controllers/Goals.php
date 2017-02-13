@@ -7,123 +7,450 @@ class Goals extends CI_Controller
 {
     function __construct()
     {
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }
+
+
         parent::__construct();
         $this->load->model('Goals_model');
-        $this->load->library('form_validation');        
-	$this->load->library('datatables');
+        $this->load->library('form_validation');
+        $this->load->library('datatables');
     }
 
     public function index()
     {
-        $this->load->view('goals/goals_list');
-    } 
-    
-    public function json() {
-        header('Content-Type: application/json');
-        echo $this->Goals_model->json();
+        $this->getall();
     }
+
+
+    public function getall()
+    {
+        $tempData=$this->Goals_model->get_all();
+
+        echo $this->json($tempData);
+    }
+
+
+    public function json($resArray) {
+        header('Content-Type: application/json');
+        echo json_encode($resArray);
+    }
+
+
+
+    public function create_error_messageArray($message){
+        $tempMessageArray=array(
+            "statu"=>"error",
+            "errorMassage"=>$message
+        );
+        return $tempMessageArray;
+    }
+
+    public function dataValidate($Data){
+        if(empty($Data)){
+            echo json_encode( $this->create_error_messageArray("Message Empty"));
+            return 0;
+        }
+        else {
+
+
+            //  goal_description can be empty
+            if (empty($Data['goal_name'])) {
+                echo json_encode($this->create_error_messageArray("team_name Empty"));
+                return 0;
+            }elseif (empty($Data['goal_name'])){
+                echo json_encode($this->create_error_messageArray("goal_name Empty"));
+                return 0;
+            }
+            elseif (empty($Data['time_frame_id'])){
+                echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
+                return 0;
+            }
+            else {
+
+                $processArray = array(
+
+                    'goal_name' => $Data['goal_name'],
+                    'goal_description' => $Data['goal_description'],
+                    'time_frame_id'=>$Data['time_frame_id'],
+                );
+                return $processArray;
+            }
+        }
+    }
+
+    //Main entrance
+    public function items($id)
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        //GET, POST, OPTIONS, PUT, DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }elseif ($method == "GET"){
+
+            $this->read($id);
+        }elseif ($method == "PUT"){
+
+            $this->update($id,$Data);
+        }elseif ($method == "DELETE"){
+
+            $this->delete($id);
+        }
+
+    }
+
+
+
+
+
+
+
 
     public function read($id) 
     {
+
         $row = $this->Goals_model->get_by_id($id);
         if ($row) {
+
             $data = array(
-		'goal_id' => $row->goal_id,
-		'goal_description' => $row->goal_description,
-	    );
-            $this->load->view('goals/goals_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('goals'));
+                'goal_id' => $row->goal_id,
+                'goal_name' => $row->goal_name,
+                'goal_description' => $row->goal_description,
+                'time_frame_id'=>$row->time_frame_id,
+            );
+            $this->json($data);
         }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+        
+        
+        
     }
 
     public function create() 
     {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('goals/create_action'),
-	    'goal_id' => set_value('goal_id'),
-	    'goal_description' => set_value('goal_description'),
-	);
-        $this->load->view('goals/goals_form', $data);
-    }
-    
-    public function create_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-		'goal_description' => $this->input->post('goal_description',TRUE),
-	    );
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
 
-            $this->Goals_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('goals'));
+
+        $checkArray=$this->dataValidate($Data);
+        if($checkArray!=0){
+            $last_insert_id=$this->Goals_model->insert($checkArray);
+            $this->read($last_insert_id);
         }
+
+        
+
+
     }
-    
-    public function update($id) 
+
+
+      public function update($id,$updateData)
     {
         $row = $this->Goals_model->get_by_id($id);
 
         if ($row) {
-            $data = array(
-                'button' => 'Update',
-                'action' => site_url('goals/update_action'),
-		'goal_id' => set_value('goal_id', $row->goal_id),
-		'goal_description' => set_value('goal_description', $row->goal_description),
-	    );
-            $this->load->view('goals/goals_form', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('goals'));
+            $processArray=$this->dataValidate($updateData);
+
+//            if(empty($processArray['goal_id'])){
+//                $tempReturnArray=$this->create_error_messageArray('goal_id Empty');
+//                $this->json($tempReturnArray);
+//            }else{
+
+                $data = array(
+
+                    'goal_name' => $processArray['goal_name'],
+                    'goal_description' => $processArray['goal_description'],
+                    'time_frame_id'=>$processArray['time_frame_id'],
+
+                );
+                $affectedRowsNumber=$this->Goals_model->update($id, $data);
+                $tempReturnArray=array(
+                    "status"=>'success',
+                    "affectRows"=>$affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+
+            }
+
+
+
+
+
+        else {
+
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
         }
     }
-    
-    public function update_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('goal_id', TRUE));
-        } else {
-            $data = array(
-		'goal_description' => $this->input->post('goal_description',TRUE),
-	    );
 
-            $this->Goals_model->update($this->input->post('goal_id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('goals'));
-        }
-    }
-    
+
     public function delete($id) 
     {
         $row = $this->Goals_model->get_by_id($id);
 
         if ($row) {
-            $this->Goals_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('goals'));
+            $affectRow= $this->Goals_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
+
+        } else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+
+
+
+    }
+
+
+
+}
+
+
+/*
+class Teams extends CI_Controller
+{
+    function __construct()
+    {
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }
+
+
+        parent::__construct();
+        $this->load->model('Goals_model');
+        $this->load->library('form_validation');
+        $this->load->library('datatables');
+    }
+
+    public function index()
+    {
+        $$this->getall();
+    }
+
+    public function json($resArray) {
+        header('Content-Type: application/json');
+        echo json_encode($resArray);
+    }
+
+    public function read($id)
+    {
+
+
+        $row = $this->Goals_model->get_by_id($id);
+        if ($row) {
+            $startDate=new DateTime($row->time_frame_start);
+            $endDate=new DateTime($row->time_frame_end);
+
+            $data = array(
+                'team_id' => $row->team_id,
+                'team_description' => $row->team_description,
+                'team_name' => $row->team_name,
+                'parent_team_id' =>$row->parent_team_id,
+                'team_leader_id'=>$row->team_leader_id,
+            );
+            $this->json($data);
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+
+
+        $row = $this->Goals_model->get_by_id($id);
+        if ($row) {
+            $data = array(
+
+            );
+            $this->load->view('teams/teams_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('goals'));
+            redirect(site_url('teams'));
         }
     }
 
-    public function _rules() 
+    public function create()
     {
-	$this->form_validation->set_rules('goal_description', 'goal description', 'trim|required');
 
-	$this->form_validation->set_rules('goal_id', 'goal_id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+
+        $checkArray=$this->dataValidate($Data);
+        if($checkArray!=0){
+            $last_insert_id=$this->Goals_model->insert($checkArray);
+            $this->read($last_insert_id);
+        }
+
     }
 
-}
+
+
+    public function update($id,$updateData)
+    {
+
+
+        $row = $this->Goals_model->get_by_id($id);
+
+        if ($row) {
+            $processArray=$this->dataValidate($updateData);
+            $data = array(
+
+                'team_id' =>$processArray['team_id'],
+                'team_description' => $processArray['team_description'],
+                'team_name' => $processArray['team_name'],
+                'parent_team_id' =>$processArray['parent_team_id'],
+                'team_leader_id'=>$processArray['team_leader_id'],
+            );
+            $affectedRowsNumber=$this->Goals_model->update($id, $data);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectedRowsNumber
+            );
+            $this->json($tempReturnArray);
+
+        }
+        else {
+
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+    }
+
+
+
+    public function delete($id)
+    {
+
+        $row = $this->Goals_model->get_by_id($id);
+
+        if ($row) {
+            $affectRow=$this->Goals_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
+        }
+        else {
+            //$this->session->set_flashdata('message', 'Record Not Found');
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+
+        }
+
+
+    }
+
+
+
+    //Main entrance
+    public function items($id)
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        //GET, POST, OPTIONS, PUT, DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }elseif ($method == "GET"){
+
+            $this->read($id);
+        }elseif ($method == "PUT"){
+
+            $this->update($id,$Data);
+        }elseif ($method == "DELETE"){
+
+            $this->delete($id);
+        }
+
+    }
+
+
+
+    public function getall()
+    {
+        $tempData=$this->Goals_model->get_all();
+
+        //reformat date to (dd/mm/yyyy)
+        // $tempData=$this->reFormatDate($tempData);
+        echo $this->json($tempData);
+    }
+
+
+    //Warning Because  the DateRangePicker required a specified date format. So every date type must been reformatted before it been send to front.
+    public function reFormatDate($processArray){
+        $arrlength = count($processArray);
+        for ($i=0;$i<$arrlength;$i++){
+
+            $startDate=new DateTime($processArray[$i]->time_frame_start);
+            $endDate= new DateTime($processArray[$i]->time_frame_end);
+            $processArray[$i]->time_frame_start=$startDate->format('d-m-Y');
+            $processArray[$i]->time_frame_end=$endDate->format('d-m-Y');
+        }
+        return $processArray;
+    }
+
+
+    public function create_error_messageArray($message){
+        $tempMessageArray=array(
+            "statu"=>"error",
+            "errorMassage"=>$message
+        );
+        return $tempMessageArray;
+    }
+
+    public function dataValidate($Data){
+        if(empty($Data)){
+            echo json_encode( $this->create_error_messageArray("Message Empty"));
+            return 0;
+        }
+        else {
+
+            if (empty($Data['team_name'])) {
+                echo json_encode($this->create_error_messageArray("team_name Empty"));
+                return 0;
+            }
+            else {
+
+                $processArray = array(
+                    'team_id' =>$Data['team_id'],
+                    'team_description' => $Data['team_description'],
+                    'team_name' => $Data['team_name'],
+                    'parent_team_id' =>$Data['parent_team_id'],
+                    'team_leader_id'=>$Data['team_leader_id'],
+
+                );
+                return $processArray;
+            }
+        }
+    }
+
+
+
+}*/
+
 
 /* End of file Goals.php */
 /* Location: ./application/controllers/Goals.php */

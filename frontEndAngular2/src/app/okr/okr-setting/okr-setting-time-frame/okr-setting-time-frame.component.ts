@@ -27,7 +27,7 @@ import { SettingTimeFrameService} from '../../okr-shared/services/okr-time-frame
 
 import {Timeframeclass} from '../../okr-shared/classes/time-frame-class';
 
-
+import {OkrSettingNavigationComponent} from '../okr-setting-shared/okr-setting-navigation/okr-setting-navigation.component'
 
 
 

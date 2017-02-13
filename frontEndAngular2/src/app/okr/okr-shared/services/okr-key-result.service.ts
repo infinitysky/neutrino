@@ -68,7 +68,7 @@ export class SettingKeyResultService {
 
   get(keyResult: Keyresultclass): Observable<Keyresultclass> {
     const url = `${this.operateAPI}/${keyResult.result_id}`;
-    return this.http.get(this.getallAPI)
+    return this.http.get(url)
 
       .map(res => res.json())
 

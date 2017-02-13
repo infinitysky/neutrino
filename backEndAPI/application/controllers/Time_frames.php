@@ -19,7 +19,7 @@ class Time_frames extends CI_Controller
 		$method = $_SERVER['REQUEST_METHOD'];
 		if($method == "OPTIONS") {
 			die();
-		}
+		};
 		
 		parent::__construct();
 		
@@ -48,12 +48,11 @@ class Time_frames extends CI_Controller
         }
 
     }
-
-	public function index()
+    public function index()
     {
         $this->getall();
+    }
 
-	}
 	
 	
 	public function getall()
@@ -220,6 +219,28 @@ class Time_frames extends CI_Controller
 			}
 		}
 	}
+
+
+
+    public function dateRangeTest(){
+        //print_r( $this->dateRange( '2010/07/26', '2010/08/05', '+1 week') );
+        print_r( $this->dateRange( '2010/07/26', '2019/08/05', '+3 month') );
+    }
+
+    function dateRange( $first, $last, $step = '+3 month', $format = 'Y/m/d' ) {
+
+        $dates = array();
+        $current = strtotime( $first );
+        $last = strtotime( $last );
+
+        while( $current <= $last ) {
+
+            $dates[] = date( $format, $current );
+            $current = strtotime( $step, $current );
+        }
+
+        return $dates;
+    }
 
 }
 

@@ -4,5 +4,7 @@ export class Keyresultclass {
      result_description : string;
 
 
+      result_name:string;
+
 
 }

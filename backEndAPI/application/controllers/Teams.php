@@ -14,7 +14,7 @@ class Teams extends CI_Controller
         $method = $_SERVER['REQUEST_METHOD'];
         if($method == "OPTIONS") {
             die();
-        }
+        };
 
         
         parent::__construct();
@@ -25,9 +25,9 @@ class Teams extends CI_Controller
 
     public function index()
     {
-        $$this->getall();
-    } 
-    
+        $this->getall();
+    }
+
     public function json($resArray) {
         header('Content-Type: application/json');
         echo json_encode($resArray);
@@ -39,10 +39,7 @@ class Teams extends CI_Controller
 
         $row = $this->Teams_model->get_by_id($id);
         if ($row) {
-            $startDate=new DateTime($row->time_frame_start);
-            $endDate=new DateTime($row->time_frame_end);
-
-            $data = array(
+             $data = array(
                 'team_id' => $row->team_id,
                 'team_description' => $row->team_description,
                 'team_name' => $row->team_name,
@@ -58,24 +55,11 @@ class Teams extends CI_Controller
 
 
 
-        $row = $this->Teams_model->get_by_id($id);
-        if ($row) {
-            $data = array(
-
-	    );
-            $this->load->view('teams/teams_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('teams'));
-        }
     }
 
     public function create() 
     {
-
-
         $Data = json_decode(trim(file_get_contents('php://input')), true);
-
 
         $checkArray=$this->dataValidate($Data);
         if($checkArray!=0){
@@ -95,15 +79,17 @@ class Teams extends CI_Controller
 
         if ($row) {
             $processArray=$this->dataValidate($updateData);
+
             $data = array(
 
-                'team_id' =>$processArray['team_id'],
+
                 'team_description' => $processArray['team_description'],
                 'team_name' => $processArray['team_name'],
                 'parent_team_id' =>$processArray['parent_team_id'],
                 'team_leader_id'=>$processArray['team_leader_id'],
             );
             $affectedRowsNumber=$this->Teams_model->update($id, $data);
+
             $tempReturnArray=array(
                 "status"=>'success',
                 "affectRows"=>$affectedRowsNumber
@@ -172,10 +158,7 @@ class Teams extends CI_Controller
     public function getall()
     {
         $tempData=$this->Teams_model->get_all();
-
-        //reformat date to (dd/mm/yyyy)
-       // $tempData=$this->reFormatDate($tempData);
-        echo $this->json($tempData);
+          echo $this->json($tempData);
     }
 
 
@@ -211,11 +194,21 @@ class Teams extends CI_Controller
             if (empty($Data['team_name'])) {
                 echo json_encode($this->create_error_messageArray("team_name Empty"));
                 return 0;
+            }elseif (empty($Data['team_leader_id'])){
+                echo json_encode($this->create_error_messageArray("team_leader_id Empty"));
+                return 0;
             }
+
             else {
+                if (empty($Data['parent_team_id'])){
+                    $Data['parent_team_id']=0;
+                }
+                if (empty($Data['team_description'])){
+                    $Data['team_description']='';
+                }
 
                 $processArray = array(
-                    'team_id' =>$Data['team_id'],
+
                     'team_description' => $Data['team_description'],
                     'team_name' => $Data['team_name'],
                     'parent_team_id' =>$Data['parent_team_id'],

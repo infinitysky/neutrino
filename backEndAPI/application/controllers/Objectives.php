@@ -7,6 +7,15 @@ class Objectives extends CI_Controller
 {
     function __construct()
     {
+        header('Content-type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        };
+
         parent::__construct();
         $this->load->model('Objectives_model');
         $this->load->library('form_validation');        
@@ -15,113 +24,186 @@ class Objectives extends CI_Controller
 
     public function index()
     {
-        $this->load->view('objectives/objectives_list');
-    } 
-    
-    public function json() {
-        header('Content-Type: application/json');
-        echo $this->Objectives_model->json();
+        $this->getall();
     }
+
+
+    public function json($resArray) {
+        header('Content-Type: application/json');
+        echo json_encode($resArray);
+    }
+
+
+
+    public function create_error_messageArray($message){
+        $tempMessageArray=array(
+            "statu"=>"error",
+            "errorMassage"=>$message
+        );
+        return $tempMessageArray;
+    }
+
+    public function dataValidate($Data){
+        if(empty($Data)){
+            echo json_encode( $this->create_error_messageArray("Message Empty"));
+            return 0;
+        }
+        else {
+
+
+            //  goal_description can be empty
+            if (empty($Data['objective_name'])) {
+                echo json_encode($this->create_error_messageArray("team_name Empty"));
+                return 0;
+            }
+
+            else {
+
+                $processArray = array(
+
+                    'objective_name' => $Data['objective_name'],
+                    'objective_description' => $Data['objective_description'],
+
+                );
+                return $processArray;
+            }
+        }
+    }
+
+    //Main entrance
+    public function items($id)
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        //GET, POST, OPTIONS, PUT, DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }elseif ($method == "GET"){
+
+            $this->read($id);
+        }elseif ($method == "PUT"){
+
+            $this->update($id,$Data);
+        }elseif ($method == "DELETE"){
+
+            $this->delete($id);
+        }
+
+    }
+
+
+
+    public function getall()
+    {
+        $tempData=$this->Objectives_model->get_all();
+
+        //reformat date to (dd/mm/yyyy)
+        // $tempData=$this->reFormatDate($tempData);
+        echo $this->json($tempData);
+    }
+
 
     public function read($id) 
     {
+
         $row = $this->Objectives_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'objective_id' => $row->objective_id,
-		'objective_description' => $row->objective_description,
-	    );
-            $this->load->view('objectives/objectives_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('objectives'));
+                'objective_id' => $row->objective_id,
+                'objective_name' => $row->objective_name,
+                'objective_description' =>$row->objective_description,
+
+            );
+            $this->json($data);
         }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+
+
+
     }
 
     public function create() 
     {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('objectives/create_action'),
-	    'objective_id' => set_value('objective_id'),
-	    'objective_description' => set_value('objective_description'),
-	);
-        $this->load->view('objectives/objectives_form', $data);
-    }
-    
-    public function create_action() 
-    {
-        $this->_rules();
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-		'objective_description' => $this->input->post('objective_description',TRUE),
-	    );
-
-            $this->Objectives_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('objectives'));
+        $checkArray=$this->dataValidate($Data);
+        if($checkArray!=0){
+            $last_insert_id=$this->Objectives_model->insert($checkArray);
+            $this->read($last_insert_id);
         }
     }
-    
-    public function update($id) 
+
+
+    public function update($id,$updateData)
     {
         $row = $this->Objectives_model->get_by_id($id);
 
+
         if ($row) {
+            $processArray=$this->dataValidate($updateData);
+
             $data = array(
-                'button' => 'Update',
-                'action' => site_url('objectives/update_action'),
-		'objective_id' => set_value('objective_id', $row->objective_id),
-		'objective_description' => set_value('objective_description', $row->objective_description),
-	    );
-            $this->load->view('objectives/objectives_form', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('objectives'));
+
+
+                'objective_name' => $processArray['objective_name'],
+                'objective_description' => $processArray['objective_description'],
+
+            );
+            $affectedRowsNumber=$this->Objectives_model->update($id, $data);
+
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectedRowsNumber
+            );
+            $this->json($tempReturnArray);
+
         }
+        else {
+
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+
+
+
+
     }
     
-    public function update_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('objective_id', TRUE));
-        } else {
-            $data = array(
-		'objective_description' => $this->input->post('objective_description',TRUE),
-	    );
-
-            $this->Objectives_model->update($this->input->post('objective_id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('objectives'));
-        }
-    }
     
     public function delete($id) 
     {
+
+
+
         $row = $this->Objectives_model->get_by_id($id);
 
         if ($row) {
-            $this->Objectives_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('objectives'));
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('objectives'));
+            $affectRow=$this->Objectives_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
         }
+        else {
+            //$this->session->set_flashdata('message', 'Record Not Found');
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+
+        }
+
+
+
     }
 
-    public function _rules() 
-    {
-	$this->form_validation->set_rules('objective_description', 'objective description', 'trim|required');
 
-	$this->form_validation->set_rules('objective_id', 'objective_id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-    }
+
 
 }
 
