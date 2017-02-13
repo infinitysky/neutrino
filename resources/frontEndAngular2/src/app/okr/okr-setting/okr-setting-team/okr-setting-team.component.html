@@ -1,0 +1,224 @@
+
+
+
+
+
+<div class="normalheader ">
+
+  <div class="hpanel">
+
+
+    <div class="panel-body">
+
+      <a class="small-header-action" >
+        <div class="clip-header">
+          <i class="fa fa-arrow-up"></i>
+        </div>
+      </a>
+
+      <!--<div id="hbreadcrumb" class="pull-right m-t-lg">-->
+      <!--<ol class="hbreadcrumb breadcrumb">-->
+      <!--<li><a href="index.html">Dashboard</a></li>-->
+      <!--<li>-->
+      <!--<span>App views</span>-->
+      <!--</li>-->
+      <!--<li class="active">-->
+      <!--<span>Mailbox</span>-->
+      <!--</li>-->
+      <!--</ol>-->
+      <!--</div>-->
+
+      <h2 class="font-light m-b-xs">
+        {{pageTitle}}
+      </h2>
+
+      <small>{{subPageTitle}}</small>
+
+    </div>
+
+  </div>
+</div>
+<div class="content animate-panel ">
+
+
+  <div class="row">
+
+    <!--Start Left navagation-->
+    <div class="col-md-3">
+      <div class="hpanel">
+        <div class="panel-body">
+
+          <ul class="mailbox-list">
+            <li >
+              <a routerLink="/okr/okr-setting">
+                <i class="fa fa-id-card-o"></i> Company information
+              </a>
+            </li>
+            <li>
+              <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-paper-plane"></i> Time Frame</a>
+            </li>
+          </ul>
+          <hr>
+
+          <ul class="mailbox-list">
+            <li>
+              <a routerLink="/okr/okr-setting/setting-team"><i class="fa fa-tag text-success"></i> Team </a>
+            </li>
+
+            <li>
+              <a routerLink="/okr/okr-setting/setting-goal"><i class="fa fa-flag text-primary"></i> Goal </a>
+            </li>
+            <li>
+              <a routerLink="/okr/okr-setting/setting-objective"><i class="fa fa-flag text-primary"></i> Objective </a>
+            </li>
+            <li>
+              <a routerLink="/okr/okr-setting/setting-key-result"><i class="fa fa-flag text-primary"></i> key Result </a>
+            </li>
+          </ul>
+
+          <hr>
+
+          <ul class="mailbox-list">
+
+            <li>
+              <a href="#"><i class="fa fa-info-circle"></i> Support</a>
+            </li>
+          </ul>
+
+
+        </div>
+
+      </div>
+    </div>
+    <!--End Left navagation-->
+
+
+    <!--Start right context-->
+    <div class="col-md-9">
+      <div class="hpanel">
+
+
+        <div class="panel-body">
+          <!--Left Button Group-->
+          <div class="row">
+            <div class="col-md-6 m-b-md">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm"><i class="fa fa-refresh" (click)="refreshButton()"></i> Refresh</button>
+
+
+              </div>
+            </div>
+
+            <!--Right Button Group-->
+            <div class="col-md-6 mailbox-pagination m-b-md">
+              <div class="btn-group">
+
+                <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
+
+                <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <button type="button" class="btn btn-default btn-sm"  (click)="addTeamButton()"><i class="fa fa-plus"></i>
+                  Add New
+                </button>
+
+
+                <!--<app-time-frame-setting-modal></app-time-frame-setting-modal>-->
+
+
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="table-responsive">
+            <!--Start Table List-->
+            <table class="table table-hover table-mailbox">
+              <tbody>
+
+              <tr class="active">
+                <td >ID</td>
+                <td >Name</td>
+                <td>Starting Date</td>
+                <td>Ending Date</td>
+                <td [hidden]=isLoaded>Edit</td>
+              </tr>
+
+              <tr *ngFor="let tm of teams">
+                <td >{{ tm.team_id}}</td>
+                <td> {{ tm.team_name }} </td>
+                <td> {{ tm.team_description }} </td>
+                <td> {{ tm.team_leader_id }}</td>
+                <td [hidden]=isLoaded>
+                  <!--Delete the record-->
+                  <button class="btn btn-default btn-sm" (click)="deleteTeamButton(tm);" ><i class="fa fa-trash-o"></i> </button>
+                  <!--Edit the record-->
+                  <button class="btn btn-default btn-sm" (click)="editTeamsButton(tm)"><i class="fa fa-pencil-square-o"></i> </button>
+                </td>
+              </tr>
+
+
+              </tbody>
+            </table>
+
+            <!--End Table List-->
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <i class="fa fa-eye"> </i> 6 unread
+        </div>
+
+      </div>
+    </div>
+    <!--End right context-->
+
+  </div>
+</div>
+
+
+
+
+
+<!--Add New Record modal module-->
+
+<modal [animation]="animation" [keyboard]="keyboard"   #modal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Create New Time Frame</h4>
+  </modal-header>
+  <modal-body>
+    <div class="stage">
+      <fieldset >
+        <label >Team Name</label>
+        <div class="palos-input block" >
+
+          <input type="text" placeholder="Please enter your team name" autocomplete="off" class="form-control" value="{{teamNameInputBoxValue}}" #teamNameInput> <!---->
+
+        </div>
+      </fieldset>
+
+      <br>
+
+      <fieldset >
+        <label >Team </label>
+        <div class="palos-input block" >
+
+          <textarea type="text" placeholder="Please enter your team description" autocomplete="off" class="form-control" value="{{teamDescriptionInputBoxValue}}" #teamDescriptionInput> <!----></textarea>
+
+        </div>
+      </fieldset>
+
+
+
+    </div>
+  </modal-body>
+  <modal-footer>
+
+
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(teamNameInput.value);" > Save changes</button>
+  </modal-footer>
+</modal>
+
+<ng2-toasty [position]="'top-center'"></ng2-toasty>
+
