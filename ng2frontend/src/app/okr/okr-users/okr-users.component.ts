@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./okr-users.component.css']
 })
 export class OkrUsersComponent implements OnInit {
-
+  pageTitle = 'User Info'
   constructor() { }
 
   ngOnInit() {

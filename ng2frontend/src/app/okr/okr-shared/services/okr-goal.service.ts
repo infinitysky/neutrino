@@ -68,13 +68,21 @@ export class SettingGoalService {
 
   get(goal: Goalclass): Observable<Goalclass> {
     const url = `${this.operateAPI}/${goal.goal_id}`;
-    return this.http.get(this.getallAPI)
+    return this.http.get(url)
 
       .map(res => res.json())
 
       .catch(this.handleErrorObservable);
 
   }
+  getById(goal_id: number): Observable<Goalclass> {
+    const url = `${this.operateAPI}/${goal_id}`;
+    return this.http.get(url)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable);
+
+  }
+
 
 
   delete(goal: Goalclass): Observable<Goalclass> {

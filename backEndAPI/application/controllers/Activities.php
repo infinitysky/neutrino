@@ -35,6 +35,14 @@ class Activities extends CI_Controller
         echo json_encode($resArray);
     }
 
+    public function getall()
+    {
+        $tempData=$this->Activities_model->get_all();
+
+        echo $this->json($tempData);
+    }
+
+
 
 
     public function create_error_messageArray($message){
@@ -54,24 +62,26 @@ class Activities extends CI_Controller
 
 
             //  goal_description can be empty
-            if (empty($Data['goal_name'])) {
-                echo json_encode($this->create_error_messageArray("team_name Empty"));
+            if (empty($Data['activity_detail'])) {
+                echo json_encode($this->create_error_messageArray("activity_detail Empty"));
                 return 0;
-            }elseif (empty($Data['goal_name'])){
-                echo json_encode($this->create_error_messageArray("goal_name Empty"));
+            }elseif (empty($Data['activity_type'])){
+                echo json_encode($this->create_error_messageArray("activity_type Empty"));
                 return 0;
             }
-            elseif (empty($Data['time_frame_id'])){
-                echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
+            elseif (empty($Data['user_id'])){
+                echo json_encode($this->create_error_messageArray("user_id Empty"));
                 return 0;
             }
             else {
+                $date = new DateTime();
+
 
                 $processArray = array(
-                    'goal_id' =>$Data['goal_id'],
-                    'goal_name' => $Data['goal_name'],
-                    'goal_description' => $Data['goal_description'],
-                    'time_frame_id'=>$Data['time_frame_id'],
+                    'activity_detail' => $Data['activity_detail'],
+                    'activity_type' => $Data['activity_type'],
+                    'activity_timestamp' => $date->format('U = Y-m-d H:i:s'),
+                    'user_id' =>$Data['goal_id'],
                 );
                 return $processArray;
             }
@@ -106,102 +116,106 @@ class Activities extends CI_Controller
     public function read($id) 
     {
         $row = $this->Activities_model->get_by_id($id);
+
         if ($row) {
             $data = array(
-		'activity_id' => $row->activity_id,
-		'activity_detail' => $row->activity_detail,
-	    );
-            $this->load->view('activities/activities_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('activities'));
+                
+                'activity_id' => $row->activity_id,
+                'activity_detail' => $row->activity_detail,
+                'activity_type' => $row->activity_type,
+                'activity_timestamp' => $row->activity_timestamp,
+                'user_id' =>$row->user_id,
+
+            );
+            $this->json($data);
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+        
+    }
+
+
+    public function create()
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+        $checkArray=$this->dataValidate($Data);
+        if($checkArray!=0){
+            $last_insert_id=$this->Activities_model->insert($checkArray);
+            $this->read($last_insert_id);
         }
     }
 
-    public function create() 
-    {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('activities/create_action'),
-	    'activity_id' => set_value('activity_id'),
-	    'activity_detail' => set_value('activity_detail'),
-	);
-        $this->load->view('activities/activities_form', $data);
-    }
-    
-    public function create_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-		'activity_detail' => $this->input->post('activity_detail',TRUE),
-	    );
-
-            $this->Activities_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('activities'));
-        }
-    }
-    
-    public function update($id) 
+    public function update($id,$updateData)
     {
         $row = $this->Activities_model->get_by_id($id);
 
+
         if ($row) {
+            $processArray=$this->dataValidate($updateData);
+            $date =new DateTime();
             $data = array(
-                'button' => 'Update',
-                'action' => site_url('activities/update_action'),
-		'activity_id' => set_value('activity_id', $row->activity_id),
-		'activity_detail' => set_value('activity_detail', $row->activity_detail),
-	    );
-            $this->load->view('activities/activities_form', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('activities'));
-        }
-    }
-    
-    public function update_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('activity_id', TRUE));
-        } else {
-            $data = array(
-		'activity_detail' => $this->input->post('activity_detail',TRUE),
-	    );
+                'activity_detail' => $processArray['activity_detail'],
+                'activity_type' => $processArray['activity_type'],
+                'activity_timestamp' => $date->format('U = Y-m-d H:i:s'),
+                'user_id' =>$processArray['user_id'],
 
-            $this->Activities_model->update($this->input->post('activity_id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('activities'));
+
+
+            );
+            $affectedRowsNumber=$this->Activities_model->update($id, $data);
+
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectedRowsNumber
+            );
+            $this->json($tempReturnArray);
+
         }
+        else {
+
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+
+
+
+
     }
-    
-    public function delete($id) 
+
+
+
+    public function delete($id)
     {
+
+
+
         $row = $this->Activities_model->get_by_id($id);
 
         if ($row) {
-            $this->Activities_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('activities'));
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('activities'));
+            $affectRow=$this->Activities_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
         }
+        else {
+            //$this->session->set_flashdata('message', 'Record Not Found');
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+
+        }
+
+
+
     }
 
-    public function _rules() 
-    {
-	$this->form_validation->set_rules('activity_detail', 'activity detail', 'trim|required');
-
-	$this->form_validation->set_rules('activity_id', 'activity_id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-    }
 
 }
 

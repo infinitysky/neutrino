@@ -6,6 +6,8 @@ import {OkrSettingTeamComponent} from './okr-setting-team.component';
 const routes: Routes = [
   {path:'',component:OkrSettingTeamComponent}
 ];
+
+
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

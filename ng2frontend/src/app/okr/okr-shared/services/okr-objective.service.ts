@@ -74,7 +74,20 @@ export class SettingObjectiveService {
     let options = new RequestOptions({ headers: headers });
 
     const url = `${this.operateAPI}/${objective.objective_id}`;
-     return this.http.get(this.getallAPI)
+    return this.http.get(url)
+    // .map(res => <DatabasesClass[]> res.json().data)
+      .map(res => res.json())
+      // .do(data => console.log(data)) // eyeball results in the console
+      .catch(this.handleErrorObservable);
+
+  }
+  getById(objectiveId: number): Observable<Objectiveclass>{
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.operateAPI}/${objectiveId}`;
+    return this.http.get(this.getallAPI)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
       // .do(data => console.log(data)) // eyeball results in the console

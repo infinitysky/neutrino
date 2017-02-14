@@ -152,15 +152,16 @@ class Users extends CI_Controller
         }
     }
 
-    public function _rules() 
-    {
-	$this->form_validation->set_rules('email', 'email', 'trim|required');
-	$this->form_validation->set_rules('username', 'username', 'trim|required');
-	$this->form_validation->set_rules('password', 'password', 'trim|required');
-	$this->form_validation->set_rules('account_status', 'account status', 'trim|required');
+    public function count_users(){
+        $membersNumber=$this->Users_model->total_rows();
+        $processArray=array(
+            'membersNumber'=>$membersNumber
+        );
 
-	$this->form_validation->set_rules('user_id', 'user_id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+        $this->json($processArray);
+
+
+
     }
 
 }

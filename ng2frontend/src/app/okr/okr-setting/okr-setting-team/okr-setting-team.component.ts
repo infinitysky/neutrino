@@ -64,7 +64,7 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
 
-  constructor(private _settingTeamService: SettingTeamService){
+  constructor(private _settingTeamService: SettingTeamService, private _router:Router){
 
     console.log('constructor(): SampleDateRangePickerNormal');
     this.teams=[];
@@ -79,7 +79,8 @@ export class OkrSettingTeamComponent implements OnInit {
     this.isLoaded=!this.isLoaded;
   }
   refreshButton(){
-    this.getTeams();
+    this._router.navigate(['/okr/okr-setting/setting-team']);
+
   }
   addTeamButton(){
 
@@ -172,7 +173,7 @@ export class OkrSettingTeamComponent implements OnInit {
 
   getTeams() {
     console.log("get All teams");
-    this._settingTeamService.getAllTeams()
+    this._settingTeamService.getAll()
       .subscribe(
         data => this.TeamsData = data,
         error =>  this.errorMessage = <any>error,

@@ -58,7 +58,7 @@ export class SettingTeamService {
 
 
 
-  getAllTeams(): Observable<Teamclass[]> {
+  getAll(): Observable<Teamclass[]> {
     return this.http.get(this.getallAPI)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
@@ -66,7 +66,7 @@ export class SettingTeamService {
       .catch(this.handleErrorObservable);
   }
 
-   getTheTeam(team: Teamclass): Observable<Teamclass> {
+   get(team: Teamclass): Observable<Teamclass> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
@@ -77,6 +77,16 @@ export class SettingTeamService {
       .catch(this.handleErrorObservable);
   }
 
+  getById(teamId: number): Observable<Teamclass> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.operateAPI}/${teamId}`;
+
+    return this.http.get(url, options)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable);
+  }
 
 
   delete(team: Teamclass): Observable<Teamclass> {

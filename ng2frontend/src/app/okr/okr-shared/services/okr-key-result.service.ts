@@ -75,6 +75,15 @@ export class SettingKeyResultService {
       .catch(this.handleErrorObservable);
 
   }
+  getById(keyResultId: number): Observable<Keyresultclass> {
+    const url = `${this.operateAPI}/${keyResultId}`;
+    return this.http.get(url)
+
+      .map(res => res.json())
+
+      .catch(this.handleErrorObservable);
+
+  }
 
 
   delete(keyResult: Keyresultclass): Observable<Keyresultclass> {

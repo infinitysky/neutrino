@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50549
 File Encoding         : 65001
 
-Date: 2017-02-13 12:37:14
+Date: 2017-02-14 18:08:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,6 +22,9 @@ DROP TABLE IF EXISTS `activities`;
 CREATE TABLE `activities` (
   `activity_id` int(11) NOT NULL,
   `activity_detail` text COLLATE utf8mb4_bin,
+  `activity_type` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `activity_timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -45,22 +48,24 @@ CREATE TABLE `activities_users` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for company_details
+-- Table structure for company_infos
 -- ----------------------------
-DROP TABLE IF EXISTS `company_details`;
-CREATE TABLE `company_details` (
-  `company_info_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `company_infos`;
+CREATE TABLE `company_infos` (
+  `company_info_id` int(11) NOT NULL AUTO_INCREMENT,
   `company_name` text COLLATE utf8mb4_bin,
   `company_mission` text COLLATE utf8mb4_bin,
   `company_vision` text COLLATE utf8mb4_bin,
   `company_address` text COLLATE utf8mb4_bin,
   `company_phone` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `company_email` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`company_info_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
--- Records of company_details
+-- Records of company_infos
 -- ----------------------------
+INSERT INTO `company_infos` VALUES ('1', 0x526F636B20495420436C6F7564, 0x4566666F72746C65737320746563686E6F6C6F6779207468617420697320536F6C69642C2053696D706C652026205365637572650D0A4566666F72746C65737320746563686E6F6C6F6779207468617420697320536F6C69642C2053696D706C652026205365637572650D0A, 0x776572776572, 0x2036362D3638205361636B76696C6C652053747265657420436F6C6C696E67776F6F64205649432033303636204175737472616C6961, '+613 9415 6320', 'info@rockitcloud.com.au');
 
 -- ----------------------------
 -- Table structure for goals
@@ -72,29 +77,15 @@ CREATE TABLE `goals` (
   `goal_description` text COLLATE utf8mb4_bin,
   `time_frame_id` int(11) NOT NULL,
   PRIMARY KEY (`goal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of goals
 -- ----------------------------
-INSERT INTO `goals` VALUES ('1', 0x4D79676F6C652031, 0x676F6C6520313233, '22');
-
--- ----------------------------
--- Table structure for goals_copy
--- ----------------------------
-DROP TABLE IF EXISTS `goals_copy`;
-CREATE TABLE `goals_copy` (
-  `goal_id` int(11) NOT NULL AUTO_INCREMENT,
-  `goal_name` text COLLATE utf8mb4_bin,
-  `goal_description` text COLLATE utf8mb4_bin,
-  `time_frame_id` int(11) NOT NULL,
-  PRIMARY KEY (`goal_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
--- ----------------------------
--- Records of goals_copy
--- ----------------------------
-INSERT INTO `goals_copy` VALUES ('1', 0x4D79676F6C652031, 0x676F6C6520313233, '22');
+INSERT INTO `goals` VALUES ('1', 0x354D79676F6C36363534652035353535, 0x676F6C65203434323635343133313233, '22');
+INSERT INTO `goals` VALUES ('2', 0x4D79676F6C652031, 0x676F6C6520313233, '22');
+INSERT INTO `goals` VALUES ('3', 0x4D79676F6C652032323331, 0x676F6C65203434323133313233, '22');
+INSERT INTO `goals` VALUES ('6', 0x323265776532354D79676F6C36363534652032323331, 0x676F6C65203434323635343133313233, '22');
 
 -- ----------------------------
 -- Table structure for goals_objectives
@@ -120,11 +111,15 @@ CREATE TABLE `key_results` (
   `result_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `result_description` text COLLATE utf8mb4_bin,
   PRIMARY KEY (`result_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of key_results
 -- ----------------------------
+INSERT INTO `key_results` VALUES ('1', '34324', 0x33343233343233);
+INSERT INTO `key_results` VALUES ('2', '22222222', 0x33343233343233);
+INSERT INTO `key_results` VALUES ('3', '334334343324', 0x33343233343233);
+INSERT INTO `key_results` VALUES ('4', '434334343324', 0x33343233343233);
 
 -- ----------------------------
 -- Table structure for objectives
@@ -135,11 +130,12 @@ CREATE TABLE `objectives` (
   `objective_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_description` text COLLATE utf8mb4_bin,
   PRIMARY KEY (`objective_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of objectives
 -- ----------------------------
+INSERT INTO `objectives` VALUES ('3', '3233', 0x3235353533);
 
 -- ----------------------------
 -- Table structure for objectives_key_results
@@ -181,11 +177,17 @@ CREATE TABLE `teams` (
   `parent_team_id` int(11) unsigned zerofill NOT NULL DEFAULT '00000000000',
   `team_leader_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`team_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of teams
 -- ----------------------------
+INSERT INTO `teams` VALUES ('1', 0x31313233, '41d5', '00000000000', '4');
+INSERT INTO `teams` VALUES ('3', 0x666464686668656B66, '234234223', '00000000000', '2');
+INSERT INTO `teams` VALUES ('4', 0x333234647732666464686668656B66, '234234223', '00000000000', '2');
+INSERT INTO `teams` VALUES ('5', 0x353531313034, '234234223', '00000000002', '2');
+INSERT INTO `teams` VALUES ('6', 0x366635653166, '234234223', '00000000000', '2');
+INSERT INTO `teams` VALUES ('7', 0x37373737, '234234223', '00000000000', '2');
 
 -- ----------------------------
 -- Table structure for teams_users

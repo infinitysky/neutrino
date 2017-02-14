@@ -16,7 +16,7 @@ export class SettingTimeFrameService {
 
   private getAllTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameGetAllUrl;
   private createTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameCreateUrl;
-  private OperationAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameOperateUrl;
+  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameOperateUrl;
 
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -79,6 +79,28 @@ export class SettingTimeFrameService {
       // .do(data => console.log(data)) // eyeball results in the console
       .catch(this.handleErrorObservable);
   }
+  get(timeFrame: Timeframeclass): Observable<Timeframeclass> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.operateAPI}/${timeFrame.time_freame_id}`;
+
+    return this.http.get(url, options)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable);
+  }
+
+  getById(timeFrame_id: number): Observable<Timeframeclass> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.operateAPI}/${timeFrame_id}`;
+
+    return this.http.get(url, options)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable);
+  }
+
 
 
 
@@ -97,7 +119,7 @@ export class SettingTimeFrameService {
     let options = new RequestOptions({ headers: headers });
 
 
-    const url = `${this.OperationAPI}/${timeFrame.time_freame_id}`;
+    const url = `${this.operateAPI}/${timeFrame.time_freame_id}`;
 
     return this.http.delete(url, options)
       .map(res => res.json())
@@ -109,7 +131,7 @@ export class SettingTimeFrameService {
     let options = new RequestOptions({ headers: headers });
     let httpBody = JSON.stringify(timeFrame)
 
-    const url = `${this.OperationAPI}/${timeFrame.time_freame_id}`;
+    const url = `${this.operateAPI}/${timeFrame.time_freame_id}`;
     return this.http
       .put(url,httpBody , options)
       .map(res => res.json())

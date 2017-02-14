@@ -20,6 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
+        
         "../library/vendor/fontawesome/css/font-awesome.css",
         "../library/vendor/metisMenu/dist/metisMenu.css",
         "../library/vendor/animate.css/animate.css",
@@ -29,6 +30,7 @@
         "../library/vendor/sweetalert2/dist/sweetalert2.css",
         "../library/vendor/toastr/build/toastr.min.css" ,
         "../library/styles/style.css"
+        
 
 
       ],
@@ -37,10 +39,10 @@
 
        "../library/vendor/jquery/dist/jquery.min.js",
        "../library/vendor/slimScroll/jquery.slimscroll.min.js",
-       
-       "../library/vendor/metisMenu/dist/metisMenu.min.js",
-       "../library/vendor/jquery-ui/jquery-ui.min.js",
+        "../library/vendor/jquery-ui/jquery-ui.min.js",
 
+       "../library/vendor/metisMenu/dist/metisMenu.min.js",
+      
 
        "../library/vendor/sweetalert2/dist/sweetalert2.js",
        "../library/vendor/toastr/build/toastr.min.js",
