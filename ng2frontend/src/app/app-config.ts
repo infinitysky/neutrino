@@ -52,6 +52,13 @@ export interface ApplicationConfig {
   userOperateUrl:string;
 
 
+  //User-detail Urls:
+  userDetailGetAllUrl:string;
+  userDetailCreateUrl:string;
+  userDetailOperateUrl:string;
+  userDetailFullInfo:string;
+
+
 }
 
 // Configuration values for our app
@@ -111,6 +118,12 @@ export const MY_CONFIG: ApplicationConfig = {
   userGetAllUrl:'/neutrino/backEndAPI/index.php/Users',
   userCreateUrl:'/neutrino/backEndAPI/index.php/Users/create',
   userOperateUrl:'/neutrino/backEndAPI/index.php/Users/items',
+
+  //User-detail Urls:
+  userDetailGetAllUrl:'/neutrino/backEndAPI/index.php/Users_details',
+  userDetailFullInfo:'/neutrino/backEndAPI/index.php/Users_details/items_full_info',
+  userDetailCreateUrl:'/neutrino/backEndAPI/index.php/Users_details/create',
+  userDetailOperateUrl:'/neutrino/backEndAPI/index.php/Users_details/items',
 
 
 

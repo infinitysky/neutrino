@@ -87,6 +87,20 @@ class Users_model extends CI_Model
         $this->db->delete($this->table);
         return  $this->db->affected_rows();
     }
+    function getUserDetails($authData){
+        $tableName=$this->table;
+        $this->db->select('*');
+        $this->db->from($tableName);
+        $this->db->join('users_details',$tableName.'.user_id=users_details.user_id');
+        $this->db->where('email',$authData['email']);
+        $this->db->where('password',$authData['password']);
+        $result = $this->db->get()->result_array();;
+        //$sql = $this->db->last_query();
+        //echo $sql;
+        return $result;
+
+
+    }
 
 }
 

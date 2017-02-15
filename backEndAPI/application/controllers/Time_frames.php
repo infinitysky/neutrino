@@ -98,7 +98,7 @@ class Time_frames extends CI_Controller
             $endDate=new DateTime($row->time_frame_end);
 
 			$data = array(
-					'time_freame_id' => $row->time_freame_id,
+					'time_frame_id' => $row->time_frame_id,
 					'time_frame_description' => $row->time_frame_description,
 					'time_frame_start' => $startDate->format('d/m/y'),
 					'time_frame_end' => $endDate->format('d/m/y')
@@ -132,17 +132,19 @@ class Time_frames extends CI_Controller
 		
 		if ($row) {
             $processArray=$this->dataValidate($updateData);
-            $data = array(
-                'time_frame_description' =>$processArray['time_frame_description'],
-                'time_frame_start' => $processArray['time_frame_start'],
-                'time_frame_end' => $processArray['time_frame_end'],
-            );
-            $affectedRowsNumber=$this->Time_frames_model->update($id, $data);
-            $tempReturnArray=array(
-                "status"=>'success',
-                "affectRows"=>$affectedRowsNumber
-            );
-            $this->json($tempReturnArray);
+            if($processArray!=0) {
+                $data = array(
+                    'time_frame_description' => $processArray['time_frame_description'],
+                    'time_frame_start' => $processArray['time_frame_start'],
+                    'time_frame_end' => $processArray['time_frame_end'],
+                );
+                $affectedRowsNumber = $this->Time_frames_model->update($id, $data);
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+            }
 
         }
 		else {
@@ -240,6 +242,13 @@ class Time_frames extends CI_Controller
         }
 
         return $dates;
+    }
+    function findRangeFromToday(){
+
+        $temp=$this->Time_frames_model->getRangeTime();
+        $this->json($temp);
+
+
     }
 
 }

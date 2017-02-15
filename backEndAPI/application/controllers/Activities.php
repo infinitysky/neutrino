@@ -156,25 +156,25 @@ class Activities extends CI_Controller
 
         if ($row) {
             $processArray=$this->dataValidate($updateData);
-            $date =new DateTime();
-            $data = array(
+            if($processArray!=0) {
+                $date = new DateTime();
+                $data = array(
 
-                'activity_detail' => $processArray['activity_detail'],
-                'activity_type' => $processArray['activity_type'],
-                'activity_timestamp' => $date->format('U = Y-m-d H:i:s'),
-                'user_id' =>$processArray['user_id'],
+                    'activity_detail' => $processArray['activity_detail'],
+                    'activity_type' => $processArray['activity_type'],
+                    'activity_timestamp' => $date->format('U = Y-m-d H:i:s'),
+                    'user_id' => $processArray['user_id'],
 
 
+                );
+                $affectedRowsNumber = $this->Activities_model->update($id, $data);
 
-            );
-            $affectedRowsNumber=$this->Activities_model->update($id, $data);
-
-            $tempReturnArray=array(
-                "status"=>'success',
-                "affectRows"=>$affectedRowsNumber
-            );
-            $this->json($tempReturnArray);
-
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+            }
         }
         else {
 

@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {OkrUsersComponent} from './okr-users.component'
+import {OkrUsersComponent} from './okr-users.component';
+
+
+
 const routes: Routes = [
-  {path:'',component:OkrUsersComponent}
+  {path:'overview', loadChildren:'./okr-users-overview/okr-users-overview.module#OkrUsersOverviewModule'},
+  {path:'user/:timeframeid/:userid',component:OkrUsersComponent },
+
   ];
 
 @NgModule({

@@ -28,13 +28,19 @@ class Users_details extends CI_Controller
 
         parent::__construct();
         $this->load->model('Users_details_model');
-        $this->load->library('form_validation');        
-	    $this->load->library('datatables');
+        $this->load->library('form_validation');
+        $this->load->library('datatables');
     }
 
     public function index()
     {
         $this->getall();
+    }
+
+    public function getall()
+    {
+        $tempData=$this->Users_details_model->get_all();
+        echo $this->json($tempData);
     }
 
 
@@ -59,31 +65,23 @@ class Users_details extends CI_Controller
             return 0;
         }
         else {
-
-
-            //  goal_description can be empty
-            if (empty($Data['goal_name'])) {
-                echo json_encode($this->create_error_messageArray("team_name Empty"));
-                return 0;
-            }elseif (empty($Data['goal_name'])){
-                echo json_encode($this->create_error_messageArray("goal_name Empty"));
-                return 0;
-            }
-            elseif (empty($Data['time_frame_id'])){
-                echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
-                return 0;
-            }
-            else {
-
+            if(empty($Data['user_id'])){
+                echo json_encode( $this->create_error_messageArray("user_id Empty"));
+            return 0;
+            }else{
                 $processArray = array(
-                    'goal_id' =>$Data['goal_id'],
-                    'goal_name' => $Data['goal_name'],
-                    'goal_description' => $Data['goal_description'],
-                    'time_frame_id'=>$Data['time_frame_id'],
+                    'first_name' => $Data['first_name'],
+                    'last_name' => $Data['last_name'],
+                    'dob'=>$Data['dob'],
+                    'mobile_number' => $Data['mobile_number'],
+                    'user_id' => $Data['user_id'],
+                    'position' => $Data['position'],
                 );
                 return $processArray;
             }
+
         }
+
     }
 
     //Main entrance
@@ -107,133 +105,184 @@ class Users_details extends CI_Controller
 
     }
 
-
-
-
-
-    public function read($id) 
+    //Main entrance
+    public function items_full_info($id)
     {
-        $row = $this->Users_details_model->get_by_id($id);
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        //GET, POST, OPTIONS, PUT, DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }elseif ($method == "GET"){
+
+            $this->read_full_info($id);
+        }elseif ($method == "PUT"){
+
+            $this->update($id,$Data);
+        }elseif ($method == "DELETE"){
+
+            $this->delete($id);
+        }
+
+    }
+
+
+
+
+
+    public function read($id)
+    {
+        $row = $this->Users_details_model->get_by_user_id($id);
         if ($row) {
             $data = array(
-		'user_details_id' => $row->user_details_id,
-		'first_name' => $row->first_name,
-		'last_name' => $row->last_name,
-		'dob' => $row->dob,
-		'mobile_number' => $row->mobile_number,
-		'user_id' => $row->user_id,
-	    );
-            $this->load->view('users_details/users_details_read', $data);
+                'user_details_id' => $row->user_details_id,
+                'first_name' => $row->first_name,
+                'last_name' => $row->last_name,
+                'dob' => $row->dob,
+                'mobile_number' => $row->mobile_number,
+                'user_id' => $row->user_id,
+                'position' => $row->position,
+
+
+
+        );
+            $this->json($data);
         } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('users_details'));
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
         }
     }
 
-    public function create() 
+    public function read_full_info($id)
     {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('users_details/create_action'),
-	    'user_details_id' => set_value('user_details_id'),
-	    'first_name' => set_value('first_name'),
-	    'last_name' => set_value('last_name'),
-	    'dob' => set_value('dob'),
-	    'mobile_number' => set_value('mobile_number'),
-	    'user_id' => set_value('user_id'),
-	);
-        $this->load->view('users_details/users_details_form', $data);
-    }
-    
-    public function create_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
+        $row = $this->Users_details_model->getUserDetails_by_id($id);
+        if ($row) {
+
             $data = array(
-		'first_name' => $this->input->post('first_name',TRUE),
-		'last_name' => $this->input->post('last_name',TRUE),
-		'dob' => $this->input->post('dob',TRUE),
-		'mobile_number' => $this->input->post('mobile_number',TRUE),
-		'user_id' => $this->input->post('user_id',TRUE),
-	    );
+                'user_details_id' => $row->user_details_id,
+                'first_name' => $row->first_name,
+                'last_name' => $row->last_name,
+                'dob' => $row->dob,
+                'mobile_number' => $row->mobile_number,
+                'user_id' => $row->user_id,
+                'position' => $row->position,
+                'email'=>$row->email,
+                'username'=>$row->username,
 
-            $this->Users_details_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('users_details'));
+
+
+            );
+            $this->json($data);
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+    }
+
+
+
+
+
+    public function create()
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+
+        $checkArray=$this->dataValidate($Data);
+        if($checkArray!=0){
+            $last_insert_id=$this->Users_details_model->insert($checkArray);
+            $this->read($last_insert_id);
         }
     }
-    
-    public function update($id) 
+
+
+    public function update($id,$updateData)
     {
-        $row = $this->Users_details_model->get_by_id($id);
+             $row = $this->Users_details_model->get_by_id($id);
 
         if ($row) {
-            $data = array(
-                'button' => 'Update',
-                'action' => site_url('users_details/update_action'),
-		'user_details_id' => set_value('user_details_id', $row->user_details_id),
-		'first_name' => set_value('first_name', $row->first_name),
-		'last_name' => set_value('last_name', $row->last_name),
-		'dob' => set_value('dob', $row->dob),
-		'mobile_number' => set_value('mobile_number', $row->mobile_number),
-		'user_id' => set_value('user_id', $row->user_id),
-	    );
-            $this->load->view('users_details/users_details_form', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('users_details'));
-        }
-    }
-    
-    public function update_action() 
-    {
-        $this->_rules();
+            $processArray = $this->dataValidate($updateData);
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('user_details_id', TRUE));
-        } else {
-            $data = array(
-		'first_name' => $this->input->post('first_name',TRUE),
-		'last_name' => $this->input->post('last_name',TRUE),
-		'dob' => $this->input->post('dob',TRUE),
-		'mobile_number' => $this->input->post('mobile_number',TRUE),
-		'user_id' => $this->input->post('user_id',TRUE),
-	    );
+                if($processArray!=0){
+                    $data = array(
 
-            $this->Users_details_model->update($this->input->post('user_details_id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('users_details'));
+                        'first_name' => $processArray['first_name'],
+                        'last_name' => $processArray['last_name'],
+                        'mobile_number' => $processArray['mobile_number'],
+                        'position' => $processArray['position'],
+                    );
+                    $affectedRowsNumber = $this->Users_details_model->update($id, $data);
+
+                    $tempReturnArray = array(
+                        "status" => 'success',
+                        "affectRows" => $affectedRowsNumber
+                    );
+                    $this->json($tempReturnArray);
+                }
+
         }
+        else {
+
+                $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+                $this->json($tempReturnArray);
+            }
+
+
+
     }
-    
-    public function delete($id) 
+
+
+    public function delete($id)
     {
-        $row = $this->Users_details_model->get_by_id($id);
+
+        $row = $this->Users_details_model->getUserDetails_by_id($id);
 
         if ($row) {
-            $this->Users_details_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('users_details'));
+            $affectRow= $this->Users_details_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
+
         } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('users_details'));
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
         }
+
+
     }
 
-    public function _rules() 
-    {
-	$this->form_validation->set_rules('first_name', 'first name', 'trim|required');
-	$this->form_validation->set_rules('last_name', 'last name', 'trim|required');
-	$this->form_validation->set_rules('dob', 'dob', 'trim|required');
-	$this->form_validation->set_rules('mobile_number', 'mobile number', 'trim|required');
-	$this->form_validation->set_rules('user_id', 'user id', 'trim|required');
 
-	$this->form_validation->set_rules('user_details_id', 'user_details_id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+
+    public function success_info($userInfo){
+        $tempMessageArray=array(
+            "user_id"=>$userInfo[0]['user_id'],
+            "email"=>$userInfo[0]['email'],
+            "username"=>$userInfo[0]['username'],
+            "account_status"=>$userInfo[0]['account_status'],
+            "first_name"=> $userInfo[0]['first_name'],
+            "last_name"=> $userInfo[0]['last_name'],
+            "dob"=> $userInfo[0]['dob'],
+            "mobile_number"=> $userInfo[0]['mobile_number'],
+            "user_details_id"=>$userInfo[0]['user_details_id'],
+        );
+        $inforArray=array(
+            "status"=>'OK',
+            "data" =>$tempMessageArray,
+        );
+
+
+        return $inforArray;
+
     }
+    
+    
+    
+    
 
 }
 

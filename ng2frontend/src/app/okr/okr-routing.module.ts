@@ -19,7 +19,9 @@ const routes: Routes = [
   { path:'okr-setting', loadChildren:'./okr-setting/okr-setting.module#OkrSettingModule' },
   { path:'okr-overview', loadChildren:'./okr-overview/okr-overview.module#OkrOverviewModule' },
   { path:'okr-dashboard', loadChildren:'./okr-dashboard/okr-dashboard.module#OkrDashboardModule' },
+
   { path:'okr-users', loadChildren:'./okr-users/okr-users.module#OkrUsersModule' },
+
   { path:'okr-teams', loadChildren:'./okr-teams/okr-teams.module#OkrTeamsModule' },
   { path:'okr-goals', loadChildren:'./okr-goals/okr-goals.module#OkrGoalsModule' },
   { path:'okr-objectives', loadChildren:'./okr-objectives/okr-objectives.module#OkrObjectivesModule' },

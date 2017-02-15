@@ -19,8 +19,8 @@
           <div class="col-md-7">
             <div class="row">
               <div class="col-md-12">
-                <h1>Name </h1>
-                <h4>Posistion </h4></div>
+                <h1>{{randerUserInforData.first_name}} {{randerUserInforData.last_name}}</h1>
+                <h4>Position: {{randerUserInforData.position}} </h4></div>
             </div>
 
             <div class="row">
@@ -31,7 +31,7 @@
 
               <div class="col-sm-9">
                 <div class="multi-line">
-                  <span><i class="fa fa-envelope"></i> <a href="mailto:cliff@rockitcloud.com.au">cliff@rockitcloud.com.au</a> </span>
+                  <span><i class="fa fa-envelope"></i> <a href="mailto:{{randerUserInforData.email}}">{{randerUserInforData.email}}</a> </span>
                 </div>
               </div>
 
@@ -42,7 +42,7 @@
 
               <div class="col-sm-9">
                 <div class="multi-line">
-                  <span><i class="fa fa-envelope"></i> <a>04333 333 444</a> </span>
+                  <span><i class="fa fa-envelope"></i> <a>{{randerUserInforData.mobile_number}}</a> </span>
                 </div>
               </div>
 
@@ -106,7 +106,9 @@
 
             </div>
 
-            <div class="row">Time Frame select</div>
+            <!--<div class="row">-->
+            <!--Time Frame select-->
+            <!--</div>-->
 
           </div>
 
@@ -145,15 +147,14 @@
 
         <div class="tab-content">
 
-          <div id="tab-1" class="tab-pane">
+          <div id="tab-1" class="tab-pane active">
             <div class="panel-body">
-              <strong>Lorem ipsum dolor sit amet, consectetuer adipiscing</strong>
 
-              <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of
-                existence in this spot, which was created for the bliss of souls like mine.</p>
+            <button class="btn btn-circle"> + </button>
 
-              <p>I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at
-                the present moment; and yet I feel that I never was a greater artist than now. When.</p>
+
+
+
             </div>
 
           </div>

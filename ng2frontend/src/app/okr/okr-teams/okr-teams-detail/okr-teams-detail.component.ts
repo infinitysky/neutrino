@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router, ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'app-okr-teams-detail',
   templateUrl: './okr-teams-detail.component.html',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OkrTeamsDetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _activatedRoute:ActivatedRoute) {
+    console.log()
+  }
 
   ngOnInit() {
+    console.log(this._activatedRoute.snapshot.params['id']);
   }
 
 }

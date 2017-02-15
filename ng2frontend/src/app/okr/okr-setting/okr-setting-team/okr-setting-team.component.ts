@@ -143,7 +143,7 @@ export class OkrSettingTeamComponent implements OnInit {
       return;
     }
 
-    console.log("editTeam: "+ JSON.stringify(editTeam));
+
     this._settingTeamService.update(editTeam)
       .subscribe(
         data  => {this.tempData = data},

@@ -7,7 +7,9 @@ class Users_details_model extends CI_Model
 {
 
     public $table = 'users_details';
+    public $login_table = 'users';
     public $id = 'user_details_id';
+    public $user_id = 'user_id';
     public $order = 'DESC';
 
     function __construct()
@@ -39,16 +41,40 @@ class Users_details_model extends CI_Model
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-    
+
+    function getUserDetails_by_id($id)
+    {
+        $tableName = $this->table;
+        $this->db->select('*');
+        $this->db->from('users_details');
+        $this->db->join('users', 'users.user_id=users_details.user_id');
+        $this->db->where('users_details.'.$this->id, $id);
+        $result = $this->db->get()->row();;
+        //$sql = $this->db->last_query();
+        //echo $sql;
+        return $result;
+    }
+
+
+
+
+
+    function get_by_user_id($id)
+    {
+        $this->db->where($this->user_id, $id);
+        return $this->db->get($this->table)->row();
+    }
+
     // get total rows
     function total_rows($q = NULL) {
         $this->db->like('user_details_id', $q);
-	$this->db->or_like('first_name', $q);
-	$this->db->or_like('last_name', $q);
-	$this->db->or_like('dob', $q);
-	$this->db->or_like('mobile_number', $q);
-	$this->db->or_like('user_id', $q);
-	$this->db->from($this->table);
+        $this->db->or_like('first_name', $q);
+        $this->db->or_like('last_name', $q);
+        $this->db->or_like('dob', $q);
+        $this->db->or_like('mobile_number', $q);
+        $this->db->or_like('user_id', $q);
+        $this->db->or_like('position', $q);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
@@ -56,12 +82,13 @@ class Users_details_model extends CI_Model
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
         $this->db->like('user_details_id', $q);
-	$this->db->or_like('first_name', $q);
-	$this->db->or_like('last_name', $q);
-	$this->db->or_like('dob', $q);
-	$this->db->or_like('mobile_number', $q);
-	$this->db->or_like('user_id', $q);
-	$this->db->limit($limit, $start);
+        $this->db->or_like('first_name', $q);
+        $this->db->or_like('last_name', $q);
+        $this->db->or_like('dob', $q);
+        $this->db->or_like('mobile_number', $q);
+        $this->db->or_like('user_id', $q);
+        $this->db->or_like('position', $q);
+        $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
 
@@ -97,6 +124,7 @@ class Users_details_model extends CI_Model
         $this->db->trans_complete();
         return  $affectedRowsNumber;
     }
+
 
 }
 

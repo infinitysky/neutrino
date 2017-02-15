@@ -67,7 +67,7 @@ export class UsersInfoService {
   }
   getTotalNumber(){
     const url = `${this.getallAPI}/count_users`;
-    console.log(url);
+
     return this.http.get(url)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())

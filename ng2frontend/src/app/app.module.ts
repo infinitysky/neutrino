@@ -23,6 +23,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderpageComponent } from './headerpage/headerpage.component';
 import { FooterpageComponent } from './footerpage/footerpage.component';
 
+import {UserInfoContainerService}from'./okr/okr-shared/services/user-info-container.service';
 
 //enableProdMode();
 
@@ -65,7 +66,8 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
     OkrModule,
 
   ],
-  providers: [],
+  //sign the UserInfoContainerService as a global data store service.
+  providers: [UserInfoContainerService],
 
   bootstrap: [AppComponent]
 })

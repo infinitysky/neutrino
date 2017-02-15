@@ -7,7 +7,7 @@ class Time_frames_model extends CI_Model
 {
 
     public $table = 'time_frames';
-    public $id = 'time_freame_id';
+    public $id = 'time_frame_id';
     public $order = 'DESC';
 
     function __construct()
@@ -18,7 +18,7 @@ class Time_frames_model extends CI_Model
 
     // datatables
     function json() {
-        $this->datatables->select('time_freame_id,time_frame_description,time_frame_start,time_frame_end');
+        $this->datatables->select('time_frame_id,time_frame_description,time_frame_start,time_frame_end');
         $this->datatables->from('time_frames');
         //add this line for join
         //$this->datatables->join('table2', 'time_frames.field = table2.field');
@@ -42,7 +42,7 @@ class Time_frames_model extends CI_Model
     
     // get total rows
     function total_rows($q = NULL) {
-        $this->db->like('time_freame_id', $q);
+        $this->db->like('time_frame_id', $q);
         $this->db->or_like('time_frame_description', $q);
         $this->db->or_like('time_frame_start', $q);
         $this->db->or_like('time_frame_end', $q);
@@ -53,7 +53,7 @@ class Time_frames_model extends CI_Model
     // get data with limit and search
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
-        $this->db->like('time_freame_id', $q);
+        $this->db->like('time_frame_id', $q);
         $this->db->or_like('time_frame_description', $q);
         $this->db->or_like('time_frame_start', $q);
         $this->db->or_like('time_frame_end', $q);
@@ -93,6 +93,19 @@ class Time_frames_model extends CI_Model
         $this->db->trans_complete();
         return  $affectedRowsNumber;
     }
+    function getRangeTime(){
+        $this->db->trans_start();
+        $sql = "select * 
+            from time_frames 
+            where  DATE(NOW()) between time_frames.time_frame_start and time_frames.time_frame_end 
+            order by time_frame_id DESC";
+        $query = $this->db->query($sql)->result();
+        $this->db->trans_complete();
+        //return $this->db->get()->result();
+        return $query;
+
+    }
+
 
 }
 

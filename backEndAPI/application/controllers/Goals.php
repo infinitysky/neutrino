@@ -159,30 +159,25 @@ class Goals extends CI_Controller
         $row = $this->Goals_model->get_by_id($id);
 
         if ($row) {
-            $processArray=$this->dataValidate($updateData);
-
-//            if(empty($processArray['goal_id'])){
-//                $tempReturnArray=$this->create_error_messageArray('goal_id Empty');
-//                $this->json($tempReturnArray);
-//            }else{
-
+            $processArray = $this->dataValidate($updateData);
+            if ($processArray != 0) {
                 $data = array(
 
                     'goal_name' => $processArray['goal_name'],
                     'goal_description' => $processArray['goal_description'],
-                    'time_frame_id'=>$processArray['time_frame_id'],
+                    'time_frame_id' => $processArray['time_frame_id'],
 
                 );
-                $affectedRowsNumber=$this->Goals_model->update($id, $data);
-                $tempReturnArray=array(
-                    "status"=>'success',
-                    "affectRows"=>$affectedRowsNumber
+                $affectedRowsNumber = $this->Goals_model->update($id, $data);
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
                 );
                 $this->json($tempReturnArray);
 
             }
 
-
+        }
 
 
 

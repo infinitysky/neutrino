@@ -115,11 +115,17 @@ class Login extends CI_Controller
             "last_name"=> $userInfo[0]['last_name'],
             "dob"=> $userInfo[0]['dob'],
             "mobile_number"=> $userInfo[0]['mobile_number'],
-
-            "statu"=>"success"
+            "user_details_id"=>$userInfo[0]['user_details_id'],
 
         );
-        return $tempMessageArray;
+
+        $inforArray=array(
+            "status"=>'OK',
+            "data" =>$tempMessageArray,
+        );
+
+
+        return $inforArray;
 
     }
 

@@ -79,22 +79,23 @@ class Teams extends CI_Controller
 
         if ($row) {
             $processArray=$this->dataValidate($updateData);
+            if($processArray!=0) {
+                $data = array(
 
-            $data = array(
 
+                    'team_description' => $processArray['team_description'],
+                    'team_name' => $processArray['team_name'],
+                    'parent_team_id' => $processArray['parent_team_id'],
+                    'team_leader_id' => $processArray['team_leader_id'],
+                );
+                $affectedRowsNumber = $this->Teams_model->update($id, $data);
 
-                'team_description' => $processArray['team_description'],
-                'team_name' => $processArray['team_name'],
-                'parent_team_id' =>$processArray['parent_team_id'],
-                'team_leader_id'=>$processArray['team_leader_id'],
-            );
-            $affectedRowsNumber=$this->Teams_model->update($id, $data);
-
-            $tempReturnArray=array(
-                "status"=>'success',
-                "affectRows"=>$affectedRowsNumber
-            );
-            $this->json($tempReturnArray);
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+            }
 
         }
         else {

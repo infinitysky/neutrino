@@ -145,22 +145,22 @@ class Objectives extends CI_Controller
 
         if ($row) {
             $processArray=$this->dataValidate($updateData);
+            if($processArray!=0) {
+                $data = array(
 
-            $data = array(
 
+                    'objective_name' => $processArray['objective_name'],
+                    'objective_description' => $processArray['objective_description'],
 
-                'objective_name' => $processArray['objective_name'],
-                'objective_description' => $processArray['objective_description'],
+                );
+                $affectedRowsNumber = $this->Objectives_model->update($id, $data);
 
-            );
-            $affectedRowsNumber=$this->Objectives_model->update($id, $data);
-
-            $tempReturnArray=array(
-                "status"=>'success',
-                "affectRows"=>$affectedRowsNumber
-            );
-            $this->json($tempReturnArray);
-
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+            }
         }
         else {
 

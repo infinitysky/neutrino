@@ -146,20 +146,21 @@ class Key_results extends CI_Controller
       
         if ($row) {
             $processArray=$this->dataValidate($updateData);
-            $data = array(
+            if($processArray!=0) {
+                $data = array(
 
 
-                'result_name' =>$processArray['result_name'],
-                'result_description' => $processArray['result_description'],
+                    'result_name' => $processArray['result_name'],
+                    'result_description' => $processArray['result_description'],
 
-            );
-            $affectedRowsNumber=$this->Key_results_model->update($id, $data);
-            $tempReturnArray=array(
-                "status"=>'success',
-                "affectRows"=>$affectedRowsNumber
-            );
-            $this->json($tempReturnArray);
-
+                );
+                $affectedRowsNumber = $this->Key_results_model->update($id, $data);
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+            }
         }
         else {
 

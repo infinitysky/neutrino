@@ -163,8 +163,8 @@ class Company_info extends CI_Controller
         $row = $this->Company_info_model->get_by_id($id);
 
         if ($row) {
-            $processArray=$this->dataValidate($updateData);
-
+            $processArray = $this->dataValidate($updateData);
+            if ($processArray != 0) {
 //            if(empty($processArray['goal_id'])){
 //                $tempReturnArray=$this->create_error_messageArray('goal_id Empty');
 //                $this->json($tempReturnArray);
@@ -174,24 +174,23 @@ class Company_info extends CI_Controller
 
                     'company_name' => $processArray['company_name'],
                     'company_mission' => $processArray['company_mission'],
-                    'company_vision'=>$processArray['company_vision'],
-                    'company_address'=>$processArray['company_address'],
-                    'company_phone'=>$processArray['company_phone'],
-                    'company_email'=>$processArray['company_email'],
-
+                    'company_vision' => $processArray['company_vision'],
+                    'company_address' => $processArray['company_address'],
+                    'company_phone' => $processArray['company_phone'],
+                    'company_email' => $processArray['company_email'],
 
 
                 );
-                $affectedRowsNumber=$this->Company_info_model->update($id, $data);
-                $tempReturnArray=array(
-                    "status"=>'success',
-                    "affectRows"=>$affectedRowsNumber
+                $affectedRowsNumber = $this->Company_info_model->update($id, $data);
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
                 );
                 $this->json($tempReturnArray);
 
             }
 
-
+        }
 
 
 

@@ -26,7 +26,7 @@ const routes: Routes = [
     { path: 'aboutus', component: AboutComponent  },
     { path: 'okr',loadChildren:'./okr/okr.module#OkrModule'},
     { path: '404',loadChildren: './not-found/not-found.module#NotFoundModule'},
-    { path: '**', redirectTo: '404', pathMatch: 'full'},
+    // { path: '**', redirectTo: '404', pathMatch: 'full'},
 
     // { path: 'okr-setting', component: OkrSettingComponent  },
     //{path:'okr-setting',loadChildren:'./okr/okr-setting/okr-setting.module#OkrSettingModule'},

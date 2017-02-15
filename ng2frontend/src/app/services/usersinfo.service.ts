@@ -10,6 +10,7 @@ import { MY_CONFIG, ApplicationConfig } from '../app-config';
 @Injectable()
 export class UsersinfoService {
     private userInfoAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.getUserInfoUrl;
+
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
     public myDatas: any;
@@ -20,7 +21,8 @@ export class UsersinfoService {
     }
 
     getUserInfo(): any {
-        return this.http.get(this.userInfoAPi)
+      const usr = '/assets/mockUserInfo.json';
+        return this.http.get(usr)
            .map((res: Response) => res.json());
     }
 
