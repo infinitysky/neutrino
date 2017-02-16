@@ -8,21 +8,18 @@ import 'rxjs/Rx';
 
 import 'rxjs/add/operator/share';
 
-import {Userclass} from '../classes/user-class';
+import {Userclass} from '../../okr/okr-shared/classes/user-class';
+import {Timeframeclass} from '../../okr/okr-shared/classes/time-frame-class';
 
 @Injectable()
 export class UserInfoContainerService {
   public userInfo:Userclass;
-  globalVar:string;
-  globalVarUpdate:Observable<string>;
-  globalVarObserver:Observer<any>;
+  public currentTimeFrame:Timeframeclass;
+
 
   constructor() {
     this.userInfo= new Userclass();
-
-    this.globalVarUpdate = Observable.create((observer:Observer<any>) => {
-      this.globalVarObserver = observer;
-    });
+    this.currentTimeFrame = new Timeframeclass();
 
   }
 
@@ -33,13 +30,17 @@ export class UserInfoContainerService {
     this.userInfo=inputUserInfo;
   }
 
-
-
-
-  updateGlobalVar(newValue:string) {
-    this.globalVar = newValue;
-    this.globalVarObserver.next(this.globalVar);
+  getCurrentTimeFram(){
+    return this.currentTimeFrame;
   }
+  setCurrentTimeFram(inputTimeFrame:Timeframeclass){
+    this.currentTimeFrame=inputTimeFrame;
+  }
+
+
+
+
+
 
 
 
