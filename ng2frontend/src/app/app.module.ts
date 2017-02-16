@@ -23,7 +23,8 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderpageComponent } from './headerpage/headerpage.component';
 import { FooterpageComponent } from './footerpage/footerpage.component';
 
-import {UserInfoContainerService}from'./okr/okr-shared/services/user-info-container.service';
+//developed services here
+import {UserInfoContainerService}from'./shared/services/user-info-container.service'; //global var services
 
 //enableProdMode();
 

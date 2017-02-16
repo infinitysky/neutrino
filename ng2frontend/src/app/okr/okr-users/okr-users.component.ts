@@ -4,7 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
 import {UsersInfoService} from '../okr-shared/services/users-info.service';
-import {UserInfoContainerService} from '../okr-shared/services/user-info-container.service';
+import {UserInfoContainerService} from '../../shared/services/user-info-container.service';
 import {Userclass} from '../okr-shared/classes/user-class';
 
 

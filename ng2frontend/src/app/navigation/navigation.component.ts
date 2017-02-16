@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersinfoService } from '../services/usersinfo.service';
+
+
+
+import { UsersinfoService } from '../shared/services/usersinfo.service';
 //import { userClass} from"../interfaces/user.interface";
 
 
 //TODO: Set these two class and services and class as top level shard service and class
 import {Userclass} from '../okr/okr-shared/classes/user-class';
-import {UserInfoContainerService}from '../okr/okr-shared/services/user-info-container.service'
+import {Timeframeclass}from '../okr/okr-shared/classes/time-frame-class';
+import {UserInfoContainerService}from '../shared/services/user-info-container.service';
 
 @Component({
   selector: 'app-navigation',
@@ -17,17 +21,22 @@ export class NavigationComponent implements OnInit {
 
   userInfoData: any;
   userDatas:Userclass;
+  timeFrame:Timeframeclass;
 
   selfUserId:string;
 
 
-  constructor(private _usersinfoService:UsersinfoService,private _userInfoContainerService:UserInfoContainerService) {
+  constructor(private _usersinfoService:UsersinfoService,
+              private _userInfoContainerService:UserInfoContainerService) {
+
     this.selfUserId='';
+    this.timeFrame = this._userInfoContainerService.getCurrentTimeFram();
   }
 
   ngOnInit() {
     this.userDatas=new Userclass();
     this.getUserInfo();
+    this.getCurrentTimeFrame();
   }
 
   //TODO: restructure the "get" logic
@@ -42,11 +51,14 @@ export class NavigationComponent implements OnInit {
         this.userDatas=this.userInfoData;
         this._userInfoContainerService.setUserInfo(this.userDatas);
         this.selfUserId=this.userDatas.user_id.toString();
-
         //console.log(this.selfUserId);
       }
     );
+  }
 
+  getCurrentTimeFrame(){
+   this.timeFrame=this._userInfoContainerService.getCurrentTimeFram();
+   console.log("navi"+this.timeFrame);
 
   }
 

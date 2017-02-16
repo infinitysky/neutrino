@@ -102,6 +102,16 @@ export class SettingTimeFrameService {
   }
 
 
+  getNearestTimeFrame(): Observable<Timeframeclass[]> {
+    const url = `${this.getAllTimeFrameAPi}/findRangeFromToday`;
+    return this.http.get(url)
+    // .map(res => <DatabasesClass[]> res.json().data)
+      .map(res => res.json())
+      // .do(data => console.log(data)) // eyeball results in the console
+      .catch(this.handleErrorObservable);
+  }
+
+
 
 
   // createTimeFrame (timeframe_description: string, timeframe_start: number,timeframe_end:number): Observable<Timeframeclass> {
@@ -156,7 +166,7 @@ export class SettingTimeFrameService {
 
   }
 
-//observable esample
+//observable example
 
   /*
   getHeroes (): Observable<Hero[]> {
