@@ -147,10 +147,14 @@
               </tr>
 
               <tr *ngFor="let tf of timeFrames">
-                <td >{{ tf.time_freame_id}}</td>
+                <td >{{ tf.time_frame_id}}</td>
                 <td> {{ tf.time_frame_description }} </td>
-                <td> {{ tf.time_frame_start }} </td>
+                <!--<td> {{ tf.time_frame_start }} </td>-->
+                <!--<td> {{ tf.time_frame_end  }}</td>-->
+
+                <td> {{ tf.time_frame_start  }} </td>
                 <td> {{ tf.time_frame_end }}</td>
+
                 <td [hidden]=isLoaded>
                   <!--Delete the record-->
                   <button class="btn btn-default btn-sm" (click)="deleteTimeFrameButton(tf);" ><i class="fa fa-trash-o"></i> </button>

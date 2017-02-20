@@ -76,7 +76,17 @@ class Time_frames extends CI_Controller
             $processArray[$i]->time_frame_end=$endDate->format('d-m-Y');
 
 
+
+//            $processArray[$i]->append( array('time_frame_start_Epoch' => $startDate->format('U')));
+//            $processArray[$i]->append (array('time_frame_end_Epoch' => $endDate->format('U')));
+
+            $processArray[$i]->time_frame_start_epoch=$startDate->format('U');
+            $processArray[$i]->time_frame_end_epoch=$endDate->format('U');
+
+
+
         }
+        //var_dump($processArray);
 
        return $processArray;
 
@@ -85,8 +95,11 @@ class Time_frames extends CI_Controller
 
     public function json($resArray) {
         header('Content-Type: application/json');
-        echo json_encode($resArray);
-       
+        $outputMessageArray=array(
+            "statu"=>"success",
+            "data"=>$resArray
+        );
+        echo json_encode($outputMessageArray);
     }
 
 
@@ -100,8 +113,10 @@ class Time_frames extends CI_Controller
 			$data = array(
 					'time_frame_id' => $row->time_frame_id,
 					'time_frame_description' => $row->time_frame_description,
-					'time_frame_start' => $startDate->format('d/m/y'),
-					'time_frame_end' => $endDate->format('d/m/y')
+					'time_frame_start' => $startDate->format('d-m-y'),
+					'time_frame_end' => $endDate->format('d-m-y'),
+                    'time_frame_start_Epoch'=>$startDate->format('u'),
+                    'time_frame_end_Epoch'=>$startDate->format('u')
 				    );
 			$this->json($data);
 		}

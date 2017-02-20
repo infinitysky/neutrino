@@ -137,9 +137,9 @@
 
               <tr class="active">
                 <td >ID</td>
-                <td >Name</td>
-                <td>Starting Date</td>
-                <td>Ending Date</td>
+                <td >Team Name</td>
+                <td>Team description</td>
+                <td>Team Leader</td>
                 <td [hidden]=isLoaded>Edit</td>
               </tr>
 
@@ -147,7 +147,7 @@
                 <td >{{ tm.team_id}}</td>
                 <td> {{ tm.team_name }} </td>
                 <td> {{ tm.team_description }} </td>
-                <td> {{ tm.team_leader_id }}</td>
+                <td> {{ tm.first_name }} - {{ tm.last_name }}</td>
                 <td [hidden]=isLoaded>
                   <!--Delete the record-->
                   <button class="btn btn-default btn-sm" (click)="deleteTeamButton(tm);" ><i class="fa fa-trash-o"></i> </button>
@@ -192,7 +192,7 @@
         <label >Team Name</label>
         <div class="palos-input block" >
 
-          <input type="text" placeholder="Please enter your team name" autocomplete="off" class="form-control" value="{{teamNameInputBoxValue}}" #teamNameInput> <!---->
+          <input type="text" placeholder="Please enter your team name" autocomplete="off" class="form-control" value="" #teamNameInput> <!---->
 
         </div>
       </fieldset>
@@ -200,10 +200,29 @@
       <br>
 
       <fieldset >
-        <label >Team </label>
+        <label >Team Description</label>
         <div class="palos-input block" >
 
-          <textarea type="text" placeholder="Please enter your team description" autocomplete="off" class="form-control" value="{{teamDescriptionInputBoxValue}}" #teamDescriptionInput> <!----></textarea>
+          <textarea type="text" placeholder="Please enter your team description" autocomplete="off" class="form-control" value="" #teamDescriptionInput>
+
+          </textarea>
+
+        </div>
+      </fieldset>
+
+      <fieldset >
+        <label >Team Members</label>
+        <div class="palos-input block" >
+
+
+          <ss-multiselect-dropdown [options]="usersDropdownListOptions"
+                                   [texts]="myTexts"
+                                   [settings]="mySettings"
+                                   [(ngModel)]="selectedOptions">
+
+          </ss-multiselect-dropdown>
+
+          <p-multiSelect [options]="usersDropdownListOptions" [(ngModel)]="selectedOptions"></p-multiSelect>
 
         </div>
       </fieldset>
@@ -216,7 +235,8 @@
 
 
     <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
-    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(teamNameInput.value);" > Save changes</button>
+    <!--<button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(teamNameInput.value);" > Save changes</button>-->
+    <button type="button" class="btn btn-primary" autofocus (click)="final();" > Save changes</button>
   </modal-footer>
 </modal>
 

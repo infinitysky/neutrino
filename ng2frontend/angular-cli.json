@@ -19,8 +19,7 @@
       "tsconfig": "tsconfig.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        
+                
         "../library/vendor/fontawesome/css/font-awesome.css",
         "../library/vendor/metisMenu/dist/metisMenu.css",
         "../library/vendor/animate.css/animate.css",
@@ -28,7 +27,9 @@
         "../library/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css",
         "../library/fonts/pe-icon-7-stroke/css/helper.css",
         "../library/vendor/sweetalert2/dist/sweetalert2.css",
-        "../library/vendor/toastr/build/toastr.min.css" ,
+        "../library/vendor/toastr/build/toastr.min.css", 
+        "../library/primeng/resources/themes/omega/theme.css",
+        "../library/primeng/resources/primeng.min.css",   
         "../library/styles/style.css"
         
 

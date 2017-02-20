@@ -32,7 +32,11 @@ class Activities extends CI_Controller
 
     public function json($resArray) {
         header('Content-Type: application/json');
-        echo json_encode($resArray);
+        $outputMessageArray=array(
+            "statu"=>"success",
+            "data"=>$resArray
+        );
+        echo json_encode($outputMessageArray);
     }
 
     public function getall()
@@ -75,7 +79,6 @@ class Activities extends CI_Controller
             }
             else {
                 $date = new DateTime();
-
 
                 $processArray = array(
                     'activity_detail' => $Data['activity_detail'],
@@ -159,6 +162,7 @@ class Activities extends CI_Controller
             if($processArray!=0) {
                 $date = new DateTime();
                 $data = array(
+
 
                     'activity_detail' => $processArray['activity_detail'],
                     'activity_type' => $processArray['activity_type'],

@@ -22,7 +22,7 @@ export class HeaderpageComponent implements OnInit {
   constructor(private _userInfoContainerService:UserInfoContainerService,
               private _settingTimeFrameService:SettingTimeFrameService) {
 
-    this.currentTimeFrame = this._userInfoContainerService.getCurrentTimeFram();
+    this.currentTimeFrame = this._userInfoContainerService.getCurrentTimeFrame();
     this.timFrames=[];
 
   }
@@ -44,14 +44,15 @@ export class HeaderpageComponent implements OnInit {
   }
 
   getCurrentTimeFrame(){
-    //console.log(JSON.stringify(this.currentTimeFrame));
-    if(!this.currentTimeFrame.time_freame_id){
+    console.log("header checkdata" +JSON.stringify(this._userInfoContainerService.getCurrentTimeFrame()));
+    console.log(JSON.stringify(this.currentTimeFrame));
+    if(!this.currentTimeFrame.time_frame_id){
       this._settingTimeFrameService.getNearestTimeFrame().subscribe(
         data=>this.tempData=data,
         error=>this.errorMessage=<any>error,
         ()=>{
           this.currentTimeFrame=this.tempData[0];
-          this._userInfoContainerService.setCurrentTimeFram(this.currentTimeFrame);
+          this._userInfoContainerService.setCurrentTimeFrame(this.currentTimeFrame);
           // console.log(JSON.stringify(this._userInfoContainerService.getCurrentTimeFram()));
         }
       );

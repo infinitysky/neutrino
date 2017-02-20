@@ -29,9 +29,12 @@ class Users_roles extends CI_Controller
 
     public function json($resArray) {
         header('Content-Type: application/json');
-        echo json_encode($resArray);
+        $outputMessageArray=array(
+            "statu"=>"success",
+            "data"=>$resArray
+        );
+        echo json_encode($outputMessageArray);
     }
-
 
 
     public function create_error_messageArray($message){

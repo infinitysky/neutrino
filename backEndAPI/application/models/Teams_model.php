@@ -30,7 +30,12 @@ class Teams_model extends CI_Model
     function get_all()
     {
         $this->db->order_by($this->id, $this->order);
-        return $this->db->get($this->table)->result();
+        $this->db->select("teams.*, users_details.first_name, users_details.last_name");
+        $this->db->from($this->table);
+        $this->db->join("users_details","teams.team_leader_user_id = users_details.user_id",'left');
+
+       // return $this->db->get($this->table)->result();
+        return $this->db->get()->result();
     }
 
     // get data by id
@@ -39,16 +44,16 @@ class Teams_model extends CI_Model
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-    
+
     // get total rows
     function total_rows($q = NULL) {
         $this->db->like('team_id', $q);
-	$this->db->or_like('team_description', $q);
-	$this->db->or_like('team_name', $q);
-	$this->db->or_like('parent_team_id', $q);
+        $this->db->or_like('team_description', $q);
+        $this->db->or_like('team_name', $q);
+        $this->db->or_like('parent_team_id', $q);
         $this->db->or_like('team_leader_id', $q);
 
-	$this->db->from($this->table);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
@@ -56,11 +61,11 @@ class Teams_model extends CI_Model
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
         $this->db->like('team_id', $q);
-	$this->db->or_like('team_description', $q);
-	$this->db->or_like('team_name', $q);
-	$this->db->or_like('parent_team_id', $q);
+        $this->db->or_like('team_description', $q);
+        $this->db->or_like('team_name', $q);
+        $this->db->or_like('parent_team_id', $q);
         $this->db->or_like('team_leader_id', $q);
-	$this->db->limit($limit, $start);
+        $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
 
@@ -95,6 +100,12 @@ class Teams_model extends CI_Model
         $affectedRowsNumber=$this->db->affected_rows();
         $this->db->trans_complete();
         return  $affectedRowsNumber;
+    }
+    function withParents($id)
+    {
+        $mysql='  SELECT t.team_id, t.team_name, parents.team_name AS `Parent Team Name`  FROM teams AS t INNER JOIN  teams AS parents ON parents.team_id = t.parent_team_id;';
+
+
     }
 
 }

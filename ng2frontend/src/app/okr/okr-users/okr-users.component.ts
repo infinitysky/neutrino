@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
+
+
 import {UsersInfoService} from '../okr-shared/services/users-info.service';
 import {UserInfoContainerService} from '../../shared/services/user-info-container.service';
 import {Userclass} from '../okr-shared/classes/user-class';
@@ -28,6 +30,10 @@ export class OkrUsersComponent implements OnInit {
   public tempData:any;
   public errorMessage:any;
 
+
+  public currentTimeFrame:any;
+
+
   constructor(private _usersInfoService:UsersInfoService,
               private _userInfoContainerService:UserInfoContainerService,
               private _activatedRoute:ActivatedRoute) {
@@ -40,8 +46,13 @@ export class OkrUsersComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log("userID:"+ this._activatedRoute.snapshot.params['userid']);
-    console.log("timeFrame:"+ this._activatedRoute.snapshot.params['timeframeid']);
+    console.log("Router params userID:"+ this._activatedRoute.snapshot.params['userid']);
+    console.log("Router params timeFrame:"+ this._activatedRoute.snapshot.params['timeframeid']);
+
+    this.currentTimeFrame=this._userInfoContainerService.getCurrentTimeFrame();
+    console.log("from Shard time Frame:"+ this.currentTimeFrame.time_frame_id);
+
+
 
     this.getCurrentUserInfo();
     this.selfUserId=this.selfUserInforData.user_id;
@@ -60,6 +71,7 @@ export class OkrUsersComponent implements OnInit {
   getCurrentUserInfo(){
     this.selfUserInforData=this._userInfoContainerService.getUserInfo();
   }
+
   getTargetUserInfo(){
     this._usersInfoService.getById(this.viewUserID).subscribe(
       data=>this.tempData = data,
@@ -68,6 +80,15 @@ export class OkrUsersComponent implements OnInit {
         this.randerUserInforData=this.tempData;
       }
     );
+  }
+  getUserGroups(){
+
+  }
+  getUserOkrs(){
+
+  }
+  getUserActivies(){
+
   }
 
 

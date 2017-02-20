@@ -30,10 +30,10 @@ export class UserInfoContainerService {
     this.userInfo=inputUserInfo;
   }
 
-  getCurrentTimeFram(){
+  getCurrentTimeFrame(){
     return this.currentTimeFrame;
   }
-  setCurrentTimeFram(inputTimeFrame:Timeframeclass){
+  setCurrentTimeFrame(inputTimeFrame:Timeframeclass){
     this.currentTimeFrame=inputTimeFrame;
   }
 

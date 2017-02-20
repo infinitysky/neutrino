@@ -63,7 +63,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   keyboard: boolean = true;
   backdrop: string | boolean = true;
 
-  editDateRangeNormal:IMyDateRange=null;
+  editDateRangeNormal:string=null;
   public checkFlag:number=0;
 
 
@@ -72,9 +72,13 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   rangeTextPlaceholder:string="Please select your range";
   edit_startDate:Date;
   edit_EndDate:Date;
-  edit_dateRange:string="";
+  //edit_dateRange:string="";
+
+  edit_dateRange:string= null;
+
   editModeIO:number=0;//this is for check edit Mode on or off.
   timeFrameNameInputBoxValue:string="";
+  public AfterUpdateData:any;
 
 
 
@@ -102,7 +106,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   addTimeFrameButton(){
 
     this.timeFrameNameInputBoxValue= "";
-    this.edit_dateRange="";
+    this.edit_dateRange=null;
     this.edit_startDate=null;
     this.edit_EndDate=null;
     this.editModeIO=0;
@@ -118,7 +122,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
         error => {this.errorMessage = <any>error},
         ()=>{
           console.log(this.tempData);
-          if(this.tempData.affectRows>0){
+          if(this.tempData.data.affectRows>0){
             swal("Deleted!", "Your time frame has been deleted.", "success");
             this.timeFrames = this.timeFrames.filter(currentTimeFrames => currentTimeFrames !== timeFrame);
 
@@ -145,11 +149,17 @@ export class OkrSettingTimeFrameComponent implements OnInit {
     this.timeFrameNameInputBoxValue=timeFrame.time_frame_description;
 
     this.edit_dateRange=timeFrame.time_frame_start+' - '+timeFrame.time_frame_end;
-    // this.edit_startDate=timeFrame.time_frame_start;
-    // this.edit_EndDate=timeFrame.time_frame_end;
+    this.edit_startDate=timeFrame.time_frame_start;
+    this.edit_EndDate=timeFrame.time_frame_end;
+    // var displayStartDate:Date= new Date(timeFrame.time_frame_start);
+    // var displayEndDate:Date= new Date(timeFrame.time_frame_end);
+    // this.edit_dateRange={beginDate: {year: displayStartDate.getFullYear(), month: displayStartDate.getMonth(), day: 1},
+    //   endDate: {year: 2017, month: 1, day: 1}};
 
     this.startDateInDate=timeFrame.time_frame_start;
     this.endDateInDate=timeFrame.time_frame_end;
+
+
 
 
     this.modal.open();
@@ -168,25 +178,39 @@ export class OkrSettingTimeFrameComponent implements OnInit {
       return;
     }
 
-    editTimeFrame.time_frame_description=timeFrameNameInput;
-    editTimeFrame.time_frame_start =this.startDateInEpoch;
-    editTimeFrame.time_frame_end=this.endDateInEpoch;
+
+    let tempTimeFrame=editTimeFrame;
+    tempTimeFrame.time_frame_description=timeFrameNameInput;
+    tempTimeFrame.time_frame_start =this.startDateInEpoch;
+    tempTimeFrame.time_frame_end=this.endDateInEpoch;
+
+    var NewStartDate:Date= new Date(this.startDateInEpoch);
+    var NewEndDate:Date= new Date(this.endDateInEpoch);
+
+    console.log(NewStartDate.toLocaleDateString());
+    console.log(NewEndDate.toLocaleDateString());
+
 
     console.log("editTimeFrame: "+ JSON.stringify(editTimeFrame));
-    this._settingTimeFrameService.update(editTimeFrame)
+    this._settingTimeFrameService.update(tempTimeFrame)
       .subscribe(
         data  => {this.tempData = data},
         error =>  this.errorMessage = <any>error,
         ()=>{
-          console.log( "this.tempData + "+JSON.stringify(this.tempData));
+          console.log( "Updat this.tempData + "+JSON.stringify(this.tempData.data));
           //this.childtimeFrames=this.tempData;
-          console.log(this.tempData);
-          if(this.tempData.affectRows>0){
+          console.log(this.tempData.data);
+          if(this.tempData.data.affectRows>0){
             swal("Success!", "Your time frame has been updated.", "success");
            // this.timeFrames = this.timeFrames.filter(currentTimeFrames => currentTimeFrames !== timeFrame);
+            editTimeFrame.time_frame_description=timeFrameNameInput;
+            editTimeFrame.time_frame_start =NewStartDate;
+            editTimeFrame.time_frame_end=NewEndDate;
 
-            editTimeFrame.time_frame_start =this.startDateInDate;
-            editTimeFrame.time_frame_end=this.endDateInDate;
+
+            // editTimeFrame.time_frame_start =this.startDateInDate;
+            // editTimeFrame.time_frame_end=this.endDateInDate;
+            //this.getTimeFrameByID(editTimeFrame);
 
           }else{
             swal("Error!", "Your time frame did not been deleted successfully.", "error");
@@ -197,12 +221,22 @@ export class OkrSettingTimeFrameComponent implements OnInit {
       );
     this.modal.close();
 
-
-
-
-
   }
 
+
+
+  getTimeFrameByID(timeFrame:Timeframeclass){
+    this._settingTimeFrameService.getById(timeFrame.time_frame_id).subscribe(
+      data=>this.tempData=data,
+      error=>this.errorMessage=<any>error,
+      ()=>{
+        this.editTimeFrame=this.tempData.data;
+        console.log('timeframe: ' + JSON.stringify(this.editTimeFrame));
+       // timeFrame=this.tempData.data;
+      }
+    );
+
+  }
 
 
 
@@ -213,7 +247,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
         error =>  this.errorMessage = <any>error,
         ()=>{
           //console.log( "this.timeFramesData + "+JSON.stringify(this.timeFramesData));
-          this.timeFrames=this.timeFramesData;
+          this.timeFrames=this.timeFramesData.data;
         }
       );
 
@@ -235,12 +269,12 @@ export class OkrSettingTimeFrameComponent implements OnInit {
         data  => {this.tempData = data},
         error =>  this.errorMessage = <any>error,
         ()=>{
-          console.log( "this.tempData + "+JSON.stringify(this.tempData));
+          console.log( "this.tempData + "+JSON.stringify(this.tempData.data));
           //this.childtimeFrames=this.tempData;
 
           //TODO: Fix the error handle issue when the system fail to create new time frame.
-          if(!this.tempData){
-            console.log(this.tempData);
+          if(!this.tempData.data){
+            console.log(this.tempData.data);
             swal({
               title: "Error!",
               text: "Your time frame has not created successfully.!",
@@ -249,7 +283,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
 
           }else{
            // swal("Error!", "Your time frame not been deleted successfully.", "error");
-            this.timeFrames.push(this.tempData);
+            this.timeFrames.push(this.tempData.data);
             swal({
               title: "Success!",
               text: "The New Record has been add into the system!",

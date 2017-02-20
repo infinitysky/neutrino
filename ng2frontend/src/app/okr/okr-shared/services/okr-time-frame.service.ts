@@ -83,7 +83,7 @@ export class SettingTimeFrameService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    const url = `${this.operateAPI}/${timeFrame.time_freame_id}`;
+    const url = `${this.operateAPI}/${timeFrame.time_frame_id}`;
 
     return this.http.get(url, options)
       .map(res => res.json())
@@ -129,7 +129,7 @@ export class SettingTimeFrameService {
     let options = new RequestOptions({ headers: headers });
 
 
-    const url = `${this.operateAPI}/${timeFrame.time_freame_id}`;
+    const url = `${this.operateAPI}/${timeFrame.time_frame_id}`;
 
     return this.http.delete(url, options)
       .map(res => res.json())
@@ -141,7 +141,7 @@ export class SettingTimeFrameService {
     let options = new RequestOptions({ headers: headers });
     let httpBody = JSON.stringify(timeFrame)
 
-    const url = `${this.operateAPI}/${timeFrame.time_freame_id}`;
+    const url = `${this.operateAPI}/${timeFrame.time_frame_id}`;
     return this.http
       .put(url,httpBody , options)
       .map(res => res.json())

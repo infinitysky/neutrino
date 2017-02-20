@@ -21,6 +21,7 @@ export class NavigationComponent implements OnInit {
 
   userInfoData: any;
   userDatas:Userclass;
+
   timeFrame:Timeframeclass;
 
   selfUserId:string;
@@ -30,11 +31,14 @@ export class NavigationComponent implements OnInit {
               private _userInfoContainerService:UserInfoContainerService) {
 
     this.selfUserId='';
-    this.timeFrame = this._userInfoContainerService.getCurrentTimeFram();
+    this.timeFrame = new Timeframeclass();
+    this.userDatas=new Userclass();
   }
 
   ngOnInit() {
-    this.userDatas=new Userclass();
+    this.timeFrame= this._userInfoContainerService.getCurrentTimeFrame();
+    console.log(JSON.stringify(this.timeFrame));
+
     this.getUserInfo();
     this.getCurrentTimeFrame();
   }
@@ -57,8 +61,8 @@ export class NavigationComponent implements OnInit {
   }
 
   getCurrentTimeFrame(){
-   this.timeFrame=this._userInfoContainerService.getCurrentTimeFram();
-   console.log("navi"+this.timeFrame);
+   this.timeFrame=this._userInfoContainerService.getCurrentTimeFrame();
+   console.log("navi"+JSON.stringify(this.timeFrame));
 
   }
 

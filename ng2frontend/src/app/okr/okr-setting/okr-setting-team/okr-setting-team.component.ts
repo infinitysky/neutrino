@@ -18,20 +18,28 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
 
+
+import {IMultiSelectOption,IMultiSelectSettings,IMultiSelectTexts} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+
+
+import {SelectItem} from 'primeng/primeng';
 
 declare var swal: any;
 
 
-import {SettingTeamService} from '../../okr-shared/services/okr-team.service'
-
+import {SettingTeamService} from '../../okr-shared/services/okr-team.service';
+import {UserDetailsService} from '../../okr-shared/services/user-details.service';
 import {Teamclass} from '../../okr-shared/classes/team-class';
+import {Userclass} from '../../okr-shared/classes/user-class';
 
 
 @Component({
   selector: 'app-okr-setting-team',
   templateUrl: './okr-setting-team.component.html',
-  providers: [SettingTeamService],
+  providers: [SettingTeamService,UserDetailsService],
+
   styleUrls: ['./okr-setting-team.component.css']
 })
 export class OkrSettingTeamComponent implements OnInit {
@@ -40,6 +48,7 @@ export class OkrSettingTeamComponent implements OnInit {
   public subPageTitle="Team Setting";
 
   public teams : Teamclass[];
+  public users : Userclass[];
 
   public TeamsData:any;
   public errorMessage:any;
@@ -62,14 +71,73 @@ export class OkrSettingTeamComponent implements OnInit {
   teamDescriptionInputBoxValue:string="Please enter the team description";
 
 
+  //private selectedOptions: any[]=[{"id":"26","name":"Catherine Sexton"},{"id":"25","name":"Giselle Boyer"}];
+
+//  private usersDropdownListOptions: IMultiSelectOption[];
+  private usersDropdownListOptions: SelectItem[];
+  private usersDropdownListOptions1: IMultiSelectOption[];
+
+  // private mySettings: IMultiSelectSettings = {
+  //   pullRight: false,
+  //   enableSearch: true,
+  //   checkedStyle: 'fontawsome',
+  //   buttonClasses: 'btn btn-default',
+  //   selectionLimit: 0,
+  //   closeOnSelect: false,
+  //   showCheckAll: false,
+  //   showUncheckAll: true,
+  //   dynamicTitleMaxItems: 7,
+  //   maxHeight: '350px',
+  // };
+  //
+  // private myTexts: IMultiSelectTexts = {
+  //   checkAll: 'Check all',
+  //   uncheckAll: 'Uncheck all',
+  //   checked: 'checked',
+  //   checkedPlural: 'checked',
+  //   searchPlaceholder: 'Search...',
+  //   defaultTitle: 'Select',
+  // };
+
+  private selectedOptions: string[]=[]; // Default selection
 
 
-  constructor(private _settingTeamService: SettingTeamService, private _router:Router){
+
+  private mySettings: IMultiSelectSettings = {
+    pullRight: false,
+    enableSearch: false,
+    checkedStyle: 'checkboxes',
+    buttonClasses: 'btn btn-default',
+    selectionLimit: 0,
+    closeOnSelect: false,
+    showCheckAll: false,
+    showUncheckAll: false,
+    dynamicTitleMaxItems: 3,
+    maxHeight: '300px',
+  };
+
+  private myTexts: IMultiSelectTexts = {
+    checkAll: 'Check all',
+    uncheckAll: 'Uncheck all',
+    checked: 'checked',
+    checkedPlural: 'checked',
+    searchPlaceholder: 'Search...',
+    defaultTitle: 'Select',
+  };
+
+
+  constructor(private _settingTeamService: SettingTeamService,
+              private _router:Router,
+              private _userDetailsService:UserDetailsService){
 
     console.log('constructor(): SampleDateRangePickerNormal');
     this.teams=[];
     this.editModeIO=0;
     this.editTeam=null;
+    this.users=[];
+    this.usersDropdownListOptions=[];
+    this.usersDropdownListOptions1=[];
+    this.selectedOptions=["100","97"];
 
 
 
@@ -100,7 +168,7 @@ export class OkrSettingTeamComponent implements OnInit {
         error => {this.errorMessage = <any>error},
         ()=>{
           console.log(this.tempData);
-          if(this.tempData.affectRows>0){
+          if(this.tempData.data.affectRows>0){
             swal("Deleted!", "Your time frame has been deleted.", "success");
             this.teams = this.teams.filter(currentTeams => currentTeams !== Team);
 
@@ -150,8 +218,8 @@ export class OkrSettingTeamComponent implements OnInit {
         error =>  this.errorMessage = <any>error,
         ()=>{
           console.log( "this.tempData + "+JSON.stringify(this.tempData));
-          console.log(this.tempData);
-          if(this.tempData.affectRows>0){
+          console.log(this.tempData.data);
+          if(this.tempData.data.affectRows>0){
             swal("Success!", "Your time frame has been updated.", "success");
 
           }else{
@@ -178,8 +246,8 @@ export class OkrSettingTeamComponent implements OnInit {
         data => this.TeamsData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          console.log( "this.TeamsData + "+JSON.stringify(this.TeamsData));
-          this.teams=this.TeamsData;
+          // console.log( "this.TeamsData + "+JSON.stringify(this.TeamsData.data));
+          this.teams=<Teamclass[]>this.TeamsData.data;
         }
       );
 
@@ -199,12 +267,51 @@ export class OkrSettingTeamComponent implements OnInit {
     this.modal.close();
   }
 
+  getAllUsersInfo(){
+    console.log("get All users");
+    this._userDetailsService.getAll().subscribe(
+      data=>this.tempData=data,
+      error=>this.errorMessage=<any>error,
+      ()=>{
+        this.users=<Userclass[]>this.tempData.data;
+         // console.log(this.users);
+         this.setUsersDropdownList(this.users);
+      },
+    );
+
+  }
+  setUsersDropdownList(usersInfoList:Userclass[]){
+
+    var i=0;
+   // console.log(usersInfoList[2].user_id);
+    for(i=0;i<usersInfoList.length;i++){
+      var fullName=usersInfoList[i].first_name+" "+usersInfoList[i].last_name;
+
+      var tempInfo={value:usersInfoList[i].user_id,label:fullName};
+      var tempInfo1={id:usersInfoList[i].user_id,name:fullName};
+      this.usersDropdownListOptions.push(tempInfo);
+      this.usersDropdownListOptions1.push(tempInfo1);
+
+    }
+
+
+   // console.log(JSON.stringify(this.usersDropdownListOptions));
+
+
+  }
+
+
+
+
 
  //warning functions
 //this function is not a native angular 2 function, it was implemented by third-party javascript library!
 
 
+    final(){
+      console.log(this.selectedOptions);
 
+    }
 
 
 
@@ -212,17 +319,23 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
   //ng2 liftcycle functions
-
-  onSelect(Team: Teamclass ): void {
-    this.selectedTeam = Team;
-  }
+  //
+  // onSelect(Team: Teamclass ): void {
+  //   this.selectedTeam = Team;
+  // }
 
   //component functions
   ngOnInit() {
 
 
-    this.getTeams();
+    this.getTeams()
 
+    this.getAllUsersInfo();
+
+
+
+  }
+  onChanges($event){
 
   }
 
@@ -279,6 +392,10 @@ export class OkrSettingTeamComponent implements OnInit {
     closeModal(){
 
   }
+
+
+
+
 
 
 }
