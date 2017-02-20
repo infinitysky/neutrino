@@ -71,33 +71,10 @@ export class OkrSettingTeamComponent implements OnInit {
   teamDescriptionInputBoxValue:string="Please enter the team description";
 
 
-  //private selectedOptions: any[]=[{"id":"26","name":"Catherine Sexton"},{"id":"25","name":"Giselle Boyer"}];
 
-//  private usersDropdownListOptions: IMultiSelectOption[];
-  private usersDropdownListOptions: SelectItem[];
+
   private usersDropdownListOptions1: IMultiSelectOption[];
 
-  // private mySettings: IMultiSelectSettings = {
-  //   pullRight: false,
-  //   enableSearch: true,
-  //   checkedStyle: 'fontawsome',
-  //   buttonClasses: 'btn btn-default',
-  //   selectionLimit: 0,
-  //   closeOnSelect: false,
-  //   showCheckAll: false,
-  //   showUncheckAll: true,
-  //   dynamicTitleMaxItems: 7,
-  //   maxHeight: '350px',
-  // };
-  //
-  // private myTexts: IMultiSelectTexts = {
-  //   checkAll: 'Check all',
-  //   uncheckAll: 'Uncheck all',
-  //   checked: 'checked',
-  //   checkedPlural: 'checked',
-  //   searchPlaceholder: 'Search...',
-  //   defaultTitle: 'Select',
-  // };
 
   private selectedOptions: string[]=[]; // Default selection
 
@@ -105,7 +82,7 @@ export class OkrSettingTeamComponent implements OnInit {
 
   private mySettings: IMultiSelectSettings = {
     pullRight: false,
-    enableSearch: false,
+    enableSearch: true,
     checkedStyle: 'checkboxes',
     buttonClasses: 'btn btn-default',
     selectionLimit: 0,
@@ -113,7 +90,7 @@ export class OkrSettingTeamComponent implements OnInit {
     showCheckAll: false,
     showUncheckAll: false,
     dynamicTitleMaxItems: 3,
-    maxHeight: '300px',
+    maxHeight: '350px',
   };
 
   private myTexts: IMultiSelectTexts = {
@@ -135,9 +112,9 @@ export class OkrSettingTeamComponent implements OnInit {
     this.editModeIO=0;
     this.editTeam=null;
     this.users=[];
-    this.usersDropdownListOptions=[];
+
     this.usersDropdownListOptions1=[];
-    this.selectedOptions=["100","97"];
+
 
 
 
@@ -287,17 +264,16 @@ export class OkrSettingTeamComponent implements OnInit {
     for(i=0;i<usersInfoList.length;i++){
       var fullName=usersInfoList[i].first_name+" "+usersInfoList[i].last_name;
 
-      var tempInfo={value:usersInfoList[i].user_id,label:fullName};
+
       var tempInfo1={id:usersInfoList[i].user_id,name:fullName};
-      this.usersDropdownListOptions.push(tempInfo);
+
       this.usersDropdownListOptions1.push(tempInfo1);
 
     }
 
-
-   // console.log(JSON.stringify(this.usersDropdownListOptions));
-
-
+  }
+  getTeamCurrentMembers(){
+    this.selectedOptions=['100','98'];
   }
 
 
@@ -328,10 +304,10 @@ export class OkrSettingTeamComponent implements OnInit {
   ngOnInit() {
 
 
-    this.getTeams()
+    this.getTeams();
 
     this.getAllUsersInfo();
-
+    this.getTeamCurrentMembers();
 
 
   }

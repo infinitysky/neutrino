@@ -37,6 +37,15 @@ class Teams_users extends CI_Controller
         echo json_encode($outputMessageArray);
     }
 
+    public function getall()
+    {
+        $tempData=$this->Activities_model->get_all();
+
+        echo $this->json($tempData);
+    }
+
+
+
     public function create_error_messageArray($message){
         $tempMessageArray=array(
             "statu"=>"error",
@@ -54,24 +63,20 @@ class Teams_users extends CI_Controller
 
 
             //  goal_description can be empty
-            if (empty($Data['goal_name'])) {
+            if (empty($Data['team_id'])) {
                 echo json_encode($this->create_error_messageArray("team_name Empty"));
                 return 0;
-            }elseif (empty($Data['goal_name'])){
+            }elseif (empty($Data['user_id'])){
                 echo json_encode($this->create_error_messageArray("goal_name Empty"));
                 return 0;
             }
-            elseif (empty($Data['time_frame_id'])){
-                echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
-                return 0;
-            }
+
             else {
 
                 $processArray = array(
-                    'goal_id' =>$Data['goal_id'],
-                    'goal_name' => $Data['goal_name'],
-                    'goal_description' => $Data['goal_description'],
-                    'time_frame_id'=>$Data['time_frame_id'],
+                    'team_id' =>$Data['team_id'],
+                    'user_id' => $Data['user_id'],
+
                 );
                 return $processArray;
             }
@@ -95,6 +100,15 @@ class Teams_users extends CI_Controller
         }elseif ($method == "DELETE"){
 
             $this->delete($id);
+        }
+
+    }
+
+    public function search_id(){
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        $method = $_SERVER['REQUEST_METHOD'];
+        if('POST'!=$method){
+
         }
 
     }
@@ -131,23 +145,7 @@ class Teams_users extends CI_Controller
         $this->load->view('teams_users/teams_users_form', $data);
     }
     
-    public function create_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-		'team_id' => $this->input->post('team_id',TRUE),
-		'user_id' => $this->input->post('user_id',TRUE),
-	    );
-
-            $this->Teams_users_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('teams_users'));
-        }
-    }
     
     public function update($id) 
     {
@@ -168,23 +166,7 @@ class Teams_users extends CI_Controller
         }
     }
     
-    public function update_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('id', TRUE));
-        } else {
-            $data = array(
-		'team_id' => $this->input->post('team_id',TRUE),
-		'user_id' => $this->input->post('user_id',TRUE),
-	    );
-
-            $this->Teams_users_model->update($this->input->post('id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('teams_users'));
-        }
-    }
     
     public function delete($id) 
     {
@@ -200,14 +182,6 @@ class Teams_users extends CI_Controller
         }
     }
 
-    public function _rules() 
-    {
-	$this->form_validation->set_rules('team_id', 'team id', 'trim|required');
-	$this->form_validation->set_rules('user_id', 'user id', 'trim|required');
-
-	$this->form_validation->set_rules('id', 'id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
-    }
 
 }
 

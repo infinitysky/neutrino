@@ -210,19 +210,37 @@
         </div>
       </fieldset>
 
+
       <fieldset >
-        <label >Team Members</label>
+        <label >Team Leader</label>
         <div class="palos-input block" >
 
 
-          <ss-multiselect-dropdown [options]="usersDropdownListOptions"
+          <ss-multiselect-dropdown [options]="usersDropdownListOptions1"
                                    [texts]="myTexts"
                                    [settings]="mySettings"
                                    [(ngModel)]="selectedOptions">
 
           </ss-multiselect-dropdown>
 
-          <p-multiSelect [options]="usersDropdownListOptions" [(ngModel)]="selectedOptions"></p-multiSelect>
+
+
+        </div>
+      </fieldset>
+
+      <fieldset >
+        <label >Team Members</label>
+        <div class="palos-input block" >
+
+
+          <ss-multiselect-dropdown [options]="usersDropdownListOptions1"
+                                   [texts]="myTexts"
+                                   [settings]="mySettings"
+                                   [(ngModel)]="selectedOptions">
+
+          </ss-multiselect-dropdown>
+
+
 
         </div>
       </fieldset>
@@ -237,6 +255,9 @@
     <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
     <!--<button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(teamNameInput.value);" > Save changes</button>-->
     <button type="button" class="btn btn-primary" autofocus (click)="final();" > Save changes</button>
+
+
+
   </modal-footer>
 </modal>
 
