@@ -99,115 +99,114 @@ class Teams_users extends CI_Controller
 
     }
 
-
-
-
-
-    public function read($id) 
+    public function getall()
     {
-        $row = $this->Teams_users_model->get_by_id($id);
-        if ($row) {
-            $data = array(
-		'team_id' => $row->team_id,
-		'user_id' => $row->user_id,
-		'id' => $row->id,
-	    );
-            $this->load->view('teams_users/teams_users_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('teams_users'));
-        }
+        $tempData=$this->Teams_users_model->get_all();
+
+        echo $this->json($tempData);
     }
 
-    public function create() 
-    {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('teams_users/create_action'),
-	    'team_id' => set_value('team_id'),
-	    'user_id' => set_value('user_id'),
-	    'id' => set_value('id'),
-	);
-        $this->load->view('teams_users/teams_users_form', $data);
-    }
-    
-    public function create_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-		'team_id' => $this->input->post('team_id',TRUE),
-		'user_id' => $this->input->post('user_id',TRUE),
-	    );
 
-            $this->Teams_users_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('teams_users'));
-        }
-    }
-    
-    public function update($id) 
+    public function read($id)
     {
         $row = $this->Teams_users_model->get_by_id($id);
 
         if ($row) {
             $data = array(
-                'button' => 'Update',
-                'action' => site_url('teams_users/update_action'),
-		'team_id' => set_value('team_id', $row->team_id),
-		'user_id' => set_value('user_id', $row->user_id),
-		'id' => set_value('id', $row->id),
-	    );
-            $this->load->view('teams_users/teams_users_form', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('teams_users'));
+                'team_id' => set_value('team_id', $row->team_id),
+                'user_id' => set_value('user_id', $row->user_id),
+            );
+            $this->json($data);
         }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
     }
-    
-    public function update_action() 
+
+
+    public function create()
     {
-        $this->_rules();
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('id', TRUE));
-        } else {
-            $data = array(
-		'team_id' => $this->input->post('team_id',TRUE),
-		'user_id' => $this->input->post('user_id',TRUE),
-	    );
-
-            $this->Teams_users_model->update($this->input->post('id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('teams_users'));
+        $checkArray=$this->dataValidate($Data);
+        if($checkArray!=0){
+            $last_insert_id=$this->Teams_users_model->insert($checkArray);
+            $this->read($last_insert_id);
         }
     }
-    
-    public function delete($id) 
+
+
+    public function update($id,$updateData)
     {
         $row = $this->Teams_users_model->get_by_id($id);
 
+
         if ($row) {
-            $this->Teams_users_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('teams_users'));
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('teams_users'));
+            $processArray=$this->dataValidate($updateData);
+            if($processArray!=0) {
+
+                $data = array(
+
+                    'team_id' => set_value('team_id', $row->team_id),
+                    'user_id' => set_value('user_id', $row->user_id),
+
+                );
+                $affectedRowsNumber = $this->Teams_users_model->update($id, $data);
+
+                $tempReturnArray = array(
+                    "status" => 'success',
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+            }
         }
+        else {
+
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+        }
+
+
+
+
+
     }
 
-    public function _rules() 
+
+
+    public function delete($id)
     {
-	$this->form_validation->set_rules('team_id', 'team id', 'trim|required');
-	$this->form_validation->set_rules('user_id', 'user id', 'trim|required');
 
-	$this->form_validation->set_rules('id', 'id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+
+
+        $row = $this->Teams_users_model->get_by_id($id);
+
+        if ($row) {
+            $affectRow=$this->Teams_users_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
+        }
+        else {
+            //$this->session->set_flashdata('message', 'Record Not Found');
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            $this->json($tempReturnArray);
+
+        }
+
+
+
     }
+
+
+
+
+
 
 }
 
