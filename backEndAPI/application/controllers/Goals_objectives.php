@@ -55,24 +55,20 @@ class Goals_objectives extends CI_Controller
 
 
             //  goal_description can be empty
-            if (empty($Data['goal_name'])) {
+            if (empty($Data['goal_id'])) {
                 echo json_encode($this->create_error_messageArray("team_name Empty"));
                 return 0;
-            }elseif (empty($Data['goal_name'])){
+            }elseif (empty($Data['objective_id'])){
                 echo json_encode($this->create_error_messageArray("goal_name Empty"));
                 return 0;
             }
-            elseif (empty($Data['time_frame_id'])){
-                echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
-                return 0;
-            }
+
             else {
 
                 $processArray = array(
                     'goal_id' =>$Data['goal_id'],
-                    'goal_name' => $Data['goal_name'],
-                    'goal_description' => $Data['goal_description'],
-                    'time_frame_id'=>$Data['time_frame_id'],
+                    'objective_id' => $Data['objective_id'],
+
                 );
                 return $processArray;
             }
@@ -107,113 +103,267 @@ class Goals_objectives extends CI_Controller
     public function read($id)
     {
         $row = $this->Goals_objectives_model->get_by_id($id);
+
         if ($row) {
             $data = array(
                 'id' => $row->id,
                 'goal_id' => $row->goal_id,
                 'objective_id' => $row->objective_id,
             );
-            $this->load->view('goals_objectives/goals_objectives_read', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('goals_objectives'));
+            $this->json($data);
         }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
     }
+
+
+
+
 
     public function create()
     {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('goals_objectives/create_action'),
-            'id' => set_value('id'),
-            'goal_id' => set_value('goal_id'),
-            'objective_id' => set_value('objective_id'),
-        );
-        $this->load->view('goals_objectives/goals_objectives_form', $data);
-    }
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
 
-    public function create_action()
-    {
-        $this->_rules();
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-                'goal_id' => $this->input->post('goal_id',TRUE),
-                'objective_id' => $this->input->post('objective_id',TRUE),
-            );
-
-            $this->Goals_objectives_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('goals_objectives'));
+        $checkArray=$this->dataValidate($Data);
+        if($checkArray!=0){
+            $last_insert_id=$this->Goals_objectives_model->insert($checkArray);
+            $this->read($last_insert_id);
         }
     }
 
-    public function update($id)
+
+
+    public function update($id,$updateData)
     {
         $row = $this->Goals_objectives_model->get_by_id($id);
 
+
         if ($row) {
-            $data = array(
-                'button' => 'Update',
-                'action' => site_url('goals_objectives/update_action'),
-                'id' => set_value('id', $row->id),
-                'goal_id' => set_value('goal_id', $row->goal_id),
-                'objective_id' => set_value('objective_id', $row->objective_id),
-            );
-            $this->load->view('goals_objectives/goals_objectives_form', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('goals_objectives'));
+            $processArray=$this->dataValidate($updateData);
+            if($processArray!=0) {
+
+
+                $data = array(
+
+                    'team_id' => set_value('team_id', $row->team_id),
+                    'user_id' => set_value('user_id', $row->user_id),
+
+                );
+                $affectedRowsNumber = $this->Goals_objectives_model->update($id, $data);
+
+                $tempReturnArray = array(
+
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+            }
         }
+        else {
+
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
     }
 
-    public function update_action()
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('id', TRUE));
-        } else {
-            $data = array(
-                'goal_id' => $this->input->post('goal_id',TRUE),
-                'objective_id' => $this->input->post('objective_id',TRUE),
-            );
 
-            $this->Goals_objectives_model->update($this->input->post('id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('goals_objectives'));
-        }
-    }
 
     public function delete($id)
     {
+
+
         $row = $this->Goals_objectives_model->get_by_id($id);
 
+
+
         if ($row) {
-            $this->Goals_objectives_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('goals_objectives'));
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('goals_objectives'));
+            $affectRow=$this->Goals_objectives_model->delete($id);
+            $tempReturnArray=array(
+
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
         }
+        else {
+
+            $tempErrorArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempErrorArray);
+        }
+
+
     }
 
-    public function _rules()
+
+
+
+
+
+    public function batch_create()
     {
-        $this->form_validation->set_rules('goal_id', 'goal id', 'trim|required');
-        $this->form_validation->set_rules('objective_id', 'objective id', 'trim|required');
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
 
-        $this->form_validation->set_rules('id', 'id', 'trim');
-        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+        if (empty($Data['data'])){
+            $tempReturnArray=$this->create_error_messageArray('data empty');
+            echo json_encode($tempReturnArray);
+
+
+        }
+
+        else{
+            $dataArray=$Data['data'];
+            $last_query=$this->Goals_objectives_model->batch_insert($dataArray);
+            $arraySize=count($dataArray);
+            if($last_query==$arraySize){
+                $successArray = array(
+
+                    "affectRows" => $last_query
+                );
+                $this->json($successArray);
+            }else{
+                $tempErrorArray=$this->create_error_messageArray('Create Error! ');
+                echo json_encode($tempErrorArray);
+
+            }
+
+        }
+
     }
+
+    public function batch_delete_by_team_id()
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+        if (empty($Data['data'])){
+            $tempErrorArray=$this->create_error_messageArray('data empty');
+            echo json_encode($tempErrorArray);
+
+
+        }
+
+        else{
+            $dataArray=$Data['data'];
+            $teamId=$dataArray['team_id'];
+            $deleteArray=$dataArray['user_ids'];
+
+
+            $last_query=$this->Goals_objectives_model->batch_delete_by_team_id($teamId,$deleteArray);
+            $arraySize=count($dataArray);
+            if($last_query==$arraySize){
+                $successArray = array(
+
+                    "affectRows" => $last_query
+                );
+                $this->json($successArray);
+            }else{
+                $tempErrorArray=$this->create_error_messageArray('Create Error! ');
+                echo json_encode($tempErrorArray);
+
+            }
+
+        }
+
+    }
+
+
+    public function get_by_goal_id($id){
+
+
+        $i=0;
+        $data=[];
+        $row = $this->Goals_objectives_model->get_by_goal_id($id);
+
+
+
+        if ($row){
+            $length= count($row);
+            for($i=0;$i<$length;$i++){
+
+
+                $info = array(
+
+                    'record_id' => set_value('record_id', $row[$i]->record_id),
+                    //goals informations
+                    'goal_id' => set_value('goal_id', $row[$i]->goal_id),
+                    'goal_name' => set_value('goal_name', $row[$i]->goal_name),
+                    'goal_description' => set_value('goal_description', $row[$i]->goal_description),
+                    'time_frame_id' => set_value('time_frame_id', $row[$i]->time_frame_id),
+
+
+                    //objectives
+                    'objective_id' => set_value('objective_id', $row[$i]->objective_id),
+                    'objective_name' => set_value('objective_name', $row[$i]->objective_name),
+                    'objective_description' => set_value('objective_description', $row[$i]->objective_description),
+
+
+
+
+
+                );
+                array_push($data,$info);
+
+            }
+            $this->json($data);
+
+
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
+    }
+    public function get_by_objective_id($id){
+
+
+        $data=[];
+        $row = $this->Goals_objectives_model->get_by_objective_id($id);
+
+
+        if ($row){
+            $length= count($row);
+            for($i=0;$i<$length;$i++){
+
+
+                $info = array(
+
+                    'record_id' => set_value('record_id', $row[$i]->record_id),
+                    //goals informations
+                    'goal_id' => set_value('goal_id', $row[$i]->goal_id),
+                    'goal_name' => set_value('goal_name', $row[$i]->goal_name),
+                    'goal_description' => set_value('goal_description', $row[$i]->goal_description),
+                    'time_frame_id' => set_value('time_frame_id', $row[$i]->time_frame_id),
+
+
+                    //objectives
+                    'objective_id' => set_value('objective_id', $row[$i]->objective_id),
+                    'objective_name' => set_value('objective_name', $row[$i]->objective_name),
+                    'objective_description' => set_value('objective_description', $row[$i]->objective_description),
+
+                );
+                array_push($data,$info);
+
+            }
+            $this->json($data);
+
+
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
+
+    }
+
+
+
+
 
 }
-
-/* End of file Goals_objectives.php */
-/* Location: ./application/controllers/Goals_objectives.php */
-/* Please DO NOT modify this information : */
-/* Generated by Harviacode Codeigniter CRUD Generator 2017-01-30 11:54:09 */
-/* http://harviacode.com */
