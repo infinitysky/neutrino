@@ -18,8 +18,8 @@ class Goals_objectives extends CI_Controller
 
         parent::__construct();
         $this->load->model('Goals_objectives_model');
-        $this->load->library('form_validation');        
-	$this->load->library('datatables');
+        $this->load->library('form_validation');
+        $this->load->library('datatables');
     }
 
     public function index()
@@ -30,7 +30,7 @@ class Goals_objectives extends CI_Controller
     public function json($resArray) {
         header('Content-Type: application/json');
         $outputMessageArray=array(
-            "statu"=>"success",
+            "status"=>"success",
             "data"=>$resArray
         );
         echo json_encode($outputMessageArray);
@@ -40,7 +40,7 @@ class Goals_objectives extends CI_Controller
 
     public function create_error_messageArray($message){
         $tempMessageArray=array(
-            "statu"=>"error",
+            "status"=>"error",
             "errorMassage"=>$message
         );
         return $tempMessageArray;
@@ -104,15 +104,15 @@ class Goals_objectives extends CI_Controller
 
 
 
-    public function read($id) 
+    public function read($id)
     {
         $row = $this->Goals_objectives_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'id' => $row->id,
-		'goal_id' => $row->goal_id,
-		'objective_id' => $row->objective_id,
-	    );
+                'id' => $row->id,
+                'goal_id' => $row->goal_id,
+                'objective_id' => $row->objective_id,
+            );
             $this->load->view('goals_objectives/goals_objectives_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -120,19 +120,19 @@ class Goals_objectives extends CI_Controller
         }
     }
 
-    public function create() 
+    public function create()
     {
         $data = array(
             'button' => 'Create',
             'action' => site_url('goals_objectives/create_action'),
-	    'id' => set_value('id'),
-	    'goal_id' => set_value('goal_id'),
-	    'objective_id' => set_value('objective_id'),
-	);
+            'id' => set_value('id'),
+            'goal_id' => set_value('goal_id'),
+            'objective_id' => set_value('objective_id'),
+        );
         $this->load->view('goals_objectives/goals_objectives_form', $data);
     }
-    
-    public function create_action() 
+
+    public function create_action()
     {
         $this->_rules();
 
@@ -140,17 +140,17 @@ class Goals_objectives extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'goal_id' => $this->input->post('goal_id',TRUE),
-		'objective_id' => $this->input->post('objective_id',TRUE),
-	    );
+                'goal_id' => $this->input->post('goal_id',TRUE),
+                'objective_id' => $this->input->post('objective_id',TRUE),
+            );
 
             $this->Goals_objectives_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('goals_objectives'));
         }
     }
-    
-    public function update($id) 
+
+    public function update($id)
     {
         $row = $this->Goals_objectives_model->get_by_id($id);
 
@@ -158,18 +158,18 @@ class Goals_objectives extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('goals_objectives/update_action'),
-		'id' => set_value('id', $row->id),
-		'goal_id' => set_value('goal_id', $row->goal_id),
-		'objective_id' => set_value('objective_id', $row->objective_id),
-	    );
+                'id' => set_value('id', $row->id),
+                'goal_id' => set_value('goal_id', $row->goal_id),
+                'objective_id' => set_value('objective_id', $row->objective_id),
+            );
             $this->load->view('goals_objectives/goals_objectives_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('goals_objectives'));
         }
     }
-    
-    public function update_action() 
+
+    public function update_action()
     {
         $this->_rules();
 
@@ -177,17 +177,17 @@ class Goals_objectives extends CI_Controller
             $this->update($this->input->post('id', TRUE));
         } else {
             $data = array(
-		'goal_id' => $this->input->post('goal_id',TRUE),
-		'objective_id' => $this->input->post('objective_id',TRUE),
-	    );
+                'goal_id' => $this->input->post('goal_id',TRUE),
+                'objective_id' => $this->input->post('objective_id',TRUE),
+            );
 
             $this->Goals_objectives_model->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('goals_objectives'));
         }
     }
-    
-    public function delete($id) 
+
+    public function delete($id)
     {
         $row = $this->Goals_objectives_model->get_by_id($id);
 
@@ -201,13 +201,13 @@ class Goals_objectives extends CI_Controller
         }
     }
 
-    public function _rules() 
+    public function _rules()
     {
-	$this->form_validation->set_rules('goal_id', 'goal id', 'trim|required');
-	$this->form_validation->set_rules('objective_id', 'objective id', 'trim|required');
+        $this->form_validation->set_rules('goal_id', 'goal id', 'trim|required');
+        $this->form_validation->set_rules('objective_id', 'objective id', 'trim|required');
 
-	$this->form_validation->set_rules('id', 'id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+        $this->form_validation->set_rules('id', 'id', 'trim');
+        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
 }

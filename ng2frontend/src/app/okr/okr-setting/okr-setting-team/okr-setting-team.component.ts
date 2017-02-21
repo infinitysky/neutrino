@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild, Input } from '@angular/core';
 
 import { Http,Response, Headers,RequestOptions } from '@angular/http';
-
+import {FormControl, FormGroup} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import 'rxjs';
@@ -24,7 +24,6 @@ import {IMultiSelectOption,IMultiSelectSettings,IMultiSelectTexts} from 'angular
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 
-import {SelectItem} from 'primeng/primeng';
 
 declare var swal: any;
 
@@ -43,7 +42,7 @@ import {Userclass} from '../../okr-shared/classes/user-class';
   styleUrls: ['./okr-setting-team.component.css']
 })
 export class OkrSettingTeamComponent implements OnInit {
-
+  form: FormGroup;
   public pageTitle="OKRs Setting";
   public subPageTitle="Team Setting";
 
@@ -71,49 +70,45 @@ export class OkrSettingTeamComponent implements OnInit {
   teamDescriptionInputBoxValue:string="Please enter the team description";
 
 
-  //private selectedOptions: any[]=[{"id":"26","name":"Catherine Sexton"},{"id":"25","name":"Giselle Boyer"}];
 
-//  private usersDropdownListOptions: IMultiSelectOption[];
-  private usersDropdownListOptions: SelectItem[];
-  private usersDropdownListOptions1: IMultiSelectOption[];
 
-  // private mySettings: IMultiSelectSettings = {
-  //   pullRight: false,
-  //   enableSearch: true,
-  //   checkedStyle: 'fontawsome',
-  //   buttonClasses: 'btn btn-default',
-  //   selectionLimit: 0,
-  //   closeOnSelect: false,
-  //   showCheckAll: false,
-  //   showUncheckAll: true,
-  //   dynamicTitleMaxItems: 7,
-  //   maxHeight: '350px',
-  // };
-  //
-  // private myTexts: IMultiSelectTexts = {
-  //   checkAll: 'Check all',
-  //   uncheckAll: 'Uncheck all',
-  //   checked: 'checked',
-  //   checkedPlural: 'checked',
-  //   searchPlaceholder: 'Search...',
-  //   defaultTitle: 'Select',
-  // };
+  private membersDropdownListOptions: IMultiSelectOption[];
+  private teamLeadersDropdownOptions:Array<any>;
+  private teamDropdownListOptions:Array<any>;
 
-  private selectedOptions: string[]=[]; // Default selection
+
+  private memberSelectedOptions: any[]; // Default selection
+  private teamLeaderSelectedOptions:any;
+  private parentTeamSelectedOptions:any;
 
 
 
-  private mySettings: IMultiSelectSettings = {
+
+  private teamLeaderSelectorSettings: IMultiSelectSettings = {
     pullRight: false,
-    enableSearch: false,
+    enableSearch: true,
+    checkedStyle: 'fontawsome',
+    buttonClasses: 'btn btn-default',
+    selectionLimit: 1,
+    closeOnSelect: true,
+    showCheckAll: false,
+    showUncheckAll: false,
+    dynamicTitleMaxItems: 1,
+    maxHeight: '350px',
+  };
+
+
+  private teamMemberSelectorSettings: IMultiSelectSettings = {
+    pullRight: false,
+    enableSearch: true,
     checkedStyle: 'checkboxes',
     buttonClasses: 'btn btn-default',
     selectionLimit: 0,
     closeOnSelect: false,
-    showCheckAll: false,
-    showUncheckAll: false,
-    dynamicTitleMaxItems: 3,
-    maxHeight: '300px',
+    showCheckAll: true,
+    showUncheckAll: true,
+    dynamicTitleMaxItems: 0,
+    maxHeight: '350px',
   };
 
   private myTexts: IMultiSelectTexts = {
@@ -126,6 +121,11 @@ export class OkrSettingTeamComponent implements OnInit {
   };
 
 
+
+
+
+
+
   constructor(private _settingTeamService: SettingTeamService,
               private _router:Router,
               private _userDetailsService:UserDetailsService){
@@ -135,13 +135,29 @@ export class OkrSettingTeamComponent implements OnInit {
     this.editModeIO=0;
     this.editTeam=null;
     this.users=[];
-    this.usersDropdownListOptions=[];
-    this.usersDropdownListOptions1=[];
-    this.selectedOptions=["100","97"];
+
+    this.membersDropdownListOptions=[];
+    this.teamLeadersDropdownOptions = [];
+    this.parentTeamSelectedOptions=[{id:"0", text:"None"}];
+
 
 
 
     }
+
+
+  closeButton(){
+
+
+
+    this.teamNameInputBoxValue="";
+    this.teamDescriptionInputBoxValue="";
+
+    this.memberSelectedOptions=[];
+    this.teamLeaderSelectedOptions=[];
+    this.parentTeamSelectedOptions=[];
+    this.modal.close();
+  }
 
   editButton(){
     this.isLoaded=!this.isLoaded;
@@ -152,9 +168,14 @@ export class OkrSettingTeamComponent implements OnInit {
   }
   addTeamButton(){
 
-    this.teamNameInputBoxValue="Please enter the team name";
-    this.teamDescriptionInputBoxValue="Please enter the team description";
+    this.memberSelectedOptions=[];
+    this.teamLeaderSelectedOptions=[];
+    this.parentTeamSelectedOptions=[];
 
+    this.teamNameInputBoxValue="";
+    this.teamDescriptionInputBoxValue=" ";
+
+    this.setTeamDropdownList(this.teams);
     this.editModeIO=0;
     this.modal.open();
   }
@@ -169,11 +190,11 @@ export class OkrSettingTeamComponent implements OnInit {
         ()=>{
           console.log(this.tempData);
           if(this.tempData.data.affectRows>0){
-            swal("Deleted!", "Your time frame has been deleted.", "success");
+            swal("Deleted!", "Your team has been deleted.", "success");
             this.teams = this.teams.filter(currentTeams => currentTeams !== Team);
 
           }else{
-            swal("Error!", "Your time frame did not been deleted successfully.", "error");
+            swal("Error!", "Your team did not been deleted successfully.", "error");
           }
         }
       );
@@ -181,19 +202,46 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
   modalSaveChangeButton(TeamNameInput:string,teamDescription:string){
+
+
+    this.final();
+
+
+
     if(0==this.editModeIO){
-      this.createNewTeam(TeamNameInput);
+      this.createNewTeam(TeamNameInput,teamDescription);
     }else {
-      this.updateTeam( this.editTeam,TeamNameInput);
+      this.updateTeam( this.editTeam,TeamNameInput,teamDescription);
+      //console.log("before updateTeam"+JSON.stringify(this.editTeam));
     }
   }
 
 
-  editTeamsButton(Team){
+  editTeamsButton(team){
     this.editModeIO=1;
-    this.editTeam=Team;
-    this.teamNameInputBoxValue=Team.team_name;
-    this.teamDescriptionInputBoxValue=Team.team_description;
+    this.editTeam=team;
+    this.teamNameInputBoxValue=team.team_name;
+    this.teamDescriptionInputBoxValue=team.team_description;
+
+
+    this.memberSelectedOptions
+    //set team Leader selector
+
+
+
+   // this.teamLeaderSelectedOptions=[{id:team.team_leader_user_id,text:leader_Name}];
+    console.log("Current Edit Team: "+  JSON.stringify(team));
+    //set team parent selector
+
+
+
+    this.getTeamCurrentMembers(team);
+    this.getTeamCurrentLeader(team);
+    this.getParentTeam(team);
+    this.getTeamMembers(team);
+    this.setTeamDropdownList(this.teams);
+
+
 
     this.modal.open();
 
@@ -201,16 +249,26 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
 //TODO: Fix the date format handling issue.
-  updateTeam(editTeam,TeamNameInput:string) {
-    console.log(editTeam);
+  updateTeam(editTeam,TeamNameInput:string,teamDescription:string) {
+    console.log("update"+ editTeam);
 
     if (!TeamNameInput  ) {
       //alert("Do not leave any empty!");
      // swal("Warning", "you did not change any time!", "warning");
 
-      return;
+
     }
 
+    let leaderId=this.teamLeaderSelectedOptions[0].id;
+
+    let LeaderInfo=this.users.find(x=>x.user_id==leaderId);
+    editTeam.team_leader_user_id=leaderId;
+
+    editTeam.first_name=LeaderInfo.first_name;
+    editTeam.last_name=LeaderInfo.last_name;
+
+    editTeam.team_name=TeamNameInput;
+    editTeam.team_description=teamDescription;
 
     this._settingTeamService.update(editTeam)
       .subscribe(
@@ -219,12 +277,23 @@ export class OkrSettingTeamComponent implements OnInit {
         ()=>{
           console.log( "this.tempData + "+JSON.stringify(this.tempData));
           console.log(this.tempData.data);
-          if(this.tempData.data.affectRows>0){
-            swal("Success!", "Your time frame has been updated.", "success");
 
+
+          if(this.tempData.status!="success"||!this.tempData.data){
+            //swal("Warning", this.tempData.errorMassage, "warning");
+            swal("Error!", this.tempData.errorMassage, "error");
           }else{
-            swal("Error!", "Your time frame did not been deleted successfully.", "error");
+
+            swal("Success!", "Your team has been updated.", "success");
+
+            this.teamNameInputBoxValue="";
+            this.teamDescriptionInputBoxValue=" ";
+
+
           }
+
+
+
 
         }
       );
@@ -233,6 +302,9 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
 
+
+  }
+  updateTeamMembers(team:Teamclass){
 
   }
 
@@ -248,6 +320,7 @@ export class OkrSettingTeamComponent implements OnInit {
         ()=>{
           // console.log( "this.TeamsData + "+JSON.stringify(this.TeamsData.data));
           this.teams=<Teamclass[]>this.TeamsData.data;
+
         }
       );
 
@@ -257,14 +330,57 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
 
-  createNewTeam (TeamNameInput:string) {
+  createNewTeam (TeamNameInput:string,teamDescription:string) {
+
     if (!TeamNameInput  ) {
       //alert("Do not leave any empty!");
-      swal("Warning", "Do not leave any empty!", "warning");
+      swal("Warning", "Do not leave Team Name empty!", "warning");
       return;
+    }else{
+
+      var leaderid=0;
+      var parentTeamID=0;
+      leaderid=this.teamLeaderSelectedOptions[0].id;
+      if(this.parentTeamSelectedOptions[0]==[]){
+        parentTeamID=0;
+
+      }else{
+        parentTeamID= this.parentTeamSelectedOptions[0].id;
+
+        this._settingTeamService.addNew(teamDescription,TeamNameInput,parentTeamID,leaderid).subscribe(
+          data=>this.tempData=data,
+          error=>this.errorMessage=<any>error,
+          ()=>{
+
+            if(this.tempData.status!="success"||!this.tempData.data){
+              swal("Warning", this.tempData.errorMassage, "warning");
+
+            }else{
+
+
+
+              this.teams.push(<Teamclass>this.tempData.data);
+              this.setTeamMembers(<Teamclass>this.tempData.data);
+
+
+              this.teamNameInputBoxValue="";
+              this.teamDescriptionInputBoxValue=" ";
+
+
+            }
+
+          }
+        );
+
+
+      }
+
+
+
+      this.modal.close();
     }
 
-    this.modal.close();
+
   }
 
   getAllUsersInfo(){
@@ -275,29 +391,163 @@ export class OkrSettingTeamComponent implements OnInit {
       ()=>{
         this.users=<Userclass[]>this.tempData.data;
          // console.log(this.users);
-         this.setUsersDropdownList(this.users);
+         this.setUserAndMembersDropdownList(this.users);
       },
     );
 
   }
-  setUsersDropdownList(usersInfoList:Userclass[]){
+
+  setTeamDropdownList(teams:Teamclass[]){
+    var i=0;
+    var tempArray=[];
+
+    var NonInfo={id:"0", text:"None"};
+    tempArray.push(NonInfo);
+    for(i=0;i<teams.length;i++){
+
+
+
+     // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
+      var tempInfo1={id:teams[i].team_id, text:teams[i].team_name};
+      tempArray.push(tempInfo1);
+
+
+
+    }
+    // This way is working...
+    this.teamDropdownListOptions=tempArray;
+
+  }
+
+  setUserAndMembersDropdownList(usersInfoList:Userclass[]){
 
     var i=0;
-   // console.log(usersInfoList[2].user_id);
+    var tempLeaderArray=[];
     for(i=0;i<usersInfoList.length;i++){
       var fullName=usersInfoList[i].first_name+" "+usersInfoList[i].last_name;
 
-      var tempInfo={value:usersInfoList[i].user_id,label:fullName};
-      var tempInfo1={id:usersInfoList[i].user_id,name:fullName};
-      this.usersDropdownListOptions.push(tempInfo);
-      this.usersDropdownListOptions1.push(tempInfo1);
+      //for multi select dropdown list
+      var tempInfo={id:usersInfoList[i].user_id, name:fullName};
+
+      //for single select list
+      var leaderInfo={id:usersInfoList[i].user_id, text:fullName};
+
+      tempLeaderArray.push(leaderInfo);
+      this.membersDropdownListOptions.push(tempInfo);
+
+      //this way is not working.... It has values in the array for sure!
+
+      //this.teamLeadersDropdownOptions.push(tempInfo);
+    }
+  // This way is working...
+    this.teamLeadersDropdownOptions=tempLeaderArray;
+
+
+  }
+
+  getTeamCurrentMembers(team:Teamclass){
+   this.memberSelectedOptions=[];
+
+    this.teamLeaderSelectedOptions=[];
+    this.parentTeamSelectedOptions=[];
+
+
+
+
+
+  }
+  getTeamCurrentLeader(team:Teamclass){
+
+
+
+    if(!team.team_leader_user_id||team.team_leader_user_id==null||team.team_leader_user_id==0){
+      this.teamLeaderSelectedOptions=[];
+    }else{
+      var userInfo=this.users.find(x=>x.user_id==team.team_leader_user_id);
+      var fullName=userInfo.first_name+" "+userInfo.last_name;
+      var leaderInfo={id:team.team_leader_user_id, text:fullName};
+      var tempArray=[];
+      tempArray.push(leaderInfo);
+      this.teamLeaderSelectedOptions=tempArray;
+
+    }
+
+  }
+
+
+  getParentTeam(team:Teamclass){
+
+    if(team.parent_team_id==0||team.parent_team_id==null){
+
+      this.parentTeamSelectedOptions=[{id:0,text:"None"}];
+    }else{
+      var parentTeam=this.teams.find(x => x.team_id == team.parent_team_id);
+      console.log("parentTeam: "+parentTeam);
+      this.parentTeamSelectedOptions=[{id:parentTeam.team_id,text:parentTeam.team_name}];
 
     }
 
 
-   // console.log(JSON.stringify(this.usersDropdownListOptions));
+  }
+
+  getTeamMembers(team:Teamclass){
+
+    this._settingTeamService.getTeamMembersByTeamId(team).subscribe(
+      data=>this.tempData=data,
+      error=>this.errorMessage=<any>error,
+      ()=>{
+
+        if(this.tempData.status!="success"||!this.tempData.data){
+          swal("Warning", this.tempData.errorMassage, "warning");
+
+        }else{
+
+          var membersDetails=this.tempData.data;
 
 
+          var i=0;
+          var tempselectedMemberArray=[];
+          for(i=0;i<membersDetails.length;i++){
+            var fullName=membersDetails[i].first_name+" "+membersDetails[i].last_name;
+            //for multi select dropdown list
+            var tempInfo=membersDetails[i].user_id;
+
+            tempselectedMemberArray.push(tempInfo);
+
+          }
+          this.memberSelectedOptions=tempselectedMemberArray;
+
+
+
+
+        }
+
+
+    }
+    );
+
+
+  }
+
+
+
+
+  setTeamMembers(team:Teamclass){
+    let members=this.memberSelectedOptions;
+    this._settingTeamService.setTeamMembers(team,members).subscribe(
+      data=>this.tempData=data,
+      error=>this.errorMessage=<any>error,
+      ()=>{
+
+        if(this.tempData.status!="success"||!this.tempData.data){
+          swal("Warning", this.tempData.errorMassage, "warning");
+
+        }else{
+          swal("Success!", "Your team has been created.", "success");
+        }
+
+    }
+    );
   }
 
 
@@ -309,7 +559,8 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
     final(){
-      console.log(this.selectedOptions);
+      console.log("members"+this.memberSelectedOptions);
+      console.log("leaser"+ JSON.stringify(this.teamLeaderSelectedOptions));
 
     }
 
@@ -318,29 +569,19 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
 
+
+
+
   //ng2 liftcycle functions
   //
-  // onSelect(Team: Teamclass ): void {
-  //   this.selectedTeam = Team;
-  // }
 
-  //component functions
   ngOnInit() {
 
-
-    this.getTeams()
-
+    this.getTeams();
     this.getAllUsersInfo();
 
 
-
   }
-  onChanges($event){
-
-  }
-
-
-
 
 
 
@@ -380,17 +621,35 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
 
-  // major functions
-  submitInfo(){
-
-  }
-
   cleanData(){
 
   }
 
-    closeModal(){
+  closeModal(){
+    this.modal.close();
 
+  }
+
+
+
+  // select
+  private value:any = {};
+
+
+  public selected(value:any):void {
+    console.log('Selected value is: ', value);
+  }
+
+  public removed(value:any):void {
+    console.log('Removed value is: ', value);
+  }
+
+  public typed(value:any):void {
+    console.log('New search input: ', value);
+  }
+
+  public refreshValue(value:any):void {
+    this.value = value;
   }
 
 

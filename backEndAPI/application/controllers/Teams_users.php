@@ -18,8 +18,8 @@ class Teams_users extends CI_Controller
 
         parent::__construct();
         $this->load->model('Teams_users_model');
-        $this->load->library('form_validation');        
-	$this->load->library('datatables');
+        $this->load->library('form_validation');
+        $this->load->library('datatables');
     }
 
     public function index()
@@ -31,15 +31,24 @@ class Teams_users extends CI_Controller
     public function json($resArray) {
         header('Content-Type: application/json');
         $outputMessageArray=array(
-            "statu"=>"success",
+            "status"=>"success",
             "data"=>$resArray
         );
         echo json_encode($outputMessageArray);
     }
 
+    public function getall()
+    {
+        $tempData=$this->Teams_users_model->get_all();
+
+        echo $this->json($tempData);
+    }
+
+
+
     public function create_error_messageArray($message){
         $tempMessageArray=array(
-            "statu"=>"error",
+            "status"=>"error",
             "errorMassage"=>$message
         );
         return $tempMessageArray;
@@ -54,24 +63,20 @@ class Teams_users extends CI_Controller
 
 
             //  goal_description can be empty
-            if (empty($Data['goal_name'])) {
-                echo json_encode($this->create_error_messageArray("team_name Empty"));
+            if (empty($Data['team_id'])) {
+                echo json_encode($this->create_error_messageArray("team_id Empty"));
                 return 0;
-            }elseif (empty($Data['goal_name'])){
-                echo json_encode($this->create_error_messageArray("goal_name Empty"));
-                return 0;
-            }
-            elseif (empty($Data['time_frame_id'])){
-                echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
+            }elseif (empty($Data['user_id'])){
+                echo json_encode($this->create_error_messageArray("user_id Empty"));
                 return 0;
             }
+
             else {
 
                 $processArray = array(
-                    'goal_id' =>$Data['goal_id'],
-                    'goal_name' => $Data['goal_name'],
-                    'goal_description' => $Data['goal_description'],
-                    'time_frame_id'=>$Data['time_frame_id'],
+                    'team_id' =>$Data['team_id'],
+                    'user_id' => $Data['user_id'],
+
                 );
                 return $processArray;
             }
@@ -99,11 +104,16 @@ class Teams_users extends CI_Controller
 
     }
 
-    public function getall()
-    {
-        $tempData=$this->Teams_users_model->get_all();
 
-        echo $this->json($tempData);
+
+    public function search_id(){
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        $method = $_SERVER['REQUEST_METHOD'];
+        if('POST'!=$method){
+
+        }
+
+        $this->json($tempData);
     }
 
 
@@ -121,7 +131,7 @@ class Teams_users extends CI_Controller
         }
         else {
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
         }
 
     }
@@ -137,6 +147,73 @@ class Teams_users extends CI_Controller
             $this->read($last_insert_id);
         }
     }
+
+    public function batch_create()
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+        if (empty($Data['data'])){
+            $tempReturnArray=$this->create_error_messageArray('data empty');
+            echo json_encode($tempReturnArray);
+
+
+        }
+
+        else{
+            $dataArray=$Data['data'];
+            $last_query=$this->Teams_users_model->batch_insert($dataArray);
+            $arraySize=count($dataArray);
+            if($last_query==$arraySize){
+                $successArray = array(
+
+                    "affectRows" => $last_query
+                );
+                $this->json($successArray);
+            }else{
+                $tempErrorArray=$this->create_error_messageArray('Create Error! ');
+                echo json_encode($tempErrorArray);
+
+            }
+
+        }
+
+    }
+
+    public function batch_delete_by_team_id()
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+        if (empty($Data['data'])){
+            $tempErrorArray=$this->create_error_messageArray('data empty');
+            echo json_encode($tempErrorArray);
+
+
+        }
+
+        else{
+            $dataArray=$Data['data'];
+            $teamId=$dataArray['team_id'];
+            $deleteArray=$dataArray['user_ids'];
+
+
+            $last_query=$this->Teams_users_model->batch_delete_by_team_id($teamId,$deleteArray);
+            $arraySize=count($dataArray);
+            if($last_query==$arraySize){
+                $successArray = array(
+
+                    "affectRows" => $last_query
+                );
+                $this->json($successArray);
+            }else{
+                $tempErrorArray=$this->create_error_messageArray('Create Error! ');
+                echo json_encode($tempErrorArray);
+
+            }
+
+        }
+
+    }
+
 
 
     public function update($id,$updateData)
@@ -157,7 +234,7 @@ class Teams_users extends CI_Controller
                 $affectedRowsNumber = $this->Teams_users_model->update($id, $data);
 
                 $tempReturnArray = array(
-                    "status" => 'success',
+
                     "affectRows" => $affectedRowsNumber
                 );
                 $this->json($tempReturnArray);
@@ -166,14 +243,12 @@ class Teams_users extends CI_Controller
         else {
 
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
         }
 
 
-
-
-
     }
+
 
 
 
@@ -181,22 +256,115 @@ class Teams_users extends CI_Controller
     {
 
 
-
         $row = $this->Teams_users_model->get_by_id($id);
+
+
 
         if ($row) {
             $affectRow=$this->Teams_users_model->delete($id);
             $tempReturnArray=array(
-                "status"=>'success',
+
                 "affectRows"=>$affectRow
             );
             $this->json($tempReturnArray);
         }
         else {
-            //$this->session->set_flashdata('message', 'Record Not Found');
-            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
 
+            $tempErrorArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempErrorArray);
+        }
+
+
+    }
+
+
+
+    public function get_by_user_id($id){
+
+
+        $i=0;
+        $data=[];
+        $row = $this->Teams_users_model->get_by_user_id($id);
+
+
+
+        if ($row){
+            $length= count($row);
+            for($i=0;$i<$length;$i++){
+
+
+                $info = array(
+
+                    'record_id' => set_value('record_id', $row[$i]->record_id),
+
+                    'team_id' => set_value('team_id', $row[$i]->team_id),
+                    'user_id' => set_value('user_id', $row[$i]->user_id),
+                    'team_description' => set_value('team_description', $row[$i]->team_description),
+                    'team_name' => set_value('team_name', $row[$i]->team_name),
+                    'parent_team_id' => set_value('parent_team_id', $row[$i]->parent_team_id),
+                    'team_leader_user_id' => set_value('team_leader_user_id', $row[$i]->team_leader_user_id),
+                    'first_name' => set_value('first_name', $row[$i]->first_name),
+                    'last_name' => set_value('last_name', $row[$i]->last_name),
+                    'dob' => set_value('dob', $row[$i]->dob),
+                    'mobile_number' => set_value('mobile_number', $row[$i]->mobile_number),
+                    'position' => set_value('position', $row[$i]->position),
+
+
+
+                );
+                array_push($data,$info);
+
+            }
+            $this->json($data);
+
+
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
+    }
+    public function get_by_team_id($id){
+
+
+        $data=[];
+        $row = $this->Teams_users_model->get_by_team_id($id);
+
+
+        if ($row){
+            $length= count($row);
+            for($i=0;$i<$length;$i++){
+
+
+                $info = array(
+
+                    'record_id' => set_value('record_id', $row[$i]->record_id),
+
+                    'team_id' => set_value('team_id', $row[$i]->team_id),
+                    'user_id' => set_value('user_id', $row[$i]->user_id),
+                    'team_description' => set_value('team_description', $row[$i]->team_description),
+                    'team_name' => set_value('team_name', $row[$i]->team_name),
+                    'parent_team_id' => set_value('parent_team_id', $row[$i]->parent_team_id),
+                    'team_leader_user_id' => set_value('team_leader_user_id', $row[$i]->team_leader_user_id),
+                    'first_name' => set_value('first_name', $row[$i]->first_name),
+                    'last_name' => set_value('last_name', $row[$i]->last_name),
+                    'dob' => set_value('dob', $row[$i]->dob),
+                    'mobile_number' => set_value('mobile_number', $row[$i]->mobile_number),
+                    'position' => set_value('position', $row[$i]->position),
+
+                );
+                array_push($data,$info);
+
+            }
+            $this->json($data);
+
+
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
         }
 
 

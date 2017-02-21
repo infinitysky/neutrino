@@ -13,8 +13,12 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
-import {SelectModule} from 'angular2-select';
-import {MultiSelectModule} from 'primeng/primeng';
+//import {SelectModule} from 'angular2-select';
+
+
+import {SelectModule} from 'ng2-select';
+
+
 
 import { OkrSettingTeamRoutingModule } from './okr-setting-team-routing.module';
 import { OkrSettingTeamComponent } from './okr-setting-team.component';
@@ -32,7 +36,7 @@ import { OkrSettingTeamComponent } from './okr-setting-team.component';
     SelectModule,
 
     MultiselectDropdownModule,
-    MultiSelectModule,
+
 
 
 

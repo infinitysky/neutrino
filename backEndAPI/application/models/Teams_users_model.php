@@ -7,7 +7,7 @@ class Teams_users_model extends CI_Model
 {
 
     public $table = 'teams_users';
-    public $id = 'id';
+    public $id = 'record_id';
     public $order = 'DESC';
 
     function __construct()
@@ -18,7 +18,7 @@ class Teams_users_model extends CI_Model
 
     // datatables
     function json() {
-        $this->datatables->select('team_id,user_id,id');
+        $this->datatables->select('team_id,user_id,record_id');
         $this->datatables->from('teams_users');
         //add this line for join
         //$this->datatables->join('table2', 'teams_users.field = table2.field');
@@ -39,23 +39,23 @@ class Teams_users_model extends CI_Model
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
-    
+
     // get total rows
     function total_rows($q = NULL) {
-        $this->db->like('id', $q);
-	$this->db->or_like('team_id', $q);
-	$this->db->or_like('user_id', $q);
-	$this->db->from($this->table);
+        $this->db->like('record_id', $q);
+        $this->db->or_like('team_id', $q);
+        $this->db->or_like('user_id', $q);
+        $this->db->from($this->table);
         return $this->db->count_all_results();
     }
 
     // get data with limit and search
     function get_limit_data($limit, $start = 0, $q = NULL) {
         $this->db->order_by($this->id, $this->order);
-        $this->db->like('id', $q);
-	$this->db->or_like('team_id', $q);
-	$this->db->or_like('user_id', $q);
-	$this->db->limit($limit, $start);
+        $this->db->like('record_id', $q);
+        $this->db->or_like('team_id', $q);
+        $this->db->or_like('user_id', $q);
+        $this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }
 
@@ -68,6 +68,17 @@ class Teams_users_model extends CI_Model
         $this->db->trans_complete();
         return  $insert_id;
     }
+
+    function batch_insert($data)
+    {
+        $this->db->trans_start();
+        $query=$this->db->insert_batch($this->table, $data);
+       // $query=$this->db->insert_id();
+        $this->db->trans_complete();
+        return $query;
+
+    }
+
 
 
     // update data
@@ -90,6 +101,121 @@ class Teams_users_model extends CI_Model
         $affectedRowsNumber=$this->db->affected_rows();
         $this->db->trans_complete();
         return  $affectedRowsNumber;
+    }
+
+
+    // delete data
+    function delete_by_user_id_team_id($userId,$teamId)
+    {
+
+        $this->db->trans_start();
+
+        $this->db->where('user_id', $userId);
+        $this->db->where('$team_id', $teamId);
+
+        $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return $affectedRowsNumber;
+
+    }
+
+
+    //The idea is comes from DELETE FROM `teams_users` WHERE `teams_users`.`team_id`=3 AND `teams_users`.`user_id` IN (87,88,89)
+    function batch_delete_by_user_id($userId,$teamIdDataArray)
+    {
+        $this->db->trans_start();
+
+        $this->db->where('user_id', $userId);
+        $this->db->where_in('team_id', $teamIdDataArray);
+
+        $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return $affectedRowsNumber;
+
+    }
+    function batch_delete_by_team_id($teamId,$userIdDataArray)
+    {
+        $this->db->trans_start();
+        $this->db->where('team_id', $teamId);
+        $this->db->where_in('user_id', $userIdDataArray);
+        $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return $affectedRowsNumber;
+
+    }
+
+    function delete_by_user_id($userId)
+    {
+        $this->db->trans_start();
+
+
+        $this->db->where_in('team_id', $userId);
+
+        $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return $affectedRowsNumber;
+
+    }
+
+    function delete_by_team_id($team_id)
+    {
+        $this->db->trans_start();
+
+
+        $this->db->where_in('team_id', $team_id);
+
+        $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return $affectedRowsNumber;
+
+    }
+
+
+
+    function get_by_user_id($userid){
+        $this->db->trans_start();
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where('teams_users.user_id',$userid);
+        $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
+        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+
+
+
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+
+        //echo $this->db->last_query();
+
+        return $result->result();
+
+
+
+    }
+    function get_by_team_id($teamid){
+
+        $this->db->trans_start();
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where('teams_users.team_id',$teamid);
+        $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
+        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+
+
+        return $result->result();
+
     }
 
 }

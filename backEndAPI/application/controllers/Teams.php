@@ -34,7 +34,7 @@ class Teams extends CI_Controller
 
         header('Content-Type: application/json');
         $outputMessageArray=array(
-            "statu"=>"success",
+            "status"=>"success",
             "data"=>$resArray
         );
         echo json_encode($outputMessageArray);
@@ -51,13 +51,13 @@ class Teams extends CI_Controller
                 'team_description' => $row->team_description,
                 'team_name' => $row->team_name,
                 'parent_team_id' =>$row->parent_team_id,
-                'team_leader_id'=>$row->team_leader_id,
+                'team_leader_user_id'=>$row->team_leader_user_id,
             );
             $this->json($data);
         }
         else {
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
         }
 
 
@@ -93,7 +93,7 @@ class Teams extends CI_Controller
                     'team_description' => $processArray['team_description'],
                     'team_name' => $processArray['team_name'],
                     'parent_team_id' => $processArray['parent_team_id'],
-                    'team_leader_id' => $processArray['team_leader_id'],
+                    'team_leader_user_id' => $processArray['team_leader_user_id'],
                 );
                 $affectedRowsNumber = $this->Teams_model->update($id, $data);
 
@@ -108,7 +108,7 @@ class Teams extends CI_Controller
         else {
 
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
         }
 
     }
@@ -131,7 +131,7 @@ class Teams extends CI_Controller
         else {
             //$this->session->set_flashdata('message', 'Record Not Found');
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
 
         }
 
@@ -186,7 +186,7 @@ class Teams extends CI_Controller
 
     public function create_error_messageArray($message){
         $tempMessageArray=array(
-            "statu"=>"error",
+            "status"=>"error",
             "errorMassage"=>$message
         );
         return $tempMessageArray;
@@ -202,8 +202,8 @@ class Teams extends CI_Controller
             if (empty($Data['team_name'])) {
                 echo json_encode($this->create_error_messageArray("team_name Empty"));
                 return 0;
-            }elseif (empty($Data['team_leader_id'])){
-                echo json_encode($this->create_error_messageArray("team_leader_id Empty"));
+            }elseif (empty($Data['team_leader_user_id'])){
+                echo json_encode($this->create_error_messageArray("team_leader_user_id Empty"));
                 return 0;
             }
 
@@ -220,7 +220,7 @@ class Teams extends CI_Controller
                     'team_description' => $Data['team_description'],
                     'team_name' => $Data['team_name'],
                     'parent_team_id' =>$Data['parent_team_id'],
-                    'team_leader_id'=>$Data['team_leader_id'],
+                    'team_leader_user_id'=>$Data['team_leader_user_id'],
 
                 );
                 return $processArray;

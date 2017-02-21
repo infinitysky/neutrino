@@ -42,7 +42,7 @@ class Users extends CI_Controller
     public function json($resArray) {
         header('Content-Type: application/json');
         $outputMessageArray=array(
-            "statu"=>"success",
+            "status"=>"success",
             "data"=>$resArray
         );
         echo json_encode($outputMessageArray);

@@ -59,6 +59,9 @@ export interface ApplicationConfig {
   userDetailFullInfo:string;
 
 
+  teamsUsersOperateUrl:string;
+
+
 }
 
 // Configuration values for our app
@@ -82,6 +85,10 @@ export const MY_CONFIG: ApplicationConfig = {
   teamGetAllUrl:'/neutrino/backEndAPI/index.php/Teams',
   teamCreateUrl:'/neutrino/backEndAPI/index.php/Teams/create',
   teamOperateUrl:'/neutrino/backEndAPI/index.php/Teams/items',
+
+
+
+  teamsUsersOperateUrl:'/neutrino/backEndAPI/index.php/Teams_users',
 
 
     //goal Urls:

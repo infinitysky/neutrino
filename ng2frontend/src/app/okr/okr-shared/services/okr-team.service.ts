@@ -18,7 +18,7 @@ export class SettingTeamService {
   private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamGetAllUrl;
   private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamCreateUrl;
   private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamOperateUrl;
-
+  private teamsUsersOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamsUsersOperateUrl;
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -117,7 +117,7 @@ export class SettingTeamService {
 
   addNew(team_description: string, team_name: string,parent_team_id:number,team_leader_id:number,) : Observable<Teamclass>  {
 
-    let httpBody = JSON.stringify({ team_description : team_description,team_name:team_name,parent_team_id :parent_team_id,team_leader_id: team_leader_id});
+    let httpBody = JSON.stringify({ team_description : team_description,team_name:team_name,parent_team_id :parent_team_id,team_leader_user_id: team_leader_id});
    // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -130,6 +130,65 @@ export class SettingTeamService {
       .catch(this.handleErrorObservable)
 
   }
+
+  getTeamMembersByTeamId(team:Teamclass){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+
+    const url = `${this.teamsUsersOperateAPI}/get_by_team_id/${team.team_id}`;
+
+
+    //console.log('Post message body: '+httpBody);
+    return this.http.get(url, {headers: this.headers})
+    //.map(this.extractDataObservable)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+
+
+
+  }
+
+
+  setTeamMembers(team:Teamclass,memberArray:any){
+
+    // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
+    var i=0;
+    var tempMemberArray=[];
+    for(i=0;i<memberArray.length;i++){
+
+      var info={team_id:team.team_id,user_id:memberArray[i]};
+
+      tempMemberArray.push(info);
+    }
+
+
+    let httpBody = JSON.stringify({data:tempMemberArray });
+
+    //console.log("httpBody"+httpBody);
+
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+
+    const url = `${this.teamsUsersOperateAPI}/batch_create`;
+
+
+    //console.log('Post message body: '+httpBody);
+    return this.http.post(url,httpBody, {headers: this.headers})
+    //.map(this.extractDataObservable)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+
+  }
+  deleteTeamMember(){
+
+  }
+  updateTeamMember(){
+
+  }
+
 
 
 

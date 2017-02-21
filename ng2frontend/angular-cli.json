@@ -47,7 +47,8 @@
 
        "../library/vendor/sweetalert2/dist/sweetalert2.js",
        "../library/vendor/toastr/build/toastr.min.js",
-
+       
+        "../library/vendor/select2-4.0.3/dist/js/select2.full.min",
 
 
        "../library/bootstrap/dist/js/bootstrap.js",

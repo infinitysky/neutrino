@@ -38,7 +38,7 @@ class Time_frames_goals extends CI_Controller
 
     public function create_error_messageArray($message){
         $tempMessageArray=array(
-            "statu"=>"error",
+            "status"=>"error",
             "errorMassage"=>$message
         );
         return $tempMessageArray;

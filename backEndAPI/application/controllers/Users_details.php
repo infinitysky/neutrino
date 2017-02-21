@@ -47,7 +47,7 @@ class Users_details extends CI_Controller
     public function json($resArray) {
         header('Content-Type: application/json');
         $outputMessageArray=array(
-            "statu"=>"success",
+            "status"=>"success",
             "data"=>$resArray
         );
         echo json_encode($outputMessageArray);
@@ -56,7 +56,7 @@ class Users_details extends CI_Controller
 
     public function create_error_messageArray($message){
         $tempMessageArray=array(
-            "statu"=>"error",
+            "status"=>"error",
             "errorMassage"=>$message
         );
         return $tempMessageArray;
@@ -152,7 +152,7 @@ class Users_details extends CI_Controller
             $this->json($data);
         } else {
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
         }
     }
 
@@ -180,7 +180,7 @@ class Users_details extends CI_Controller
         }
         else {
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
         }
 
     }
@@ -230,7 +230,7 @@ class Users_details extends CI_Controller
         else {
 
                 $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-                $this->json($tempReturnArray);
+                echo json_encode($tempReturnArray);
             }
 
 
@@ -253,7 +253,7 @@ class Users_details extends CI_Controller
 
         } else {
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
-            $this->json($tempReturnArray);
+            echo json_encode($tempReturnArray);
         }
 
 
