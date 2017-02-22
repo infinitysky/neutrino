@@ -138,16 +138,24 @@
 
               <tr class="active">
                 <td >ID</td>
-                <td >Name</td>
-                <td>Starting Date</td>
-                <td>Ending Date</td>
+                <td >Goal Name</td>
+                <td>Goal Description</td>
+                <td>Time Frame Name</td>
+                <td>Start Date</td>
+                <td>End Date</td>
                 <td [hidden]=isLoaded>Edit</td>
               </tr>
+
+
+
 
               <tr *ngFor="let gl of goals">
                 <td >{{ gl.goal_id}}</td>
                 <td >{{ gl.goal_name}}</td>
                 <td> {{ gl.goal_description }} </td>
+                <td> {{ gl.time_frame_description }} </td>
+                <td> {{ gl.time_frame_start }} </td>
+                <td> {{ gl.time_frame_end }} </td>
 
                 <td [hidden]=isLoaded>
                   <!--Delete the record-->
@@ -165,7 +173,7 @@
         </div>
 
         <div class="panel-footer">
-          <i class="fa fa-eye"> </i> 6 unread
+          {{goals.length}} Records
         </div>
 
       </div>
@@ -188,57 +196,47 @@
   </modal-header>
   <modal-body>
     <div class="stage">
-      <fieldset >
-        <label >Goal Name</label>
+
+      <label >Goal Name</label>
+      <div class="palos-input block" >
+
+        <input type="text" placeholder="Please enter your goal name" autocomplete="off" class="form-control" value="{{goalNameInputBoxValue}}" #goalNameInput> <!---->
+
+      </div>
+
+      <br>
+      <div class="selector-ctn" >
+
+        <label >Goal Description</label>
         <div class="palos-input block" >
 
-          <input type="text" placeholder="Please enter your goal name" autocomplete="off" class="form-control" value="{{timeFrameNameInputBoxValue}}" #goalNameInput> <!---->
+          <textarea style="height: 85px" type="text" placeholder="Please enter your goal description" autocomplete="off" class="form-control" value="{{goalDescriptionInputBoxValue}}" #goalDescriptionInput></textarea> <!---->
 
         </div>
-      </fieldset>
 
-      <div class="selector-ctn" >
-        <fieldset class="form-group">
-          <label >Time Frame Description</label>
-          <div class=" " ><!---->
-            <!--<i class="el-input__icon el-icon-date"></i>-->
-            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
-            <textarea style="height: 85px" type="text" placeholder="Please enter your goal description" autocomplete="off" class="form-control" value="{{timeFrameNameInputBoxValue}}" #goalDesctiptionInput></textarea> <!---->
+        <label >Select A Time Frame</label>
+        <div class="palos-input block" >
 
-
-          </div>
-        </fieldset>
-
-        <fieldset class="form-group">
-          <label >Select Time Frame</label>
-          <div class=" " ><!---->
-            <!--<i class="el-input__icon el-icon-date"></i>-->
-            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
-            <!--<ss-multiselect-dropdown [options]="timeFrameDropDownList" [(ngModel)]="selectedOptions" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>-->
-
-            <!--<ss-multiselect-dropdown [options]="mySettings" [(ngModel)]="selectedOptions" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>-->
-
-            <!--<ss-multiselect-dropdown [options]="timeFrameDropDownList" [texts]="myTexts" [settings]="mySettings" [(ngModel)]="selectedOptions"></ss-multiselect-dropdown>-->
-            <!--<select [(ngModel)]="selectedValue">-->
-              <!--<option *ngFor="let c of countries" [ngValue]="c">{{c.name}}</option>-->
-            <!--</select>-->
+          <ng-select #timeFrameSelector
+                     [allowClear]="true"
+                     [items]="timeFrameDropdownListOptions"
+                     [disabled]="disabled"
+                     [(ngModel)]="selectedTimeFrame"
+                     placeholder="Select a Time Frame">
+          </ng-select>
 
 
-
-          </div>
-        </fieldset>
-
-
+        </div>
 
 
       </div>
+
     </div>
   </modal-body>
   <modal-footer>
     <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
-    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(timeFrameNameInput.value);" > Save changes</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(goalNameInput.value,goalDescriptionInput.value);" > Save changes</button>
   </modal-footer>
 </modal>
-
 
 

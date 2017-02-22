@@ -1,26 +1,88 @@
-<div class="row">
-  <div class="col-md-4">
-    <input *ngIf="config.filtering" placeholder="Filter all columns"
-           [ngTableFiltering]="config.filtering"
-           class="form-control"
-           (tableChanged)="onChangeTable(config)"/>
+<div _ngcontent-nnd-19="" class="normalheader ">
+
+  <div _ngcontent-nnd-19="" class="hpanel">
+
+
+    <div _ngcontent-nnd-19="" class="panel-body">
+
+      <a _ngcontent-nnd-19="" class="small-header-action">
+        <div _ngcontent-nnd-19="" class="clip-header">
+          <i _ngcontent-nnd-19="" class="fa fa-arrow-up"></i>
+        </div>
+      </a>
+
+
+      <h2 _ngcontent-nnd-19="" class="font-light m-b-xs">
+        OKRs Setting
+      </h2>
+
+      <small _ngcontent-nnd-19="">MainView</small>
+
+    </div>
+
   </div>
 </div>
-<br>
-<ng-table [config]="config"
-          (tableChanged)="onChangeTable(config)"
-          (cellClicked)="onCellClick($event)"
-          [rows]="rows" [columns]="columns">
-</ng-table>
-<pagination *ngIf="config.paging"
-            class="pagination-sm"
-            [(ngModel)]="page"
-            [totalItems]="length"
-            [itemsPerPage]="itemsPerPage"
-            [maxSize]="maxSize"
-            [boundaryLinks]="true"
-            [rotate]="false"
-            (pageChanged)="onChangeTable(config, $event)"
-            (numPages)="numPages = $event">
-</pagination>
-<pre *ngIf="config.paging" class="card card-block card-header">Page: {{page}} / {{numPages}}</pre>
+
+<div class="content animate-panel">
+
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="hpanel">
+
+        <div class="panel-heading">
+          <div class="panel-tools">
+          </div>
+        </div>
+
+        <div class="panel-body" style="display: block;">
+          <div class="table-responsive">
+
+            <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
+              <thead>
+              <tr>
+                <th style="width: 10%">Team Name</th>
+
+                <th style="width: 10%">Leader</th>
+                <th style="width: 20%">Members</th>
+                <th style="width: 50%">Status</th>
+
+              </tr>
+              </thead>
+              <tbody>
+
+              <tr *ngFor="let tm of teams">
+
+                <td> {{ tm.team_name }} </td>
+                <td> {{ tm.first_name }} - {{ tm.last_name }}</td>
+                <td >        </td>
+                <td >
+                  <div class="m">
+                    <div class="progress m-t-xs full progress-striped">
+                      <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class=" progress-bar progress-bar-warning">
+                        75%
+                      </div>
+                    </div>
+                  </div>
+
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+
+
+          </div>
+
+        </div>
+        <div class="panel-footer" style="display: block;">
+          Table - {{teams.length}} rows
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+

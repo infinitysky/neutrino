@@ -185,7 +185,30 @@ export class SettingTeamService {
   deleteTeamMember(){
 
   }
-  updateTeamMember(){
+  updateTeamMember(team:Teamclass, currentTeamMembersArray:any){
+    var i=0;
+    var tempMemberArray=[];
+    for(i=0;i<currentTeamMembersArray.length;i++){
+
+      var info=currentTeamMembersArray[i];
+
+      tempMemberArray.push(info);
+    }
+
+
+    let httpBody = JSON.stringify({data:{team_id:team.team_id,new_members: tempMemberArray } });
+
+    //console.log("httpBody"+httpBody);
+
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    const url = `${this.teamsUsersOperateAPI}/update_members`;
+
+    return this.http.post(url,httpBody, {headers: this.headers})
+    //.map(this.extractDataObservable)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
 
   }
 

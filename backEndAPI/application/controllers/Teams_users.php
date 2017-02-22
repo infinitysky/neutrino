@@ -221,11 +221,12 @@ class Teams_users extends CI_Controller
             $tempReturnArray=$this->create_error_messageArray('data empty');
             echo json_encode($tempReturnArray);
 
-
         }
 
         else{
             $dataArray=$Data['data'];
+
+            //TODO:improve the security need to create a data Validator before insert the information into database.
             $last_query=$this->Teams_users_model->batch_insert($dataArray);
             $arraySize=count($dataArray);
             if($last_query==$arraySize){
@@ -237,12 +238,237 @@ class Teams_users extends CI_Controller
             }else{
                 $tempErrorArray=$this->create_error_messageArray('Create Error! ');
                 echo json_encode($tempErrorArray);
+            }
+        }
+    }
+
+
+
+    //To receive current members data and work out the inserted and removed members
+    public function update_members()
+    {
+
+        //JSON structure is
+        //├───status
+        //├───data
+        //│    ├───teamId
+        //│    ├───current_member
+
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        $i=0;
+        $insertedNumber=0;
+        $deletedNumber=0;
+        $insertArray=[];
+        $deleteArray=[];
+        if (empty($Data['data'])){
+            $tempReturnArray=$this->create_error_messageArray('data empty');
+            echo json_encode($tempReturnArray);
+        }
+
+        elseif(empty($Data['data']['team_id'])){
+            $tempReturnArray=$this->create_error_messageArray('data empty');
+            echo json_encode($tempReturnArray);
+        }
+
+        else{
+            $dataArray=$Data['data'];
+            $teamId=$Data['data']['team_id'];
+
+            //TODO:improve the security need to create a data Validator before insert the information into database.
+            $processArray=$this->relationship_analysis($dataArray);
+            if($processArray) {
+
+                $insertArraySize = count($processArray['insert']);
+                $deleteArraySize = count($processArray['delete']);
+
+
+                if (!empty($processArray) && $insertArraySize != 0) {
+
+                    $infos = $processArray['insert'];
+
+                    for ($i = 0; $i < $insertArraySize; $i++) {
+                        $insertInformation = array(
+                            "user_id" => $infos[$i],
+                            "team_id" => $teamId
+                        );
+                        array_push($insertArray, $insertInformation);
+                    }
+                    $insertedNumber = $this->Teams_users_model->batch_insert($insertArray);
+
+                }
+                if (!empty($processArray) && $deleteArraySize != 0) {
+                    // $last_query=$this->Teams_users_model->batch_delete_by_team_id($processArray['delete']);
+                    array_push($deleteArray, 0);
+                    for ($i = 0; $i < $deleteArraySize; $i++) {
+                        array_push($deleteArray, $processArray['delete'][$i]);
+                    }
+                    $deletedNumber = $this->Teams_users_model->batch_delete_by_team_id($teamId, $deleteArray);
+                }
+
+                $totalAffectSize = $insertArraySize + $deleteArraySize;
+                $finalAffectedRows = $insertedNumber + $deletedNumber;
+
+                if ($totalAffectSize == $finalAffectedRows && $finalAffectedRows != 0) {
+                    $successArray = array(
+                        "affectRows" => $finalAffectedRows
+                    );
+                    $this->json($successArray);
+                } elseif ($finalAffectedRows == 0) {
+                    $tempErrorArray = $this->create_error_messageArray('No Changes');
+                    echo json_encode($tempErrorArray);
+                } else {
+                    $tempErrorArray = $this->create_error_messageArray('Create Error!' . 'Inserted: ' . $insertedNumber . 'Deleted: ' . $deletedNumber);
+                    echo json_encode($tempErrorArray);
+                }
 
             }
 
         }
+    }
+
+
+    public function relationship_analysis($updateData){
+
+        $memberIdArray=[];
+        $newMembersIdArray=[];
+        $checkedArray=[];
+        $arrayLength=0;
+        $i=0;
+        if(empty($updateData)||empty($updateData['team_id'])){
+            $tempErrorArray=$this->create_error_messageArray('Update Array Not Exist! ');
+            echo json_encode($tempErrorArray);
+
+        }elseif(empty($updateData['team_id'])){
+            $tempErrorArray=$this->create_error_messageArray('team_id Not Exist! ');
+            echo json_encode($tempErrorArray);
+
+        }
+        else{
+
+            //Get Current Members
+            $membersArray=$this->Teams_users_model->get_by_team_id($updateData['team_id']);
+            $Members=$updateData['new_members'];
+
+            if ($membersArray){
+                $arrayLength=count($membersArray);
+
+                for ($i=0;$i<$arrayLength;$i++){
+                    array_push($memberIdArray,$membersArray[$i]->user_id);
+                }
+
+            }
+            if (empty($membersArray)){
+                $memberIdArray=[];
+            }
+
+            $arrayLength=count($Members);
+
+            for ($i=0;$i<$arrayLength;$i++){
+                array_push($newMembersIdArray,$Members[$i]);
+            }
+
+
+            //for easy to understand
+            //array_diff() is using to check the included element.
+            //old = 100,94,83,82,80,78,76
+            //new = 99,97,80,78,76
+            //added = 99,97
+            //removed = 10,98,83,82
+
+            $old=$memberIdArray;
+            $new=$newMembersIdArray;
+            $removed=array_diff($old,$new);
+            $added=array_diff($new,$old);
+            $same=array_diff($memberIdArray,$memberIdArray); //empty
+
+            $removedMembers=array_diff($memberIdArray,$newMembersIdArray);
+
+            $addedMembers=array_diff($newMembersIdArray,$memberIdArray);
+
+
+            //var_dump($addedMembers);
+
+
+            //array_values() reset the array index start from0
+            $checkedArray=array(
+                "insert"=>array_values($addedMembers),
+                "delete"=>array_values($removedMembers),
+            );
+        }
+
+        return $checkedArray;
+    }
+
+
+
+
+
+    public function batchUpdateDataValidate($updateData){
+        $checkedData=[];
+        $tempArray=[];
+        $i=0;
+        if(empty($updateData)){
+            $tempErrorArray=$this->create_error_messageArray('Update Array Not Existing! ');
+            echo json_encode($tempErrorArray);
+
+        }else{
+
+
+
+        }
 
     }
+    public function batchDeleteDataValidate($deleteData){
+        $checkedData=[];
+        $tempArray=[];
+        $i=0;
+        if(empty($updateData)){
+            $tempErrorArray=$this->create_error_messageArray('Delete Array Not Existing!');
+            echo json_encode($tempErrorArray);
+        }else{
+            $arrayLength=count($deleteData);
+            for ($i=0;$i<$arrayLength;$i++){
+                $tempArray=array(
+                    $tempArray['user_id']=>$deleteData[$i]['user_id'],
+                    $tempArray['team_id']=>$deleteData[$i]['team_id'],
+                );
+                array_push($checkedData,$tempArray);
+            }
+        }
+        return $checkedData;
+    }
+
+    public function batchInsertDataValidate($insertDataData){
+        $checkedData=[];
+
+        $i=0;
+        if(empty($insertDataData)){
+            $tempErrorArray=$this->create_error_messageArray('Insert Array Not Existing! ');
+            echo json_encode($tempErrorArray);
+
+        }else{
+
+            $arrayLength=count($insertDataData);
+            for ($i=0;$i<$arrayLength;$i++){
+                $tempArray=array(
+                    $tempArray['user_id']=$insertDataData[$i]['user_id'],
+                    $tempArray['team_id']=$insertDataData[$i]['team_id'],
+                );
+
+                array_push($checkedData,$tempArray);
+            }
+
+        }
+
+        return $checkedData;
+    }
+
+
+
+
+
+
+
 
     public function batch_delete_by_team_id()
     {

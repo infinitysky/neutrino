@@ -54,11 +54,13 @@ export class OkrSettingGoalComponent implements OnInit {
   public timeframes:Timeframeclass[];
 
 
+
+  //modal parameter
   public goalsData:any;
   public errorMessage:any;
 
   public isLoaded:boolean=true;
-  selectedGoal: Goalclass;
+  public selectedGoal: Goalclass;
   public selectedValue:any;
   public tempData:any;
 
@@ -67,9 +69,18 @@ export class OkrSettingGoalComponent implements OnInit {
   backdrop: string | boolean = true;
   editModeIO:number;
 
-  editGoal:string;
+
+  //edit mode parameter
+  editGoal:any;
   goalNameInputBoxValue:string;
   goalDescriptionInputBoxValue:string;
+
+
+  //Dropdownlist;
+  private timeFrameDropdownListOptions:any;
+  private selectedTimeFrame:any;
+
+
 
 
 
@@ -79,28 +90,14 @@ export class OkrSettingGoalComponent implements OnInit {
 
     this.timeframes=[];
     this.editModeIO=0;
-    this.editGoal=null;
+    this.editGoal=new Goalclass();
     this.goalNameInputBoxValue='';
     this.goalDescriptionInputBoxValue='';
-
-
-
+    this.timeFrameDropdownListOptions=[];
+    this.selectedTimeFrame=[];
 
   }
 
-
-
-  //forms
-  submitted = false;
-
-  onSubmit() {
-    this.submitted = true;
-  }
-  // Reset the form with a new hero AND restore 'pristine' class state
-  // by toggling 'active' flag which causes the form
-  // to be removed/re-added in a tick via NgIf
-  // TODO: Workaround until NgForm has a reset method (#6822)
-  active = true;
 
 
   editButton(){
@@ -114,10 +111,12 @@ export class OkrSettingGoalComponent implements OnInit {
 
     this.editModeIO=0;
 
-    this.active = false;
-    setTimeout(() => this.active = true, 0);
-
     this.getAllTimeFrames();
+
+    this.selectedTimeFrame=[];
+    this.goalNameInputBoxValue="";
+    this.goalDescriptionInputBoxValue="";
+
     this.modal.open();
 
   }
@@ -131,7 +130,7 @@ export class OkrSettingGoalComponent implements OnInit {
         error => {this.errorMessage = <any>error},
         ()=>{
 
-          if(this.tempData.affectRows>0){
+          if(this.tempData.data.affectRows>0){
             swal("Deleted!", "Your goal has been deleted.", "success");
             this.goals = this.goals.filter(currentGoals => currentGoals !== Goal);
 
@@ -143,11 +142,11 @@ export class OkrSettingGoalComponent implements OnInit {
   }
 
 
-  modalSaveChangeButton(GoalNameInput:string,GoalDescription:string){
+  modalSaveChangeButton(goalNameInput:string,goalDescription:string){
     if(0==this.editModeIO){
-      this.createNewGoal(GoalNameInput);
+      this.createNewGoal(goalNameInput,goalDescription);
     }else {
-      this.updateGoal( this.editGoal,GoalNameInput);
+      this.updateGoal( this.editGoal,goalNameInput,goalDescription);
     }
   }
 
@@ -155,49 +154,67 @@ export class OkrSettingGoalComponent implements OnInit {
   editGoalsButton(Goal){
     this.editModeIO=1;
     this.editGoal=Goal;
-    this.goalNameInputBoxValue=Goal.Goal_name;
-    this.goalDescriptionInputBoxValue=Goal.Goal_description;
+    this.goalNameInputBoxValue=Goal.goal_name;
+    this.goalDescriptionInputBoxValue=Goal.goal_description;
+
+    var timeFrameName=Goal.time_frame_description
+      +"    --- ("+Goal.time_frame_start+
+      " To "+Goal.time_frame_end+")";
+
+    // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
+    //var tempInfo1={id:timeframes[i].time_frame_id, text:timeFrameName};
+    this.selectedTimeFrame=[{id:Goal.time_frame_id,text:timeFrameName}];
 
     this.getAllTimeFrames();
+
+
+
     this.modal.open();
 
   }
 
 //TODO: Fix the date format handling issue.
-  updateGoal(editGoal,GoalNameInput:string) {
+  updateGoal(editGoal,goalNameInput:string,goalDescription:string) {
 
-
-
-    if (!GoalNameInput  ) {
+    if (!goalNameInput  ) {
       //alert("Do not leave any empty!");
-      // swal("Warning", "you did not change any time!", "warning");
-
+      // swal("Warning", "you did not change any time!", "warning");\
       return;
+    }else{
+      editGoal.goal_description=goalDescription;
+      editGoal.goal_name=goalNameInput;
+      var timeFrameId=this.selectedTimeFrame[0].id;
+      console.log(this.selectedTimeFrame[0]);
+      editGoal.time_frame_id=timeFrameId;
+
+
+
+      this._settingGoalService.update(editGoal)
+        .subscribe(
+          data  => {this.tempData = data},
+          error =>  this.errorMessage = <any>error,
+          ()=>{
+            console.log( "update Members this.tempData + "+JSON.stringify(this.tempData));
+            console.log(this.tempData.data);
+
+            if(this.tempData.status!="success"||!this.tempData.data){
+              //swal("Warning", this.tempData.errorMassage, "warning");
+              swal("Error!", this.tempData.errorMassage, "error");
+            }else{
+              swal("Success!", "Your goal has been updated. <br> affectRows: "+this.tempData.data.affectRows, "success");
+              // this.updateTeamMembers(editTeam,this.memberSelectedOptions);
+              this.goalNameInputBoxValue="";
+              this.goalDescriptionInputBoxValue="";
+
+            }
+
+          }
+        );
+
+
     }
 
-
-
-    this._settingGoalService.update(editGoal)
-      .subscribe(
-        data  => {this.tempData = data},
-        error =>  this.errorMessage = <any>error,
-        ()=>{
-
-
-          if(this.tempData.affectRows>0){
-            swal("Success!", "Your goal has been updated.", "success");
-
-          }else{
-            swal("Error!", "Your goal did not been deleted successfully.", "error");
-          }
-
-        }
-      );
     this.modal.close();
-
-
-
-
 
   }
 
@@ -212,29 +229,65 @@ export class OkrSettingGoalComponent implements OnInit {
         ()=>{
 
 
-          this.goals=this.goalsData;
+          this.goals=this.goalsData.data;
         }
       );
 
   }
 
 
-  createNewGoal (GoalNameInput:string) {
-    if (!GoalNameInput  ) {
+  createNewGoal (goalNameInput:string,goalDescription:string) {
+
+
+
+    console.log(this.selectedTimeFrame[0]);
+
+    if (!goalNameInput || !this.selectedTimeFrame[0]) {
       //alert("Do not leave any empty!");
       swal("Warning", "Do not leave any empty!", "warning");
       return;
     }
+    else {
+
+      var timeFrameId=this.selectedTimeFrame[0].id;
+      console.log(this.selectedTimeFrame[0]);
+
+      this._settingGoalService.addNew(goalNameInput, goalDescription,timeFrameId).subscribe(
+        data=>this.tempData=data,
+        error=>this.errorMessage=<any>error,
+        ()=>{
+
+          if(this.tempData.status!="success"||!this.tempData.data){
+            swal("Error", this.tempData.errorMassage, "error");
+
+          }else{
+
+            var tempInfo=<Goalclass>this.tempData.data;
+            var searchedTimeFrame =this.timeframes.find(x =>x.time_frame_id==tempInfo.time_frame_id);
+
+
+            tempInfo.time_frame_description=searchedTimeFrame.time_frame_description;
+            tempInfo.time_frame_start=searchedTimeFrame.time_frame_start;
+            tempInfo.time_frame_end=searchedTimeFrame.time_frame_end;
+            this.goals.push(tempInfo);
+
+
+            this.goalNameInputBoxValue="";
+            this.goalDescriptionInputBoxValue="";
+            swal("Success!", "Your goal has been created.", "success");
+
+          }
+
+        }
+      );
+    }
+
+
+
+
 
     this.modal.close();
   }
-
-
-  //warning functions
-//this function is not a native angular 2 function, it was implemented by third-party javascript library!
-
-
-
 
 
 
@@ -249,10 +302,42 @@ export class OkrSettingGoalComponent implements OnInit {
 
   //component functions
   ngOnInit() {
-
-
     this.getGoals();
+    this.getAllTimeFrames();
+
   }
+
+
+
+
+
+
+
+  setTimeFrameDropdownList(timeframes:Timeframeclass[]){
+    var i=0;
+    var tempArray=[];
+
+    //var NonInfo={id:"0", text:"None"};
+    for(i=timeframes.length-1;i>0;i--){
+      var timeFrameName=timeframes[i].time_frame_description
+        +"   --- ("+timeframes[i].time_frame_start+
+        " To "+timeframes[i].time_frame_end+")";
+
+      // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
+      var tempInfo1={id:timeframes[i].time_frame_id, text:timeFrameName};
+      tempArray.push(tempInfo1);
+
+    }
+    // This way is working...
+    this.timeFrameDropdownListOptions=tempArray;
+
+  }
+
+
+
+
+
+
 
 
 
@@ -317,11 +402,10 @@ export class OkrSettingGoalComponent implements OnInit {
         data => this.tempData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          this.timeframes=this.tempData;
-          // this.timeFrameDropDownList=this.tempData;
+          this.timeframes=this.tempData.data;
 
+          this.setTimeFrameDropdownList(this.timeframes);
 
-          //console.log( "this.timeFrameDropDownList + "+JSON.stringify(this.timeFrameDropDownList));
         }
       );
 

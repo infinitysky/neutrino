@@ -8,7 +8,7 @@ class Teams_users_model extends CI_Model
 
     public $table = 'teams_users';
     public $id = 'record_id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {
@@ -135,19 +135,27 @@ class Teams_users_model extends CI_Model
         return $affectedRowsNumber;
 
     }
+
+
+
+    //delete data
     function batch_delete_by_team_id($teamId,$userIdDataArray)
     {
+        //DELETE FROM `teams_users` WHERE `team_id` = '19' AND `user_id` IN(0, '100', '99', '76'))
+
         $this->db->trans_start();
         $this->db->where('team_id', $teamId);
         $this->db->where_in('user_id', $userIdDataArray);
         $this->db->delete($this->table);
         $affectedRowsNumber=$this->db->affected_rows();
         $this->db->trans_complete();
+
+     //   echo $this->db->last_query();
         return $affectedRowsNumber;
 
     }
 
-    function delete_by_user_id($userId)
+    function delet_all_by_user_id($userId)
     {
         $this->db->trans_start();
 
@@ -161,7 +169,7 @@ class Teams_users_model extends CI_Model
 
     }
 
-    function delete_by_team_id($team_id)
+    function delete_all_by_team_id($team_id)
     {
         $this->db->trans_start();
 
@@ -177,44 +185,44 @@ class Teams_users_model extends CI_Model
 
 
 
-    function get_by_user_id($userid){
+    function get_by_user_id($user_id){
         $this->db->trans_start();
         $this->db->order_by($this->id, $this->order);
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where('teams_users.user_id',$userid);
+        $this->db->where('teams_users.user_id',$user_id);
         $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
         $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
 
 
 
-        $result=$this->db->get();
+        $queryResult=$this->db->get();
         $this->db->trans_complete();
 
 
         //echo $this->db->last_query();
 
-        return $result->result();
+        return $queryResult->result();
 
 
 
     }
-    function get_by_team_id($teamid){
+    function get_by_team_id($team_id){
 
         $this->db->trans_start();
         $this->db->order_by($this->id, $this->order);
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where('teams_users.team_id',$teamid);
+        $this->db->where('teams_users.team_id',$team_id);
         $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
         $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
 
-        $result=$this->db->get();
+        $queryResult=$this->db->get();
         $this->db->trans_complete();
 
 
 
-        return $result->result();
+        return $queryResult->result();
 
     }
 

@@ -75,6 +75,13 @@ export class OkrSettingObjectiveComponent implements OnInit {
 
 
 
+
+
+  //goals dropdown list
+
+  //
+
+
   constructor(private _settingObjectiveService: SettingObjectiveService){
 
 
@@ -113,7 +120,7 @@ export class OkrSettingObjectiveComponent implements OnInit {
         ()=>{
 
 
-          if(this.tempData.affectRows>0){
+          if(this.tempData.data.affectRows>0){
             swal("Deleted!", "Your time frame has been deleted.", "success");
             this.Objectives = this.Objectives.filter(currentObjectives => currentObjectives !== Objective);
 
@@ -151,37 +158,32 @@ export class OkrSettingObjectiveComponent implements OnInit {
 //TODO: Fix the date format handling issue.
   updateObjective(editObjective,ObjectiveNameInput:string) {
 
-
     if (!ObjectiveNameInput  ) {
       //alert("Do not leave any empty!");
      // swal("Warning", "you did not change any time!", "warning");
 
       return;
+    }else{
+      this._settingObjectiveService.update(editObjective)
+        .subscribe(
+          data  => {this.tempData = data},
+          error =>  this.errorMessage = <any>error,
+          ()=>{
+
+            if(this.tempData.affectRows>0){
+              swal("Success!", "Your time frame has been updated.", "success");
+
+            }else{
+              swal("Error!", "Your time frame did not been deleted successfully.", "error");
+            }
+
+          }
+        );
+
     }
 
 
-
-    this._settingObjectiveService.update(editObjective)
-      .subscribe(
-        data  => {this.tempData = data},
-        error =>  this.errorMessage = <any>error,
-        ()=>{
-
-
-          if(this.tempData.affectRows>0){
-            swal("Success!", "Your time frame has been updated.", "success");
-
-          }else{
-            swal("Error!", "Your time frame did not been deleted successfully.", "error");
-          }
-
-        }
-      );
     this.modal.close();
-
-
-
-
 
   }
 
@@ -189,16 +191,12 @@ export class OkrSettingObjectiveComponent implements OnInit {
 
 
   getObjectives() {
-
-
     this._settingObjectiveService.getAll()
       .subscribe(
         data => this.ObjectivesData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-
-
-          this.Objectives=this.ObjectivesData;
+          this.Objectives=<Objectiveclass[]>this.ObjectivesData.data;
         }
       );
 

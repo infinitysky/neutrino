@@ -111,13 +111,13 @@ export class SettingGoalService {
   }
 
 
-  addNew(team_description: string, team_name: string, parent_team_id: number, team_leader_id: number,): Observable<Goalclass> {
+  addNew(goal_name: string,goal_description: string,  time_frame_id: number,): Observable<Goalclass> {
 
     let httpBody = JSON.stringify({
-      team_description: team_description,
-      team_name: team_name,
-      parent_team_id: parent_team_id,
-      team_leader_id: team_leader_id
+      goal_name: goal_name,
+      goal_description: goal_description,
+      time_frame_id: time_frame_id,
+
     });
 
     let headers = new Headers({'Content-Type': 'application/json'});

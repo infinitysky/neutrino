@@ -8,7 +8,7 @@ class Users_model extends CI_Model
 
     public $table = 'users';
     public $id = 'user_id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {

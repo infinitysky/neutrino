@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50549
 File Encoding         : 65001
 
-Date: 2017-02-20 18:15:22
+Date: 2017-02-22 15:12:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,14 +21,14 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `activities`;
 CREATE TABLE `activities` (
   `activity_id` int(11) NOT NULL,
-  `activity_detail` text COLLATE utf8mb4_bin,
-  `activity_type` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `activity_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `activity_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `activity_timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`activity_id`),
   KEY `fk_activities_users` (`user_id`),
   CONSTRAINT `fk_activities_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for company_infos
@@ -58,7 +58,7 @@ CREATE TABLE `goals` (
   KEY `fk_goals_time_frame` (`time_frame_id`),
   KEY `goal_id` (`goal_id`),
   CONSTRAINT `fk_goals_time_frame` FOREIGN KEY (`time_frame_id`) REFERENCES `time_frames` (`time_frame_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for goals_objectives
@@ -125,7 +125,7 @@ CREATE TABLE `teams` (
   PRIMARY KEY (`team_id`),
   KEY `teams_users` (`team_leader_user_id`),
   CONSTRAINT `teams_users` FOREIGN KEY (`team_leader_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for teams_objectives
@@ -155,7 +155,7 @@ CREATE TABLE `teams_users` (
   KEY `fk_teams_users_user` (`user_id`),
   CONSTRAINT `fk_teams_users_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_teams_users_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for time_frames
@@ -234,5 +234,18 @@ CREATE TABLE `users_roles` (
   KEY `fk_user_roles_roles` (`role_id`),
   CONSTRAINT `fk_user_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_roles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+-- ----------------------------
+-- Table structure for user_setting
+-- ----------------------------
+DROP TABLE IF EXISTS `user_setting`;
+CREATE TABLE `user_setting` (
+  `setting_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `setting_default_time_frame_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`setting_id`),
+  KEY `fk_user_setting_users` (`user_id`),
+  CONSTRAINT `fk_user_setting_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 SET FOREIGN_KEY_CHECKS=1;

@@ -8,7 +8,7 @@ class Goals_objectives_model extends CI_Model
 
     public $table = 'goals_objectives';
     public $id = 'id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {
@@ -100,7 +100,6 @@ class Goals_objectives_model extends CI_Model
     {
 
         $this->db->trans_start();
-
         $this->db->where('objective_id', $objectiveId);
         $this->db->where('goal_id', $goalId);
 
@@ -110,6 +109,26 @@ class Goals_objectives_model extends CI_Model
         return $affectedRowsNumber;
 
     }
+
+    // delete data
+    function delete_by_ids($objectiveId,$goalId)
+    {
+
+        $this->db->trans_start();
+        $this->db->where('objective_id', $objectiveId);
+        $this->db->where('goal_id', $goalId);
+
+        $this->db->delete($this->table);
+        $affectedRowsNumber=$this->db->affected_rows();
+        $this->db->trans_complete();
+        return $affectedRowsNumber;
+
+    }
+
+
+
+
+
 
 
     //The idea is comes from DELETE FROM `goals_objectives` WHERE `goals_objectives`.`goal_id`=3 AND `goals_objectives`.`objective_id` IN (87,88,89)
@@ -140,7 +159,7 @@ class Goals_objectives_model extends CI_Model
 
     }
 
-    function delete_by_objective_id($userId)
+    function delete_all_by_objective_id($userId)
     {
         $this->db->trans_start();
 
@@ -154,7 +173,7 @@ class Goals_objectives_model extends CI_Model
 
     }
 
-    function delete_by_goal_id($goal_id)
+    function delete_all_by_goal_id($goal_id)
     {
         $this->db->trans_start();
 

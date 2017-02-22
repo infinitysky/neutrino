@@ -8,7 +8,7 @@ class Company_info_model extends CI_Model
 
     public $table = 'company_infos';
     public $id = 'company_info_id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     public $membersTabls = 'users';
 

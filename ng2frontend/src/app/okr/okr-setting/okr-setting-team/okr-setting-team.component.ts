@@ -49,6 +49,8 @@ export class OkrSettingTeamComponent implements OnInit {
   public teams : Teamclass[];
   public users : Userclass[];
 
+
+
   public TeamsData:any;
   public errorMessage:any;
 
@@ -78,24 +80,14 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
   private memberSelectedOptions: any[]; // Default selection
-  private teamLeaderSelectedOptions:any;
-  private parentTeamSelectedOptions:any;
+  private teamLeaderSelectedOptions:any[];
+  private parentTeamSelectedOptions:any[];
+
+
+  private originalMembers:any[];
 
 
 
-
-  private teamLeaderSelectorSettings: IMultiSelectSettings = {
-    pullRight: false,
-    enableSearch: true,
-    checkedStyle: 'fontawsome',
-    buttonClasses: 'btn btn-default',
-    selectionLimit: 1,
-    closeOnSelect: true,
-    showCheckAll: false,
-    showUncheckAll: false,
-    dynamicTitleMaxItems: 1,
-    maxHeight: '350px',
-  };
 
 
   private teamMemberSelectorSettings: IMultiSelectSettings = {
@@ -139,6 +131,7 @@ export class OkrSettingTeamComponent implements OnInit {
     this.membersDropdownListOptions=[];
     this.teamLeadersDropdownOptions = [];
     this.parentTeamSelectedOptions=[{id:"0", text:"None"}];
+    this.originalMembers=[];
 
 
 
@@ -156,6 +149,7 @@ export class OkrSettingTeamComponent implements OnInit {
     this.memberSelectedOptions=[];
     this.teamLeaderSelectedOptions=[];
     this.parentTeamSelectedOptions=[];
+    this.originalMembers=[];
     this.modal.close();
   }
 
@@ -169,8 +163,11 @@ export class OkrSettingTeamComponent implements OnInit {
   addTeamButton(){
 
     this.memberSelectedOptions=[];
+    this.originalMembers=[];
+
     this.teamLeaderSelectedOptions=[];
     this.parentTeamSelectedOptions=[];
+
 
     this.teamNameInputBoxValue="";
     this.teamDescriptionInputBoxValue=" ";
@@ -201,17 +198,14 @@ export class OkrSettingTeamComponent implements OnInit {
   }
 
 
-  modalSaveChangeButton(TeamNameInput:string,teamDescription:string){
-
-
-    this.final();
+  modalSaveChangeButton(teamNameInput:string,teamDescription:string){
 
 
 
     if(0==this.editModeIO){
-      this.createNewTeam(TeamNameInput,teamDescription);
+      this.createNewTeam(teamNameInput,teamDescription);
     }else {
-      this.updateTeam( this.editTeam,TeamNameInput,teamDescription);
+      this.updateTeam( this.editTeam,teamNameInput,teamDescription);
       //console.log("before updateTeam"+JSON.stringify(this.editTeam));
     }
   }
@@ -224,21 +218,23 @@ export class OkrSettingTeamComponent implements OnInit {
     this.teamDescriptionInputBoxValue=team.team_description;
 
 
-    this.memberSelectedOptions
+
     //set team Leader selector
 
 
-
+    this.final();
    // this.teamLeaderSelectedOptions=[{id:team.team_leader_user_id,text:leader_Name}];
     console.log("Current Edit Team: "+  JSON.stringify(team));
     //set team parent selector
 
 
 
-    this.getTeamCurrentMembers(team);
+
+
     this.getTeamCurrentLeader(team);
     this.getParentTeam(team);
     this.getTeamMembers(team);
+
     this.setTeamDropdownList(this.teams);
 
 
@@ -254,7 +250,7 @@ export class OkrSettingTeamComponent implements OnInit {
 
     if (!TeamNameInput  ) {
       //alert("Do not leave any empty!");
-     // swal("Warning", "you did not change any time!", "warning");
+     swal("Warning", "you did not change any time!", "warning");
 
 
     }
@@ -273,38 +269,58 @@ export class OkrSettingTeamComponent implements OnInit {
     this._settingTeamService.update(editTeam)
       .subscribe(
         data  => {this.tempData = data},
-        error =>  this.errorMessage = <any>error,
+        error =>  {swal("Error!", this.tempData.errorMassage, "error") },
         ()=>{
           console.log( "this.tempData + "+JSON.stringify(this.tempData));
           console.log(this.tempData.data);
-
-
+          console.log(this.tempData.status);
           if(this.tempData.status!="success"||!this.tempData.data){
             //swal("Warning", this.tempData.errorMassage, "warning");
-            swal("Error!", this.tempData.errorMassage, "error");
+            swal("Warning!", this.tempData.errorMassage, "Warning");
           }else{
 
             swal("Success!", "Your team has been updated.", "success");
-
-            this.teamNameInputBoxValue="";
-            this.teamDescriptionInputBoxValue=" ";
+            this.updateTeamMembers(editTeam,this.memberSelectedOptions);
 
 
           }
-
-
-
 
         }
       );
     this.modal.close();
 
 
-
-
-
   }
-  updateTeamMembers(team:Teamclass){
+  updateTeamMembers(team:Teamclass,selectedMember){
+
+    console.log("update Members");
+    this._settingTeamService.updateTeamMember(team,selectedMember).subscribe(
+      data=>this.tempData=data,
+      error=>this.errorMessage=<any>error,
+      ()=>{
+
+        console.log( "update Members this.tempData + "+JSON.stringify(this.tempData));
+        console.log(this.tempData.data);
+
+
+        if(this.tempData.status!="success"||!this.tempData.data){
+          //swal("Warning", this.tempData.errorMassage, "warning");
+          swal("Error!", this.tempData.errorMassage, "error");
+        }else{
+
+          swal("Success!", "Your team has been updated.", "success");
+         // this.updateTeamMembers(editTeam,this.memberSelectedOptions);
+
+          this.teamNameInputBoxValue="";
+          this.teamDescriptionInputBoxValue=" ";
+
+        }
+
+
+
+      }
+
+    );
 
   }
 
@@ -332,7 +348,7 @@ export class OkrSettingTeamComponent implements OnInit {
 
   createNewTeam (TeamNameInput:string,teamDescription:string) {
 
-    if (!TeamNameInput  ) {
+    if (!TeamNameInput || !this.teamLeaderSelectedOptions[0] ) {
       //alert("Do not leave any empty!");
       swal("Warning", "Do not leave Team Name empty!", "warning");
       return;
@@ -341,6 +357,7 @@ export class OkrSettingTeamComponent implements OnInit {
       var leaderid=0;
       var parentTeamID=0;
       leaderid=this.teamLeaderSelectedOptions[0].id;
+
       if(this.parentTeamSelectedOptions[0]==[]){
         parentTeamID=0;
 
@@ -357,24 +374,18 @@ export class OkrSettingTeamComponent implements OnInit {
 
             }else{
 
-
-
               this.teams.push(<Teamclass>this.tempData.data);
               this.setTeamMembers(<Teamclass>this.tempData.data);
 
-
               this.teamNameInputBoxValue="";
               this.teamDescriptionInputBoxValue=" ";
-
 
             }
 
           }
         );
 
-
       }
-
 
 
       this.modal.close();
@@ -405,20 +416,15 @@ export class OkrSettingTeamComponent implements OnInit {
     tempArray.push(NonInfo);
     for(i=0;i<teams.length;i++){
 
-
-
      // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
       var tempInfo1={id:teams[i].team_id, text:teams[i].team_name};
       tempArray.push(tempInfo1);
-
-
 
     }
     // This way is working...
     this.teamDropdownListOptions=tempArray;
 
   }
-
   setUserAndMembersDropdownList(usersInfoList:Userclass[]){
 
     var i=0;
@@ -445,17 +451,9 @@ export class OkrSettingTeamComponent implements OnInit {
 
   }
 
-  getTeamCurrentMembers(team:Teamclass){
-   this.memberSelectedOptions=[];
-
-    this.teamLeaderSelectedOptions=[];
-    this.parentTeamSelectedOptions=[];
 
 
 
-
-
-  }
   getTeamCurrentLeader(team:Teamclass){
 
 
@@ -469,6 +467,7 @@ export class OkrSettingTeamComponent implements OnInit {
       var tempArray=[];
       tempArray.push(leaderInfo);
       this.teamLeaderSelectedOptions=tempArray;
+
 
     }
 
@@ -498,16 +497,13 @@ export class OkrSettingTeamComponent implements OnInit {
       ()=>{
 
         if(this.tempData.status!="success"||!this.tempData.data){
-          swal("Warning", this.tempData.errorMassage, "warning");
-
+          // swal("Warning", this.tempData.errorMassage, "warning");
         }else{
-
           var membersDetails=this.tempData.data;
-
-
           var i=0;
           var tempselectedMemberArray=[];
           for(i=0;i<membersDetails.length;i++){
+
             var fullName=membersDetails[i].first_name+" "+membersDetails[i].last_name;
             //for multi select dropdown list
             var tempInfo=membersDetails[i].user_id;
@@ -518,6 +514,9 @@ export class OkrSettingTeamComponent implements OnInit {
           this.memberSelectedOptions=tempselectedMemberArray;
 
 
+          //for check delete and insert users
+          this.originalMembers=tempselectedMemberArray;
+
 
 
         }
@@ -525,6 +524,9 @@ export class OkrSettingTeamComponent implements OnInit {
 
     }
     );
+
+
+
 
 
   }
@@ -559,8 +561,9 @@ export class OkrSettingTeamComponent implements OnInit {
 
 
     final(){
-      console.log("members"+this.memberSelectedOptions);
-      console.log("leaser"+ JSON.stringify(this.teamLeaderSelectedOptions));
+      console.log("Original Members : "+this.originalMembers);
+      console.log("Current members : "+this.memberSelectedOptions);
+      console.log("Leader : "+ JSON.stringify(this.teamLeaderSelectedOptions));
 
     }
 

@@ -8,7 +8,7 @@ class Goals_model extends CI_Model
 
     public $table = 'goals';
     public $id = 'goal_id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {
@@ -29,8 +29,23 @@ class Goals_model extends CI_Model
     // get all
     function get_all()
     {
+
+
+        $this->db->trans_start();
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('time_frames',$this->table.'.time_frame_id=time_frames.time_frame_id','left');
         $this->db->order_by($this->id, $this->order);
-        return $this->db->get($this->table)->result();
+        $queryResult=$this->db->get();
+
+
+        return $queryResult->result();
+
+
+
+
+
+
     }
 
     // get data by id

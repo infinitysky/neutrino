@@ -8,7 +8,7 @@ class Objectives_key_results_model extends CI_Model
 
     public $table = 'objectives_key_results';
     public $id = 'id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {

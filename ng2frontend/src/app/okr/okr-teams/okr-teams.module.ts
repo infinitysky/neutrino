@@ -7,11 +7,11 @@ import { HttpModule } from '@angular/http';
 import { OkrTeamsRoutingModule } from './okr-teams-routing.module';
 import { OkrTeamsComponent } from './okr-teams.component';
 
-import { Ng2TableModule } from 'ng2-table/ng2-table';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   imports: [
-    Ng2TableModule,
+    Ng2SmartTableModule,
     FormsModule,
     HttpModule,
     CommonModule,

@@ -8,7 +8,7 @@ class Activities_model extends CI_Model
 
     public $table = 'activities';
     public $id = 'activity_id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {

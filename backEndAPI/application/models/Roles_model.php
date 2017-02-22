@@ -8,7 +8,7 @@ class Roles_model extends CI_Model
 
     public $table = 'roles';
     public $id = 'role_id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {

@@ -10,7 +10,7 @@ class Users_details_model extends CI_Model
     public $login_table = 'users';
     public $id = 'user_details_id';
     public $user_id = 'user_id';
-    public $order = 'DESC';
+    public $order = 'ASC';
 
     function __construct()
     {

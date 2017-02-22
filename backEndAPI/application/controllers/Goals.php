@@ -68,15 +68,18 @@ class Goals extends CI_Controller
             if (empty($Data['goal_name'])) {
                 echo json_encode($this->create_error_messageArray("team_name Empty"));
                 return 0;
-            }elseif (empty($Data['goal_name'])){
-                echo json_encode($this->create_error_messageArray("goal_name Empty"));
-                return 0;
             }
+
             elseif (empty($Data['time_frame_id'])){
                 echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
                 return 0;
             }
             else {
+
+
+                if (empty($Data['goal_description'])) {
+                    $Data['goal_description']=null;
+                }
 
                 $processArray = array(
 

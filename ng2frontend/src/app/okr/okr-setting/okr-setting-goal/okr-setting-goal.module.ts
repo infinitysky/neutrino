@@ -10,6 +10,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+import {SelectModule} from 'ng2-select';
 
 
 
@@ -25,6 +26,7 @@ import { OkrSettingGoalComponent } from './okr-setting-goal.component';
     MyDateRangePickerModule,
 
     MultiselectDropdownModule,
+    SelectModule,
 
 
     FormsModule,
