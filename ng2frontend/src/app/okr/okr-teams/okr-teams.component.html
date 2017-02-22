@@ -1,22 +1,24 @@
-<div _ngcontent-nnd-19="" class="normalheader ">
-
-  <div _ngcontent-nnd-19="" class="hpanel">
 
 
-    <div _ngcontent-nnd-19="" class="panel-body">
+<div class="normalheader ">
 
-      <a _ngcontent-nnd-19="" class="small-header-action">
-        <div _ngcontent-nnd-19="" class="clip-header">
-          <i _ngcontent-nnd-19="" class="fa fa-arrow-up"></i>
+  <div class="hpanel">
+
+
+    <div class="panel-body">
+
+      <a class="small-header-action" >
+        <div class="clip-header">
+          <i class="fa fa-arrow-up"></i>
         </div>
       </a>
 
 
-      <h2 _ngcontent-nnd-19="" class="font-light m-b-xs">
-        OKRs Setting
+      <h2 class="font-light m-b-xs">
+        Team OverView
       </h2>
 
-      <small _ngcontent-nnd-19="">MainView</small>
+      <small>{{subPageTitle}}</small>
 
     </div>
 
@@ -54,13 +56,13 @@
 
               <tr *ngFor="let tm of teams">
 
-                <td> {{ tm.team_name }} </td>
-                <td> {{ tm.first_name }} - {{ tm.last_name }}</td>
+                <td> <a href="{{tm.team_name}}"> {{ tm.team_name }}  </a></td>
+                <td><a href="{{tm.team_leader_id}}"> {{ tm.first_name }} - {{ tm.last_name }}</a></td>
                 <td >        </td>
                 <td >
                   <div class="m">
                     <div class="progress m-t-xs full progress-striped">
-                      <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class=" progress-bar progress-bar-warning">
+                      <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-info">
                         75%
                       </div>
                     </div>
