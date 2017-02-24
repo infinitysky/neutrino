@@ -36,7 +36,7 @@ export class OkrCompanyComponent implements OnInit {
     this._usersInfoService.getTotalNumber().subscribe(
       data=>this.tempData =data,
       error=> this.errorMessage = <any>error,
-      ()=>{ this.toalMemberNumber=this.tempData.membersNumber;
+      ()=>{ this.toalMemberNumber=this.tempData.data.membersNumber;
 
 
       }
@@ -51,7 +51,7 @@ export class OkrCompanyComponent implements OnInit {
       ()=>{
        // console.log( "this.TeamsData Json:  + "+JSON.stringify(this.tempData));
 
-        this.companyinfo=this.tempData[0];
+        this.companyinfo=this.tempData.data[0];
        // console.log( "this.companyinfo + "+(this.companyinfo.company_name));
       }
     );

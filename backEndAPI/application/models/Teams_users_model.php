@@ -226,5 +226,16 @@ class Teams_users_model extends CI_Model
 
     }
 
+    function get_team_and_users_details(){
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
+        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+        $queryResult=$this->db->get();
+        $this->db->trans_complete();
+        return $queryResult->result();
+
+    }
+
 }
 

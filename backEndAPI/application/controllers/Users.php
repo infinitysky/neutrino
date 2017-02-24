@@ -48,6 +48,29 @@ class Users extends CI_Controller
         echo json_encode($outputMessageArray);
     }
 
+
+    //Main entrance
+    public function items($id)
+    {
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        //GET, POST, OPTIONS, PUT, DELETE
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "OPTIONS") {
+            die();
+        }elseif ($method == "GET"){
+
+            $this->read($id);
+        }elseif ($method == "PUT"){
+
+            $this->update($id,$Data);
+        }elseif ($method == "DELETE"){
+
+            $this->delete($id);
+        }
+
+    }
+
+
     public function read($id) 
     {
         $row = $this->Users_model->get_by_id($id);

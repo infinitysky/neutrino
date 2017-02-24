@@ -76,6 +76,7 @@ export class UserFullInfoService {
     let options = new RequestOptions({ headers: headers });
 
     const url = `${this.readFullAPI}/${userId}`;
+    console.log(url);
 
     return this.http.get(url, options)
       .map(res => res.json())

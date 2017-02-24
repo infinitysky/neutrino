@@ -6,6 +6,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
 import {UsersInfoService} from '../okr-shared/services/users-info.service';
+import {UserDetailsService} from '../okr-shared/services/user-details.service';
 import {UserInfoContainerService} from '../../shared/services/user-info-container.service';
 import {Userclass} from '../okr-shared/classes/user-class';
 
@@ -16,7 +17,7 @@ import {Userclass} from '../okr-shared/classes/user-class';
 
   selector: 'app-okr-users',
   templateUrl: './okr-users.component.html',
-  providers:[UsersInfoService],
+  providers:[UsersInfoService,UserDetailsService],
   styleUrls: ['./okr-users.component.css']
 })
 export class OkrUsersComponent implements OnInit {
@@ -36,9 +37,12 @@ export class OkrUsersComponent implements OnInit {
 
   constructor(private _usersInfoService:UsersInfoService,
               private _userInfoContainerService:UserInfoContainerService,
+              private _userDetailsService:UserDetailsService,
               private _activatedRoute:ActivatedRoute) {
 
     this.selfUserInforData = new Userclass();
+    this.randerUserInforData=new Userclass();
+
     this.selfUserId=0;
     this.viewUserID=0;
 
@@ -47,16 +51,19 @@ export class OkrUsersComponent implements OnInit {
 
   ngOnInit() {
     console.log("Router params userID:"+ this._activatedRoute.snapshot.params['userid']);
-    console.log("Router params timeFrame:"+ this._activatedRoute.snapshot.params['timeframeid']);
+   // console.log("Router params timeFrame:"+ this._activatedRoute.snapshot.params['timeframeid']);
 
-    this.currentTimeFrame=this._userInfoContainerService.getCurrentTimeFrame();
-    console.log("from Shard time Frame:"+ this.currentTimeFrame.time_frame_id);
+  //  this.currentTimeFrame=this._userInfoContainerService.getCurrentTimeFrame();
+   // console.log("from Shard time Frame:"+ this.currentTimeFrame.time_frame_id);
 
 
 
     this.getCurrentUserInfo();
+
     this.selfUserId=this.selfUserInforData.user_id;
+
     this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
+
     if(this.selfUserId !=this.viewUserID ){
       console.log('different');
 
@@ -73,11 +80,12 @@ export class OkrUsersComponent implements OnInit {
   }
 
   getTargetUserInfo(){
-    this._usersInfoService.getById(this.viewUserID).subscribe(
+    this._userDetailsService.getById(this.viewUserID).subscribe(
       data=>this.tempData = data,
       error =>  this.errorMessage = <any>error,
       ()=>{
-        this.randerUserInforData=this.tempData;
+        this.randerUserInforData=<Userclass>this.tempData.data;
+        console.log(this.randerUserInforData);
       }
     );
   }

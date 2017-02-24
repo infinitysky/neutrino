@@ -555,15 +555,11 @@ class Teams_users extends CI_Controller
     }
     public function get_by_team_id($id){
 
-
         $data=[];
         $row = $this->Teams_users_model->get_by_team_id($id);
-
-
         if ($row){
             $length= count($row);
             for($i=0;$i<$length;$i++){
-
 
                 $info = array(
 
@@ -587,6 +583,44 @@ class Teams_users extends CI_Controller
             }
             $this->json($data);
 
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
+    }
+
+    public function get_by_team_and_Users_details(){
+
+        $data=[];
+        $row = $this->Teams_users_model->get_team_and_users_details();
+        if ($row){
+            $length= count($row);
+            for($i=0;$i<$length;$i++){
+
+                $info = array(
+
+                    'record_id' => set_value('record_id', $row[$i]->record_id),
+
+                    'team_id' => set_value('team_id', $row[$i]->team_id),
+                    'user_id' => set_value('user_id', $row[$i]->user_id),
+                    'team_description' => set_value('team_description', $row[$i]->team_description),
+                    'team_name' => set_value('team_name', $row[$i]->team_name),
+                    'parent_team_id' => set_value('parent_team_id', $row[$i]->parent_team_id),
+                    'team_leader_user_id' => set_value('team_leader_user_id', $row[$i]->team_leader_user_id),
+                    'first_name' => set_value('first_name', $row[$i]->first_name),
+                    'last_name' => set_value('last_name', $row[$i]->last_name),
+                    'dob' => set_value('dob', $row[$i]->dob),
+                    'mobile_number' => set_value('mobile_number', $row[$i]->mobile_number),
+                    'position' => set_value('position', $row[$i]->position),
+
+                );
+                array_push($data,$info);
+
+            }
+            $this->json($data);
 
         }
         else {
@@ -595,9 +629,7 @@ class Teams_users extends CI_Controller
         }
 
 
-
     }
-
 
 
 

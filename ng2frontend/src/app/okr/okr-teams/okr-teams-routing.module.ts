@@ -10,6 +10,7 @@ const routes: Routes = [
     component: OkrTeamsComponent
   },
 
+
   {path:'team-detail',loadChildren:'./okr-teams-detail/okr-teams-detail.module#OkrTeamsDetailModule'},
 ];
 

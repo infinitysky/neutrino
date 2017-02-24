@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Http}from '@angular/http';
-import { TableData } from './table-data';
+
 
 import {SettingTeamService} from '../okr-shared/services/okr-team.service';
 
@@ -29,14 +29,7 @@ export class OkrTeamsComponent implements OnInit {
 
 
 
-  private settings = {
-    columns: {
-      name: {title: 'Team Name' },
-      username: {title: 'User Name'},
-      email: { title: 'Email' }
-    }
 
-  };
   ngOnInit(){
     this.getTeams();
 

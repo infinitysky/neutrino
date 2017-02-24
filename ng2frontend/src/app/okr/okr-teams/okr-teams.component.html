@@ -35,11 +35,14 @@
 
         <div class="panel-heading">
           <div class="panel-tools">
+
           </div>
         </div>
 
+
         <div class="panel-body" style="display: block;">
           <div class="table-responsive">
+          Set A time Frame
 
             <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
               <thead>
@@ -55,14 +58,14 @@
               <tbody>
 
               <tr *ngFor="let tm of teams">
-
-                <td> <a href="{{tm.team_name}}"> {{ tm.team_name }}  </a></td>
-                <td><a href="{{tm.team_leader_id}}"> {{ tm.first_name }} - {{ tm.last_name }}</a></td>
-                <td >        </td>
+                <!--truncate :-->
+                <td> <a [routerLink]="['/okr/okr-teams/team-detail/',tm.team_id]"> {{ tm.team_name }}  </a></td>
+                <td><a [routerLink]="['/okr/okr-users/user/',tm.team_leader_user_id]"> {{ tm.first_name + ' - ' + tm.last_name | truncate : 1}}</a></td>
+                <td > {{'fff,fff,ffff,ffff,ffff' | truncate : 3}}       </td>
                 <td >
                   <div class="m">
                     <div class="progress m-t-xs full progress-striped">
-                      <div style="width: 75%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-info">
+                      <div style="width: 75%" aria-valuemax="80" aria-valuemin="70" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-info">
                         75%
                       </div>
                     </div>
