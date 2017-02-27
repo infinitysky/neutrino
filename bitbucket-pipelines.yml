@@ -1,0 +1,21 @@
+# This is a sample build configuration for other languages.
+# Check our guides at https://confluence.atlassian.com/x/VYk8Lw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+# image: docker-image:tag
+
+pipelines:
+  default:
+    - step:
+        script:
+        - apt-get update
+        - apt-get install -y build-essential
+        - apt-get install -y curl
+        - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+        - apt-get install -y nodejs
+        - node -v
+        - npm install -g @angular/cli
+        - npm install -g typescript
+        - ng build
+ 
