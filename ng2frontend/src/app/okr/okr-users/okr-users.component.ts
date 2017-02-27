@@ -27,9 +27,10 @@ export class OkrUsersComponent implements OnInit {
   public randerUserInforData:Userclass;
 
   public selfUserId:number;
-  public viewUserID:number;
+  public viewUserID:any;
   public tempData:any;
   public errorMessage:any;
+  public subs:any;
 
 
   public currentTimeFrame:any;
@@ -56,24 +57,30 @@ export class OkrUsersComponent implements OnInit {
   //  this.currentTimeFrame=this._userInfoContainerService.getCurrentTimeFrame();
    // console.log("from Shard time Frame:"+ this.currentTimeFrame.time_frame_id);
 
+    this.subs = this._activatedRoute.params.subscribe(params => {
+      this.viewUserID = ''+params['userid']; // (+) converts string 'id' to a number
+      console.log("this.viewUserID"+this.viewUserID);
+      // In a real app: dispatch action to load the details here.
+      this.getCurrentUserInfo();
+      this.selfUserId=this.selfUserInforData.user_id;
+      this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
+      if(this.selfUserId !=this.viewUserID ){
+        console.log('different');
+        this.getTargetUserInfo();
+      }else{
+        this.randerUserInforData=this.selfUserInforData;
+      }
 
-
-    this.getCurrentUserInfo();
-
-    this.selfUserId=this.selfUserInforData.user_id;
-
-    this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
-
-    if(this.selfUserId !=this.viewUserID ){
-      console.log('different');
-
-      this.getTargetUserInfo();
-
-    }else{
-      this.randerUserInforData=this.selfUserInforData;
-    }
+    });
 
   }
+
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
+
+
 
   getCurrentUserInfo(){
     this.selfUserInforData=this._userInfoContainerService.getUserInfo();

@@ -103,7 +103,9 @@ class Teams_model extends CI_Model
     }
     function withParents($id)
     {
-        $mysql='  SELECT t.team_id, t.team_name, parents.team_name AS `Parent Team Name`  FROM teams AS t INNER JOIN  teams AS parents ON parents.team_id = t.parent_team_id;';
+        $mysql='SELECT t.team_id, t.team_name, parents.team_name AS `Parent Team Name`  
+                FROM teams AS t 
+                INNER JOIN  teams AS parents ON parents.team_id = t.parent_team_id;';
 
 
     }

@@ -1,6 +1,6 @@
 import { Ng2frontendPage } from './app.po';
 
-describe('ng2frontend App', function() {
+describe('ng2frontend App', () => {
   let page: Ng2frontendPage;
 
   beforeEach(() => {

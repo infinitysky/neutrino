@@ -148,8 +148,8 @@ class Goals_objectives extends CI_Controller
 
                 $data = array(
 
-                    'team_id' => set_value('team_id', $row->team_id),
-                    'user_id' => set_value('user_id', $row->user_id),
+                    'goal_id' => set_value('goal_id', $row->goal_id),
+                    'objective_id' => set_value('objective_id', $row->objective_id),
 
                 );
                 $affectedRowsNumber = $this->Goals_objectives_model->update($id, $data);
@@ -234,7 +234,7 @@ class Goals_objectives extends CI_Controller
 
     }
 
-    public function batch_delete_by_team_id()
+    public function batch_delete_by_goal_id()
     {
         $Data = json_decode(trim(file_get_contents('php://input')), true);
 
@@ -247,11 +247,11 @@ class Goals_objectives extends CI_Controller
 
         else{
             $dataArray=$Data['data'];
-            $teamId=$dataArray['team_id'];
-            $deleteArray=$dataArray['user_ids'];
+            $teamId=$dataArray['goal_id'];
+            $deleteArray=$dataArray['objective_ids'];
 
 
-            $last_query=$this->Goals_objectives_model->batch_delete_by_team_id($teamId,$deleteArray);
+            $last_query=$this->Goals_objectives_model->batch_delete_by_goal_id($teamId,$deleteArray);
             $arraySize=count($dataArray);
             if($last_query==$arraySize){
                 $successArray = array(
@@ -343,6 +343,7 @@ class Goals_objectives extends CI_Controller
                     //objectives
                     'objective_id' => set_value('objective_id', $row[$i]->objective_id),
                     'objective_name' => set_value('objective_name', $row[$i]->objective_name),
+                    'objective_description' => set_value('objective_description', $row[$i]->objective_description),
                     'objective_description' => set_value('objective_description', $row[$i]->objective_description),
 
                 );

@@ -5,7 +5,7 @@ import {UserInfoContainerService} from '../shared/services/user-info-container.s
 import {SettingTimeFrameService} from '../okr/okr-shared/services/okr-time-frame.service';
 import {Timeframeclass} from '../okr/okr-shared/classes/time-frame-class';
 import {isEmpty} from "rxjs/operator/isEmpty";
-import formatErrorMsg = jasmine.formatErrorMsg;
+
 
 
 @Component({

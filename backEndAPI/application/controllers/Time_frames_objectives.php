@@ -19,8 +19,8 @@ class Time_frames_objectives extends CI_Controller
 
         parent::__construct();
         $this->load->model('Time_frames_objectives_model');
-        $this->load->library('form_validation');        
-	$this->load->library('datatables');
+        $this->load->library('form_validation');
+        $this->load->library('datatables');
     }
 
     public function index()
@@ -102,15 +102,15 @@ class Time_frames_objectives extends CI_Controller
 
 
 
-    public function read($id) 
+    public function read($id)
     {
         $row = $this->Time_frames_objectives_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'time_frame_id' => $row->time_frame_id,
-		'objective_id' => $row->objective_id,
-		'id' => $row->id,
-	    );
+                'time_frame_id' => $row->time_frame_id,
+                'objective_id' => $row->objective_id,
+                'id' => $row->id,
+            );
             $this->load->view('time_frames_objectives/time_frames_objectives_read', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
@@ -118,19 +118,19 @@ class Time_frames_objectives extends CI_Controller
         }
     }
 
-    public function create() 
+    public function create()
     {
         $data = array(
             'button' => 'Create',
             'action' => site_url('time_frames_objectives/create_action'),
-	    'time_frame_id' => set_value('time_frame_id'),
-	    'objective_id' => set_value('objective_id'),
-	    'id' => set_value('id'),
-	);
+            'time_frame_id' => set_value('time_frame_id'),
+            'objective_id' => set_value('objective_id'),
+            'id' => set_value('id'),
+        );
         $this->load->view('time_frames_objectives/time_frames_objectives_form', $data);
     }
-    
-    public function create_action() 
+
+    public function create_action()
     {
         $this->_rules();
 
@@ -138,17 +138,17 @@ class Time_frames_objectives extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'time_frame_id' => $this->input->post('time_frame_id',TRUE),
-		'objective_id' => $this->input->post('objective_id',TRUE),
-	    );
+                'time_frame_id' => $this->input->post('time_frame_id',TRUE),
+                'objective_id' => $this->input->post('objective_id',TRUE),
+            );
 
             $this->Time_frames_objectives_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
             redirect(site_url('time_frames_objectives'));
         }
     }
-    
-    public function update($id) 
+
+    public function update($id)
     {
         $row = $this->Time_frames_objectives_model->get_by_id($id);
 
@@ -156,18 +156,18 @@ class Time_frames_objectives extends CI_Controller
             $data = array(
                 'button' => 'Update',
                 'action' => site_url('time_frames_objectives/update_action'),
-		'time_frame_id' => set_value('time_frame_id', $row->time_frame_id),
-		'objective_id' => set_value('objective_id', $row->objective_id),
-		'id' => set_value('id', $row->id),
-	    );
+                'time_frame_id' => set_value('time_frame_id', $row->time_frame_id),
+                'objective_id' => set_value('objective_id', $row->objective_id),
+                'id' => set_value('id', $row->id),
+            );
             $this->load->view('time_frames_objectives/time_frames_objectives_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('time_frames_objectives'));
         }
     }
-    
-    public function update_action() 
+
+    public function update_action()
     {
         $this->_rules();
 
@@ -175,17 +175,17 @@ class Time_frames_objectives extends CI_Controller
             $this->update($this->input->post('id', TRUE));
         } else {
             $data = array(
-		'time_frame_id' => $this->input->post('time_frame_id',TRUE),
-		'objective_id' => $this->input->post('objective_id',TRUE),
-	    );
+                'time_frame_id' => $this->input->post('time_frame_id',TRUE),
+                'objective_id' => $this->input->post('objective_id',TRUE),
+            );
 
             $this->Time_frames_objectives_model->update($this->input->post('id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
             redirect(site_url('time_frames_objectives'));
         }
     }
-    
-    public function delete($id) 
+
+    public function delete($id)
     {
         $row = $this->Time_frames_objectives_model->get_by_id($id);
 
@@ -199,13 +199,13 @@ class Time_frames_objectives extends CI_Controller
         }
     }
 
-    public function _rules() 
+    public function _rules()
     {
-	$this->form_validation->set_rules('time_frame_id', 'time frame id', 'trim|required');
-	$this->form_validation->set_rules('objective_id', 'objective id', 'trim|required');
+        $this->form_validation->set_rules('time_frame_id', 'time frame id', 'trim|required');
+        $this->form_validation->set_rules('objective_id', 'objective id', 'trim|required');
 
-	$this->form_validation->set_rules('id', 'id', 'trim');
-	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+        $this->form_validation->set_rules('id', 'id', 'trim');
+        $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
 }

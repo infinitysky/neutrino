@@ -9,21 +9,26 @@ import { OkrTeamsComponent } from './okr-teams.component';
 import {OkrTeamsDetailModule} from './okr-teams-detail/okr-teams-detail.module';
 
 
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+
+
+import { TruncateModule } from 'ng2-truncate';
 
 
 
-import {TruncatePipe} from '../../shared/services/truncate-pipe';
+
 
 @NgModule({
   imports: [
-    Ng2SmartTableModule,
+    TruncateModule,
+
     FormsModule,
     HttpModule,
     CommonModule,
+
+
     OkrTeamsDetailModule,
     OkrTeamsRoutingModule
   ],
-  declarations: [OkrTeamsComponent, TruncatePipe]
+  declarations: [OkrTeamsComponent, ]
 })
 export class OkrTeamsModule { }

@@ -231,6 +231,42 @@ class Goals_objectives_model extends CI_Model
     }
 
 
+    public function get_all_goals_and_objectives_details()
+    {
+//        SELECT *
+//        FROM goals_objectives
+//        LEFT JOIN goals ON goals_objectives.goal_id=goals.goal_id
+//        LEFT JOIN objectives ON goals_objectives.objective_id=objectives.objective_id
+//        LEFT JOIN time_frames on goals.time_frame_id=time_frames.time_frame_id
+//        LEFT JOIN objectives_teams ON objectives.objective_id = objectives.objective_id
+//        LEFT JOIN teams ON teams.team_id = objectives_teams.team_id
+//        LEFT JOIN users_details ON users_details.user_id = teams.team_leader_user_id
+//
+        $this->db->trans_start();
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+
+      //  $this->db->where($this->table.'.goal_id',$goalId);
+
+        $this->db->join('goals', $this->table.'.goal_id=goals.goal_id','left');
+        $this->db->join('objectives', $this->table.'.objective_id=objectives.objective_id','left');
+        $this->db->join('time_frames', $this->table.'.time_frame_id=time_frames.time_frame_id','left');
+        $this->db->join('objectives_teams', ' objectives.objective_id = objectives.objective_id','left');
+
+
+        $this->db->join('teams', 'teams.team_id = objectives_teams.team_id','left');
+
+        $this->db->join('users_details', 'users_details ON users_details.user_id = teams.team_leader_user_id','left');
+        $this->db->join('users','users.user_id=users_details.user_id','left');
+
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+        return $result->result();
+
+
+    }
 
 
 }

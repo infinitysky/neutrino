@@ -193,7 +193,7 @@ class Teams_users_model extends CI_Model
         $this->db->where('teams_users.user_id',$user_id);
         $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
         $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
-
+        $this->db->join('users', 'users.user_id=users_details.user_id','left');
 
 
         $queryResult=$this->db->get();
@@ -216,6 +216,7 @@ class Teams_users_model extends CI_Model
         $this->db->where('teams_users.team_id',$team_id);
         $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
         $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+        $this->db->join('users', 'users.user_id=users_details.user_id','left');
 
         $queryResult=$this->db->get();
         $this->db->trans_complete();

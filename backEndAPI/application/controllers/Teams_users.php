@@ -535,6 +535,7 @@ class Teams_users extends CI_Controller
                     'dob' => set_value('dob', $row[$i]->dob),
                     'mobile_number' => set_value('mobile_number', $row[$i]->mobile_number),
                     'position' => set_value('position', $row[$i]->position),
+                    'email' => set_value('email', $row[$i]->email),
 
 
 
@@ -576,6 +577,7 @@ class Teams_users extends CI_Controller
                     'dob' => set_value('dob', $row[$i]->dob),
                     'mobile_number' => set_value('mobile_number', $row[$i]->mobile_number),
                     'position' => set_value('position', $row[$i]->position),
+                    'email' => set_value('email', $row[$i]->email),
 
                 );
                 array_push($data,$info);
