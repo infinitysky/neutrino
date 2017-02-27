@@ -18,6 +18,7 @@ pipelines:
         - node -v
         - npm install -g @angular/cli
         - npm install -g typescript
+        - cd ng2frontend
         - npm install
         - ng build
  
