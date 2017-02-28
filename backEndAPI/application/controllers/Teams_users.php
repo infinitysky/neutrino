@@ -518,12 +518,8 @@ class Teams_users extends CI_Controller
         if ($row){
             $length= count($row);
             for($i=0;$i<$length;$i++){
-
-
                 $info = array(
-
                     'record_id' => set_value('record_id', $row[$i]->record_id),
-
                     'team_id' => set_value('team_id', $row[$i]->team_id),
                     'user_id' => set_value('user_id', $row[$i]->user_id),
                     'team_description' => set_value('team_description', $row[$i]->team_description),
@@ -536,8 +532,6 @@ class Teams_users extends CI_Controller
                     'mobile_number' => set_value('mobile_number', $row[$i]->mobile_number),
                     'position' => set_value('position', $row[$i]->position),
                     'email' => set_value('email', $row[$i]->email),
-
-
 
                 );
                 array_push($data,$info);

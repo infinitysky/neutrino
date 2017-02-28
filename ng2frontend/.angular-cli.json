@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        
+
         "../library/vendor/fontawesome/css/font-awesome.css",
         "../library/vendor/metisMenu/dist/metisMenu.css",
         "../library/vendor/animate.css/animate.css",
@@ -27,9 +27,9 @@
         "../library/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css",
         "../library/fonts/pe-icon-7-stroke/css/helper.css",
         "../library/vendor/sweetalert2/dist/sweetalert2.css",
-        "../library/vendor/toastr/build/toastr.min.css", 
+        "../library/vendor/toastr/build/toastr.min.css",
         "../library/primeng/resources/themes/omega/theme.css",
-        "../library/primeng/resources/primeng.min.css",   
+        "../library/primeng/resources/primeng.min.css",
         "../library/styles/style.css"
       ],
       "scripts": [
@@ -37,14 +37,16 @@
        "../library/vendor/slimScroll/jquery.slimscroll.min.js",
         "../library/vendor/jquery-ui/jquery-ui.min.js",
        "../library/vendor/metisMenu/dist/metisMenu.min.js",
-      
+
        "../library/vendor/sweetalert2/dist/sweetalert2.js",
        "../library/vendor/toastr/build/toastr.min.js",
-       
+
         "../library/vendor/select2-4.0.3/dist/js/select2.full.min",
        "../library/bootstrap/dist/js/bootstrap.js",
        "../library/scripts/homer.js",
        "../library/chart/Chart.min.js"
+
+
 
       ],
       "environmentSource": "environments/environment.ts",

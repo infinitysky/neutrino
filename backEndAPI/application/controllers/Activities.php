@@ -18,8 +18,8 @@ class Activities extends CI_Controller
 
         parent::__construct();
         $this->load->model('Activities_model');
-        $this->load->library('form_validation');        
-	$this->load->library('datatables');
+        $this->load->library('form_validation');
+        $this->load->library('datatables');
     }
 
 
@@ -83,8 +83,8 @@ class Activities extends CI_Controller
                 $processArray = array(
                     'activity_detail' => $Data['activity_detail'],
                     'activity_type' => $Data['activity_type'],
-                    'activity_timestamp' => $date->format('U = Y-m-d H:i:s'),
-                    'user_id' =>$Data['goal_id'],
+                    'activity_timestamp' => $date->format('Y-m-d H:i:s'),
+                    'user_id' =>$Data['user_id'],
                 );
                 return $processArray;
             }
@@ -116,13 +116,13 @@ class Activities extends CI_Controller
 
 
 
-    public function read($id) 
+    public function read($id)
     {
         $row = $this->Activities_model->get_by_id($id);
 
         if ($row) {
             $data = array(
-                
+
                 'activity_id' => $row->activity_id,
                 'activity_detail' => $row->activity_detail,
                 'activity_type' => $row->activity_type,
@@ -136,7 +136,7 @@ class Activities extends CI_Controller
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
             echo json_encode($tempReturnArray);
         }
-        
+
     }
 
 
@@ -196,9 +196,6 @@ class Activities extends CI_Controller
 
     public function delete($id)
     {
-
-
-
         $row = $this->Activities_model->get_by_id($id);
 
         if ($row) {
@@ -216,7 +213,69 @@ class Activities extends CI_Controller
 
         }
 
+    }
 
+    public function get_by_user_id($id){
+        $i=0;
+        $data=[];
+        $row = $this->Activities_model->get_by_user_id($id);
+        if ($row) {
+            $length= count($row);
+            for($i=0;$i<$length;$i++) {
+                $info = array(
+                    'activity_id' => set_value('activity_id', $row[$i]->activity_id),
+                    'activity_detail' => set_value('activity_detail', $row[$i]->activity_detail),
+                    'user_id' => set_value('user_id', $row[$i]->user_id),
+                    'activity_type' => set_value('activity_type', $row[$i]->activity_type),
+                    'activity_timestamp' => set_value('activity_timestamp', $row[$i]->activity_timestamp),
+
+
+                    'first_name' => set_value('first_name', $row[$i]->first_name),
+                    'last_name' => set_value('last_name', $row[$i]->last_name),
+
+                );
+                array_push($data, $info);
+
+            }
+            $this->json($data);
+        }
+        else {
+            $tempErrorArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempErrorArray);
+
+        }
+
+
+    }
+    public function get_by_team_id($id){
+        $row = $this->Activities_model->get_by_team_id($id);
+        $i=0;
+        $data=[];
+        if ($row) {
+            $length= count($row);
+            for($i=0;$i<$length;$i++) {
+                $info = array(
+                    'activity_id' => set_value('activity_id', $row[$i]->activity_id),
+                    'activity_detail' => set_value('activity_detail', $row[$i]->activity_detail),
+                    'user_id' => set_value('user_id', $row[$i]->user_id),
+                    'activity_type' => set_value('activity_type', $row[$i]->activity_type),
+                    'activity_timestamp' => set_value('activity_timestamp', $row[$i]->activity_timestamp),
+
+
+                    'first_name' => set_value('first_name', $row[$i]->first_name),
+                    'last_name' => set_value('last_name', $row[$i]->last_name),
+
+                );
+                array_push($data, $info);
+
+            }
+            $this->json($data);
+        }
+        else {
+            $tempErrorArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempErrorArray);
+
+        }
 
     }
 

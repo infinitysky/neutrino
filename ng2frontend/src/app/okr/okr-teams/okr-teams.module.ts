@@ -9,12 +9,7 @@ import { OkrTeamsComponent } from './okr-teams.component';
 import {OkrTeamsDetailModule} from './okr-teams-detail/okr-teams-detail.module';
 
 
-
-
 import { TruncateModule } from 'ng2-truncate';
-
-
-
 
 
 @NgModule({
@@ -29,6 +24,6 @@ import { TruncateModule } from 'ng2-truncate';
     OkrTeamsDetailModule,
     OkrTeamsRoutingModule
   ],
-  declarations: [OkrTeamsComponent, ]
+  declarations: [OkrTeamsComponent ]
 })
 export class OkrTeamsModule { }

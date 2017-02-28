@@ -1,3 +1,66 @@
-<p>
-  okr-teams-activity works!
-</p>
+<div class="content">
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="hpanel">
+
+          <fieldset>
+            <div class="form-group">
+
+              <textarea style="width: 100%;height: 100px;" type="text" autocomplete="off" value="{{content}}" placeholder="Please leave your note" #newNote></textarea>
+            </div>
+          </fieldset>
+          <!-- Buttons -->
+          <fieldset>
+            <div class="form-group">
+
+              <button class="btn btn-primary pull-right" [ngClass]='{disabled: buttonIO}' (click)="submitNoteButton(newNote.value)">Submit Note</button>
+
+            </div>
+          </fieldset>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-12">
+    <div class="hpanel">
+      <div class="v-timeline vertical-container animate-panel"  data-child="vertical-timeline-block" data-delay="1">
+        <!--start of the activity card-->
+        <div class="vertical-timeline-block"  *ngFor="let act of activities">
+          <div class="vertical-timeline-icon navy-bg">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <div class="vertical-timeline-content">
+
+            <div class="p-sm">
+              <span class="vertical-date pull-right"> {{act.activity_timestamp | date:'d/M/y EEEE'}} <br/> <small> {{act.activity_timestamp | date:'HH:mm:ss'}}</small> </span>
+
+              <h4>{{act.activity_type}}</h4>
+              <p>{{act.activity_detail}}</p>
+            </div>
+
+            <div class="panel-footer">
+              By {{act.first_name + " - " + act.last_name}}
+            </div>
+          </div>
+        </div>
+        <!--end of the activity card-->
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+</div><!--end of content-->
+
+

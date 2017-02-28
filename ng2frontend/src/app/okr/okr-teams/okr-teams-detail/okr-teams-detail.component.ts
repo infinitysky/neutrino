@@ -21,6 +21,10 @@ export class OkrTeamsDetailComponent implements OnInit {
 
   public subsTeam:any;
 
+  public overallProgressNumber:any;
+  public objectivesNumber:any;
+  public lastUpdate:any;
+
   constructor(private _activatedRoute:ActivatedRoute,
             private _settingTeamService:SettingTeamService,
               private _userDetailsService:UserDetailsService
@@ -29,6 +33,10 @@ export class OkrTeamsDetailComponent implements OnInit {
     this.teamInfo=new Teamclass();
     this.randerTeamInforData=new Teamclass();
     this.viewTeamId='';
+    this.overallProgressNumber=' - ';
+    this.objectivesNumber=' - ';
+    this.lastUpdate=' - ';
+
   }
 
 

@@ -8,7 +8,8 @@ class Activities_model extends CI_Model
 
     public $table = 'activities';
     public $id = 'activity_id';
-    public $order = 'ASC';
+    public $order = 'DESC';
+    public $orderByDate = 'activity_timestamp';
 
     function __construct()
     {
@@ -29,8 +30,18 @@ class Activities_model extends CI_Model
     // get all
     function get_all()
     {
-        $this->db->order_by($this->id, $this->order);
-        return $this->db->get($this->table)->result();
+        $this->db->trans_start();
+        $this->db->order_by($this->orderByDate, $this->order);
+        $this->db->select("*");
+        $this->db->from($this->table);
+        $this->db->join("users_details",$this->table.".user_id = users_details.user_id",'left');
+
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+
+        return  $result->result();
+
     }
 
     // get data by id
@@ -99,4 +110,33 @@ class Activities_model extends CI_Model
         $this->db->trans_complete();
         return  $affectedRowsNumber;
     }
+    function get_by_user_id($userId){
+        $this->db->trans_start();
+        $this->db->order_by($this->orderByDate, $this->order);
+        $this->db->select("*");
+        $this->db->from($this->table);
+        $this->db->join("users_details",$this->table.".user_id = users_details.user_id",'left');
+        $this->db->where($this->table.'.user_id',$userId);
+        $result=$this->db->get();
+        $this->db->trans_complete();
+        return  $result->result();
+    }
+
+    function get_by_team_id($team_Id){
+        $this->db->trans_start();
+        $this->db->order_by($this->orderByDate, $this->order);
+        $this->db->select("*");
+        $this->db->from($this->table);
+
+        $this->db->join("teams_users",$this->table.".user_id = teams_users.user_id",'left');
+
+        $this->db->join("users_details",$this->table.".user_id = users_details.user_id",'left');
+        $this->db->where('teams_users.team_id',$team_Id);
+        $result=$this->db->get();
+        $this->db->trans_complete();
+        return  $result->result();
+    }
+
+
+
 }

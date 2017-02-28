@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+
+
+
 import {SettingTeamService} from '../../okr-shared/services/okr-team.service';
-
-
 import {Teamclass} from '../../okr-shared/classes/team-class';
 
 @Component({

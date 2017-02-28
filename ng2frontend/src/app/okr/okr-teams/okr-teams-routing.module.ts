@@ -3,14 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 import {OkrTeamsComponent} from './okr-teams.component';
 
+
+
 const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: OkrTeamsComponent
-  },
-
-
+  { path: '', pathMatch: 'full',    component: OkrTeamsComponent },
   {path:'team-detail',loadChildren:'./okr-teams-detail/okr-teams-detail.module#OkrTeamsDetailModule'},
 ];
 

@@ -16,17 +16,27 @@ export class UserInfoContainerService {
   public userInfo:Userclass;
   public currentTimeFrame:Timeframeclass;
 
+  public readUserInfoNumber:number;
+  public setUserInfoNumber:number;
 
   constructor() {
     this.userInfo= new Userclass();
     this.currentTimeFrame = new Timeframeclass();
+    this.readUserInfoNumber=0;
+    this.setUserInfoNumber=0;
 
   }
 
   getUserInfo(){
+    this.readUserInfoNumber=this.readUserInfoNumber+1;
+    console.log("getUserInfo : current User ID : "+this.userInfo.user_id);
+    console.log("read user Info data : "+ this.readUserInfoNumber);
     return this.userInfo;
   }
+
   setUserInfo(inputUserInfo:Userclass){
+    this.setUserInfoNumber=this.setUserInfoNumber+1;
+    console.log("set user Info data : "+ this.setUserInfoNumber);
     this.userInfo=inputUserInfo;
   }
 

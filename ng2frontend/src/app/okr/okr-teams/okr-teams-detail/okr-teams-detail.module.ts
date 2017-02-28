@@ -4,16 +4,17 @@ import { OkrTeamsDetailRoutingModule } from './okr-teams-detail-routing.module';
 import { OkrTeamsDetailComponent } from './okr-teams-detail.component';
 
 
-import {OkrTeamsMembersModule} from '../okr-teams-members/okr-teams-members.module';
+import { TruncateModule } from 'ng2-truncate';
 
 import {OkrTeamsMembersComponent} from '../okr-teams-members/okr-teams-members.component';
+import {OkrTeamsActivityComponent} from '../okr-teams-activity/okr-teams-activity.component';
 
 @NgModule({
   imports: [
-    OkrTeamsMembersModule,
+    TruncateModule,
     CommonModule,
     OkrTeamsDetailRoutingModule
   ],
-  declarations: [OkrTeamsDetailComponent,OkrTeamsMembersComponent ]
+  declarations: [OkrTeamsDetailComponent,OkrTeamsMembersComponent,OkrTeamsActivityComponent ]
 })
 export class OkrTeamsDetailModule { }

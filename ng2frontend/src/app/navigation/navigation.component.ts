@@ -53,6 +53,7 @@ export class NavigationComponent implements OnInit {
       // the third argument is a function which runs on completion
       () => {
         this.userDatas=this.userInfoData;
+        console.log("set setUserInfo at navigation");
         this._userInfoContainerService.setUserInfo(this.userDatas);
         this.selfUserId=this.userDatas.user_id.toString();
         //console.log(this.selfUserId);

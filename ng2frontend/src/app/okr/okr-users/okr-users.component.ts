@@ -32,6 +32,11 @@ export class OkrUsersComponent implements OnInit {
   public errorMessage:any;
   public subs:any;
 
+  public overallProgressNumber:any;
+  public objectivesNumber:any;
+  public lastUpdate:any;
+
+
 
   public currentTimeFrame:any;
 
@@ -47,6 +52,10 @@ export class OkrUsersComponent implements OnInit {
     this.selfUserId=0;
     this.viewUserID=0;
 
+    this.overallProgressNumber=' - ';
+    this.objectivesNumber=' - ';
+    this.lastUpdate=' - ';
+
   }
 
 
@@ -56,14 +65,18 @@ export class OkrUsersComponent implements OnInit {
 
   //  this.currentTimeFrame=this._userInfoContainerService.getCurrentTimeFrame();
    // console.log("from Shard time Frame:"+ this.currentTimeFrame.time_frame_id);
+    this.getCurrentUserInfo();
+    this.selfUserId=this.selfUserInforData.user_id;
 
     this.subs = this._activatedRoute.params.subscribe(params => {
       this.viewUserID = ''+params['userid']; // (+) converts string 'id' to a number
       console.log("this.viewUserID"+this.viewUserID);
       // In a real app: dispatch action to load the details here.
-      this.getCurrentUserInfo();
-      this.selfUserId=this.selfUserInforData.user_id;
+
+
+
       this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
+
       if(this.selfUserId !=this.viewUserID ){
         console.log('different');
         this.getTargetUserInfo();
