@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { UsersinfoService } from '../shared/services/usersinfo.service';
 //import { userClass} from"../interfaces/user.interface";
-
+import {Subscription} from 'rxjs/Subscription';
 
 //TODO: Set these two class and services and class as top level shard service and class
 import {Userclass} from '../okr/okr-shared/classes/user-class';
@@ -25,7 +25,7 @@ export class NavigationComponent implements OnInit {
   timeFrame:Timeframeclass;
 
   selfUserId:string;
-
+  subscription:Subscription;
 
   constructor(private _usersinfoService:UsersinfoService,
               private _userInfoContainerService:UserInfoContainerService) {
@@ -57,8 +57,15 @@ export class NavigationComponent implements OnInit {
         this._userInfoContainerService.setUserInfo(this.userDatas);
         this.selfUserId=this.userDatas.user_id.toString();
         //console.log(this.selfUserId);
+        this.setObservableUserInfo(<Userclass>this.userDatas);
+
       }
     );
+  }
+
+  setObservableUserInfo(userInfo:Userclass){
+    this._userInfoContainerService.setUserInfoSubject(userInfo);
+
   }
 
   getCurrentTimeFrame(){

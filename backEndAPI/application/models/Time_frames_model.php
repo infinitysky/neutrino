@@ -8,7 +8,7 @@ class Time_frames_model extends CI_Model
 
     public $table = 'time_frames';
     public $id = 'time_frame_id';
-    public $order = 'ASC';
+    public $order = 'DESC';
 
     function __construct()
     {

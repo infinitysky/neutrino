@@ -7,18 +7,47 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
 import 'rxjs/add/operator/share';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+
 
 import {Userclass} from '../../okr/okr-shared/classes/user-class';
 import {Timeframeclass} from '../../okr/okr-shared/classes/time-frame-class';
 
 @Injectable()
 export class UserInfoContainerService {
+
+
+
   public userInfo:Userclass;
   public currentTimeFrame:Timeframeclass;
 
   public readUserInfoNumber:number;
   public setUserInfoNumber:number;
 
+
+
+  // Observable navItem source
+  //this is using BehaviorSubjects to solve the global variable
+  private _userInfo = new BehaviorSubject<Userclass>(new Userclass());
+  // Observable userInfo stream
+  userInfo$ = this._userInfo.asObservable();
+  // service command
+  setUserInfoSubject(userInfo:Userclass) {
+    this._userInfo.next(userInfo);
+  }
+
+  private _timeFrame = new BehaviorSubject<Timeframeclass>(new Timeframeclass());
+  // Observable userInfo stream
+  timeFrame$ = this._timeFrame.asObservable();
+  // service command
+  setTimeFrameSubject(timeFrame:Timeframeclass) {
+    this._timeFrame.next(timeFrame);
+  }
+
+
+
+
+//old way
   constructor() {
     this.userInfo= new Userclass();
     this.currentTimeFrame = new Timeframeclass();
