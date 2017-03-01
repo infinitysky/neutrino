@@ -39,7 +39,7 @@ import { Timeframeclass } from '../../okr-shared/classes/time-frame-class';
 @Component({
   selector: 'app-company-okrs',
   providers: [SettingGoalService,SettingTimeFrameService],
-  templateUrl: './company-okrs.component.html ',
+  templateUrl: './company-okrs.component.html',
   styleUrls: ['./company-okrs.component.css']
 })
 export class CompanyOkrsComponent implements OnInit {
