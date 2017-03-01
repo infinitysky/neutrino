@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
+import {Subscription} from 'rxjs/Subscription';
+
 import {Activityclass}from '../../okr-shared/classes/activitie-class';
 import {OkrActivitiesService}from '../../okr-shared/services/okr-activities.service';
 import {UserInfoContainerService} from '../../../shared/services/user-info-container.service';
@@ -31,6 +33,7 @@ export class OkrUsersActivityComponent implements OnInit {
   private subscribeTeamActivity:any;
   private selfUserInforData:any;
 
+  private selfInfoSubscription:Subscription;
 
 
   constructor(private _okrActivitiesService:OkrActivitiesService,
@@ -48,16 +51,21 @@ export class OkrUsersActivityComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCurrentUserInfo();
+
+
+
     this.subscribeUserActivity = this._activatedRoute.params.subscribe(params => {
       this.viewUserId = +params['userid']; // (+) converts string 'id' to a number
       this.getUserActivities();
       console.log("Current User ID activity"+this.viewUserId);
 
     });
+    this.getCurrentUserInfo();
   }
   ngOnDestroy() {
+    this.selfInfoSubscription.unsubscribe();
     this.subscribeUserActivity.unsubscribe();
+
   }
 
   getUserActivities(){
@@ -67,22 +75,21 @@ export class OkrUsersActivityComponent implements OnInit {
       error=>this.errorMessage=<any>error,
       ()=>{
         if(this.tempData && this.tempData.data){
-
           this.activities=this.tempData.data;
-
         }
-
       }
 
     );
   }
 
+
+
   getCurrentUserInfo(){
-    this.selfUserInforData=this._userInfoContainerService.getUserInfo();
+    this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
     console.log("self Info"+ JSON.stringify(this.selfUserInforData.user_id));
+
+
   }
-
-
 
   submitNoteButton(inputString:any){
     this.buttonIO=true;
@@ -90,7 +97,7 @@ export class OkrUsersActivityComponent implements OnInit {
     console.log(this.content);
     var i=0;
 
-    let activityType='note';
+    let activityType='Note';
 
     let myID=this.selfUserInforData.user_id;
     console.log("myID" + myID);

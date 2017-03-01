@@ -489,6 +489,12 @@ $config['compress_output'] = FALSE;
 |
 */
 $config['time_reference'] = 'local';
+//set a time zone for project
+if( ! ini_get('date.timezone') )
+{
+    date_default_timezone_set('australia/melbourne');
+}
+
 
 /*
 |--------------------------------------------------------------------------

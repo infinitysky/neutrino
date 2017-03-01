@@ -56,7 +56,7 @@ export class OkrCompanyComponent implements OnInit {
       }
     );
 
-    console.log( this.companyinfo);
+
   }
   changeName(){
     this.companyinfo.company_name='lololo';

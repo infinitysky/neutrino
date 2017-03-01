@@ -1,25 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import {Http}from '@angular/http';
 
+import {SettingTeamService} from '../../okr-shared/services/okr-team.service';
 
-import {SettingTeamService} from '../okr-shared/services/okr-team.service';
+import {Teamclass} from '../../okr-shared/classes/team-class';
 
-import {Teamclass} from '../okr-shared/classes/team-class';
+import {UserDetailsService} from '../../okr-shared/services/user-details.service';
 
-
-import {UserDetailsService} from '../okr-shared/services/user-details.service';
-
-import {Userclass} from '../okr-shared/classes/user-class';
+import {Userclass} from '../../okr-shared/classes/user-class';
 
 
 @Component({
-  selector: 'app-okr-teams',
-  templateUrl: './okr-teams.component.html',
+  selector: 'app-company-teams',
+  templateUrl: './company-teams.component.html',
   providers:[SettingTeamService,UserDetailsService],
-  styleUrls: ['./okr-teams.component.css']
+  styleUrls: ['./company-teams.component.css']
 })
-export class OkrTeamsComponent implements OnInit {
-
+export class CompanyTeamsComponent implements OnInit {
 
   public teams:Teamclass[];
   public users:Userclass[];
@@ -30,6 +26,8 @@ export class OkrTeamsComponent implements OnInit {
   public teamLength:number;
 
 
+
+
   ngOnInit(){
     this.getTeams();
 
@@ -37,8 +35,7 @@ export class OkrTeamsComponent implements OnInit {
   constructor(private _settingTeamService:SettingTeamService){
     this.teams=[];
     this.users=[];
-    this.teamLength=0;
-
+    this.teamLength = 0;
   }
 
 
@@ -49,9 +46,9 @@ export class OkrTeamsComponent implements OnInit {
         data => this.tempData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          // console.log( "this.TeamsData + "+JSON.stringify(this.TeamsData.data));
-          if(this.tempData && this.tempData.data ){
 
+
+          if(this.tempData.data && <Teamclass[]>this.tempData.data){
             this.teams=<Teamclass[]>this.tempData.data;
             this.teamLength=this.teams.length;
           }
@@ -60,6 +57,4 @@ export class OkrTeamsComponent implements OnInit {
       );
 
   }
-
-
 }

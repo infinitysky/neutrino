@@ -138,14 +138,25 @@
               <tr class="active">
                 <td >ID</td>
                 <td >Name</td>
-                <td>Starting Date</td>
-                <td>Ending Date</td>
+                <td>Description</td>
+                <td>Unit</td>
+                <td>Current status</td>
+                <td>Process status</td>
+                <td>Target</td>
+
                 <td [hidden]=isLoaded>Edit</td>
               </tr>
+
+
+
 
               <tr *ngFor="let objt of Objectives">
                 <td >{{ objt.objective_id}}</td>
                 <td> {{ objt.objective_description }} </td>
+                <td> {{ objt.objective_unit }} </td>
+                <td> {{ objt.objective_status }} </td>
+                <td> {{ objt.objective_process_status }} </td>
+
 
                 <td [hidden]=isLoaded>
                   <!--Delete the record-->

@@ -21,52 +21,18 @@ export class AppComponent {
 
   constructor(private _userInfoContainerService:UserInfoContainerService,
               private _settingTimeFrameService:SettingTimeFrameService) {
-
     this.currentTimeFrame =new Timeframeclass();
-
     this.timFrames=[];
-    this.getCurrentTimeFrame();
 
   }
-
-
 
   ngOnInit() {
 
-   // this.getAllTimeFrames();
 
   }
-  getAllTimeFrames(){
-    this._settingTimeFrameService.getAllTimeFrames().subscribe(
-      data=>this.tempData=data,
-      error=>this.errorMessage=<any>error,
-      ()=>{
-        this.timFrames=this.tempData;
-        console.log( this.timFrames);
-      }
-    );
-  }
 
-  getCurrentTimeFrame(){
-    //console.log(JSON.stringify(this.currentTimeFrame));
-    if(!this.currentTimeFrame.time_frame_id){
-      console.log("get Time Frame from Database");
 
-      this._settingTimeFrameService.getNearestTimeFrame().subscribe(
-        data=>this.tempData=data,
-        error=>this.errorMessage=<any>error,
-        ()=>{
-          this.currentTimeFrame=this.tempData.data[0];
-          console.log("this.tempData[0].data"+this.tempData.data[0]);
-          this._userInfoContainerService.setCurrentTimeFrame(this.tempData.data[0]);
-          console.log("start"+JSON.stringify(this._userInfoContainerService.getCurrentTimeFrame()));
-        }
-      );
 
-    }
-
-    console.log("start 2"+JSON.stringify(this._userInfoContainerService.getCurrentTimeFrame()));
-  }
 
 
 }

@@ -37,12 +37,12 @@ import { Timeframeclass } from '../../okr-shared/classes/time-frame-class';
 
 
 @Component({
-  selector: 'app-okr-setting-goal',
+  selector: 'app-company-okrs',
   providers: [SettingGoalService,SettingTimeFrameService],
-  templateUrl: './okr-setting-goal.component.html',
-  styleUrls: ['./okr-setting-goal.component.css']
+  templateUrl: './company-okrs.component.html ',
+  styleUrls: ['./company-okrs.component.css']
 })
-export class OkrSettingGoalComponent implements OnInit {
+export class CompanyOkrsComponent implements OnInit {
 
   public pageTitle="OKRs Setting";
   public subPageTitle="Goals Setting";

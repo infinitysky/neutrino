@@ -23,7 +23,6 @@ export class NavigationComponent implements OnInit {
   userDatas:Userclass;
 
   timeFrame:Timeframeclass;
-
   selfUserId:string;
   subscription:Subscription;
 
@@ -36,11 +35,9 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.timeFrame= this._userInfoContainerService.getCurrentTimeFrame();
-    console.log(JSON.stringify(this.timeFrame));
 
     this.getUserInfo();
-    this.getCurrentTimeFrame();
+
   }
 
   //TODO: restructure the "get" logic
@@ -65,13 +62,8 @@ export class NavigationComponent implements OnInit {
 
   setObservableUserInfo(userInfo:Userclass){
     this._userInfoContainerService.setUserInfoSubject(userInfo);
-
   }
 
-  getCurrentTimeFrame(){
-   this.timeFrame=this._userInfoContainerService.getCurrentTimeFrame();
-   console.log("navi"+JSON.stringify(this.timeFrame));
 
-  }
 
 }

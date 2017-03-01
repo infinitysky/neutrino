@@ -1,6 +1,8 @@
 import { Component, OnInit, Output } from '@angular/core';
 
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {Subscription} from 'rxjs/Subscription';
+
 
 import {Activityclass}from '../../okr-shared/classes/activitie-class';
 import {OkrActivitiesService}from '../../okr-shared/services/okr-activities.service';
@@ -18,15 +20,16 @@ export class OkrTeamsActivityComponent implements OnInit {
 
   public sortingActivities:Activityclass[];
   public retryTimes : number;
-  public waitingTime=300;
+
 
   private buttonIO:boolean;
   private errorMessage : any;
   private viewTeamId:any;
   private tempData:any;
+
   private subscribeTeamActivity:any;
   private selfUserInforData:any;
-
+  private selfInfoSubscription:Subscription;
 
 
   constructor(private _okrActivitiesService:OkrActivitiesService,
@@ -44,18 +47,19 @@ export class OkrTeamsActivityComponent implements OnInit {
 
   ngOnInit() {
 
-
     this.subscribeTeamActivity = this._activatedRoute.params.subscribe(params => {
       this.viewTeamId = +params['teamid']; // (+) converts string 'id' to a number
       this.getUserActivities();
-      console.log("Current team ID activity"+this.viewTeamId);
 
     });
 
     this.getCurrentUserInfo();
+
   }
+
   ngOnDestroy() {
     this.subscribeTeamActivity.unsubscribe();
+    this.selfInfoSubscription.unsubscribe();
   }
 
   getUserActivities(){
@@ -77,27 +81,8 @@ export class OkrTeamsActivityComponent implements OnInit {
 
 
   getCurrentUserInfo(){
-    var retry=0;
-    setTimeout(()=> {
-      console.log("time out load" + retry);
-      this.selfUserInforData=this._userInfoContainerService.getUserInfo()},1
-    );
-
-    while(retry<this.retryTimes){
-
-      setTimeout(()=> {
-        console.log("time out load " + retry);
-        this.selfUserInforData=this._userInfoContainerService.getUserInfo()},1
-      );
-      if(this.selfUserInforData){
-
-        retry=this.retryTimes;
-        console.log(this.selfUserInforData.user_id);
-      }else{
-        retry++;
-      }
-
-    }
+    this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
+    console.log("self Info"+ JSON.stringify(this.selfUserInforData.user_id));
 
 
   }

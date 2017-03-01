@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 127.0.0.1
-Source Server Version : 50549
-Source Host           : 127.0.0.1:3306
+Source Server         : ampp
+Source Server Version : 50631
+Source Host           : localhost:3306
 Source Database       : okrs
 
 Target Server Type    : MYSQL
-Target Server Version : 50549
+Target Server Version : 50631
 File Encoding         : 65001
 
-Date: 2017-02-27 11:09:54
+Date: 2017-03-01 15:32:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,7 +20,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `activities`;
 CREATE TABLE `activities` (
-  `activity_id` int(11) NOT NULL,
+  `activity_id` int(11) NOT NULL AUTO_INCREMENT,
   `activity_detail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
   `activity_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `user_id` int(11) NOT NULL,
@@ -28,11 +28,12 @@ CREATE TABLE `activities` (
   PRIMARY KEY (`activity_id`),
   KEY `fk_activities_users` (`user_id`),
   CONSTRAINT `fk_activities_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of activities
 -- ----------------------------
+INSERT INTO `activities` VALUES ('1', 0x323133313233, 'create', '1', '2017-03-01 14:51:18');
 
 -- ----------------------------
 -- Table structure for company_infos
@@ -280,8 +281,8 @@ CREATE TABLE `teams_users` (
   PRIMARY KEY (`record_id`),
   KEY `fk_teams_users_teams` (`team_id`),
   KEY `fk_teams_users_user` (`user_id`),
-  CONSTRAINT `fk_teams_users_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_teams_users_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_teams_users_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_teams_users_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
@@ -453,7 +454,7 @@ INSERT INTO `time_frames` VALUES ('50', 0x343332343233343233, '2017-01-30', '201
 -- ----------------------------
 DROP TABLE IF EXISTS `time_frames_goals`;
 CREATE TABLE `time_frames_goals` (
-  `record_id` int(11) NOT NULL,
+  `record_id` int(11) NOT NULL AUTO_INCREMENT,
   `goal_id` int(11) NOT NULL,
   `time_frame_id` int(11) NOT NULL,
   PRIMARY KEY (`record_id`)
@@ -725,7 +726,7 @@ CREATE TABLE `users_roles` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user_setting`;
 CREATE TABLE `user_setting` (
-  `setting_id` int(11) NOT NULL,
+  `setting_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `setting_default_time_frame_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`setting_id`),
