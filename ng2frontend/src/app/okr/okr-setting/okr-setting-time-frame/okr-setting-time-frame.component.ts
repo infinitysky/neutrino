@@ -47,7 +47,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   public errorMessage:any;
 
   public isLoaded:boolean=true;
-  selectedHero: Timeframeclass;
+
 
   //datepicker configration
   startDateInEpoch:any;
@@ -230,8 +230,11 @@ export class OkrSettingTimeFrameComponent implements OnInit {
       data=>this.tempData=data,
       error=>this.errorMessage=<any>error,
       ()=>{
-        this.editTimeFrame=this.tempData.data;
-        console.log('timeframe: ' + JSON.stringify(this.editTimeFrame));
+        if(this.tempData.data && this.tempData.status=="success"){
+          this.editTimeFrame=this.tempData.data;
+          console.log('timeframe: ' + JSON.stringify(this.editTimeFrame));
+        }
+
        // timeFrame=this.tempData.data;
       }
     );
@@ -243,11 +246,14 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   getTimeFrames() {
     this._settingTimeFrameService.getAllTimeFrames()
       .subscribe(
-        data => this.timeFramesData = data,
+        data => this.tempData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          //console.log( "this.timeFramesData + "+JSON.stringify(this.timeFramesData));
-          this.timeFrames=this.timeFramesData.data;
+
+          if(this.tempData.data && this.tempData.status=="success"){
+            this.timeFrames=this.tempData.data;
+          }
+
         }
       );
 
@@ -313,7 +319,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   //ng2 liftcycle functions
 
   onSelect(timeFrame: Timeframeclass ): void {
-    this.selectedHero = timeFrame;
+   // this.selectedHero = timeFrame;
   }
 
   //component functions
@@ -494,15 +500,7 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   }
 
 
-  cleanData(){
 
-  }
-
-
-  alertMessage(message:string){
-    alert(message);
-
-  }
   closeModal(){
 
   }

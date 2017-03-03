@@ -192,7 +192,7 @@
         <label >Team Name</label>
         <div class="palos-input block" >
 
-          <input type="text" placeholder="Please enter your team name" autocomplete="off" class="form-control" value="{{teamNameInputBoxValue}}" #teamNameInput> <!---->
+          <input type="text" placeholder="Please enter your team name" autocomplete="off" class="form-control" [(ngModel)]="teamNameInputBoxValue"  value="{{teamNameInputBoxValue}}" #teamNameInput> <!---->
 
         </div>
 
@@ -203,7 +203,7 @@
         <label >Team Description</label>
         <div class="palos-input block" >
 
-          <textarea type="text" placeholder="Please enter your team description" autocomplete="off" class="form-control" value="{{teamDescriptionInputBoxValue}}" #teamDescriptionInput>
+          <textarea type="text" placeholder="Please enter your team description" autocomplete="off" class="form-control" [(ngModel)]="teamDescriptionInputBoxValue" value="{{teamDescriptionInputBoxValue}}" #teamDescriptionInput>
 
           </textarea>
 

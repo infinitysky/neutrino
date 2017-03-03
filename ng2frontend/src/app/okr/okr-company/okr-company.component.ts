@@ -49,10 +49,13 @@ export class OkrCompanyComponent implements OnInit {
       data => this.tempData = data,
       error =>  this.errorMessage = <any>error,
       ()=>{
-       // console.log( "this.TeamsData Json:  + "+JSON.stringify(this.tempData));
+        if(this.tempData.data&& this.tempData.status=="success"){
+          this.companyinfo=this.tempData.data[0];
+        }
 
-        this.companyinfo=this.tempData.data[0];
-       // console.log( "this.companyinfo + "+(this.companyinfo.company_name));
+
+
+
       }
     );
 

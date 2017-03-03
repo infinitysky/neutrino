@@ -218,7 +218,7 @@ class Teams_users extends CI_Controller
         $Data = json_decode(trim(file_get_contents('php://input')), true);
 
         if (empty($Data['data'])){
-            $tempReturnArray=$this->create_error_messageArray('data empty');
+            $tempReturnArray=$this->create_error_messageArray('Team member empty');
             echo json_encode($tempReturnArray);
 
         }
@@ -308,15 +308,17 @@ class Teams_users extends CI_Controller
                 $totalAffectSize = $insertArraySize + $deleteArraySize;
                 $finalAffectedRows = $insertedNumber + $deletedNumber;
 
-                if ($totalAffectSize == $finalAffectedRows && $finalAffectedRows != 0) {
+                if ($totalAffectSize == $finalAffectedRows && $finalAffectedRows == 0) {
                     $successArray = array(
                         "affectRows" => $finalAffectedRows
                     );
                     $this->json($successArray);
-                } elseif ($finalAffectedRows == 0) {
-                    $tempErrorArray = $this->create_error_messageArray('No Changes');
-                    echo json_encode($tempErrorArray);
-                } else {
+                }
+//                elseif ($finalAffectedRows == 0) {
+//                    $tempErrorArray = $this->create_error_messageArray('No Changes');
+//                    echo json_encode($tempErrorArray);
+//                }
+                else {
                     $tempErrorArray = $this->create_error_messageArray('Create Error!' . 'Inserted: ' . $insertedNumber . 'Deleted: ' . $deletedNumber);
                     echo json_encode($tempErrorArray);
                 }
@@ -475,7 +477,7 @@ class Teams_users extends CI_Controller
         $Data = json_decode(trim(file_get_contents('php://input')), true);
 
         if (empty($Data['data'])){
-            $tempErrorArray=$this->create_error_messageArray('data empty');
+            $tempErrorArray=$this->create_error_messageArray('Team Member empty!');
             echo json_encode($tempErrorArray);
 
 

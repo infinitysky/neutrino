@@ -173,13 +173,19 @@ export class OkrSettingKeyResultComponent implements OnInit {
 
     this._settingKeyResultService.getAll()
       .subscribe(
-        data => this.KeyResultsData = data,
+        data => this.tempData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
 
+          if (this.tempData.status = "success" && this.tempData.data) {
+
+            this.keyResults=<Keyresultclass[]>this.tempData.data;
+          }
 
 
-          this.keyResults=this.KeyResultsData;
+
+
+
         }
       );
 

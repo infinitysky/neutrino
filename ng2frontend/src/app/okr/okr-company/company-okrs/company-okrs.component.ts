@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild, Input } from '@angular/core';
+import { Component, OnInit,ViewChild, Input,Output } from '@angular/core';
 
 import { Http,Response, Headers,RequestOptions } from '@angular/http';
 
@@ -43,6 +43,8 @@ import { Timeframeclass } from '../../okr-shared/classes/time-frame-class';
   styleUrls: ['./company-okrs.component.css']
 })
 export class CompanyOkrsComponent implements OnInit {
+
+  @Output() public OverallGoalsNumber:number;
 
   public pageTitle="OKRs Setting";
   public subPageTitle="Goals Setting";
@@ -92,6 +94,7 @@ export class CompanyOkrsComponent implements OnInit {
     this.goalDescriptionInputBoxValue='';
     this.timeFrameDropdownListOptions=[];
     this.selectedTimeFrame=[];
+    this.OverallGoalsNumber=0;
 
   }
 
@@ -284,6 +287,11 @@ export class CompanyOkrsComponent implements OnInit {
 
 
     this.modal.close();
+  }
+
+  
+  overallNumbers(){
+    this.OverallGoalsNumber=this.goals.length;
   }
 
 

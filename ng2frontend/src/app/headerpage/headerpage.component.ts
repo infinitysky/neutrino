@@ -52,7 +52,10 @@ export class HeaderpageComponent implements OnInit {
       data=>this.tempData=data,
       error=>this.errorMessage=<any>error,
       ()=>{
-        this.timFrames=this.tempData.data;
+        if(this.tempData.data&& this.tempData.status=="success"){
+          this.timFrames=this.tempData.data;
+        }
+
        // console.log( this.timFrames);
       }
     );

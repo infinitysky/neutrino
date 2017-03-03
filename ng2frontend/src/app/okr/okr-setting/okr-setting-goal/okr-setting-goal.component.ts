@@ -225,8 +225,10 @@ export class OkrSettingGoalComponent implements OnInit {
         error =>  this.errorMessage = <any>error,
         ()=>{
 
+          if(this.goalsData.data && this.goalsData.status=="success"){
+            this.goals=<Goalclass[]>this.goalsData.data;
+          }
 
-          this.goals=this.goalsData.data;
         }
       );
 
@@ -399,9 +401,12 @@ export class OkrSettingGoalComponent implements OnInit {
         data => this.tempData = data,
         error =>  this.errorMessage = <any>error,
         ()=>{
-          this.timeframes=this.tempData.data;
+          if(this.tempData.data&& this.tempData.status=="success"){
+            this.timeframes=<Timeframeclass[]>this.tempData.data;
 
-          this.setTimeFrameDropdownList(this.timeframes);
+            this.setTimeFrameDropdownList(this.timeframes);
+          }
+
 
         }
       );
