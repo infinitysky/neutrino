@@ -75,18 +75,45 @@ class Goals extends CI_Controller
                 echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
                 return 0;
             }
+            elseif (empty($Data['goal_process_status'])){
+                echo json_encode($this->create_error_messageArray("goal_process_status Empty"));
+                return 0;
+            }
+            elseif (empty($Data['goal_unit'])){
+                echo json_encode($this->create_error_messageArray("goal_unit Empty"));
+                return 0;
+            }
+            elseif (empty($Data['goal_target'])){
+                echo json_encode($this->create_error_messageArray("goal_target Empty"));
+                return 0;
+            }
             else {
 
 
                 if (empty($Data['goal_description'])) {
-                    $Data['goal_description']=null;
+                    $Data['goal_description']="";
+                }
+                if (empty($Data['goal_status'])) {
+                    $Data['goal_status']="None";
                 }
 
                 $processArray = array(
 
+
                     'goal_name' => $Data['goal_name'],
                     'goal_description' => $Data['goal_description'],
-                    'time_frame_id'=>$Data['time_frame_id'],
+                    'time_frame_id' => $Data['time_frame_id'],
+                    'goal_status' => $Data['goal_status'],
+                    'goal_unit' => $Data['goal_unit'],
+                    'goal_process_status' => $Data['goal_process_status'],
+                    'goal_target' => $Data['goal_target'],
+
+
+
+
+
+
+
                 );
                 return $processArray;
             }
@@ -128,10 +155,20 @@ class Goals extends CI_Controller
         if ($row) {
 
             $data = array(
+
+
                 'goal_id' => $row->goal_id,
                 'goal_name' => $row->goal_name,
                 'goal_description' => $row->goal_description,
                 'time_frame_id'=>$row->time_frame_id,
+
+                'goal_status' => $row->goal_status,
+                'goal_unit' => $row->goal_unit,
+                'goal_process_status' => $row->goal_process_status,
+                'goal_target'=>$row->goal_target,
+
+
+
             );
             $this->json($data);
         }
@@ -174,6 +211,15 @@ class Goals extends CI_Controller
                     'goal_name' => $processArray['goal_name'],
                     'goal_description' => $processArray['goal_description'],
                     'time_frame_id' => $processArray['time_frame_id'],
+
+                    'goal_status' => $processArray['goal_status'],
+                    'goal_unit' => $processArray['goal_unit'],
+                    'goal_process_status' => $processArray['goal_process_status'],
+
+                    'goal_target' => $processArray['goal_target'],
+
+
+
 
                 );
                 $affectedRowsNumber = $this->Goals_model->update($id, $data);

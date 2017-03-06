@@ -166,6 +166,20 @@ export class SettingTimeFrameService {
 
   }
 
+
+  
+  quickSetTimeFrame(starDate:string,endDate:string){
+    let httpBody = JSON.stringify({"data":{ start_date : starDate,end_date:endDate}});
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    const url = `${this.getAllTimeFrameAPi}/quick_set`;
+    return this.http.post(url,httpBody, {headers: this.headers})
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+
+  }
+
+
 //observable example
 
   /*

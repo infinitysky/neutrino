@@ -58,16 +58,43 @@ class Objectives extends CI_Controller
 
             //  goal_description can be empty
             if (empty($Data['objective_name'])) {
-                echo json_encode($this->create_error_messageArray("team_name Empty"));
+                echo json_encode($this->create_error_messageArray("objective_name Empty"));
                 return 0;
+            }elseif (empty($Data['objective_unit'])) {
+                echo json_encode($this->create_error_messageArray("objective_unit Empty"));
+                return 0;
+
+            }
+            elseif (empty($Data['objective_target'])) {
+                echo json_encode($this->create_error_messageArray("objective_target Empty"));
+                return 0;
+
+            }
+            elseif (empty($Data['objective_process_status'])) {
+                echo json_encode($this->create_error_messageArray("objective_process_status Empty"));
+                return 0;
+
             }
 
             else {
+                if(empty($Data['objective_description'])){
+                    $Data['objective_description']="";
+                }
+                if(empty($Data['objective_status'])){
+                    $Data['objective_status']="None";
+                }
 
                 $processArray = array(
 
                     'objective_name' => $Data['objective_name'],
                     'objective_description' => $Data['objective_description'],
+                    'objective_unit' => $Data['objective_unit'],
+                    'objective_status' => $Data['objective_status'],
+                    'objective_process_status' => $Data['objective_process_status'],
+                    'objective_target' => $Data['objective_target'],
+
+
+
 
                 );
                 return $processArray;
@@ -118,6 +145,15 @@ class Objectives extends CI_Controller
                 'objective_name' => $row->objective_name,
                 'objective_description' =>$row->objective_description,
 
+                'objective_unit' => $row->objective_unit,
+                'objective_status' => $row->objective_status,
+                'objective_process_status' =>$row->objective_process_status,
+                'objective_target' =>$row->objective_target,
+
+
+
+
+
             );
             $this->json($data);
         }
@@ -156,6 +192,10 @@ class Objectives extends CI_Controller
 
                     'objective_name' => $processArray['objective_name'],
                     'objective_description' => $processArray['objective_description'],
+                    'objective_unit' => $processArray['objective_unit'],
+                    'objective_status' => $processArray['objective_status'],
+                    'objective_process_status' => $processArray['objective_process_status'],
+                    'objective_target' => $processArray['objective_target'],
 
                 );
                 $affectedRowsNumber = $this->Objectives_model->update($id, $data);

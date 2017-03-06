@@ -242,8 +242,11 @@ class Time_frames extends CI_Controller
 
     public function dateRangeTest(){
         //print_r( $this->dateRange( '2010/07/26', '2010/08/05', '+1 week') );
-        print_r( $this->dateRange( '2010/07/26', '2019/08/05', '+3 month') );
+        print_r( $this->dateRange( '2010/01/01', '2020/01/01', '+3 month') );
     }
+
+
+
 
     function dateRange( $first, $last, $step = '+3 month', $format = 'Y/m/d' ) {
 
@@ -259,6 +262,100 @@ class Time_frames extends CI_Controller
 
         return $dates;
     }
+
+    public function quick_set(){
+
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+        $insertDataArray=[];
+
+        if (empty($Data['data'])){
+            $tempReturnArray=$this->create_error_messageArray('Time Frame empty');
+            echo json_encode($tempReturnArray);
+        }
+
+        else{
+            $dataArray=$Data['data'];
+            if(empty($dataArray['start_date'])){
+                $tempErrorArray=$this->create_error_messageArray('start_date empty');
+                echo json_encode($tempErrorArray);
+            }elseif(empty($dataArray['end_date'])){
+                $tempErrorArray=$this->create_error_messageArray('end_date empty');
+                echo json_encode($tempErrorArray);
+            }else{
+
+                $startDate=new DateTime($dataArray['start_date']);
+                $endDate=new DateTime($dataArray['end_date']);
+
+                $processDateArray=$this->dateRange($startDate->format('Y/m/d'),$endDate->format('Y/m/d'), '+3 month');
+                $i=0;
+                $count=count($processDateArray);
+
+                $tf_description="";
+
+                for ($i=0;$i<$count-1;$i++){
+
+                    $dt_start = $processDateArray[$i];
+                    $dt_end =$processDateArray[$i+1];
+
+
+                    $time=strtotime($dt_start);
+                    $month =date('m',$time);
+                    $year = date('Y', $time);
+
+
+                    if ($month=="01"){
+                        $tf_description=$year.", Q1";
+                    }
+                    if ($month=="04"){
+                        $tf_description=$year.", Q2";
+                    }
+                    if ($month=="07"){
+                        $tf_description=$year.", Q3";
+                    }
+                    if ($month=="10"){
+                        $tf_description=$year.", Q4";
+                    }
+
+
+                    $processArray = array(
+                        "time_frame_description" => $tf_description,
+                        "time_frame_start" => $dt_start,
+                        "time_frame_end" => $dt_end,
+                    );
+
+
+                array_push($insertDataArray,$processArray);
+                }
+
+
+            }
+
+
+
+            $last_query=$this->Time_frames_model->batch_insert($insertDataArray);
+            $arraySize=count($insertDataArray);
+            if($last_query==$arraySize){
+                $successArray = array(
+
+                    "affectRows" => $last_query
+                );
+
+
+                $this->json($successArray);
+            }else{
+                $tempErrorArray=$this->create_error_messageArray('Create Error! ');
+                echo json_encode($tempErrorArray);
+            }
+        }
+
+
+    }
+
+
+
+
+
+
     function findRangeFromToday(){
 
         $temp=$this->Time_frames_model->getRangeTime();

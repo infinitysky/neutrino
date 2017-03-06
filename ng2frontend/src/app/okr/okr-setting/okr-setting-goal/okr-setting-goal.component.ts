@@ -79,6 +79,9 @@ export class OkrSettingGoalComponent implements OnInit {
 
 
 
+  private tagDropdownListOptions :any;
+  private selectedTag: any;
+
 
 
   constructor(private _settingGoalService: SettingGoalService,private _settingTimeFrameService:SettingTimeFrameService){
@@ -92,6 +95,9 @@ export class OkrSettingGoalComponent implements OnInit {
     this.goalDescriptionInputBoxValue='';
     this.timeFrameDropdownListOptions=[];
     this.selectedTimeFrame=[];
+
+     this.tagDropdownListOptions=[{ id: "None", text: "None" },{ id: "Warning", text: "Warning" },{ id: "Risk", text: "Risk" }];
+    this.selectedTag=[{ id: "None", text: "None" }];
 
   }
 

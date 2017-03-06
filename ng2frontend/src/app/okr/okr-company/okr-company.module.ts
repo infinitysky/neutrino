@@ -27,6 +27,8 @@ import { OkrCompanyComponent } from './okr-company.component';
 import { CompanyActivityComponent } from './company-activity/company-activity.component';
 import { CompanyTeamsComponent } from './company-teams/company-teams.component';
 
+import {ShareCompanyOkrinfoService} from './share-company-okrinfo.service';
+
 
 @NgModule({
   imports: [
@@ -45,6 +47,7 @@ import { CompanyTeamsComponent } from './company-teams/company-teams.component';
     CommonModule,
     OkrCompanyRoutingModule
   ],
+  providers:[ShareCompanyOkrinfoService],
   declarations: [OkrCompanyComponent, CompanyActivityComponent, CompanyTeamsComponent, CompanyOkrsComponent]
 })
 export class OkrCompanyModule { }

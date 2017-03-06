@@ -107,5 +107,18 @@ class Time_frames_model extends CI_Model
     }
 
 
+
+    function batch_insert($data)
+    {
+        $this->db->trans_start();
+        $query=$this->db->insert_batch($this->table, $data);
+        // $query=$this->db->insert_id();
+        $this->db->trans_complete();
+        return $query;
+
+    }
+
+
+
 }
 

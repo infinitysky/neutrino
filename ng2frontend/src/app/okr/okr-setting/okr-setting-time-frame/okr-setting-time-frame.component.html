@@ -227,7 +227,7 @@
   </modal-footer>
 </modal>
 
-<ng2-toasty [position]="'top-center'"></ng2-toasty>
+
 
 
 
@@ -235,7 +235,7 @@
 <modal [animation]="animation" [keyboard]="keyboard"   #quickSetModal>
   <div class="color-line"></div>
   <modal-header [show-close]="true">
-    <h4 class="modal-title">Create New Time Frame</h4>
+    <h4 class="modal-title">Quick Set Time Frame</h4>
   </modal-header>
   <modal-body>
     <div class="stage">
@@ -251,6 +251,7 @@
       <div class="selector-ctn ">
         <fieldset class="form-group">
           <label >Starting Year</label>
+          <small> From 01/01/XXXX </small>
           <div class="palos-input block" >
             <!--<i class="el-input__icon el-icon-date"></i>-->
             <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
@@ -263,6 +264,7 @@
         <br>
         <fieldset class="form-group">
           <label >Ending Year</label>
+          <small> To 01/01/XXXX </small>
           <div class="palos-input block" >
             <!--<i class="el-input__icon el-icon-date"></i>-->
             <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
@@ -276,6 +278,6 @@
   </modal-body>
   <modal-footer>
     <button type="button" class="btn btn-default" data-dismiss="modal" (click)="quickSetModal.close()">Close</button>
-    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(timeFrameNameInput.value);" > Save changes</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="quickSetTimeFrameModalSaveChangeButton(timeFrameStartingYearInput.value,timeFrameEndingYearInput.value); quickSetModal.close();timeFrameEndingYearInput.value=''; timeFrameStartingYearInput.value=''; " > Save changes</button>
   </modal-footer>
 </modal>

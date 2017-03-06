@@ -60,15 +60,45 @@ class Key_results extends CI_Controller
             if (empty($Data['result_name'])) {
                 echo json_encode($this->create_error_messageArray("result_name Empty"));
                 return 0;
+            }elseif (empty($Data['result_unit'])) {
+                echo json_encode($this->create_error_messageArray("result_unit Empty"));
+                return 0;
             }
+            elseif (empty($Data['objective_id'])) {
+                echo json_encode($this->create_error_messageArray("objective_id Empty"));
+                return 0;
+            }
+            elseif (empty($Data['result_target'])) {
+                echo json_encode($this->create_error_messageArray("result_target Empty"));
+                return 0;
+            }
+            elseif (empty($Data['result_process_status'])) {
+                echo json_encode($this->create_error_messageArray("result_process_status Empty"));
+                return 0;
+            }
+
             else {
                 if (empty($Data['result_description'])) {
                     $Data['result_description']='';
                 }
+                if (empty($Data['result_status'])) {
+                    $Data['result_description']='None';
+                }
+
 
                 $processArray = array(
                     'result_name' => $Data['result_name'],
                     'result_description' => $Data['result_description'],
+                    'result_unit' => $Data['result_unit'],
+                    'result_status' => $Data['result_status'],
+                    'result_process_status' => $Data['result_process_status'],
+                    'result_target' => $Data['result_target'],
+                    'objective_id' => $Data['objective_id'],
+
+
+
+
+
 
                 );
                 return $processArray;
@@ -114,9 +144,22 @@ class Key_results extends CI_Controller
         $row = $this->Key_results_model->get_by_id($id);
         if ($row) {
             $data = array(
+
+
+
+
                 'result_id' => $row->result_id,
                 'result_name' => $row->result_name,
                 'result_description' => $row->result_description,
+
+                'result_unit' => $row->result_unit,
+                'result_status' => $row->result_status,
+                'result_process_status' => $row->result_process_status,
+                'result_target' => $row->result_target,
+                'objective_id' => $row->objective_id,
+
+
+
             );
             $this->json($data);
         }
@@ -156,6 +199,20 @@ class Key_results extends CI_Controller
 
                     'result_name' => $processArray['result_name'],
                     'result_description' => $processArray['result_description'],
+
+
+                    'result_unit' => $processArray['result_unit'],
+                    'result_status' => $processArray['result_status'],
+                    'result_process_status' => $processArray['result_process_status'],
+                    'result_target' => $processArray['result_target'],
+                    'objective_id' => $processArray['objective_id'],
+
+
+
+
+
+
+
 
                 );
                 $affectedRowsNumber = $this->Key_results_model->update($id, $data);
