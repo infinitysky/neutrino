@@ -283,8 +283,12 @@ class Time_frames extends CI_Controller
                 echo json_encode($tempErrorArray);
             }else{
 
+                //Date and format been set by front end.
+                //If there are any issues about the input check the front end at first.
+
                 $startDate=new DateTime($dataArray['start_date']);
                 $endDate=new DateTime($dataArray['end_date']);
+                $endDate->modify('+1 day');
 
                 $processDateArray=$this->dateRange($startDate->format('Y/m/d'),$endDate->format('Y/m/d'), '+3 month');
                 $i=0;
@@ -296,6 +300,13 @@ class Time_frames extends CI_Controller
 
                     $dt_start = $processDateArray[$i];
                     $dt_end =$processDateArray[$i+1];
+
+
+                   $tempEndDate=new DateTime($dt_end);
+                   $tempEndDate->modify('-1 day');
+
+                    $final_dt_end = $tempEndDate->format('Y/m/d');
+
 
 
                     $time=strtotime($dt_start);
@@ -320,7 +331,7 @@ class Time_frames extends CI_Controller
                     $processArray = array(
                         "time_frame_description" => $tf_description,
                         "time_frame_start" => $dt_start,
-                        "time_frame_end" => $dt_end,
+                        "time_frame_end" => $final_dt_end,
                     );
 
 

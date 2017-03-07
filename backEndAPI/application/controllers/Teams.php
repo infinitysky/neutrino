@@ -52,7 +52,10 @@ class Teams extends CI_Controller
                 'team_name' => $row->team_name,
                 'parent_team_id' =>$row->parent_team_id,
                 'team_leader_user_id'=>$row->team_leader_user_id,
-            );
+                 'team_leader_first_name'=>$row->first_name,
+                 'team_leader_last_name'=>$row->last_name,
+
+             );
             $this->json($data);
         }
         else {

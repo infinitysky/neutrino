@@ -20,6 +20,17 @@ export class ShareCompanyOkrinfoService {
   }
 
 
+
+  private _shareOverallProgressNumber = new BehaviorSubject<any>("");
+
+  _shareOverallProgressNumber$ = this._shareOverallProgressNumber.asObservable();
+
+  setOverAllProgressSubject(setSubject:any) {
+    console.log("Set Overall ProgressNumber Subject: "+ JSON.stringify( setSubject));
+    this._shareOverallProgressNumber.next(setSubject);
+  }
+
+
   private _shareTeams = new BehaviorSubject<any>("");
 
   _shareTeams$ = this._shareTeams.asObservable();

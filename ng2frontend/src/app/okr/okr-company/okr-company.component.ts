@@ -26,12 +26,15 @@ export class OkrCompanyComponent implements OnInit {
   public errorMessage: string;
   public toalMembersNumber: any;
   public toalGoalsNumber: any;
-  private overallGoallNumberSubscription: Subscription;
+  public overallProgressNumber: any;
+  private overallProgressNumberSubscription: Subscription;
+  private overallGoalNumberSubscription: Subscription;
 
   constructor(private _okrCompanyService: OkrCompanyService, private _usersInfoService: UsersInfoService, private _shareCompanyOkrinfoService: ShareCompanyOkrinfoService) {
     this.companyinfo = new CompanyDetailClass;
     this.toalMembersNumber = ' - ';
     this.toalGoalsNumber = ' - ';
+    this.overallProgressNumber = ' - ';
     this.goals="";
 
   }
@@ -41,25 +44,32 @@ export class OkrCompanyComponent implements OnInit {
     this.getTotalNumber();
     this.getTotalGoalNumber();
 
-   
+
   }
 
   ngOnDestroy() {
-    this.overallGoallNumberSubscription.unsubscribe();
+    this.overallGoalNumberSubscription.unsubscribe();
+    this.overallProgressNumberSubscription.unsubscribe();
 
   }
 
 
   getTotalGoalNumber(){
 
-    this.overallGoallNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.toalGoalsNumber = data);
-    
+    this.overallGoalNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.toalGoalsNumber = data);
+
     if (!this.toalGoalsNumber) {
       this.toalGoalsNumber = ' - ';
     }
-    
+  }
 
-    
+  getOverallPragressNumber(){
+
+    this.overallProgressNumberSubscription = this._shareCompanyOkrinfoService._shareOverallProgressNumber$.subscribe(data => this.overallProgressNumber = data);
+
+    if (!this.overallProgressNumber) {
+      this.overallProgressNumber = ' - ';
+    }
   }
 
 
@@ -74,9 +84,6 @@ export class OkrCompanyComponent implements OnInit {
          if (this.tempData.data ) {
            this.toalMembersNumber = this.tempData.data.membersNumber;
         }
-
-      
-
 
       }
     );

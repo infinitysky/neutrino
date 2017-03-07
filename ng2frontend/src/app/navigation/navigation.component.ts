@@ -11,6 +11,9 @@ import {Userclass} from '../okr/okr-shared/classes/user-class';
 import {Timeframeclass}from '../okr/okr-shared/classes/time-frame-class';
 import {UserInfoContainerService}from '../shared/services/user-info-container.service';
 
+
+//import { Ng2LetterAvatar } from "node_modules/ng2letteravatar/ng2letteravatar.js";  
+
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',

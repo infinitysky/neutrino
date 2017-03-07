@@ -255,9 +255,10 @@ export class OkrSettingGoalComponent implements OnInit {
     else {
 
       var timeFrameId=this.selectedTimeFrame[0].id;
-      console.log(this.selectedTimeFrame[0]);
 
-      this._settingGoalService.addNew(goalNameInput, goalDescription,timeFrameId).subscribe(
+      var statusTag=this.selectedTag[0].id;
+
+      this._settingGoalService.addNew(goalNameInput, goalDescription,timeFrameId,statusTag).subscribe(
         data=>this.tempData=data,
         error=>this.errorMessage=<any>error,
         ()=>{

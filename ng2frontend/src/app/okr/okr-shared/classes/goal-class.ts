@@ -11,7 +11,7 @@ export class Goalclass {
   time_frame_end: Date;
   goal_status: string;
   goal_unit: string;
-  goal_process_status: string;
+  goal_progress_status: string;
   goal_target: string;
 
 

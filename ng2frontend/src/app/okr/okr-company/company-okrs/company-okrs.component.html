@@ -16,6 +16,67 @@
 
             <div class="ngswitch" [ngSwitch]="goal.goal_status">
 
+
+
+              <div *ngSwitchCase="'Complete'">
+                <!-- START Yellow/Warning HPANEL-->
+                <div class="hpanel hgreen">
+                  <div class="panel-body">
+                    <span class="label label-success pull-right">{{goal.goal_status}}</span>
+                    <div class="row">
+                      <div class="col-sm-8">
+                        <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+
+                        <p>
+                          {{goal.goal_description}}
+                        </p>
+
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <div class="project-label">DEADLINE</div>
+                             <small>{{goal.time_frame_end | date:'dd-MM-y'}}</small>
+                          </div>
+                          <div class="col-sm-9">
+                            <div class="project-label">PROGRESS</div>
+                            <div class="progress m-t-xs full progress-small">
+                               <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-success">
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-4 project-info">
+                        <div class="project-action m-t-md">
+                           <div class="btn-group">
+                            <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>
+                            <button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>
+                            <button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>
+                          </div>
+                        </div>
+                        <div class="project-value">
+                          <h2 class="text-success">
+                           {{goal.goal_progress_status}} %
+                          </h2>
+                        </div>
+                        <div class="project-people">
+                          <img alt="logo" class="img-circle" src="images/a1.jpg">
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="panel-footer">
+                    Additional information about project in footer
+                  </div>
+
+
+                </div>
+                <!-- END green/complete HPANEL-->
+              </div>
+              <!--End of ngSwitchcomplete-->
+
+
               <div *ngSwitchCase="'Warning'">
                 <!-- START Yellow/Warning HPANEL-->
                 <div class="hpanel hyellow">
@@ -32,28 +93,29 @@
                         <div class="row">
                           <div class="col-sm-3">
                             <div class="project-label">DEADLINE</div>
-                            <small>12.06.2015</small>
+                            <small>{{ goal.time_frame_end | date:'dd-MM-y'}}</small>
                           </div>
                           <div class="col-sm-9">
                             <div class="project-label">PROGRESS</div>
                             <div class="progress m-t-xs full progress-small">
-                              <div style="width: 80%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class=" progress-bar progress-bar-warning">
+                               <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-warning">
                               </div>
+
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="col-sm-4 project-info">
                         <div class="project-action m-t-md">
-                          <div class="btn-group">
-                            <button class="btn btn-xs btn-default"> View</button>
-                            <button class="btn btn-xs btn-default"> Edit</button>
-                            <button class="btn btn-xs btn-default"> Delete</button>
+                           <div class="btn-group">
+                            <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>
+                            <button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>
+                            <button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>
                           </div>
                         </div>
                         <div class="project-value">
                           <h2 class="text-warning">
-                            {{goal.goal_process_status}} {{goal.goal_unit}} -
+                           {{goal.goal_progress_status}} %
                           </h2>
                         </div>
                         <div class="project-people">
@@ -94,14 +156,16 @@
 
                           <div class="col-sm-3">
                             <div class="project-label">DEADLINE</div>
-                            <small>12.06.2015</small>
+                             <small>{{ goal.time_frame_end | date:'dd-MM-y'}}</small>
                           </div>
 
                           <div class="col-sm-9">
                             <div class="project-label">PROGRESS</div>
                             <div class="progress m-t-xs full progress-small">
-                              <div style="width: 80%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class=" progress-bar progress-bar-danger">
+                              <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-danger">
                               </div>
+
+
                             </div>
                           </div>
                         </div>
@@ -111,14 +175,14 @@
                       <div class="col-sm-4 project-info">
                         <div class="project-action m-t-md">
                           <div class="btn-group">
-                            <button class="btn btn-xs btn-default"> View</button>
-                            <button class="btn btn-xs btn-default"> Edit</button>
-                            <button class="btn btn-xs btn-default"> Delete</button>
+                            <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>
+                            <button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>
+                            <button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>
                           </div>
                         </div>
                         <div class="project-value">
                           <h2 class="text-danger">
-                            $ -
+                            {{goal.goal_progress_status}} %
                           </h2>
                         </div>
                         <div class="project-people">
@@ -144,9 +208,9 @@
 
               <div *ngSwitchDefault>
                 <!-- START GREEN HPANEL-->
-                <div class="hpanel hgreen">
+                <div class="hpanel hblue">
                   <div class="panel-body">
-                    <span class="label label-success pull-right">  </span>
+                    <span class="label label-info pull-right"></span> <!--Tag Here-->
                     <div class="row">
                       <div class="col-sm-8">
                         <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
@@ -160,13 +224,13 @@
 
                           <div class="col-sm-3">
                             <div class="project-label">DEADLINE</div>
-                            <small>12.06.2015</small>
+                            <small>{{goal.time_frame_end | date:'dd-MM-y'}}</small>
                           </div>
 
                           <div class="col-sm-9">
                             <div class="project-label">PROGRESS</div>
                             <div class="progress m-t-xs full progress-small">
-                              <div style="width: 80%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class=" progress-bar progress-bar-success">
+                              <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-info">
                               </div>
                             </div>
                           </div>
@@ -177,15 +241,15 @@
                       </div>
                       <div class="col-sm-4 project-info">
                         <div class="project-action m-t-md">
-                          <div class="btn-group">
-                            <button class="btn btn-xs btn-default"> View</button>
-                            <button class="btn btn-xs btn-default"> Edit</button>
-                            <button class="btn btn-xs btn-default"> Delete</button>
+                           <div class="btn-group">
+                            <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>
+                            <button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>
+                            <button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>
                           </div>
                         </div>
                         <div class="project-value">
-                          <h2 class="text-success">
-                            $ -
+                          <h2 class="text-info">
+                           {{goal.goal_progress_status}} %
                           </h2>
                         </div>
                         <div class="project-people">
@@ -234,7 +298,7 @@
 <modal [animation]="animation" [keyboard]="keyboard" #modal>
   <div class="color-line"></div>
   <modal-header [show-close]="true">
-    <h4 class="modal-title">Create A New Goal</h4>
+    <h4 class="modal-title"> {{modaltitle}}  </h4>
   </modal-header>
   <modal-body>
     <div class="stage">
@@ -254,7 +318,9 @@
         <label>Goal Description</label>
         <div class="palos-input block">
 
-          <textarea style="height: 85px" type="text" placeholder="Please enter your goal description" autocomplete="off" class="form-control"
+          <textarea style="height: 85px" type="text"
+                    placeholder="Please enter your goal description"
+                    autocomplete="off" class="form-control"
             value="{{goalDescriptionInputBoxValue}}" #goalDescriptionInput></textarea>
           <!---->
 
@@ -270,20 +336,13 @@
 
         </div>
 
-        <label>Select A Team</label>
+        <label>Select A Tag</label>
         <div class="palos-input block">
 
-          <ng-select #timeFrameSelector [allowClear]="true" [items]="tagDropdownListOptions" [disabled]="disabled" [(ngModel)]="selectedTag"
-            placeholder="Select a Tag">
-          </ng-select>
-
-
-        </div>
-
-          <label>Select A Tag</label>
-        <div class="palos-input block">
-
-          <ng-select #timeFrameSelector [allowClear]="true" [items]="tagDropdownListOptions" [disabled]="disabled" [(ngModel)]="selectedTag"
+          <ng-select #tagSelector [allowClear]="true"
+                     [items]="tagDropdownListOptions"
+                     [disabled]="disabled"
+                     [(ngModel)]="selectedTag"
             placeholder="Select a Tag">
           </ng-select>
 

@@ -228,6 +228,19 @@
 
         </div>
 
+        <label>Select A Tag</label>
+        <div class="palos-input block">
+
+          <ng-select #tagSelector [allowClear]="true"
+                     [items]="tagDropdownListOptions"
+                     [disabled]="disabled"
+                     [(ngModel)]="selectedTag"
+                     placeholder="Select a Tag">
+          </ng-select>
+
+
+        </div>
+
 
       </div>
 

@@ -75,18 +75,7 @@ class Goals extends CI_Controller
                 echo json_encode($this->create_error_messageArray("time_frame_id Empty"));
                 return 0;
             }
-            elseif (empty($Data['goal_process_status'])){
-                echo json_encode($this->create_error_messageArray("goal_process_status Empty"));
-                return 0;
-            }
-            elseif (empty($Data['goal_unit'])){
-                echo json_encode($this->create_error_messageArray("goal_unit Empty"));
-                return 0;
-            }
-            elseif (empty($Data['goal_target'])){
-                echo json_encode($this->create_error_messageArray("goal_target Empty"));
-                return 0;
-            }
+
             else {
 
 
@@ -96,6 +85,18 @@ class Goals extends CI_Controller
                 if (empty($Data['goal_status'])) {
                     $Data['goal_status']="None";
                 }
+                if (empty($Data['goal_progress_status'])){
+                    $Data['goal_progress_status']=0;
+                }
+
+                //TODO : Not in use now
+                if (empty($Data['goal_unit'])){
+                    $Data['goal_unit']=0;
+                }
+                if (empty($Data['goal_target'])){
+                    $Data['goal_target']=0;
+                }
+
 
                 $processArray = array(
 
@@ -105,7 +106,7 @@ class Goals extends CI_Controller
                     'time_frame_id' => $Data['time_frame_id'],
                     'goal_status' => $Data['goal_status'],
                     'goal_unit' => $Data['goal_unit'],
-                    'goal_process_status' => $Data['goal_process_status'],
+                    'goal_progress_status' => $Data['goal_progress_status'],
                     'goal_target' => $Data['goal_target'],
 
 
@@ -164,7 +165,7 @@ class Goals extends CI_Controller
 
                 'goal_status' => $row->goal_status,
                 'goal_unit' => $row->goal_unit,
-                'goal_process_status' => $row->goal_process_status,
+                'goal_progress_status' => $row->goal_progress_status,
                 'goal_target'=>$row->goal_target,
 
 
@@ -214,7 +215,7 @@ class Goals extends CI_Controller
 
                     'goal_status' => $processArray['goal_status'],
                     'goal_unit' => $processArray['goal_unit'],
-                    'goal_process_status' => $processArray['goal_process_status'],
+                    'goal_progress_status' => $processArray['goal_progress_status'],
 
                     'goal_target' => $processArray['goal_target'],
 

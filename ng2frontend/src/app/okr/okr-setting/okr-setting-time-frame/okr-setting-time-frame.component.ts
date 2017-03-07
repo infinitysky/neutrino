@@ -173,16 +173,16 @@ export class OkrSettingTimeFrameComponent implements OnInit {
 
   quickSetTimeFrame(timeFrameStartingYearInput: string, timeFrameEndingYearInput: string) {
     var starDate = "01/01/" + timeFrameStartingYearInput;
-    var endDate = "01/01/" + timeFrameEndingYearInput;
+    var endDate = "12/31/" + timeFrameEndingYearInput;
 
     this._settingTimeFrameService.quickSetTimeFrame(starDate, endDate).subscribe(
       data => { this.tempData = data },
       error => this.errorMessage = <any>error,
       () => {
         if (this.tempData.data.affectRows > 0) {
-          swal("Success!", "Your time frame has been updated.", "success");
+          swal("Success!", "Your time frames been added.", "success");
           this.getTimeFrames();
-          this.modal.close();
+          this.quickSetModal.close();
          
         }
       }
@@ -486,6 +486,9 @@ export class OkrSettingTimeFrameComponent implements OnInit {
   //Modal actions
   @ViewChild('modal')
   modal: ModalComponent;
+
+    @ViewChild('quickSetModal')
+  quickSetModal: ModalComponent;
 
 
   closed() {

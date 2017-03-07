@@ -24,6 +24,7 @@ const routes: Routes = [
 
   { path:'okr-teams', loadChildren:'./okr-teams/okr-teams.module#OkrTeamsModule' },
   { path:'okr-goals', loadChildren:'./okr-goals/okr-goals.module#OkrGoalsModule' },
+
   { path:'okr-objectives', loadChildren:'./okr-objectives/okr-objectives.module#OkrObjectivesModule' },
   { path:'okr-company', loadChildren:'./okr-company/okr-company.module#OkrCompanyModule' },
 

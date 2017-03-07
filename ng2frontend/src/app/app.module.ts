@@ -18,7 +18,7 @@ import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/mult
 import {SelectModule} from 'ng2-select';
 
 
-
+//import { Ng2LetterAvatar } from "node_modules/ng2letteravatar/ng2letteravatar.js";
 
 //developed module import here
 import { HomeModule } from './home/home.module';
