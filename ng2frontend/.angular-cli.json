@@ -29,6 +29,7 @@
         "../library/vendor/toastr/build/toastr.min.css",
         "../library/primeng/resources/themes/omega/theme.css",
         "../library/primeng/resources/primeng.min.css",
+        "../library/nouislider/distribute/nouislider.min.css",
         "../library/styles/style.css",
         "styles.css"
       ],
