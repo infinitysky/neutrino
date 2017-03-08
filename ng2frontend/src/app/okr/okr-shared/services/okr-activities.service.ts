@@ -154,5 +154,20 @@ export class OkrActivitiesService {
       .catch(this.handleErrorObservable)
   }
 
+  addNewByClass( newInfo:Activityclass) : Observable<Activityclass>  {
+    //activity_detail:any,activity_type:any, submit_user_id:any
+    let httpBody = { activity_detail : newInfo.activity_detail, activity_type:newInfo.activity_type, user_id : newInfo.user_id};
+    let jsonBody = JSON.stringify(httpBody);
+
+    console.log(jsonBody);
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.creatAPI,jsonBody, {headers: this.headers})
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+  }
+
+
 
 }

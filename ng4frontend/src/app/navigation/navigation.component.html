@@ -1,0 +1,79 @@
+<!-- Navigation -->
+<aside id="menu">
+    <div id="navigation">
+        <div class="profile-picture">
+
+            <a href="index.html">
+              <!--<ng2-letter-avatar avatar-data='{{letterAvatar}}' ></ng2-letter-avatar>-->
+                <!--<img src="images/profile.jpg" class="img-circle m-b" alt="logo">-->
+            </a>
+
+            <div class="stats-label text-color">
+                <span class="font-extra-bold font-uppercase">{{userDatas.first_name}} {{userDatas.last_name}}</span>
+
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                        <small class="text-muted">Founder of App <b class="caret"></b></small>
+                    </a>
+                    <ul class="dropdown-menu animated flipInX m-t-xs">
+                        <li><a href="contacts.html">Contacts</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="analytics.html">Analytics</a></li>
+                        <li class="divider"></li>
+                        <li><a href="login.html">Logout</a></li>
+                    </ul>
+                </div>
+
+
+                <div id="sparkline1" class="small-chart m-t-sm"></div>
+                <div>
+                    <h4 class="font-extra-bold m-b-xs">
+                        $260 104,200
+                    </h4>
+                    <small class="text-muted">Your income from the last year in sales product X.</small>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <!--start navigation menu-->
+
+        <ul class="nav" id="side-menu">
+            <li>
+                <a routerLink="/home">
+                    <span class="nav-label">Home</span>
+                    <span class="label label-success pull-right">v.1</span>
+                </a>
+            </li>
+
+
+            <li>
+                <a class="active"><span class="nav-label">OKR System</span><span class="fa arrow"></span> </a>
+                <ul class="nav nav-second-level">
+                    <li ><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>
+
+                  <!--Router parameter 1-->
+                  <li><a [routerLink]="['/okr/okr-users/user/',selfUserId]">OKRs Users</a></li>
+
+                  <li><a [routerLink]="['/okr/okr-teams']">OKRs Team</a></li>
+
+                  <li><a [routerLink]="['/okr/okr-company']">OKRs Company</a></li>
+
+                  <li><a [routerLink]="['/okr/okr-setting']">ORKs Setting</a></li>
+                </ul>
+            </li>
+
+
+            <li>
+                <a routerLink="/aboutus"> <span class="nav-label">About Us</span></a>
+            </li>
+
+
+
+
+        </ul>
+    </div>
+</aside>

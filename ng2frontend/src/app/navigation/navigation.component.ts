@@ -12,35 +12,46 @@ import {Timeframeclass}from '../okr/okr-shared/classes/time-frame-class';
 import {UserInfoContainerService}from '../shared/services/user-info-container.service';
 
 
-//import { Ng2LetterAvatar } from "node_modules/ng2letteravatar/ng2letteravatar.js";  
 
 @Component({
   selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
+  templateUrl: 'navigation.component.html',
   providers: [UsersinfoService],
-  styleUrls: ['./navigation.component.css']
+
+  styleUrls: ['navigation.component.css']
 })
 export class NavigationComponent implements OnInit {
 
   userInfoData: any;
   userDatas:Userclass;
 
-  timeFrame:Timeframeclass;
+  public currentTimeFrame:Timeframeclass;
   selfUserId:string;
   subscription:Subscription;
+
+  private subscribeTimeFrameData:any;
+  private timeFrameDataSubscription:Subscription;
+
+
+
 
   constructor(private _usersinfoService:UsersinfoService,
               private _userInfoContainerService:UserInfoContainerService) {
 
     this.selfUserId='';
-    this.timeFrame = new Timeframeclass();
+    this.currentTimeFrame = new Timeframeclass();
     this.userDatas=new Userclass();
   }
 
   ngOnInit() {
 
     this.getUserInfo();
+    this.getCurrentTimeFrame();
 
+  }
+  ngOnDestroy() {
+
+    this.timeFrameDataSubscription.unsubscribe();
   }
 
   //TODO: restructure the "get" logic
@@ -56,6 +67,8 @@ export class NavigationComponent implements OnInit {
         console.log("set setUserInfo at navigation");
         this._userInfoContainerService.setUserInfo(this.userDatas);
         this.selfUserId=this.userDatas.user_id.toString();
+
+
         //console.log(this.selfUserId);
         this.setObservableUserInfo(<Userclass>this.userDatas);
 
@@ -66,6 +79,15 @@ export class NavigationComponent implements OnInit {
   setObservableUserInfo(userInfo:Userclass){
     this._userInfoContainerService.setUserInfoSubject(userInfo);
   }
+
+  getCurrentTimeFrame(){
+    this.timeFrameDataSubscription=this._userInfoContainerService.timeFrame$.subscribe(timeFrame=>this.subscribeTimeFrameData=<Timeframeclass>timeFrame);
+    console.log("self Info"+ JSON.stringify(this.subscribeTimeFrameData));
+
+
+  }
+
+
 
 
 

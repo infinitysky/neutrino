@@ -16,7 +16,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+
 
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
@@ -36,11 +36,14 @@ import { SettingTeamService } from '../../okr-shared/services/okr-team.service';
 import { Timeframeclass } from '../../okr-shared/classes/time-frame-class';
 import { Teamclass } from '../../okr-shared/classes/team-class';
 
+import {Activityclass}from '../../okr-shared/classes/activitie-class';
+import {OkrActivitiesService}from '../../okr-shared/services/okr-activities.service';
+import {UserInfoContainerService} from '../../../shared/services/user-info-container.service';
 
 import { ShareCompanyOkrinfoService } from '../share-company-okrinfo.service';
 @Component({
   selector: 'app-company-okrs',
-  providers: [SettingGoalService, SettingTimeFrameService,SettingTeamService],
+  providers: [SettingGoalService, SettingTimeFrameService,SettingTeamService,OkrActivitiesService],
   templateUrl: './company-okrs.component.html',
   styleUrls: ['./company-okrs.component.css']
 })
@@ -57,6 +60,7 @@ export class CompanyOkrsComponent implements OnInit {
   public displayGoals:Goalclass[];
   public timeframes: Timeframeclass[];
   public teams:Teamclass[];
+  public sumitActivity:Activityclass;
 
 
 
@@ -71,7 +75,10 @@ export class CompanyOkrsComponent implements OnInit {
 
   animation: boolean = true;
   keyboard: boolean = true;
-  backdrop: string | boolean = true;
+  backdrop: string | boolean = "static";
+
+
+  //current model
   editModeIO: number;
 
 
@@ -94,19 +101,22 @@ export class CompanyOkrsComponent implements OnInit {
 
   //For sharing service
   public toalGoalsNumber: any;
-  public OverallProgressNumber: any;
-  private overallGoallNumberSubscription: Subscription;
+
+  public overallProgressNumber: any;
+
+  private overallProgressNumberSubscription: Subscription;
+  private overallGoalNumberSubscription: Subscription;
 
 
-
-
-
+  private selfUserInforData:any;
+  private selfInfoSubscription:Subscription;
 
 
   constructor(private _settingGoalService: SettingGoalService,
               private _settingTimeFrameService: SettingTimeFrameService,
               private _shareCompanyOkrinfoService: ShareCompanyOkrinfoService,
-              private _settingTeamService:SettingTeamService) {
+              private _userInfoContainerService:UserInfoContainerService,
+              private _okrActivitiesService:OkrActivitiesService) {
     this.modaltitle="";
     this.goals = [];
 
@@ -118,6 +128,8 @@ export class CompanyOkrsComponent implements OnInit {
     this.timeFrameDropdownListOptions = [];
     this.selectedTimeFrame = [];
     this.toalGoalsNumber = ' - ';
+    this.sumitActivity=new Activityclass();
+    this.selfUserInforData='';
 
 
 
@@ -133,19 +145,21 @@ export class CompanyOkrsComponent implements OnInit {
 
   //component functions
   ngOnInit() {
+
+
+
     this.getGoals();
     this.getAllTimeFrames();
+    this.getOverallProgressNumber();
+    this.getTotalGoalNumber();
 
-
-    this.overallGoallNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.toalGoalsNumber = data);
-    if (!this.toalGoalsNumber) {
-      this.toalGoalsNumber = ' - ';
-    }
+    this.getCurrentUserInfo();
 
   }
 
   ngOnDestroy() {
-    this.overallGoallNumberSubscription.unsubscribe();
+    this.overallGoalNumberSubscription.unsubscribe();
+    this.overallProgressNumberSubscription.unsubscribe();
 
   }
 
@@ -245,6 +259,12 @@ export class CompanyOkrsComponent implements OnInit {
 
 
 
+getCurrentUserInfo(){
+  this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
+  console.log("self Info"+ JSON.stringify(this.selfUserInforData.user_id));
+
+
+}
 
 
 
@@ -254,10 +274,12 @@ export class CompanyOkrsComponent implements OnInit {
         data => this.tempData = data,
         error => this.errorMessage = <any>error,
         () => {
-          this.timeframes = this.tempData.data;
 
-          this.setTimeFrameDropdownList(this.timeframes);
 
+          if (this.tempData.status == "success" && this.tempData.data) {
+            this.timeframes =<Timeframeclass[]> this.tempData.data;
+            this.setTimeFrameDropdownList(this.timeframes);
+          }
         }
       );
 
@@ -276,6 +298,10 @@ export class CompanyOkrsComponent implements OnInit {
       // swal("Warning", "you did not change any time!", "warning");\
       return;
     } else {
+
+      let originalGoal=editGoal;
+
+
       editGoal.goal_description = goalDescription;
       editGoal.goal_name = goalNameInput;
       var timeFrameId = this.selectedTimeFrame[0].id;
@@ -297,16 +323,38 @@ export class CompanyOkrsComponent implements OnInit {
             console.log("update Members this.tempData + " + JSON.stringify(this.tempData));
             console.log(this.tempData.data);
 
-            if (this.tempData.status != "success" || !this.tempData.data) {
-              //swal("Warning", this.tempData.errorMassage, "warning");
-              swal("Error!", this.tempData.errorMassage, "error");
-            } else {
+             if(this.tempData.status == "success" && this.tempData.data)  {
               swal("Success!", "Your goal has been updated. <br> affectRows: " + this.tempData.data.affectRows, "success");
               // this.updateTeamMembers(editTeam,this.memberSelectedOptions);
               this.goalNameInputBoxValue = "";
               this.goalDescriptionInputBoxValue = "";
               this.updateOverallNumbers();
 
+              var submitANewActivity= new Activityclass();
+
+              var modifyLog = "";
+              if (originalGoal.goal_description!=editGoal.goal_description){
+                modifyLog=modifyLog+" Change Goal description  to"+ editGoal.goal_description+"; ";
+              }
+               if (originalGoal.goal_name!=editGoal.goal_name){
+                 modifyLog=modifyLog+"Change goal name to"+ editGoal.goal_name+"; ";
+               }
+               if (originalGoal.goal_status!=editGoal.goal_status){
+                 modifyLog=modifyLog+"Change goal tag to"+ editGoal.goal_status+"; ";
+               }
+
+              submitANewActivity.user_id=this.selfUserInforData.user_id;
+              submitANewActivity.activity_detail = "Updated goal : "
+                                                          + editGoal.goal_name+ " update log : "+modifyLog ;
+              submitANewActivity.activity_type="Update";
+              this.submitActivity(submitANewActivity);
+
+
+
+
+            }else {
+              //swal("Warning", this.tempData.errorMassage, "warning");
+              swal("Error!", this.tempData.errorMassage, "error");
             }
 
           }
@@ -348,10 +396,10 @@ export class CompanyOkrsComponent implements OnInit {
     for(i=0;i<this.goals.length;i++){
       totalNumber=totalNumber+ Number(this.goals[i].goal_progress_status);
     }
+    var OverallProgress=totalNumber/this.goals.length;
 
-    console.log()
 
-    return totalNumber;
+    return OverallProgress;
 
   }
 
@@ -400,7 +448,12 @@ export class CompanyOkrsComponent implements OnInit {
             this.updateOverallNumbers();
             this.goalNameInputBoxValue = "";
             this.goalDescriptionInputBoxValue = "";
-            swal("Success!", "Your goal has been created.", "success");
+
+            var submitANewActivity= new Activityclass();
+            submitANewActivity.user_id=this.selfUserInforData.user_id;
+            submitANewActivity.activity_detail = " Created a new goal : " + tempInfo.goal_name;
+            submitANewActivity.activity_type="Create";
+            this.submitActivity(submitANewActivity);
 
           } else {
             swal("Error", this.tempData.errorMassage, "error");
@@ -418,7 +471,43 @@ export class CompanyOkrsComponent implements OnInit {
     this.modal.close();
   }
 
+  submitActivity(activity:any){
 
+    this._okrActivitiesService.addNewByClass(activity).subscribe(
+      data=>this.tempData=data,
+      error=>this.errorMessage=<any>error,
+      ()=>{
+        if(this.tempData.data && this.tempData&& <Activityclass>this.tempData.data){
+          //swal("Success!", "Your goal has been created.", "success");
+          console.log("activity success");
+        }
+      }
+    );
+
+
+  }
+
+
+
+
+  getTotalGoalNumber(){
+
+
+    this.overallGoalNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.toalGoalsNumber = data);
+    if (!this.toalGoalsNumber) {
+      this.toalGoalsNumber = ' - ';
+    }
+
+  }
+
+  getOverallProgressNumber(){
+
+    this.overallProgressNumberSubscription = this._shareCompanyOkrinfoService._shareOverallProgressNumber$.subscribe(data => this.overallProgressNumber = data);
+
+    if (!this.overallProgressNumber) {
+      this.overallProgressNumber = ' - ';
+    }
+  }
 
 
 

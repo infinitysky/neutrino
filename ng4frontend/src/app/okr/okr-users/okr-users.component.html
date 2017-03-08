@@ -1,0 +1,236 @@
+<div class="normalheader ">
+
+  <div class="hpanel">
+
+
+    <div class="panel-body">
+
+      <a class="small-header-action" >
+        <div class="clip-header">
+          <i class="fa fa-arrow-up"></i>
+        </div>
+      </a>
+
+
+
+      <div class="profile-container" >
+
+        <div class="row">
+
+          <!--Start of User information display panel-->
+          <div class="User-information col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <h1>{{randerUserInforData.first_name}} {{randerUserInforData.last_name}}</h1>
+                <h4>Position: {{randerUserInforData.position}} </h4></div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-sm-3">
+                <div class="info-title">Contact</div>
+              </div>
+
+              <div class="col-sm-9">
+                <div class="multi-line">
+                  <span><i class="fa fa-envelope"></i> <a href="mailto:{{randerUserInforData.email}}">{{randerUserInforData.email}}</a> </span>
+                </div>
+              </div>
+
+
+              <div class="col-sm-3">
+                <div class="info-title">Phone</div>
+              </div>
+
+              <div class="col-sm-9">
+                <div class="multi-line">
+                  <span><i class="fa fa-phone"></i> <a>{{randerUserInforData.mobile_number}}</a> </span>
+                </div>
+              </div>
+
+
+
+              <div class="col-sm-3">
+                <div class="info-title">Teams</div>
+              </div>
+
+              <div class="col-sm-9">
+                <div class="multi-line">
+
+                  <div class="entity first-group">
+                    <a href="/okr/group/9148/okrs?tf=23821">544567465</a>
+                  </div>
+
+
+                </div>
+              </div>
+
+
+            </div>
+
+          </div>
+          <!--End of User information display panel-->
+
+          <!--Start split-->
+          <div>
+            <div>
+
+            </div>
+          </div>
+
+          <div class="horizontal-seperator pull-right">
+            <div class="horizontal-seperator"></div>
+          </div>
+          <!--End of split-->
+
+
+          <!--Start Right task overview panel-->
+          <div class="okr-info-wrapper col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+
+              <div class="okr-infor-container col-md-4 col-sm-4 col-xs-4">
+                <div class="okr-infor-number okr-infor-blue font-extra-bold m-t-xl m-b-xs"><span >10</span><span >%</span></div>
+                <div class="okr-infor-label">Overall Progress</div>
+              </div>
+
+              <div class="okr-infor-container col-md-4 col-sm-4 col-xs-4">
+                <div class="okr-infor-number okr-infor-green font-extra-bold m-t-xl m-b-xs"><span >2</span> <span > </span> </div>
+                <div class="okr-infor-label">Overall Objectives</div>
+              </div>
+
+              <div class="okr-infor-container col-md-4 col-sm-4 col-xs-4">
+                <div class="okr-infor-number okr-infor-red font-extra-bold m-t-xl m-b-xs"><span >33</span><span >D</span></div>
+                <div class="okr-infor-label">Last Update</div>
+              </div>
+
+
+            <!--<div class="row">-->
+            <!--Time Frame select-->
+            <!--</div>-->
+
+          </div>
+          <!--End of right task overview panel-->
+
+
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="content animate-panel ">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="hpanel">
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#tab-1">OKRs</a></li>
+          <li class=""><a data-toggle="tab" href="#tab-2">Activities</a></li>
+          <li class=""><a data-toggle="tab" href="#tab-3">Teams</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+          <div id="tab-1" class="tab-pane active">
+            <div class="panel-body">
+
+              <button class="btn btn-circle"> + </button>
+
+
+              <div class="OKRs-Cards">
+                <div class="row" style="margin-bottom:20px;">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="margin-bottom:20px;">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4"></div>
+                      <div class="col-md-8"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+            </div>
+
+          </div>
+
+
+
+          <!--Start users activity view-->
+          <div id="tab-2" class="tab-pane">
+            <div class="panel-body">
+              <app-okr-users-activity></app-okr-users-activity>
+            </div>
+          </div>
+          <!--End users activity view-->
+
+
+
+          <!--Start users teams view-->
+          <div id="tab-3" class="tab-pane">
+            <div class="panel-body">
+              <app-okr-users-teams></app-okr-users-teams>
+            </div>
+          </div>
+          <!--End  users activity view-->
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+</div>

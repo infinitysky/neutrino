@@ -10,6 +10,18 @@ import {UserInfoContainerService} from '../../shared/services/user-info-containe
 
 
 
+//3rd party library module
+import {ToastyModule} from 'ng2-toasty';
+import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { MyDatePickerModule } from 'mydatepicker';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+import { SelectModule} from 'ng2-select';
+import { OkrsUsersOkrsComponent } from './okrs-users-okrs/okrs-users-okrs.component';
+
+
+
+
 
 @NgModule({
   imports: [
@@ -17,6 +29,6 @@ import {UserInfoContainerService} from '../../shared/services/user-info-containe
     CommonModule,
     OkrUsersRoutingModule
   ],
-  declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent]
+  declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent, OkrsUsersOkrsComponent]
 })
 export class OkrUsersModule { }
