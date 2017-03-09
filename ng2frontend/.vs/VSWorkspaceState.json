@@ -8,6 +8,6 @@
     "\\src\\app\\okr\\okr-teams",
     "\\src\\app\\okr\\okr-users"
   ],
-  "SelectedNode": "\\node_modules",
+  "SelectedNode": "\\src\\app\\okr\\okr-company\\okr-company.component.html",
   "PreviewInSolutionExplorer": false
 }
