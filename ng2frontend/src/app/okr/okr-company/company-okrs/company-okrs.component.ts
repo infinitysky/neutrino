@@ -41,6 +41,10 @@ import {OkrActivitiesService}from '../../okr-shared/services/okr-activities.serv
 import {UserInfoContainerService} from '../../../shared/services/user-info-container.service';
 
 import { ShareCompanyOkrinfoService } from '../share-company-okrinfo.service';
+
+
+
+
 @Component({
   selector: 'app-company-okrs',
   providers: [SettingGoalService, SettingTimeFrameService,SettingTeamService,OkrActivitiesService],
@@ -516,9 +520,9 @@ getCurrentUserInfo(){
 
   //ng2 liftcycle functions
 
-  onSelect(Goal: Goalclass): void {
-    this.selectedGoal = Goal;
-  }
+  // onSelect(Goal: Goalclass): void {
+  //   this.selectedGoal = Goal;
+  // }
 
 
 
@@ -583,41 +587,10 @@ getCurrentUserInfo(){
     this.modal.close();
   }
 
-  dismissed() {
-
-  }
-
-  opened() {
-
-
-  }
-
-  navigate() {
-
-  }
-
   open() {
 
     this.modal.open();
   }
-
-
-
-  // major functions
-  submitInfo() {
-
-  }
-
-  cleanData() {
-
-  }
-
-  closeModal() {
-
-  }
-
-
-
 
 
 }

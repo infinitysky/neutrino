@@ -1,12 +1,17 @@
-import { NgModule } from '@angular/core';
+﻿import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
+
+
 import { OkrUsersRoutingModule } from './okr-users-routing.module';
 import { OkrUsersComponent } from './okr-users.component';
-import { FormsModule } from '@angular/forms';
-
 import {OkrUsersActivityComponent} from './okr-users-activity/okr-users-activity.component';
 import {OkrUsersTeamsComponent} from './okr-users-teams/okr-users-teams.component';
-import {UserInfoContainerService} from '../../shared/services/user-info-container.service';
+import { OkrsUsersOkrsComponent } from './okrs-users-okrs/okrs-users-okrs.component';
+
+import {ShareUserOkrinfoService} from './share-user-okrinfo.service';
 
 
 
@@ -17,7 +22,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { SelectModule} from 'ng2-select';
-import { OkrsUsersOkrsComponent } from './okrs-users-okrs/okrs-users-okrs.component';
+
 
 
 
@@ -25,10 +30,20 @@ import { OkrsUsersOkrsComponent } from './okrs-users-okrs/okrs-users-okrs.compon
 
 @NgModule({
   imports: [
+    ToastyModule.forRoot(),
+    Ng2Bs3ModalModule,
+    MyDatePickerModule,
+    MyDateRangePickerModule,
+    MultiselectDropdownModule,
+    SelectModule,
+
+
+    HttpModule,
     FormsModule,
     CommonModule,
     OkrUsersRoutingModule
   ],
+  providers:[ShareUserOkrinfoService],
   declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent, OkrsUsersOkrsComponent]
 })
 export class OkrUsersModule { }

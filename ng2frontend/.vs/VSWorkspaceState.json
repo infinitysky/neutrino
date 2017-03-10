@@ -1,13 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\app",
-    "\\src\\app\\okr",
-    "\\src\\app\\okr\\okr-company",
-    "\\src\\app\\okr\\okr-teams",
-    "\\src\\app\\okr\\okr-users"
+    ""
   ],
-  "SelectedNode": "\\src\\app\\okr\\okr-company\\okr-company.component.html",
+  "SelectedNode": "\\node_modules",
   "PreviewInSolutionExplorer": false
 }
