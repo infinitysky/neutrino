@@ -5,7 +5,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import {Teamclass} from '../../okr-shared/classes/team-class';
 import {SettingTeamService} from '../../okr-shared/services/okr-team.service';
-import {UserDetailsService} from '../../okr-shared/services/user-details.service';
+import {UserDetailsService} from '../../../shared/services/user-details.service';
 @Component({
   selector: 'app-okr-teams-detail',
   templateUrl: './okr-teams-detail.component.html',

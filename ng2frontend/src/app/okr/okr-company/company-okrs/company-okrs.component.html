@@ -1,8 +1,31 @@
-<div class="row">
-  <div style="padding-right: 20px;">
-    <button type="button" class="btn w-xs btn-primary pull-right" (click)="addGoalButton()"><i class="fa fa-plus"></i> Add New Goal</button>
+<div class="ngswitch" [ngSwitch]="selfUserInforData.role"><!-- Check the User permission -->
+
+  <div class="row" *ngSwitchCase="'admin'">
+    <div style="padding-right: 20px;">
+      <button type="button" class="btn w-xs btn-primary pull-right" (click)="addGoalButton()"><i class="fa fa-plus"></i> Add New Goal</button>
+    </div>
+  </div>
+  <div class="row" *ngSwitchCase="'manager'">
+    <div style="padding-right: 20px;">
+      <button type="button" class="btn w-xs btn-primary pull-right" (click)="addGoalButton()"><i class="fa fa-plus"></i> Add New Goal</button>
+    </div>
+  </div>
+
+  <div class="row" *ngswitchdefault>
+    <div style="padding-right: 20px;">
+      <!--<button type="button" class="btn w-xs btn-primary pull-right" (click)="addGoalButton()"><i class="fa fa-plus"></i> Add New Goal</button>-->
+      <!-- display nothing for default -->
+    </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
 <div class="row">
   <div class="OKRs-Cards" style="margin-top: 2%">
     <div class="row" style="margin-bottom:20px;">

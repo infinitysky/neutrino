@@ -80,6 +80,7 @@ class Users_details extends CI_Controller
                     'mobile_number' => $Data['mobile_number'],
                     'user_id' => $Data['user_id'],
                     'position' => $Data['position'],
+                    'role' => $Data['role'],
                 );
                 return $processArray;
             }
@@ -146,9 +147,7 @@ class Users_details extends CI_Controller
                 'mobile_number' => $row->mobile_number,
                 'user_id' => $row->user_id,
                 'position' => $row->position,
-
-
-
+                'role'=>$row->role
         );
             $this->json($data);
         } else {

@@ -155,7 +155,7 @@ class Teams_users_model extends CI_Model
 
     }
 
-    function delet_all_by_user_id($userId)
+    function delete_all_by_user_id($userId)
     {
         $this->db->trans_start();
 

@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import 'rxjs';
 
 import { Observable } from 'rxjs/Observable';
@@ -42,6 +43,7 @@ import { Goalclass } from '../../okr-shared/classes/goal-class';
 import { Objectiveclass } from '../../okr-shared/classes/objective-class';
 import {Keyresultclass}from '../../okr-shared/classes/key-restult-class';
 import {Activityclass}from '../../okr-shared/classes/activitie-class';
+import {Userclass}from '../../../shared/classes/user-class';
 
 
 
@@ -130,9 +132,14 @@ export class OkrsUsersOkrsComponent implements OnInit {
   private overallProgressNumberSubscription: Subscription;
   private overallObjectivesNumberSubscription: Subscription;
 
-
-  private selfUserInforData: any;
+  private selfUserInfoData: Userclass;
   private selfInfoSubscription: Subscription;
+  private targetUserInfoData: Userclass;
+  private targetInfoSubscription: Subscription;
+
+  private routerParamsSubscription:any;
+  private viewUserID:any;
+
 
 
 
@@ -144,7 +151,11 @@ export class OkrsUsersOkrsComponent implements OnInit {
               private _settingKeyResultService: SettingKeyResultService,
               private _shareUserOkrinfoService:ShareUserOkrinfoService,
               private _userInfoContainerService: UserInfoContainerService,
-              private _okrActivitiesService: OkrActivitiesService) {
+              private _okrActivitiesService: OkrActivitiesService,
+              private _activatedRoute : ActivatedRoute) {
+
+
+    this.viewUserID="";
 
     this.objectiveModalTitle="";
     this.keyresultModalTitle="";
@@ -176,7 +187,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
     this.totalObjectivesNumber = ' - ';
     this.newSubmitActivity = new Activityclass();
-    this.selfUserInforData = '';
+    this.selfUserInfoData = new Userclass();
 
 
 
@@ -191,15 +202,31 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
   ngOnInit() {
     this.getCurrentUserInfo();
+    this.routerSubscription();
     this.getOverallProgressNumber();
     this.getTotalObjectivesNumber();
+    this.targetSubscription()
 
   }
   ngOnDestroy() {
     this.overallObjectivesNumberSubscription.unsubscribe();
     this.overallProgressNumberSubscription.unsubscribe();
+    this.routerParamsSubscription.unsubscribe();
+    this.targetInfoSubscription.unsubscribe();
   }
 
+
+  routerSubscription(){
+    console.log("Router params userID:"+ this._activatedRoute.snapshot.params['userid']);
+    this.routerParamsSubscription = this._activatedRoute.params.subscribe(params => {
+      this.viewUserID = ''+params['userid']; // (+) converts string 'id' to a number
+      console.log("User OKRs this.viewUserID"+this.viewUserID);
+      // In a real app: dispatch action to load the details here.
+      this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
+      this.getTargetUserOKRs(this.viewUserID);
+
+    });
+  }
 
 
 
@@ -285,13 +312,31 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
 
 
+  targetSubscription(){
+    this.targetInfoSubscription=this._shareUserOkrinfoService._targetUserInfo$.subscribe(targetInfo=>this.targetUserInfoData=targetInfo);
+  }
+
 
   getCurrentUserInfo(){
-    this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
-    console.log("self Info"+ JSON.stringify(this.selfUserInforData.user_id));
+    this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInfoData=userInfo);
+    console.log("self Info"+ JSON.stringify(this.selfUserInfoData.user_id));
 
   }
 
+
+
+  getTargetUserOKRs(targetUserId:any){
+
+    this._settingObjectiveService.getByUserId(targetUserId).subscribe(
+      data=>this.tempData=data,
+      error=>this.errorMessage=<any>error,
+      ()=>{
+
+      }
+    );
+
+
+  }
 
 
   getAllTimeFrames() {
@@ -333,13 +378,9 @@ export class OkrsUsersOkrsComponent implements OnInit {
       var timeFrameId = this.selectedTimeFrame[0].id;
       var goalStatusTag =this.selectedTag[0].id;
 
-
-
       editGoal.time_frame_id = timeFrameId;
 
       editGoal.goal_status=goalStatusTag;
-
-
 
       this._settingGoalService.update(editGoal)
         .subscribe(
@@ -369,7 +410,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
                 modifyLog=modifyLog+"Change goal tag to"+ editGoal.goal_status+"; ";
               }
 
-              submitANewActivity.user_id=this.selfUserInforData.user_id;
+              submitANewActivity.user_id=this.selfUserInfoData.user_id;
               submitANewActivity.activity_detail = "Updated goal : "
                 + editGoal.goal_name+ " update log : "+modifyLog ;
               submitANewActivity.activity_type="Update";
@@ -392,7 +433,6 @@ export class OkrsUsersOkrsComponent implements OnInit {
     this.modal.close();
 
   }
-
 
 
 
@@ -460,7 +500,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
             this.objectiveNameInputBoxValue = "";
             this.objectiveDescriptionInputBoxValue = "";
             var submitANewActivity= new Activityclass();
-            submitANewActivity.user_id=this.selfUserInforData.user_id;
+            submitANewActivity.user_id=this.selfUserInfoData.user_id;
             submitANewActivity.activity_detail = " Created a new goal : " + tempInfo.goal_name;
             submitANewActivity.activity_type="Create";
             this.submitActivity(submitANewActivity);

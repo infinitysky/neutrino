@@ -9,7 +9,7 @@ import { Goalclass } from '../okr-shared/classes/goal-class';
 
 import { SettingGoalService } from '../okr-shared/services/okr-goal.service';
 
-import { Userclass } from '../okr-shared/classes/user-class';
+import { Userclass } from '../../shared/classes/user-class';
 
 
 

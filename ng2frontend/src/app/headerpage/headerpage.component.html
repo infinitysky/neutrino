@@ -42,136 +42,42 @@
 
         <li class="dropdown">
           <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-            <i class="fa fa-calendar-check-o"></i>TF
+            <i class="fa fa-calendar-check-o"></i>TF {{selectedTimeFrame.time_frame_description}}
           </a>
-          <ul class="dropdown-menu hdropdown notification animated flipInX">
-
-
-            <li>
-              <a>
-                <span class="label label-danger">ERR</span> Contrary to popular belief.
-              </a>
-            </li>
-
-            <li class="summary"><a href="#">See all notifications</a></li>
-          </ul>
-        </li>
+          <ul class="dropdown-menu hdropdown notification flipInX">
 
 
 
+            <div class="ngswitch" [ngSwitch]="selfInfo.role"><!-- Check the User permission -->
 
-        <li class="dropdown">
-          <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-            <i class="pe-7s-speaker"></i>
-          </a>
-          <ul class="dropdown-menu hdropdown notification animated flipInX">
-            <li>
-              <a>
-                <span class="label label-success">NEW</span> It is a long established.
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="label label-warning">WAR</span> There are many variations.
-              </a>
-            </li>
-            <li>
-              <a>
-                <span class="label label-danger">ERR</span> Contrary to popular belief.
-              </a>
-            </li>
-            <li class="summary"><a href="#">See all notifications</a></li>
-          </ul>
-        </li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-            <i class="pe-7s-keypad"></i>
-          </a>
+              <li *ngSwitchCase="'admin'">
+                <a [routerLink]="['/okr/okr-setting/setting-time-frame']"> <i class="fa fa-cog"></i> Manage Time Frames</a>
+              </li>
+              <li *ngSwitchCase="'manager'">
+                <a [routerLink]="['/okr/okr-setting/setting-time-frame']"> <i class="fa fa-cog"></i> Manage Time Frames</a>
+              </li>
+              <li *ngswitchdefault>
+                <!-- display nothing for default -->
+              </li>
 
-          <div class="dropdown-menu hdropdown bigmenu animated flipInX">
-            <table>
-              <tbody>
-              <tr>
-                <td>
-                  <a href="#">
-                    <i class="pe pe-7s-portfolio text-info"></i>
-                    <h5>Projects</h5>
-                  </a>
-                </td>
-                <td>
-                  <a href="#">
-                    <i class="pe pe-7s-mail text-warning"></i>
-                    <h5>Email</h5>
-                  </a>
-                </td>
-                <td>
-                  <a href="#">
-                    <i class="pe pe-7s-users text-success"></i>
-                    <h5>Contacts</h5>
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <a href="#">
-                    <i class="pe pe-7s-comment text-info"></i>
-                    <h5>Forum</h5>
-                  </a>
-                </td>
-                <td>
-                  <a href="#">
-                    <i class="pe pe-7s-graph1 text-danger"></i>
-                    <h5>Analytics</h5>
-                  </a>
-                </td>
-                <td>
-                  <a href="#">
-                    <i class="pe pe-7s-box1 text-success"></i>
-                    <h5>Files</h5>
-                  </a>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </li>
-        <li class="dropdown">
-          <a class="dropdown-toggle label-menu-corner" href="#" data-toggle="dropdown">
-            <i class="pe-7s-mail"></i>
-            <span class="label label-success">4</span>
-          </a>
-          <ul class="dropdown-menu hdropdown animated flipInX">
-            <div class="title">
-              You have 4 new messages
             </div>
-            <li>
-              <a>
-                It is a long established.
-              </a>
-            </li>
-            <li>
-              <a>
-                There are many variations.
-              </a>
-            </li>
-            <li>
-              <a>
-                Lorem Ipsum is simply dummy.
-              </a>
-            </li>
-            <li>
-              <a>
-                Contrary to popular belief.
-              </a>
-            </li>
-            <li class="summary"><a href="#">See All Messages</a></li>
+
+
+            <li *ngFor="let timeFrame of timeFrames" (click)="onSelectedTimeFrame(timeFrame)">{{timeFrame.time_frame_description}}</li>
+
+            <!--<li>-->
+              <!--<a>-->
+                <!--<span class="label label-danger">ERR</span> Contrary to popular belief.-->
+              <!--</a>-->
+            <!--</li>-->
+
+            <!--<li class="summary"><a href="#">See all notifications</a></li>-->
           </ul>
         </li>
-        <li>
-          <a href="#" id="sidebar" class="right-sidebar-toggle">
-            <i class="pe-7s-upload pe-7s-news-paper"></i>
-          </a>
-        </li>
+
+
+
+
         <li class="dropdown">
           <a href="login.html">
             <i class="pe-7s-upload pe-rotate-90"></i>

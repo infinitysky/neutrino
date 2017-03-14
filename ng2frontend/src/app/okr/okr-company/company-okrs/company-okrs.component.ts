@@ -150,26 +150,22 @@ export class CompanyOkrsComponent implements OnInit {
   //component functions
   ngOnInit() {
 
-
+    this.getCurrentUserInfo();
 
     this.getGoals();
     this.getAllTimeFrames();
     this.getOverallProgressNumber();
     this.getTotalGoalNumber();
 
-    this.getCurrentUserInfo();
 
   }
 
   ngOnDestroy() {
     this.overallGoalNumberSubscription.unsubscribe();
     this.overallProgressNumberSubscription.unsubscribe();
+    this.selfInfoSubscription.unsubscribe();
 
   }
-
-
-
-
 
 
 
@@ -265,8 +261,7 @@ export class CompanyOkrsComponent implements OnInit {
 
 getCurrentUserInfo(){
   this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
-  console.log("self Info"+ JSON.stringify(this.selfUserInforData.user_id));
-
+  console.log("company OKRs self Info id : "+ JSON.stringify(this.selfUserInforData.user_id));
 
 }
 

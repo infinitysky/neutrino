@@ -10,19 +10,16 @@ import 'rxjs/add/operator/share';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 
-import {Userclass} from '../../okr/okr-shared/classes/user-class';
+import {Userclass} from '../classes/user-class';
 import {Timeframeclass} from '../../okr/okr-shared/classes/time-frame-class';
 
+
+
+// Note This is a global service for store some global information
 @Injectable()
 export class UserInfoContainerService {
 
 
-
-  public userInfo:Userclass;
-  public currentTimeFrame:Timeframeclass;
-
-  public readUserInfoNumber:number;
-  public setUserInfoNumber:number;
 
 
 
@@ -45,36 +42,20 @@ export class UserInfoContainerService {
   }
 
 
+  private _defaultTimeFrame = new BehaviorSubject<Timeframeclass>(new Timeframeclass());
+  defaultTimeFrame$ = this._defaultTimeFrame.asObservable();
+
+  setDefaultTimeFrameSubject(timeFrame:Timeframeclass) {
+    this._defaultTimeFrame.next(timeFrame);
+  }
+
 
 
 //old way
   constructor() {
-    this.userInfo= new Userclass();
-    this.currentTimeFrame = new Timeframeclass();
-    this.readUserInfoNumber=0;
-    this.setUserInfoNumber=0;
 
   }
 
-  getUserInfo(){
-    this.readUserInfoNumber=this.readUserInfoNumber+1;
-    console.log("getUserInfo : current User ID : "+this.userInfo.user_id);
-    console.log("read user Info data : "+ this.readUserInfoNumber);
-    return this.userInfo;
-  }
-
-  setUserInfo(inputUserInfo:Userclass){
-    this.setUserInfoNumber=this.setUserInfoNumber+1;
-    console.log("set user Info data : "+ this.setUserInfoNumber);
-    this.userInfo=inputUserInfo;
-  }
-
-  getCurrentTimeFrame(){
-    return this.currentTimeFrame;
-  }
-  setCurrentTimeFrame(inputTimeFrame:Timeframeclass){
-    this.currentTimeFrame=inputTimeFrame;
-  }
 
 
 

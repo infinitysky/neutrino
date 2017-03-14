@@ -9,6 +9,7 @@ class Users_details_model extends CI_Model
     public $table = 'users_details';
     public $login_table = 'users';
     public $id = 'user_details_id';
+    public $role_table='roles';
     public $user_id = 'user_id';
     public $order = 'ASC';
 
@@ -20,8 +21,9 @@ class Users_details_model extends CI_Model
 
     // datatables
     function json() {
-        $this->datatables->select('user_details_id,first_name,last_name,dob,mobile_number,user_id');
+        $this->datatables->select('user_details_id,first_name,last_name,dob,mobile_number,user_id,roles.role');
         $this->datatables->from('users_details');
+
         //add this line for join
         //$this->datatables->join('table2', 'users_details.field = table2.field');
         $this->datatables->add_column('action', anchor(site_url('users_details/read/$1'),'Read')." | ".anchor(site_url('users_details/update/$1'),'Update')." | ".anchor(site_url('users_details/delete/$1'),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'user_details_id');
@@ -31,15 +33,29 @@ class Users_details_model extends CI_Model
     // get all
     function get_all()
     {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('roles',$this->table.'.role_id='.$this->role_table.'.role_id','left');
         $this->db->order_by($this->id, $this->order);
-        return $this->db->get($this->table)->result();
+
+        $result=$this->db->get()->result();
+        return $result;
     }
 
     // get data by id
     function get_by_id($id)
     {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('roles',$this->table.'.role_id='.$this->role_table.'.role_id','left');
         $this->db->where($this->id, $id);
-        return $this->db->get($this->table)->row();
+
+
+
+        //echo $this->db->last_query();
+
+        $result=$this->db->get()->row();
+        return $result;
     }
 
     function getUserDetails_by_id($id)
@@ -61,8 +77,16 @@ class Users_details_model extends CI_Model
 
     function get_by_user_id($id)
     {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join('roles',$this->table.'.role_id='.$this->role_table.'.role_id','left');
         $this->db->where($this->user_id, $id);
-        return $this->db->get($this->table)->row();
+
+        $result=$this->db->get()->row();
+
+       // echo $this->db->last_query();
+
+        return $result;
     }
 
     // get total rows

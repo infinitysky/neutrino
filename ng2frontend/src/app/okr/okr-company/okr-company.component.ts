@@ -2,7 +2,7 @@
 import { Subscription } from 'rxjs/Subscription';
 
 import { OkrCompanyService } from '../okr-shared/services/okr-company.service';
-import { UsersInfoService } from '../okr-shared/services/users-info.service';
+import { UsersInfoService } from '../../shared/services/users-info.service';
 import { CompanyDetailClass } from '../okr-shared/classes/company-detail-class';
 
 import { ShareCompanyOkrinfoService } from './share-company-okrinfo.service';

@@ -3,12 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 
+import { Subscription } from 'rxjs/Subscription';
 
+import {UsersInfoService} from '../../shared/services/users-info.service';
+import {UserDetailsService} from '../../shared/services/user-details.service';
 
-import {UsersInfoService} from '../okr-shared/services/users-info.service';
-import {UserDetailsService} from '../okr-shared/services/user-details.service';
+import {ShareUserOkrinfoService} from './share-user-okrinfo.service';//provide has been set in okr-users.module
+
 import {UserInfoContainerService} from '../../shared/services/user-info-container.service';
-import {Userclass} from '../okr-shared/classes/user-class';
+import {Userclass} from '../../shared/classes/user-class';
 
 
 
@@ -22,15 +25,15 @@ import {Userclass} from '../okr-shared/classes/user-class';
 })
 export class OkrUsersComponent implements OnInit {
   pageTitle = 'User Info'
-  public selfUserInforData:Userclass;
 
-  public randerUserInforData:Userclass;
+
+  public displayUserInfoData:Userclass;
 
   public selfUserId:number;
   public viewUserID:any;
   public tempData:any;
   public errorMessage:any;
-  public subs:any;
+  public routerParamsSubscription:any;
 
   public overallProgressNumber:any;
   public objectivesNumber:any;
@@ -41,13 +44,21 @@ export class OkrUsersComponent implements OnInit {
   public currentTimeFrame:any;
 
 
+  private selfUserInfoData:Userclass;
+  private selfInfoSubscription:Subscription;
+
+  private targetUserInfoData:Userclass;
+  private targetUserInfoSubscription:Subscription;
+
+
   constructor(private _usersInfoService:UsersInfoService,
               private _userInfoContainerService:UserInfoContainerService,
               private _userDetailsService:UserDetailsService,
+              private _shareUserOkrinfoService:ShareUserOkrinfoService,
               private _activatedRoute:ActivatedRoute) {
 
-    this.selfUserInforData = new Userclass();
-    this.randerUserInforData=new Userclass();
+    this.selfUserInfoData = new Userclass();
+    this.displayUserInfoData=new Userclass();
 
     this.selfUserId=0;
     this.viewUserID=0;
@@ -60,43 +71,43 @@ export class OkrUsersComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log("Router params userID:"+ this._activatedRoute.snapshot.params['userid']);
-   // console.log("Router params timeFrame:"+ this._activatedRoute.snapshot.params['timeframeid']);
 
-  //  this.currentTimeFrame=this._userInfoContainerService.getCurrentTimeFrame();
-   // console.log("from Shard time Frame:"+ this.currentTimeFrame.time_frame_id);
-    this.getCurrentUserInfo();
-    this.selfUserId=this.selfUserInforData.user_id;
-
-    this.subs = this._activatedRoute.params.subscribe(params => {
-      this.viewUserID = ''+params['userid']; // (+) converts string 'id' to a number
-      console.log("this.viewUserID"+this.viewUserID);
-      // In a real app: dispatch action to load the details here.
-
-
-
-      this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
-
-      if(this.selfUserId !=this.viewUserID ){
-        console.log('different');
-        this.getTargetUserInfo();
-      }else{
-        this.randerUserInforData=this.selfUserInforData;
-      }
-
-    });
+    this.getSelfInfo();
+    this.routerSubscription();
 
   }
 
 
   ngOnDestroy() {
-    this.subs.unsubscribe();
+    this.selfInfoSubscription.unsubscribe();
+    this.routerParamsSubscription.unsubscribe();
+  }
+
+  routerSubscription(){
+    console.log("Router params userID:"+ this._activatedRoute.snapshot.params['userid']);
+
+    this.routerParamsSubscription = this._activatedRoute.params.subscribe(params => {
+      this.viewUserID = ''+params['userid']; // (+) converts string 'id' to a number
+      console.log("this.viewUserID"+this.viewUserID);
+      // In a real app: dispatch action to load the details here.
+      this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
+      if(this.selfUserInfoData.user_id !=this.viewUserID ){
+        console.log('different');
+        this.getTargetUserInfo();
+      }else{
+
+        this.displayUserInfoData=this.selfUserInfoData;
+
+        this._shareUserOkrinfoService.setTargetUserInfoSubject(this.selfUserInfoData);
+      }
+    });
   }
 
 
 
-  getCurrentUserInfo(){
-    this.selfUserInforData=this._userInfoContainerService.getUserInfo();
+  getSelfInfo(){
+    this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(selfInformation=>this.selfUserInfoData=selfInformation);
+
   }
 
   getTargetUserInfo(){
@@ -104,20 +115,18 @@ export class OkrUsersComponent implements OnInit {
       data=>this.tempData = data,
       error =>  this.errorMessage = <any>error,
       ()=>{
-        this.randerUserInforData=<Userclass>this.tempData.data;
-        console.log(this.randerUserInforData);
+        this.displayUserInfoData=<Userclass>this.tempData.data;
+        this._shareUserOkrinfoService.setTargetUserInfoSubject(this.displayUserInfoData);
+        console.log("Set Target userinfo"+this.displayUserInfoData);
       }
     );
   }
-  getUserGroups(){
+
+
+  setTargetUserInfo(){
 
   }
-  getUserOkrs(){
 
-  }
-  getUserActivies(){
-
-  }
 
 
 

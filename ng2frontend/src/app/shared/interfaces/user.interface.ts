@@ -9,5 +9,6 @@ export class userClass{
     public last_name:string,
     public mobile_number:string,
     public data_of_birth:string
+
   ){}
 }

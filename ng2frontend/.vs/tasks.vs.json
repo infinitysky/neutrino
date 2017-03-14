@@ -5,6 +5,11 @@
       "taskName": "task-node_modules",
       "appliesTo": "node_modules/",
       "type": "command"
+    },
+    {
+      "taskName": "task-node_modules",
+      "appliesTo": "node_modules/",
+      "type": "command"
     }
   ]
 }

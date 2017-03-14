@@ -35,7 +35,6 @@ import { FooterpageComponent } from './footerpage/footerpage.component';
 //developed services here
 import {UserInfoContainerService}from'./shared/services/user-info-container.service'; //global var services
 
-import {SharedInfoService}from'./shared/services/shared-info.service'; //global var services
 
 
 //@import "~nouislider/distribute/nouislider.min.css";
@@ -94,7 +93,7 @@ import {SharedInfoService}from'./shared/services/shared-info.service'; //global 
 
   ],
   //sign the UserInfoContainerService as a global data store service.
-  providers: [UserInfoContainerService,SharedInfoService],
+  providers: [UserInfoContainerService],
 
   bootstrap: [AppComponent]
 })

@@ -24,14 +24,11 @@ export class ShareUserOkrinfoService {
   }
 
 
-
-
-
   private _shareTeams = new BehaviorSubject<any>("");
   _shareTeams$ = this._shareTeams.asObservable();
   setTeamsSubject(setSubject:any) {
     console.log("Set Teams Subject: "+ JSON.stringify( setSubject));
-    this._shareObjectives.next(setSubject);
+    this._shareTeams.next(setSubject);
   }
 
 
@@ -46,8 +43,18 @@ export class ShareUserOkrinfoService {
   _shareUsers$ = this._shareUsers.asObservable();
   setUsersSubject(setSubject:any) {
     console.log("Set Users Subject: "+ JSON.stringify( setSubject));
-    this._shareObjectives.next(setSubject);
+    this._shareUsers.next(setSubject);
   }
+
+
+  private _targetUserInfo = new BehaviorSubject<any>("");
+  _targetUserInfo$ = this._targetUserInfo.asObservable();
+  setTargetUserInfoSubject(setSubject:any) {
+    console.log("Set Users Subject: "+ JSON.stringify( setSubject));
+    this._targetUserInfo.next(setSubject);
+  }
+
+
 
 
 

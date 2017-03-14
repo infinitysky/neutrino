@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\src\\app",
-    "\\src\\app\\okr\\okr-users",
-    "\\src\\app\\okr\\okr-users\\okrs-users-okrs"
+    ""
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\node_modules",
   "PreviewInSolutionExplorer": false
 }

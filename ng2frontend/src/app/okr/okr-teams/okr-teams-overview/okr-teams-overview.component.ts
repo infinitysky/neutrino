@@ -7,9 +7,9 @@ import {SettingTeamService} from '../../okr-shared/services/okr-team.service';
 import {Teamclass} from '../../okr-shared/classes/team-class';
 
 
-import {UserDetailsService} from '../../okr-shared/services/user-details.service';
+import {UserDetailsService} from '../../../shared/services/user-details.service';
 
-import {Userclass} from '../../okr-shared/classes/user-class';
+import {Userclass} from '../../../shared/classes/user-class';
 
 
 @Component({

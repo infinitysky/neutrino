@@ -1,8 +1,16 @@
-﻿<div class="row">
+﻿<!--<div class="row">-->
+<!--<div style="padding-right: 20px;">-->
+<!--<button type="button" class="btn w-xs btn-primary pull-right" (click)="addObjectiveButton()"><i class="fa fa-plus"></i> Add New Objective</button>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="row" *ngIf="selfUserInfoData.user_id==targetUserInfoData.user_id"><!-- check the viewing user the 'addObjectiveButton' -->
   <div style="padding-right: 20px;">
     <button type="button" class="btn w-xs btn-primary pull-right" (click)="addObjectiveButton()"><i class="fa fa-plus"></i> Add New Objective</button>
   </div>
 </div>
+
+
 <div class="row">
   <div class="OKRs-Cards" style="margin-top: 2%">
     <div class="row" style="margin-bottom:20px;">
@@ -341,7 +349,7 @@
                           [items]="timeFrameDropdownListOptions"
                           [disabled]="disabled"
                           [(ngModel)]="selectedTimeFrame"
-                         placeholder="Select a Time Frame" #timeFrameSelector>
+                          placeholder="Select a Time Frame" #timeFrameSelector>
               </ng-select>
             </div>
           </div>

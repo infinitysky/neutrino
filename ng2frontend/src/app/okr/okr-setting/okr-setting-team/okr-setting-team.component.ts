@@ -29,9 +29,9 @@ declare var swal: any;
 
 
 import { SettingTeamService } from '../../okr-shared/services/okr-team.service';
-import { UserDetailsService } from '../../okr-shared/services/user-details.service';
+import { UserDetailsService } from '../../../shared/services/user-details.service';
 import { Teamclass } from '../../okr-shared/classes/team-class';
-import { Userclass } from '../../okr-shared/classes/user-class';
+import { Userclass } from '../../../shared/classes/user-class';
 
 
 @Component({
@@ -175,7 +175,7 @@ export class OkrSettingTeamComponent implements OnInit {
     this.teamDescriptionInputBoxValue = "";
 
 
-  
+
     this.modal.open();
   }
 
@@ -225,7 +225,7 @@ export class OkrSettingTeamComponent implements OnInit {
       this.cleanData();
       //console.log("before updateTeam"+JSON.stringify(this.editTeam));
     }
-    
+
   }
 
 

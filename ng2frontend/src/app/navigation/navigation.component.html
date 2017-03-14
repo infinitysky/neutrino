@@ -9,7 +9,7 @@
             </a>
 
             <div class="stats-label text-color">
-                <span class="font-extra-bold font-uppercase">{{userDatas.first_name}} {{userDatas.last_name}}</span>
+                <span class="font-extra-bold font-uppercase">{{selfInfo.first_name}} {{selfInfo.last_name}}</span>
 
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">
@@ -56,7 +56,7 @@
                     <li ><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>
 
                   <!--Router parameter 1-->
-                  <li><a [routerLink]="['/okr/okr-users/user/',selfUserId]">OKRs Users</a></li>
+                  <li><a [routerLink]="['/okr/okr-users/user/',selfInfo.user_id]">OKRs Users</a></li>
 
                   <li><a [routerLink]="['/okr/okr-teams']">OKRs Team</a></li>
 

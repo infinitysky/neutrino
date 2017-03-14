@@ -139,6 +139,48 @@ export class SettingObjectiveService {
   }
 
 
+  getByUserId(objectiveId: number): Observable<Objectiveclass>{
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.operateAPI}/${objectiveId}`;
+    return this.http.get(this.getallAPI)
+    // .map(res => <DatabasesClass[]> res.json().data)
+      .map(res => res.json())
+      // .do(data => console.log(data)) // eyeball results in the console
+      .catch(this.handleErrorObservable);
+
+  }
+
+  getByGoalId(objectiveId: number): Observable<Objectiveclass>{
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.operateAPI}/${objectiveId}`;
+    return this.http.get(this.getallAPI)
+    // .map(res => <DatabasesClass[]> res.json().data)
+      .map(res => res.json())
+      // .do(data => console.log(data)) // eyeball results in the console
+      .catch(this.handleErrorObservable);
+
+  }
+  getByKeyResultId(objectiveId: number): Observable<Objectiveclass>{
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.operateAPI}/${objectiveId}`;
+    return this.http.get(this.getallAPI)
+    // .map(res => <DatabasesClass[]> res.json().data)
+      .map(res => res.json())
+      // .do(data => console.log(data)) // eyeball results in the console
+      .catch(this.handleErrorObservable);
+
+  }
+
+
 
 
 
