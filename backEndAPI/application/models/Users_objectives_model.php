@@ -8,7 +8,7 @@ class Users_objectives_model extends CI_Model
 
     public $table = 'users_objectives';
     public $id = 'record_id';
-    public $order = 'ASC';
+    public $order = 'DESC';
 
     function __construct()
     {
@@ -19,10 +19,10 @@ class Users_objectives_model extends CI_Model
     // datatables
     function json() {
         $this->datatables->select('objective_id,user_id,record_id');
-        $this->datatables->from('teams_users');
+        $this->datatables->from('users_objectives');
         //add this line for join
-        //$this->datatables->join('table2', 'teams_users.field = table2.field');
-        $this->datatables->add_column('action', anchor(site_url('teams_users/read/$1'),'Read')." | ".anchor(site_url('teams_users/update/$1'),'Update')." | ".anchor(site_url('teams_users/delete/$1'),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id');
+        //$this->datatables->join('table2', 'users_objectives.field = table2.field');
+        $this->datatables->add_column('action', anchor(site_url('users_objectives/read/$1'),'Read')." | ".anchor(site_url('users_objectives/update/$1'),'Update')." | ".anchor(site_url('users_objectives/delete/$1'),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id');
         return $this->datatables->generate();
     }
 
@@ -121,7 +121,7 @@ class Users_objectives_model extends CI_Model
     }
 
 
-    //The idea is comes from DELETE FROM `teams_users` WHERE `teams_users`.`objective_id`=3 AND `teams_users`.`user_id` IN (87,88,89)
+    //The idea is comes from DELETE FROM `users_objectives` WHERE `users_objectives`.`objective_id`=3 AND `users_objectives`.`user_id` IN (87,88,89)
     function batch_delete_by_user_id($userId,$teamIdDataArray)
     {
         $this->db->trans_start();
@@ -141,7 +141,7 @@ class Users_objectives_model extends CI_Model
     //delete data
     function batch_delete_by_objective_id($teamId,$userIdDataArray)
     {
-        //DELETE FROM `teams_users` WHERE `objective_id` = '19' AND `user_id` IN(0, '100', '99', '76'))
+        //DELETE FROM `users_objectives` WHERE `objective_id` = '19' AND `user_id` IN(0, '100', '99', '76'))
 
         $this->db->trans_start();
         $this->db->where('objective_id', $teamId);
@@ -190,9 +190,9 @@ class Users_objectives_model extends CI_Model
         $this->db->order_by($this->id, $this->order);
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where('teams_users.user_id',$user_id);
-        $this->db->join('teams', 'teams.objective_id=teams_users.objective_id','left');
-        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+        $this->db->where('users_objectives.user_id',$user_id);
+        $this->db->join('objectives', 'objectives.objective_id=users_objectives.objective_id','left');
+        $this->db->join('users_details', 'users_details.user_id=users_objectives.user_id','left');
         $this->db->join('users', 'users.user_id=users_details.user_id','left');
 
 
@@ -213,9 +213,9 @@ class Users_objectives_model extends CI_Model
         $this->db->order_by($this->id, $this->order);
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where('teams_users.objective_id',$objective_id);
-        $this->db->join('teams', 'teams.objective_id=teams_users.objective_id','left');
-        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+        $this->db->where('users_objectives.objective_id',$objective_id);
+        $this->db->join('objectives', 'objectives.objective_id=users_objectives.objective_id','left');
+        $this->db->join('users_details', 'users_details.user_id=users_objectives.user_id','left');
         $this->db->join('users', 'users.user_id=users_details.user_id','left');
 
         $queryResult=$this->db->get();
@@ -227,11 +227,11 @@ class Users_objectives_model extends CI_Model
 
     }
 
-    function get_team_and_users_details(){
+    function get_objectives_and_users_details(){
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->join('teams', 'teams.objective_id=teams_users.objective_id','left');
-        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+        $this->db->join('objectives', 'objectives.objective_id=users_objectives.objective_id','left');
+        $this->db->join('users_details', 'users_details.user_id=users_objectives.user_id','left');
         $queryResult=$this->db->get();
         $this->db->trans_complete();
         return $queryResult->result();

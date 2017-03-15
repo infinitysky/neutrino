@@ -245,7 +245,7 @@ class Users_objectives extends CI_Controller
 
 
     //To receive current members data and work out the inserted and removed members
-    public function update_members()
+    public function update_objectives()
     {
 
         //JSON structure is

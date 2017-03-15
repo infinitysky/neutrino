@@ -563,6 +563,16 @@ getCurrentUserInfo(){
 
 
 
+  displayWarningMessage(warningMessage:string){
+    swal("Warning", warningMessage, "warning");
+  }
+  displayErrorMessage(errorMessage:string){
+    swal("Error!", errorMessage , "error");
+  }
+
+  displaySuccessMessage(successMessage:string){
+    swal("Success!", successMessage, "success");
+  }
 
 
 

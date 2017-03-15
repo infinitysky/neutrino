@@ -1,7 +1,7 @@
 /**
  * Created by cliff on 1/24/2017.
  */
-import { OpaqueToken } from "@angular/core";
+import {OpaqueToken} from "@angular/core";
 
 // Although the ApplicationConfig interface plays no role in dependency injection,
 // it supports typing of the configuration object within the class.
@@ -29,6 +29,14 @@ export interface ApplicationConfig {
   objectiveGetAllUrl:string;
   objectiveCreateUrl:string;
   objectiveOperateUrl:string;
+
+
+  userObjectiveOperateUrl:string;
+  goalObjectiveOperateUrl:string;
+
+
+
+
 
   keyResultGetAllUrl:string;
   keyResultCreateUrl:string;
@@ -81,7 +89,7 @@ export const MY_CONFIG: ApplicationConfig = {
   timeFrameOperateUrl:'/neutrino/backEndAPI/index.php/Time_frames/items',
 
 
-    //team Urls:
+  //team Urls:
   teamGetAllUrl:'/neutrino/backEndAPI/index.php/Teams',
   teamCreateUrl:'/neutrino/backEndAPI/index.php/Teams/create',
   teamOperateUrl:'/neutrino/backEndAPI/index.php/Teams/items',
@@ -91,13 +99,13 @@ export const MY_CONFIG: ApplicationConfig = {
   teamsUsersOperateUrl:'/neutrino/backEndAPI/index.php/Teams_users',
 
 
-    //goal Urls:
+  //goal Urls:
   goalGetAllUrl:'/neutrino/backEndAPI/index.php/Goals',
   goalCreateUrl:'/neutrino/backEndAPI/index.php/Goals/create',
   goalOperateUrl:'/neutrino/backEndAPI/index.php/Goals/items',
 
 
-    //objective Urls:
+  //objective Urls:
   objectiveGetAllUrl:'/neutrino/backEndAPI/index.php/Objectives',
   objectiveCreateUrl:'/neutrino/backEndAPI/index.php/Objectives/create',
   objectiveOperateUrl:'/neutrino/backEndAPI/index.php/Objectives/items',
@@ -109,19 +117,19 @@ export const MY_CONFIG: ApplicationConfig = {
   keyResultOperateUrl:'/neutrino/backEndAPI/index.php/Key_results/items',
 
 
-   //activity Urls:
+  //activity Urls:
   activityGetAllUrl:'/neutrino/backEndAPI/index.php/Activities',
   activityCreateUrl:'/neutrino/backEndAPI/index.php/Activities/create',
   activityOperateUrl:'/neutrino/backEndAPI/index.php/Activities/items',
 
 
-    //company Urls:
+  //company Urls:
   companyGetAllUrl:'/neutrino/backEndAPI/index.php/Company_info',
   companyCreateUrl:'/neutrino/backEndAPI/index.php/Company_info/create',
   companyOperateUrl:'/neutrino/backEndAPI/index.php/Company_info/items',
 
 
-    //User Urls:
+  //User Urls:
   userGetAllUrl:'/neutrino/backEndAPI/index.php/Users',
   userCreateUrl:'/neutrino/backEndAPI/index.php/Users/create',
   userOperateUrl:'/neutrino/backEndAPI/index.php/Users/items',
@@ -131,6 +139,12 @@ export const MY_CONFIG: ApplicationConfig = {
   userDetailFullInfo:'/neutrino/backEndAPI/index.php/Users_details/items_full_info',
   userDetailCreateUrl:'/neutrino/backEndAPI/index.php/Users_details/create',
   userDetailOperateUrl:'/neutrino/backEndAPI/index.php/Users_details/items',
+
+
+
+  userObjectiveOperateUrl:'/neutrino/backEndAPI/index.php/Users_objectives/',
+
+  goalObjectiveOperateUrl:'/neutrino/backEndAPI/index.php/Goals_objectives/',
 
 
 

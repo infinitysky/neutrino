@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 
 
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 
@@ -60,14 +61,14 @@ export class OkrsUsersOkrsComponent implements OnInit {
 //TODO:redesign this component : This component included about 3 different "sub-component" inside. There are Objective, Key result and Review !
 
 
-  public objectiveModalTitle: string;
-  public keyresultModalTitle: string;
-  public reviewModalTitle: string;
+  public modalTitle: string;
+
 
   public goals: Goalclass[];
   public timeFrames: Timeframeclass[];
   public teams: Teamclass[];
-  public objectives: Objectiveclass[];
+  public personalObjectives: Objectiveclass[];
+  public teamObjectives: Objectiveclass[];
   public keyresults: Keyresultclass[];
 
 
@@ -112,7 +113,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
   private timeFrameDropDownListOptions: any;
   private selectedTimeFrame: any;
 
-  private goalDropDownListOptions: any;
+  private goalsDropDownListOptions: any;
   private selectedGoal: any;
 
 
@@ -140,6 +141,30 @@ export class OkrsUsersOkrsComponent implements OnInit {
   private routerParamsSubscription:any;
   private viewUserID:any;
 
+//Multi Selection for Goals
+  private goalsSelectorSettings: IMultiSelectSettings = {
+    pullRight: false,
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    buttonClasses: 'btn btn-default',
+    selectionLimit: 0,
+    closeOnSelect: false,
+    showCheckAll: true,
+    showUncheckAll: true,
+    dynamicTitleMaxItems: 2,
+    maxHeight: '300px',
+  };
+
+  private goalsSelectorTexts: IMultiSelectTexts = {
+    checkAll: 'Check all',
+    uncheckAll: 'Uncheck all',
+    checked: 'checked',
+    checkedPlural: 'checked',
+    searchPlaceholder: 'Search...',
+    defaultTitle: 'Select Goals',
+  };
+
+
 
 
 
@@ -156,16 +181,15 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
 
     this.viewUserID="";
-
-    this.objectiveModalTitle="";
-    this.keyresultModalTitle="";
+    this.modalTitle="";
 
     this.goals = [];
     this.timeFrames = [];
 
 
     this.teams = [];
-    this.objectives = [];
+    this.personalObjectives = [];
+    this.teamObjectives = [];
     this.keyresults = [];
 
 
@@ -181,9 +205,13 @@ export class OkrsUsersOkrsComponent implements OnInit {
     this.keyresultDescriptionInputBoxValue = '';
 
 
-
+    //Drop Down List
     this.timeFrameDropDownListOptions = [];
     this.selectedTimeFrame = [];
+
+
+    this.goalsDropDownListOptions = [];
+    this.selectedGoal = []; // multi selector is using different plugin
 
     this.totalObjectivesNumber = ' - ';
     this.newSubmitActivity = new Activityclass();
@@ -206,6 +234,8 @@ export class OkrsUsersOkrsComponent implements OnInit {
     this.getOverallProgressNumber();
     this.getTotalObjectivesNumber();
     this.targetSubscription()
+
+    this.getPersonalObjective();
 
   }
   ngOnDestroy() {
@@ -234,16 +264,12 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
   addObjectiveButton() {
 
-    this.objectiveModalTitle="Create A Goal";
-
-
+    this.modalTitle="Create A Goal";
     this.editModeIO = 0;
-
     this.getAllTimeFrames();
     this.getAllGoals();
     this.selectedTag = [{ id: "None", text:"None"}];
-
-    //this.goals = [];
+    this.selectedGoal = [];
     this.objectiveNameInputBoxValue = "";
     this.objectiveDescriptionInputBoxValue = "";
 
@@ -274,7 +300,14 @@ export class OkrsUsersOkrsComponent implements OnInit {
   }
 
 
-  modalSaveChangeButton(objectiveNameInput: string, objectiveDescription: string) {
+  modalSaveChangeButton() {
+      // read the 2 way binding;
+    var objectiveNameInput=this.objectiveNameInputBoxValue;
+    var objectiveDescription=this.objectiveDescriptionInputBoxValue;
+
+
+    console.log("objectiveNameInput : "+ objectiveNameInput);
+    console.log("objectiveDescription : "+ objectiveDescription);
 
 
     if (0 == this.editModeIO) {
@@ -286,7 +319,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
 
   editObjectiveButton(objective:Objectiveclass) {
-    this.objectiveModalTitle="Update A Goal";
+    this.modalTitle="Update A Objective";
 
     this.editModeIO = 1;
     this.editObjective = objective;
@@ -306,7 +339,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
     this.getAllTimeFrames();
 
-    this.objectiveModalOpen();
+
 
   }
 
@@ -362,27 +395,28 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
 
   //TODO: Fix the date format handling issue.
-  updateObjective(editGoal, goalNameInput: string, goalDescription: string) {
+  updateObjective(editObjective, objectiveNameInput: string, objectiveDescription: string) {
 
-    if (!goalNameInput) {
-      //alert("Do not leave any empty!");
-      // swal("Warning", "you did not change any time!", "warning");\
+    if (!objectiveNameInput||!objectiveDescription) {
+
+      this.displayWarningMessage("Objective Name or Objective Description empty!");
+
       return;
     } else {
 
-      let originalGoal=editGoal;
+      let originalObjective=editObjective;
 
 
-      editGoal.goal_description = goalDescription;
-      editGoal.goal_name = goalNameInput;
-      var timeFrameId = this.selectedTimeFrame[0].id;
+      editObjective.objective_description = objectiveDescription;
+      editObjective.objective_name = objectiveNameInput;
+      var goalIds = this.selectedGoal;
       var goalStatusTag =this.selectedTag[0].id;
 
-      editGoal.time_frame_id = timeFrameId;
+      // editObjective.object = timeFrameId;
 
-      editGoal.goal_status=goalStatusTag;
+      editObjective.goal_status=goalStatusTag;
 
-      this._settingGoalService.update(editGoal)
+      this._settingObjectiveService.update(editObjective)
         .subscribe(
           data => { this.tempData = data },
           error => this.errorMessage = <any>error,
@@ -391,7 +425,9 @@ export class OkrsUsersOkrsComponent implements OnInit {
             console.log(this.tempData.data);
 
             if(this.tempData.status == "success" && this.tempData.data)  {
-              swal("Success!", "Your goal has been updated. <br> affectRows: " + this.tempData.data.affectRows, "success");
+
+
+              this.displaySuccessMessage("Your goal has been updated. <br> affectRows: " + this.tempData.data.affectRows);
               // this.updateTeamMembers(editTeam,this.memberSelectedOptions);
               this.objectiveNameInputBoxValue = "";
               this.objectiveDescriptionInputBoxValue = "";
@@ -399,20 +435,20 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
               var submitANewActivity= new Activityclass();
 
-              var modifyLog = "";
-              if (originalGoal.goal_description!=editGoal.goal_description){
-                modifyLog=modifyLog+" Change Goal description  to"+ editGoal.goal_description+"; ";
+              var modifyLog = " ";
+              if (originalObjective.objective_description !=editObjective.objective_description){
+                modifyLog=modifyLog+" Change Objective description  to"+ editObjective.objective_description+"; ";
               }
-              if (originalGoal.goal_name!=editGoal.goal_name){
-                modifyLog=modifyLog+"Change goal name to"+ editGoal.goal_name+"; ";
+              if (originalObjective.objective_name!=editObjective.objective_name){
+                modifyLog=modifyLog+"Change Objective name to"+ editObjective.objective_name+"; ";
               }
-              if (originalGoal.goal_status!=editGoal.goal_status){
-                modifyLog=modifyLog+"Change goal tag to"+ editGoal.goal_status+"; ";
+              if (originalObjective.objective_status!=editObjective.objective_status){
+                modifyLog=modifyLog+"Change Objective tag to"+ editObjective.objective_status+"; ";
               }
 
               submitANewActivity.user_id=this.selfUserInfoData.user_id;
               submitANewActivity.activity_detail = "Updated goal : "
-                + editGoal.goal_name+ " update log : "+modifyLog ;
+                + editObjective.goal_name+ " update log : "+modifyLog ;
               submitANewActivity.activity_type="Update";
               this.submitActivity(submitANewActivity);
 
@@ -443,11 +479,55 @@ export class OkrsUsersOkrsComponent implements OnInit {
         error => this.errorMessage = <any>error,
         () => {
           if (this.tempData.status == "success" && this.tempData.data) {
-            this.goals = this.tempData.data;
+            this.goals = <Goalclass[]> this.tempData.data;
+            this.setGoalsDropDownList(this.goals);
             //this.goals.sort();
           }
         }
       );
+  }
+
+  getPersonalObjective() {
+    this._settingObjectiveService.getByUserId(this.viewUserID)
+      .subscribe(
+        data => this.tempData = data,
+        error => this.errorMessage = <any>error,
+        () => {
+          if (this.tempData.status == "success" && this.tempData.data) {
+            this.personalObjectives = <Objectiveclass[]> this.tempData.data;
+
+            //this.goals.sort();
+          }
+        }
+      );
+  }
+  getTeamObjective() {
+    this._settingObjectiveService.getByUserTeamId(this.viewUserID)
+      .subscribe(
+        data => this.tempData = data,
+        error => this.errorMessage = <any>error,
+        () => {
+          if (this.tempData.status == "success" && this.tempData.data) {
+            this.teamObjectives = <Objectiveclass[]> this.tempData.data;
+            this.setGoalsDropDownList(this.goals);
+            //this.goals.sort();
+          }
+        }
+      );
+  }
+  setGoalsDropDownList(goals: Goalclass[]){
+    var tempArray=[];
+    var i=0;
+    for (i=0;i<goals.length;i++){
+      if(goals[i].goal_status!='Complete'){
+        var info={id: goals[i].goal_id.toString(), name:goals[i].goal_name};
+        tempArray.push(info);
+      }
+
+    }
+
+    this.goalsDropDownListOptions=tempArray;
+
 
   }
 
@@ -460,35 +540,40 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
 
   //createNewObjective(goalNameInput: string, goalDescription: string) {
-  createNewObjective(goalNameInput: string, goalDescription: string) { // now I start use 2-way binding to process this
+  createNewObjective(objectiveNameInput: string, objectiveDescription: string) { // now I start use 2-way binding to process this
 
 
 
-    if (!goalNameInput || !this.selectedTimeFrame[0]) {
+    if (!objectiveNameInput || !objectiveDescription) {
       //alert("Do not leave any empty!");
-      swal("Warning", "Do not leave any empty!", "warning");
+
+      this.displayWarningMessage("Objective Name or Objective Description empty!");
       return;
     }
     else {
 
 
       console.log(this.selectedTag);
-      var timeFrameId = this.selectedTimeFrame[0].id;
-      console.log(this.selectedTimeFrame[0]);
-      var goalStatusTag = this.selectedTag[0].id;
+      var goalIds = this.selectedGoal;
+      console.log(goalIds);
+      var objectiveStatusTag = this.selectedTag[0].name;
       console.log(this.selectedTag[0].id);
 
-      this._settingGoalService.addNew(goalNameInput, goalDescription, timeFrameId, goalStatusTag ).subscribe(
+      var newObjective = new Objectiveclass();
+
+      newObjective.objective_name=objectiveNameInput;
+      newObjective.objective_description=objectiveDescription;
+      newObjective.objective_progress_status="0";
+
+      newObjective.objective_status=objectiveStatusTag;
+
+
+      this._settingObjectiveService.addNewByObjective(newObjective ).subscribe(
         data => this.tempData = data,
         error => this.errorMessage = <any>error,
         () => {
           if (this.tempData.status == "success" && this.tempData.data) {
-            var tempInfo = <Goalclass>this.tempData.data;
-            //TODO :  change the time frame provide by backend for save time and system resources.
-            // var searchedTimeFrame = this.timeFrames.find(x => x.time_frame_id == tempInfo.time_frame_id);
-            // tempInfo.time_frame_description = searchedTimeFrame.time_frame_description;
-            // tempInfo.time_frame_start = searchedTimeFrame.time_frame_start;
-            // tempInfo.time_frame_end = searchedTimeFrame.time_frame_end;
+            var tempInfo = <Objectiveclass>this.tempData.data;
             var tempArray=[];
             tempArray.push(tempInfo);
             var i=0;
@@ -501,22 +586,19 @@ export class OkrsUsersOkrsComponent implements OnInit {
             this.objectiveDescriptionInputBoxValue = "";
             var submitANewActivity= new Activityclass();
             submitANewActivity.user_id=this.selfUserInfoData.user_id;
-            submitANewActivity.activity_detail = " Created a new goal : " + tempInfo.goal_name;
+            submitANewActivity.activity_detail = " Created a new Objective : " + tempInfo.objective_name;
             submitANewActivity.activity_type="Create";
             this.submitActivity(submitANewActivity);
-
           } else {
-            swal("Error", this.tempData.errorMassage, "error");
+
+            this.displayErrorMessage(this.tempData.errorMassage);
+
 
           }
 
         }
       );
     }
-
-
-
-
 
     this.modal.close();
   }
@@ -547,21 +629,17 @@ export class OkrsUsersOkrsComponent implements OnInit {
   setTimeFrameDropDownList(timeframes: Timeframeclass[]) {
     var i = 0;
     var tempArray = [];
-
     //var NonInfo={id:"0", text:"None"};
     for (i = timeframes.length - 1; i > 0; i--) {
       var timeFrameName = timeframes[i].time_frame_description
         + "   --- (" + timeframes[i].time_frame_start +
         " To " + timeframes[i].time_frame_end + ")";
-
       // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
       var tempInfo1 = { id: timeframes[i].time_frame_id, text: timeFrameName };
       tempArray.push(tempInfo1);
-
     }
     // This way is working...
     this.timeFrameDropDownListOptions = tempArray;
-
   }
 
   setGoalDropDownList(goals: Goalclass[]) {
@@ -578,7 +656,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
     }
     // This way is working...
-    this.goalDropDownListOptions = tempArray;
+    this.goalsDropDownListOptions = tempArray;
 
   }
 
@@ -589,12 +667,17 @@ export class OkrsUsersOkrsComponent implements OnInit {
   calculateOverallProgress():number{
     var totalNumber =0;
     var i=0;
-    for(i=0;i<this.objectives.length;i++){
-      totalNumber=totalNumber+ Number(this.objectives[i].objective_progress_status);
+    for(i=0;i<this.personalObjectives.length;i++){
+      totalNumber=totalNumber+ Number(this.personalObjectives[i].objective_progress_status);
     }
-    var overallProgress=totalNumber/this.objectives.length;
+    for(i=0;i<this.teamObjectives.length;i++){
+      totalNumber=totalNumber+ Number(this.teamObjectives[i].objective_progress_status);
+    }
+    var overallProgress=totalNumber/(this.personalObjectives.length + this.teamObjectives.length);
     return overallProgress;
   }
+
+
 
   updateOverallNumbers() {
     var overAllProgressNumber=this.calculateOverallProgress();
@@ -617,6 +700,19 @@ export class OkrsUsersOkrsComponent implements OnInit {
   }
 
 
+  displayWarningMessage(warningMessage:string){
+    swal("Warning", warningMessage, "warning");
+  }
+  displayErrorMessage(errorMessage:string){
+    swal("Error!", errorMessage , "error");
+  }
+
+  displaySuccessMessage(successMessage:string){
+  swal("Success!", successMessage, "success");
+  }
+
+
+
 
 
 
@@ -634,36 +730,16 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
   //Modal actions
   @ViewChild('modal')
-  @ViewChild('objectiveModal')
-  @ViewChild('keyResultModal')
-  @ViewChild('reviewModal')
   modal: ModalComponent;
   objectiveModal: ModalComponent;
   keyResultModal: ModalComponent;
   reviewModal: ModalComponent;
 
-  objectiveModalOpen(){
-    this.objectiveModal.open();
-  }
-  objectiveModalClose(){
-    this.objectiveModal.close();
+  open() {
+    this.modal.open();
   }
 
-  keyResultModalOpen(){
-    this.keyResultModal.open();
-  }
 
-  keyResultModalClose(){
-  this.keyResultModal.close();
-
-  }
-  reviewModalOpen(){
-    this.reviewModal.open();
-
-  }
-  reviewModalClose(){
-    this.reviewModal.close();
-  }
 
 
 

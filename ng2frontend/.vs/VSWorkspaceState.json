@@ -1,7 +1,10 @@
-{
+﻿{
   "ExpandedNodes": [
     ""
   ],
-  "SelectedNode": "\\node_modules",
-  "PreviewInSolutionExplorer": false
+  "SelectedNode": "\\tsconfig.json",
+  "PreviewInSolutionExplorer": false,
+  "exclude": [
+    "node_modules"
+  ]
 }

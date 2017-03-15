@@ -8,7 +8,7 @@ class Goals_objectives_model extends CI_Model
 
     public $table = 'goals_objectives';
     public $id = 'id';
-    public $order = 'ASC';
+    public $order = 'DESC';
 
     function __construct()
     {

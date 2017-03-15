@@ -8,7 +8,7 @@ class Teams_users_model extends CI_Model
 
     public $table = 'teams_users';
     public $id = 'record_id';
-    public $order = 'ASC';
+    public $order = 'DESC';
 
     function __construct()
     {

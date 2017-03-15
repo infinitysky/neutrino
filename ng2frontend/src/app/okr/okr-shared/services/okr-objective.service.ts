@@ -17,8 +17,13 @@ import {Objectiveclass} from '../classes/objective-class'
 export class SettingObjectiveService {
 
   private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveGetAllUrl;
+  private basicAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveGetAllUrl;
+
   private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveCreateUrl;
   private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveOperateUrl;
+
+  private betweenUsersAndObjectivesRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userObjectiveOperateUrl;
+  private betweenObjectivesAndGoalsRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalObjectiveOperateUrl;
 
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -122,9 +127,9 @@ export class SettingObjectiveService {
 
 
 
-  addNew(team_description: string, team_name: string,parent_team_id:number,team_leader_id:number,) : Observable<Objectiveclass>  {
+  addNew(objective_description: string, objective_name: string,objective_status:string,objective_progress_status:number,) : Observable<Objectiveclass>  {
 
-    let httpBody = JSON.stringify({ team_description : team_description,team_name:team_name,parent_team_id :parent_team_id,team_leader_id: team_leader_id});
+    let httpBody = JSON.stringify({ objective_description : objective_description,objective_status:objective_status,objective_name:objective_name,objective_progress_status: objective_progress_status});
    // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -138,20 +143,46 @@ export class SettingObjectiveService {
 
   }
 
+  addNewByObjective(newOjective:Objectiveclass) : Observable<Objectiveclass>  {
 
-  getByUserId(objectiveId: number): Observable<Objectiveclass>{
+    let httpBody = JSON.stringify({ objective_description : newOjective.objective_description, objective_status:newOjective.objective_status,objective_name: newOjective.objective_name,objective_progress_status: newOjective.objective_progress_status});
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    const url = `${this.operateAPI}/${objectiveId}`;
+    //console.log('Post message body: '+httpBody);
+    return this.http.post(this.creatAPI,httpBody, {headers: this.headers})
+    //.map(this.extractDataObservable)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+
+  }
+
+
+  getByUserId(userId: number): Observable<Objectiveclass[]>{
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.betweenUsersAndObjectivesRelastionshipAPI}/get_by_user_id/${userId}`;
     return this.http.get(this.getallAPI)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
       // .do(data => console.log(data)) // eyeball results in the console
       .catch(this.handleErrorObservable);
-
   }
+
+  getByUserTeamId(teamId: number): Observable<Objectiveclass[]>{
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    const url = `${this.betweenUsersAndObjectivesRelastionshipAPI}/get_by_user_id/${teamId}`;
+    return this.http.get(this.getallAPI)
+    // .map(res => <DatabasesClass[]> res.json().data)
+      .map(res => res.json())
+      // .do(data => console.log(data)) // eyeball results in the console
+      .catch(this.handleErrorObservable);
+  }
+
 
   getByGoalId(objectiveId: number): Observable<Objectiveclass>{
 

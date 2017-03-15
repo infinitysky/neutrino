@@ -8,7 +8,7 @@ class Time_frames_goals_model extends CI_Model
 
     public $table = 'time_frames_goals';
     public $id = 'id';
-    public $order = 'ASC';
+    public $order = 'DESC';
 
     function __construct()
     {
