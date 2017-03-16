@@ -11,9 +11,8 @@ pipelines:
         script:
         - apt-get update
         - node -v
-        - npm install -g @angular/cli
-        - npm install -g typescript
-        - cd ng2frontend
+        - npm install -g @angular/cli typescript
+        - cd ng4frontend
         - npm install
         - ng build
  
