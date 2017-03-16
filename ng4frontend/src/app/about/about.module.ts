@@ -9,7 +9,7 @@ import { AboutComponent } from './about.component';
 
 
 
-import {CalendarModule} from 'primeng/primeng';
+
 
 import {ToastyModule} from 'ng2-toasty';
 
@@ -18,7 +18,7 @@ import {ToastyModule} from 'ng2-toasty';
     ToastyModule.forRoot(),
     FormsModule,
     HttpModule,
-    CalendarModule,
+
     CommonModule,
     AboutRoutingModule
   ],

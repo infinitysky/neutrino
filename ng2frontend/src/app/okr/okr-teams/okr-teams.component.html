@@ -62,7 +62,7 @@
                   <!--truncate :-->
                   <td> <a [routerLink]="['/okr/okr-teams/team-detail/',tm.team_id]"> {{ tm.team_name }}  </a></td>
                   <td><a [routerLink]="['/okr/okr-users/user/',tm.team_leader_user_id]"> {{ tm.first_name + ' - ' + tm.last_name }}</a></td>
-                  <td> {{'fff, fff, ffff, ffff, ffff' | words : 3}}       </td>
+                  <td> {{'fff, fff, ffff, ffff, ffff' | dgTruncate :{limit: 3, trail: '...'} }}       </td>
                   <td>
                     <div class="m">
                       <div class="progress m-t-xs full progress-striped">

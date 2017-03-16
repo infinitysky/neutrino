@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Http}from '@angular/http';
+
 
 
 import {SettingTeamService} from '../okr-shared/services/okr-team.service';

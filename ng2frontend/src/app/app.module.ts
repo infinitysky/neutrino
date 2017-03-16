@@ -6,8 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 //3rd-party library
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import {CalendarModule} from 'primeng/primeng';
-import { TruncateModule } from 'ng2-truncate';
+import { DoorgetsTruncateModule } from 'doorgets-ng-truncate';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 
@@ -74,17 +73,13 @@ import {UserInfoContainerService}from'./shared/services/user-info-container.serv
     Ng2Bs3ModalModule,
 
 
-    TruncateModule,
-
-    CalendarModule,
-
     ChartsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     AppRoutingModule,
 
-
+    DoorgetsTruncateModule,
 
     //Developed Module regist here
     HomeModule,

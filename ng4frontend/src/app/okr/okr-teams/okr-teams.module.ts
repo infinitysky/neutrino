@@ -9,18 +9,18 @@ import { OkrTeamsComponent } from './okr-teams.component';
 import {OkrTeamsDetailModule} from './okr-teams-detail/okr-teams-detail.module';
 
 
-import { TruncateModule } from 'ng2-truncate';
+import { DoorgetsTruncateModule } from 'doorgets-ng-truncate';
 
 
 @NgModule({
   imports: [
-    TruncateModule,
+
 
     FormsModule,
     HttpModule,
     CommonModule,
 
-
+    DoorgetsTruncateModule,
     OkrTeamsDetailModule,
     OkrTeamsRoutingModule
   ],
