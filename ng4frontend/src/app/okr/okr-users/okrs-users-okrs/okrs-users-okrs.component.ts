@@ -235,7 +235,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
     this.getTotalObjectivesNumber();
     this.targetSubscription()
 
-    this.getPersonalObjective();
+
 
   }
   ngOnDestroy() {
@@ -264,7 +264,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
   addObjectiveButton() {
 
-    this.modalTitle="Create A Goal";
+    this.modalTitle="Create A Objective";
     this.editModeIO = 0;
     this.getAllTimeFrames();
     this.getAllGoals();
@@ -364,6 +364,9 @@ export class OkrsUsersOkrsComponent implements OnInit {
       data=>this.tempData=data,
       error=>this.errorMessage=<any>error,
       ()=>{
+        if(this.tempData.data && <Objectiveclass[]>this.tempData.data){
+          this.personalObjectives=this.tempData.data;
+        }
 
       }
     );
@@ -409,12 +412,13 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
       editObjective.objective_description = objectiveDescription;
       editObjective.objective_name = objectiveNameInput;
+
       var goalIds = this.selectedGoal;
-      var goalStatusTag =this.selectedTag[0].id;
+      var objectiveStatusTag =this.selectedTag[0].id;
 
       // editObjective.object = timeFrameId;
 
-      editObjective.goal_status=goalStatusTag;
+      editObjective.status=objectiveStatusTag;
 
       this._settingObjectiveService.update(editObjective)
         .subscribe(
@@ -501,20 +505,27 @@ export class OkrsUsersOkrsComponent implements OnInit {
         }
       );
   }
+
   getTeamObjective() {
-    this._settingObjectiveService.getByUserTeamId(this.viewUserID)
-      .subscribe(
-        data => this.tempData = data,
-        error => this.errorMessage = <any>error,
-        () => {
-          if (this.tempData.status == "success" && this.tempData.data) {
-            this.teamObjectives = <Objectiveclass[]> this.tempData.data;
-            this.setGoalsDropDownList(this.goals);
-            //this.goals.sort();
-          }
-        }
-      );
+    // this._settingObjectiveService.getByTeamId(this.viewUserID)
+    //   .subscribe(
+    //     data => this.tempData = data,
+    //     error => this.errorMessage = <any>error,
+    //     () => {
+    //       if (this.tempData.status == "success" && this.tempData.data) {
+    //         this.teamObjectives = <Objectiveclass[]> this.tempData.data;
+    //         this.setGoalsDropDownList(this.goals);
+    //         //this.goals.sort();
+    //       }
+    //     }
+    //   );
+
+
+
   }
+
+
+
   setGoalsDropDownList(goals: Goalclass[]){
     var tempArray=[];
     var i=0;

@@ -68,6 +68,7 @@ export interface ApplicationConfig {
 
 
   teamsUsersOperateUrl:string;
+  teamsObjectiveOperateUrl:string;
 
 
 }
@@ -94,8 +95,7 @@ export const MY_CONFIG: ApplicationConfig = {
   teamCreateUrl:'/neutrino/backEndAPI/index.php/Teams/create',
   teamOperateUrl:'/neutrino/backEndAPI/index.php/Teams/items',
 
-
-
+  teamsObjectiveOperateUrl:'/neutrino/backEndAPI/index.php/Teams_objectives',
   teamsUsersOperateUrl:'/neutrino/backEndAPI/index.php/Teams_users',
 
 

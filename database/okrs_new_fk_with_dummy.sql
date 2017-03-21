@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2017-03-06 18:03:11
+Date: 2017-03-21 15:25:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `activities` (
   PRIMARY KEY (`activity_id`),
   KEY `fk_activities_users` (`user_id`),
   CONSTRAINT `fk_activities_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of activities
@@ -44,25 +44,13 @@ INSERT INTO `activities` VALUES ('9', 0x323133313233, 'create', '1', '2017-02-28
 INSERT INTO `activities` VALUES ('10', 0x323133313233, 'create', '1', '2017-02-28 11:45:18');
 INSERT INTO `activities` VALUES ('11', 0x323133313233, 'create', '1', '2017-02-28 11:45:19');
 INSERT INTO `activities` VALUES ('12', 0x323133313233, 'create', '1', '2017-02-28 11:45:23');
-INSERT INTO `activities` VALUES ('13', 0x64666666736473647364737761333264666464, 'note', '1', '2017-02-28 15:44:37');
+INSERT INTO `activities` VALUES ('13', 0x6466666673647364736473775C6E61333264666464, 'note', '1', '2017-03-08 16:06:02');
 INSERT INTO `activities` VALUES ('14', 0x6565777145534532314553416532316577, 'note', '1', '2017-02-28 15:52:19');
-INSERT INTO `activities` VALUES ('15', 0x4153204D592053455256494552, 'note', '1', '2017-02-28 15:52:31');
-INSERT INTO `activities` VALUES ('16', 0x594553535353534746444145464441454644414645414645, 'note', '1', '2017-02-28 15:53:00');
-INSERT INTO `activities` VALUES ('18', 0x464441464453412046444153204644204144, 'note', '1', '2017-02-28 15:53:04');
-INSERT INTO `activities` VALUES ('19', 0x79747279747266796866676866, 'note', '1', '2017-02-28 16:00:41');
-INSERT INTO `activities` VALUES ('20', 0x39683538393566, 'note', '1', '2017-02-28 16:00:53');
-INSERT INTO `activities` VALUES ('21', 0x356466646464776572, 'note', '1', '2017-02-28 16:02:31');
-INSERT INTO `activities` VALUES ('22', 0x647434736466663334326473667366, 'note', '1', '2017-02-28 16:02:36');
-INSERT INTO `activities` VALUES ('23', 0x666466613332616664736166336166337366, 'note', '1', '2017-02-28 16:02:42');
-INSERT INTO `activities` VALUES ('24', 0x6A6867666A6667686A6667686A6667686A6667686A68676A67666A6A79676636, 'note', '1', '2017-02-28 16:17:04');
-INSERT INTO `activities` VALUES ('25', 0x6E676E74726E76676E636E, 'note', '1', '2017-02-28 16:17:14');
-INSERT INTO `activities` VALUES ('26', 0x626E67636E6762636E6763, 'note', '1', '2017-02-28 16:17:17');
-INSERT INTO `activities` VALUES ('27', 0x626E63746362766E63, 'note', '1', '2017-02-28 16:17:32');
-INSERT INTO `activities` VALUES ('28', 0x6B6A686B686A6B686A6B686A6B68, 'note', '1', '2017-02-28 16:43:58');
-INSERT INTO `activities` VALUES ('29', 0x37796E63766A0A6A6B6B37360A323534323435, 'note', '1', '2017-02-28 16:44:04');
-INSERT INTO `activities` VALUES ('30', 0x676673666764736767, 'note', '1', '2017-02-28 16:57:32');
-INSERT INTO `activities` VALUES ('31', 0x6E6E626E723567, 'note', '1', '2017-02-28 16:57:37');
-INSERT INTO `activities` VALUES ('32', 0x6466647366736466, 'note', '1', '2017-02-28 17:24:31');
+INSERT INTO `activities` VALUES ('34', 0x666473616663647361206664736120663334712066647361662073616420660A0A0A6473610A6473610A33334444330A514544510A, 'note', '1', '2017-03-08 15:08:00');
+INSERT INTO `activities` VALUES ('35', 0x74656173742061646D696E207570646174656420676F616C203A2079657379743333, 'update', '1', '2017-03-08 15:15:49');
+INSERT INTO `activities` VALUES ('36', 0x74656173742061646D696E207570646174656420676F616C203A207965737974333320757064617465206C6F67203A20, 'update', '1', '2017-03-08 15:18:58');
+INSERT INTO `activities` VALUES ('37', 0x34353634353634, 'Note', '1', '2017-03-16 09:45:34');
+INSERT INTO `activities` VALUES ('38', 0x3B6C3B6C6B6C6B6C6C6B, 'note', '1', '2017-03-21 10:09:07');
 
 -- ----------------------------
 -- Table structure for company_infos
@@ -94,21 +82,22 @@ CREATE TABLE `goals` (
   `goal_description` text COLLATE utf8mb4_bin,
   `goal_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `time_frame_id` int(11) NOT NULL,
-  `goal_unit` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `goal_process_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `goal_unit` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `goal_progress_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `goal_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`goal_id`),
   KEY `goal_id` (`goal_id`),
   KEY `fk_goals_time_frame` (`time_frame_id`),
   CONSTRAINT `fk_goals_time_frame` FOREIGN KEY (`time_frame_id`) REFERENCES `time_frames` (`time_frame_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of goals
 -- ----------------------------
-INSERT INTO `goals` VALUES ('12', 0x496D70726F7665203230252073616C6573, 0x496D70726F7665203230252073616C6573, 'None', '63', '$', null, null);
-INSERT INTO `goals` VALUES ('13', 0x496D70726F7665203235252073616C6573, 0x496D70726F7665203235252073616C6573, 'Warning', '63', 'No.', null, null);
-INSERT INTO `goals` VALUES ('14', 0x66696E6420323025206D6F726520637573746F6D6572, 0x66696E6420323025206D6F726520637573746F6D6572, 'Risk', '63', null, null, null);
+INSERT INTO `goals` VALUES ('12', 0x496D70726F7665203230252073616C6573, 0x496D70726F7665203230252073616C6573, 'None', '63', '%', '12', '0');
+INSERT INTO `goals` VALUES ('13', 0x496D70726F7665203235252073616C6573, 0x496D70726F7665203235252073616C6573, 'Warning', '63', '%', '50', null);
+INSERT INTO `goals` VALUES ('14', 0x66696E6420323025206D6F726520637573746F6D6572, 0x66696E6420323025206D6F726520637573746F6D6572, 'Risk', '63', '%', '30', null);
+INSERT INTO `goals` VALUES ('15', 0x636F6D65706C65746564205461736B, 0x636F6D65706C65746564205461736B, 'Complete', '63', '%', '100', null);
 
 -- ----------------------------
 -- Table structure for goals_objectives
@@ -139,7 +128,7 @@ CREATE TABLE `key_results` (
   `result_description` text COLLATE utf8mb4_bin,
   `result_unit` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `result_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `result_process_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `result_progress_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `result_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_id` int(11) NOT NULL,
   PRIMARY KEY (`result_id`),
@@ -161,14 +150,17 @@ CREATE TABLE `objectives` (
   `objective_description` text COLLATE utf8mb4_bin,
   `objective_unit` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `objective_process_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `objective_progress_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`objective_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of objectives
 -- ----------------------------
+INSERT INTO `objectives` VALUES ('1', 'fdsfsd', 0x736466736466736466, '%', 'None', '0', null);
+INSERT INTO `objectives` VALUES ('2', 'fdasfds', 0x66647361667364616673646661736466, '%', 'None', '0', null);
+INSERT INTO `objectives` VALUES ('3', 'team objective', 0x7465616D206F626A656374697665, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for objectives_teams
@@ -237,7 +229,7 @@ CREATE TABLE `teams` (
   PRIMARY KEY (`team_id`),
   KEY `teams_users` (`team_leader_user_id`),
   CONSTRAINT `teams_users` FOREIGN KEY (`team_leader_user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of teams
@@ -256,17 +248,18 @@ DROP TABLE IF EXISTS `teams_objectives`;
 CREATE TABLE `teams_objectives` (
   `record_id` int(11) NOT NULL AUTO_INCREMENT,
   `team_id` int(11) NOT NULL,
-  `objectives_id` int(11) NOT NULL,
+  `objective_id` int(11) NOT NULL,
   PRIMARY KEY (`record_id`),
   KEY `fk_teams_objectives_teams` (`team_id`),
-  KEY `fk_teams_objectives_objectives` (`objectives_id`),
-  CONSTRAINT `fk_teams_objectives_objectives` FOREIGN KEY (`objectives_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  KEY `fk_teams_objectives_objectives` (`objective_id`),
+  CONSTRAINT `fk_teams_objectives_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_teams_objectives_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of teams_objectives
 -- ----------------------------
+INSERT INTO `teams_objectives` VALUES ('1', '28', '3');
 
 -- ----------------------------
 -- Table structure for teams_users
@@ -281,7 +274,7 @@ CREATE TABLE `teams_users` (
   KEY `fk_teams_users_user` (`user_id`),
   CONSTRAINT `fk_teams_users_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_teams_users_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=378 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=271 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of teams_users
@@ -419,7 +412,7 @@ CREATE TABLE `time_frames` (
   `time_frame_start` date DEFAULT NULL,
   `time_frame_end` date DEFAULT NULL,
   PRIMARY KEY (`time_frame_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of time_frames
@@ -428,6 +421,62 @@ INSERT INTO `time_frames` VALUES ('63', 0x323031372C205131, '2017-01-01', '2017-
 INSERT INTO `time_frames` VALUES ('64', 0x323031372C205132, '2017-04-01', '2017-07-01');
 INSERT INTO `time_frames` VALUES ('65', 0x323031372C205133, '2017-07-01', '2017-10-01');
 INSERT INTO `time_frames` VALUES ('66', 0x323031372C205134, '2017-10-01', '2018-01-01');
+INSERT INTO `time_frames` VALUES ('67', 0x323031372C205131, '2017-01-01', '2017-03-31');
+INSERT INTO `time_frames` VALUES ('68', 0x323031372C205132, '2017-04-01', '2017-06-30');
+INSERT INTO `time_frames` VALUES ('69', 0x323031372C205133, '2017-07-01', '2017-09-30');
+INSERT INTO `time_frames` VALUES ('70', 0x323031372C205134, '2017-10-01', '2017-12-31');
+INSERT INTO `time_frames` VALUES ('71', 0x323031382C205131, '2018-01-01', '2018-03-31');
+INSERT INTO `time_frames` VALUES ('72', 0x323031382C205132, '2018-04-01', '2018-06-30');
+INSERT INTO `time_frames` VALUES ('73', 0x323031382C205133, '2018-07-01', '2018-09-30');
+INSERT INTO `time_frames` VALUES ('74', 0x323031382C205134, '2018-10-01', '2018-12-31');
+INSERT INTO `time_frames` VALUES ('75', 0x323031392C205131, '2019-01-01', '2019-03-31');
+INSERT INTO `time_frames` VALUES ('76', 0x323031392C205132, '2019-04-01', '2019-06-30');
+INSERT INTO `time_frames` VALUES ('77', 0x323031392C205133, '2019-07-01', '2019-09-30');
+INSERT INTO `time_frames` VALUES ('78', 0x323031392C205134, '2019-10-01', '2019-12-31');
+INSERT INTO `time_frames` VALUES ('79', 0x323032302C205131, '2020-01-01', '2020-03-31');
+INSERT INTO `time_frames` VALUES ('80', 0x323032302C205132, '2020-04-01', '2020-06-30');
+INSERT INTO `time_frames` VALUES ('81', 0x323032302C205133, '2020-07-01', '2020-09-30');
+INSERT INTO `time_frames` VALUES ('82', 0x323032302C205134, '2020-10-01', '2020-12-31');
+INSERT INTO `time_frames` VALUES ('83', 0x323032312C205131, '2021-01-01', '2021-03-31');
+INSERT INTO `time_frames` VALUES ('84', 0x323032312C205132, '2021-04-01', '2021-06-30');
+INSERT INTO `time_frames` VALUES ('85', 0x323032312C205133, '2021-07-01', '2021-09-30');
+INSERT INTO `time_frames` VALUES ('86', 0x323032312C205134, '2021-10-01', '2021-12-31');
+INSERT INTO `time_frames` VALUES ('87', 0x323032322C205131, '2022-01-01', '2022-03-31');
+INSERT INTO `time_frames` VALUES ('88', 0x323032322C205132, '2022-04-01', '2022-06-30');
+INSERT INTO `time_frames` VALUES ('89', 0x323032322C205133, '2022-07-01', '2022-09-30');
+INSERT INTO `time_frames` VALUES ('90', 0x323032322C205134, '2022-10-01', '2022-12-31');
+INSERT INTO `time_frames` VALUES ('91', 0x323032332C205131, '2023-01-01', '2023-03-31');
+INSERT INTO `time_frames` VALUES ('92', 0x323032332C205132, '2023-04-01', '2023-06-30');
+INSERT INTO `time_frames` VALUES ('93', 0x323032332C205133, '2023-07-01', '2023-09-30');
+INSERT INTO `time_frames` VALUES ('94', 0x323032332C205134, '2023-10-01', '2023-12-31');
+INSERT INTO `time_frames` VALUES ('95', 0x323032342C205131, '2024-01-01', '2024-03-31');
+INSERT INTO `time_frames` VALUES ('96', 0x323032342C205132, '2024-04-01', '2024-06-30');
+INSERT INTO `time_frames` VALUES ('97', 0x323032342C205133, '2024-07-01', '2024-09-30');
+INSERT INTO `time_frames` VALUES ('98', 0x323032342C205134, '2024-10-01', '2024-12-31');
+INSERT INTO `time_frames` VALUES ('99', 0x323032352C205131, '2025-01-01', '2025-03-31');
+INSERT INTO `time_frames` VALUES ('100', 0x323032352C205132, '2025-04-01', '2025-06-30');
+INSERT INTO `time_frames` VALUES ('101', 0x323032352C205133, '2025-07-01', '2025-09-30');
+INSERT INTO `time_frames` VALUES ('102', 0x323032352C205134, '2025-10-01', '2025-12-31');
+INSERT INTO `time_frames` VALUES ('103', 0x323032362C205131, '2026-01-01', '2026-03-31');
+INSERT INTO `time_frames` VALUES ('104', 0x323032362C205132, '2026-04-01', '2026-06-30');
+INSERT INTO `time_frames` VALUES ('105', 0x323032362C205133, '2026-07-01', '2026-09-30');
+INSERT INTO `time_frames` VALUES ('106', 0x323032362C205134, '2026-10-01', '2026-12-31');
+INSERT INTO `time_frames` VALUES ('107', 0x323032372C205131, '2027-01-01', '2027-03-31');
+INSERT INTO `time_frames` VALUES ('108', 0x323032372C205132, '2027-04-01', '2027-06-30');
+INSERT INTO `time_frames` VALUES ('109', 0x323032372C205133, '2027-07-01', '2027-09-30');
+INSERT INTO `time_frames` VALUES ('110', 0x323032372C205134, '2027-10-01', '2027-12-31');
+INSERT INTO `time_frames` VALUES ('111', 0x323032382C205131, '2028-01-01', '2028-03-31');
+INSERT INTO `time_frames` VALUES ('112', 0x323032382C205132, '2028-04-01', '2028-06-30');
+INSERT INTO `time_frames` VALUES ('113', 0x323032382C205133, '2028-07-01', '2028-09-30');
+INSERT INTO `time_frames` VALUES ('114', 0x323032382C205134, '2028-10-01', '2028-12-31');
+INSERT INTO `time_frames` VALUES ('115', 0x323032392C205131, '2029-01-01', '2029-03-31');
+INSERT INTO `time_frames` VALUES ('116', 0x323032392C205132, '2029-04-01', '2029-06-30');
+INSERT INTO `time_frames` VALUES ('117', 0x323032392C205133, '2029-07-01', '2029-09-30');
+INSERT INTO `time_frames` VALUES ('118', 0x323032392C205134, '2029-10-01', '2029-12-31');
+INSERT INTO `time_frames` VALUES ('119', 0x323033302C205131, '2030-01-01', '2030-03-31');
+INSERT INTO `time_frames` VALUES ('120', 0x323033302C205132, '2030-04-01', '2030-06-30');
+INSERT INTO `time_frames` VALUES ('121', 0x323033302C205133, '2030-07-01', '2030-09-30');
+INSERT INTO `time_frames` VALUES ('122', 0x323033302C205134, '2030-10-01', '2030-12-31');
 
 -- ----------------------------
 -- Table structure for time_frames_goals
@@ -573,133 +622,137 @@ CREATE TABLE `users_details` (
   `mobile_number` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `position` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_details_id`),
   KEY `fk_user_details_user` (`user_id`),
+  KEY `fk_from_user_roles` (`role_id`),
+  CONSTRAINT `fk_from_user_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE SET NULL ON UPDATE SET NULL,
   CONSTRAINT `fk_user_details_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of users_details
 -- ----------------------------
-INSERT INTO `users_details` VALUES ('1', 'Kiona', 'Jimenez', '1955-10-23', null, '1', null);
-INSERT INTO `users_details` VALUES ('2', 'Elizabeth', 'Avery', '1953-12-13', null, '2', null);
-INSERT INTO `users_details` VALUES ('3', null, null, '1969-04-03', null, '3', null);
-INSERT INTO `users_details` VALUES ('4', 'Anika', 'Houston', '1971-03-02', null, '4', null);
-INSERT INTO `users_details` VALUES ('5', 'Tyler', 'Hess', '1959-06-14', null, '5', null);
-INSERT INTO `users_details` VALUES ('6', 'Dean', 'Marks', '1984-05-17', null, '6', null);
-INSERT INTO `users_details` VALUES ('7', 'Christian', 'Mcfadden', '1996-02-04', null, '7', null);
-INSERT INTO `users_details` VALUES ('8', 'Chadwick', 'Maxwell', '1968-03-05', null, '8', null);
-INSERT INTO `users_details` VALUES ('9', 'Merritt', 'Morse', '1964-09-18', null, '9', null);
-INSERT INTO `users_details` VALUES ('10', 'Marvin', 'Day', '1953-10-26', null, '10', null);
-INSERT INTO `users_details` VALUES ('11', 'Lionel', 'Levine', '1935-04-17', null, '11', null);
-INSERT INTO `users_details` VALUES ('12', 'Skyler', 'Garrett', '1953-10-26', null, '12', null);
-INSERT INTO `users_details` VALUES ('13', 'Zena', 'Clayton', '1935-05-14', null, '13', null);
-INSERT INTO `users_details` VALUES ('14', 'Yuri', 'Bowers', '1977-05-01', null, '14', null);
-INSERT INTO `users_details` VALUES ('15', 'Daryl', 'Moon', '1981-01-31', null, '15', null);
-INSERT INTO `users_details` VALUES ('16', 'Lane', 'Ruiz', '1976-02-16', null, '16', null);
-INSERT INTO `users_details` VALUES ('17', 'Unity', 'Whitney', '1936-07-28', null, '17', null);
-INSERT INTO `users_details` VALUES ('18', 'Wade', 'Russo', '1997-05-30', null, '18', null);
-INSERT INTO `users_details` VALUES ('19', 'Breanna', 'Huber', '1944-04-18', null, '19', null);
-INSERT INTO `users_details` VALUES ('20', 'Thomas', 'Reyes', '1996-07-08', null, '20', null);
-INSERT INTO `users_details` VALUES ('21', 'Grace', 'Brady', '1967-12-23', null, '21', null);
-INSERT INTO `users_details` VALUES ('22', 'Chandler', 'Caldwell', '1938-10-30', null, '22', null);
-INSERT INTO `users_details` VALUES ('23', 'Kenneth', 'Clayton', '1950-05-28', null, '23', null);
-INSERT INTO `users_details` VALUES ('24', 'Chantale', 'Myers', '1993-01-02', null, '24', null);
-INSERT INTO `users_details` VALUES ('25', 'Giselle', 'Boyer', '1982-07-07', null, '25', null);
-INSERT INTO `users_details` VALUES ('26', 'Catherine', 'Sexton', '1950-08-10', null, '26', null);
-INSERT INTO `users_details` VALUES ('27', 'Tashya', 'Young', '1976-04-20', null, '27', null);
-INSERT INTO `users_details` VALUES ('28', 'Claire', 'Jordan', '1992-04-06', null, '28', null);
-INSERT INTO `users_details` VALUES ('29', 'Urielle', 'Huffman', '1945-08-31', null, '29', null);
-INSERT INTO `users_details` VALUES ('30', 'Oprah', 'Floyd', '1945-10-22', null, '30', null);
-INSERT INTO `users_details` VALUES ('31', 'Hyacinth', 'Sargent', '1995-09-17', null, '31', null);
-INSERT INTO `users_details` VALUES ('32', 'Christopher', 'Whitney', '1962-03-21', null, '32', null);
-INSERT INTO `users_details` VALUES ('33', 'Danielle', 'Lowery', '1985-12-15', null, '33', null);
-INSERT INTO `users_details` VALUES ('34', 'Dominique', 'Thornton', '1941-05-31', null, '34', null);
-INSERT INTO `users_details` VALUES ('35', 'Donna', 'Chandler', '1967-03-27', null, '35', null);
-INSERT INTO `users_details` VALUES ('36', 'Gretchen', 'Duffy', '1948-10-26', null, '36', null);
-INSERT INTO `users_details` VALUES ('37', 'Basil', 'Richard', '1948-04-20', null, '37', null);
-INSERT INTO `users_details` VALUES ('38', 'Travis', 'Villarreal', '1984-05-30', null, '38', null);
-INSERT INTO `users_details` VALUES ('39', 'Winter', 'Brooks', '1937-05-23', null, '39', null);
-INSERT INTO `users_details` VALUES ('40', 'Geraldine', 'Burton', '1942-12-10', null, '40', null);
-INSERT INTO `users_details` VALUES ('41', 'Paula', 'Richards', '1988-07-01', null, '41', null);
-INSERT INTO `users_details` VALUES ('42', 'Darrel', 'Hinton', '1980-10-23', null, '42', null);
-INSERT INTO `users_details` VALUES ('43', 'Quentin', 'Espinoza', '1960-12-29', null, '43', null);
-INSERT INTO `users_details` VALUES ('44', 'Tate', 'Mckinney', '1975-10-15', null, '44', null);
-INSERT INTO `users_details` VALUES ('45', 'Quamar', 'Booker', '1961-03-20', null, '45', null);
-INSERT INTO `users_details` VALUES ('46', 'Nigel', 'Jefferson', '1958-01-22', null, '46', null);
-INSERT INTO `users_details` VALUES ('47', 'Chaney', 'Leonard', '1964-02-22', null, '47', null);
-INSERT INTO `users_details` VALUES ('48', 'Rachel', 'Wiley', '1968-02-05', null, '48', null);
-INSERT INTO `users_details` VALUES ('49', 'Wing', 'Collins', '1945-11-02', null, '49', null);
-INSERT INTO `users_details` VALUES ('50', 'Dawn', 'Wallace', '1947-11-11', null, '50', null);
-INSERT INTO `users_details` VALUES ('51', 'Zephania', 'Hunt', '1981-12-16', null, '51', null);
-INSERT INTO `users_details` VALUES ('52', 'Nigel', 'Mckinney', '1957-12-30', null, '52', null);
-INSERT INTO `users_details` VALUES ('53', 'Iola', 'Roberts', '1938-03-24', null, '53', null);
-INSERT INTO `users_details` VALUES ('54', 'Yetta', 'Albert', '1995-12-27', null, '54', null);
-INSERT INTO `users_details` VALUES ('55', 'Amelia', 'Vasquez', '1998-04-15', null, '55', null);
-INSERT INTO `users_details` VALUES ('56', 'Brock', 'Crawford', '1945-06-19', null, '56', null);
-INSERT INTO `users_details` VALUES ('57', 'Jorden', 'Stephens', '1936-08-07', null, '57', null);
-INSERT INTO `users_details` VALUES ('58', 'Lucius', 'Travis', '1984-10-31', null, '58', null);
-INSERT INTO `users_details` VALUES ('59', 'Armand', 'Barron', '1960-06-07', null, '59', null);
-INSERT INTO `users_details` VALUES ('60', 'Rahim', 'Estes', '1968-09-26', null, '60', null);
-INSERT INTO `users_details` VALUES ('61', 'Harper', 'Lynn', '1947-08-28', null, '61', null);
-INSERT INTO `users_details` VALUES ('62', 'Jillian', 'Mullen', '1988-07-15', null, '62', null);
-INSERT INTO `users_details` VALUES ('63', 'Adam', 'Ramirez', '1990-04-11', null, '63', null);
-INSERT INTO `users_details` VALUES ('64', 'Kylan', 'Reynolds', '1976-02-17', null, '64', null);
-INSERT INTO `users_details` VALUES ('65', 'Gloria', 'Baxter', '1978-12-25', null, '65', null);
-INSERT INTO `users_details` VALUES ('66', 'Madeline', 'Murphy', '1987-04-18', null, '66', null);
-INSERT INTO `users_details` VALUES ('67', 'Yuli', 'Todd', '1997-09-22', null, '67', null);
-INSERT INTO `users_details` VALUES ('68', 'Raymond', 'Lawson', '1993-07-03', null, '68', null);
-INSERT INTO `users_details` VALUES ('69', 'Nayda', 'Mcpherson', '1938-12-07', null, '69', null);
-INSERT INTO `users_details` VALUES ('70', 'Cheryl', 'Trujillo', '1988-04-30', null, '70', null);
-INSERT INTO `users_details` VALUES ('71', 'Jakeem', 'Hines', '1987-06-03', null, '71', null);
-INSERT INTO `users_details` VALUES ('72', 'Salvador', 'Coffey', '1976-01-02', null, '72', null);
-INSERT INTO `users_details` VALUES ('73', 'Tad', 'Melendez', '1972-03-15', null, '73', null);
-INSERT INTO `users_details` VALUES ('74', 'Sade', 'Hebert', '1979-07-04', null, '74', null);
-INSERT INTO `users_details` VALUES ('75', 'Kieran', 'Bass', '1975-11-07', null, '75', null);
-INSERT INTO `users_details` VALUES ('76', 'Lars', 'Castillo', '1987-02-08', null, '76', null);
-INSERT INTO `users_details` VALUES ('77', 'August', 'Weiss', '1982-11-12', null, '77', null);
-INSERT INTO `users_details` VALUES ('78', 'Vladimir', 'Reilly', '1992-06-25', null, '78', null);
-INSERT INTO `users_details` VALUES ('79', 'Quamar', 'Lindsay', '1966-12-12', null, '79', null);
-INSERT INTO `users_details` VALUES ('80', 'Troy', 'Hughes', '1992-01-05', null, '80', null);
-INSERT INTO `users_details` VALUES ('81', 'Connor', 'Waller', '1985-11-19', null, '81', null);
-INSERT INTO `users_details` VALUES ('82', 'Phyllis', 'Vincent', '1976-03-16', null, '82', null);
-INSERT INTO `users_details` VALUES ('83', 'Maisie', 'Graves', '1990-05-13', null, '83', null);
-INSERT INTO `users_details` VALUES ('84', 'Ima', 'Browning', '1979-09-01', null, '84', null);
-INSERT INTO `users_details` VALUES ('85', 'Alexander', 'Nieves', '1954-04-12', null, '85', null);
-INSERT INTO `users_details` VALUES ('86', 'Indigo', 'Hopper', '1985-01-01', null, '86', null);
-INSERT INTO `users_details` VALUES ('87', 'Ali', 'Griffith', '1970-09-21', null, '87', null);
-INSERT INTO `users_details` VALUES ('88', 'Geoffrey', 'Stone', '1957-10-01', null, '88', null);
-INSERT INTO `users_details` VALUES ('89', 'Jaime', 'Cannon', '1936-05-05', null, '89', null);
-INSERT INTO `users_details` VALUES ('90', 'Frances', 'Giles', '1968-09-25', null, '90', null);
-INSERT INTO `users_details` VALUES ('91', 'Breanna', 'Livingston', '1943-09-04', null, '91', null);
-INSERT INTO `users_details` VALUES ('92', 'Elaine', 'Parks', '1983-12-06', null, '92', null);
-INSERT INTO `users_details` VALUES ('93', 'Yoko', 'Kirby', '1936-06-12', null, '93', null);
-INSERT INTO `users_details` VALUES ('94', 'Odette', 'Day', '1939-10-28', null, '94', null);
-INSERT INTO `users_details` VALUES ('95', 'Hollee', 'Sears', '1962-10-27', null, '95', null);
-INSERT INTO `users_details` VALUES ('96', 'Lunea', 'Livingston', '1947-05-25', null, '96', null);
-INSERT INTO `users_details` VALUES ('97', 'Thomas', 'Pace', '1969-12-16', null, '97', null);
-INSERT INTO `users_details` VALUES ('98', 'Emi', 'Dyer', '1972-11-30', null, '98', null);
-INSERT INTO `users_details` VALUES ('99', 'Yeo', 'Hardy', '1938-02-15', null, '99', null);
-INSERT INTO `users_details` VALUES ('100', 'Aline', 'Greene', '1989-04-23', null, '100', null);
+INSERT INTO `users_details` VALUES ('1', 'Kiona', 'Jimenez', '1955-10-23', null, '1', '1', '1');
+INSERT INTO `users_details` VALUES ('2', 'Elizabeth', 'Avery', '1953-12-13', null, '2', '1', '1');
+INSERT INTO `users_details` VALUES ('3', null, null, '1969-04-03', null, '3', '1', '1');
+INSERT INTO `users_details` VALUES ('4', 'Anika', 'Houston', '1971-03-02', null, '4', '2', '1');
+INSERT INTO `users_details` VALUES ('5', 'Tyler', 'Hess', '1959-06-14', null, '5', '2', '2');
+INSERT INTO `users_details` VALUES ('6', 'Dean', 'Marks', '1984-05-17', null, '6', '3', '2');
+INSERT INTO `users_details` VALUES ('7', 'Christian', 'Mcfadden', '1996-02-04', null, '7', '3', '3');
+INSERT INTO `users_details` VALUES ('8', 'Chadwick', 'Maxwell', '1968-03-05', null, '8', '3', '2');
+INSERT INTO `users_details` VALUES ('9', 'Merritt', 'Morse', '1964-09-18', null, '9', '3', '2');
+INSERT INTO `users_details` VALUES ('10', 'Marvin', 'Day', '1953-10-26', null, '10', '3', '2');
+INSERT INTO `users_details` VALUES ('11', 'Lionel', 'Levine', '1935-04-17', null, '11', '3', '2');
+INSERT INTO `users_details` VALUES ('12', 'Skyler', 'Garrett', '1953-10-26', null, '12', '3', '2');
+INSERT INTO `users_details` VALUES ('13', 'Zena', 'Clayton', '1935-05-14', null, '13', '3', '3');
+INSERT INTO `users_details` VALUES ('14', 'Yuri', 'Bowers', '1977-05-01', null, '14', '3', '3');
+INSERT INTO `users_details` VALUES ('15', 'Daryl', 'Moon', '1981-01-31', null, '15', '3', '3');
+INSERT INTO `users_details` VALUES ('16', 'Lane', 'Ruiz', '1976-02-16', null, '16', '3', '3');
+INSERT INTO `users_details` VALUES ('17', 'Unity', 'Whitney', '1936-07-28', null, '17', '3', '3');
+INSERT INTO `users_details` VALUES ('18', 'Wade', 'Russo', '1997-05-30', null, '18', '3', '3');
+INSERT INTO `users_details` VALUES ('19', 'Breanna', 'Huber', '1944-04-18', null, '19', '3', '3');
+INSERT INTO `users_details` VALUES ('20', 'Thomas', 'Reyes', '1996-07-08', null, '20', '3', '3');
+INSERT INTO `users_details` VALUES ('21', 'Grace', 'Brady', '1967-12-23', null, '21', '3', '3');
+INSERT INTO `users_details` VALUES ('22', 'Chandler', 'Caldwell', '1938-10-30', null, '22', '3', '3');
+INSERT INTO `users_details` VALUES ('23', 'Kenneth', 'Clayton', '1950-05-28', null, '23', '3', '3');
+INSERT INTO `users_details` VALUES ('24', 'Chantale', 'Myers', '1993-01-02', null, '24', '3', '3');
+INSERT INTO `users_details` VALUES ('25', 'Giselle', 'Boyer', '1982-07-07', null, '25', '3', '3');
+INSERT INTO `users_details` VALUES ('26', 'Catherine', 'Sexton', '1950-08-10', null, '26', '3', '3');
+INSERT INTO `users_details` VALUES ('27', 'Tashya', 'Young', '1976-04-20', null, '27', '3', '3');
+INSERT INTO `users_details` VALUES ('28', 'Claire', 'Jordan', '1992-04-06', null, '28', '3', '3');
+INSERT INTO `users_details` VALUES ('29', 'Urielle', 'Huffman', '1945-08-31', null, '29', '3', '3');
+INSERT INTO `users_details` VALUES ('30', 'Oprah', 'Floyd', '1945-10-22', null, '30', '3', '3');
+INSERT INTO `users_details` VALUES ('31', 'Hyacinth', 'Sargent', '1995-09-17', null, '31', '3', '3');
+INSERT INTO `users_details` VALUES ('32', 'Christopher', 'Whitney', '1962-03-21', null, '32', '3', '3');
+INSERT INTO `users_details` VALUES ('33', 'Danielle', 'Lowery', '1985-12-15', null, '33', '3', '3');
+INSERT INTO `users_details` VALUES ('34', 'Dominique', 'Thornton', '1941-05-31', null, '34', '3', null);
+INSERT INTO `users_details` VALUES ('35', 'Donna', 'Chandler', '1967-03-27', null, '35', '3', '3');
+INSERT INTO `users_details` VALUES ('36', 'Gretchen', 'Duffy', '1948-10-26', null, '36', '3', '3');
+INSERT INTO `users_details` VALUES ('37', 'Basil', 'Richard', '1948-04-20', null, '37', '3', '3');
+INSERT INTO `users_details` VALUES ('38', 'Travis', 'Villarreal', '1984-05-30', null, '38', '3', '3');
+INSERT INTO `users_details` VALUES ('39', 'Winter', 'Brooks', '1937-05-23', null, '39', '3', '3');
+INSERT INTO `users_details` VALUES ('40', 'Geraldine', 'Burton', '1942-12-10', null, '40', '3', '3');
+INSERT INTO `users_details` VALUES ('41', 'Paula', 'Richards', '1988-07-01', null, '41', '3', '3');
+INSERT INTO `users_details` VALUES ('42', 'Darrel', 'Hinton', '1980-10-23', null, '42', '3', '3');
+INSERT INTO `users_details` VALUES ('43', 'Quentin', 'Espinoza', '1960-12-29', null, '43', '3', '3');
+INSERT INTO `users_details` VALUES ('44', 'Tate', 'Mckinney', '1975-10-15', null, '44', '3', '3');
+INSERT INTO `users_details` VALUES ('45', 'Quamar', 'Booker', '1961-03-20', null, '45', '3', '3');
+INSERT INTO `users_details` VALUES ('46', 'Nigel', 'Jefferson', '1958-01-22', null, '46', '3', '3');
+INSERT INTO `users_details` VALUES ('47', 'Chaney', 'Leonard', '1964-02-22', null, '47', '3', '3');
+INSERT INTO `users_details` VALUES ('48', 'Rachel', 'Wiley', '1968-02-05', null, '48', '3', '3');
+INSERT INTO `users_details` VALUES ('49', 'Wing', 'Collins', '1945-11-02', null, '49', '3', '3');
+INSERT INTO `users_details` VALUES ('50', 'Dawn', 'Wallace', '1947-11-11', null, '50', '3', '3');
+INSERT INTO `users_details` VALUES ('51', 'Zephania', 'Hunt', '1981-12-16', null, '51', '3', '3');
+INSERT INTO `users_details` VALUES ('52', 'Nigel', 'Mckinney', '1957-12-30', null, '52', '3', '3');
+INSERT INTO `users_details` VALUES ('53', 'Iola', 'Roberts', '1938-03-24', null, '53', '3', '3');
+INSERT INTO `users_details` VALUES ('54', 'Yetta', 'Albert', '1995-12-27', null, '54', '3', '3');
+INSERT INTO `users_details` VALUES ('55', 'Amelia', 'Vasquez', '1998-04-15', null, '55', '3', '3');
+INSERT INTO `users_details` VALUES ('56', 'Brock', 'Crawford', '1945-06-19', null, '56', '3', '3');
+INSERT INTO `users_details` VALUES ('57', 'Jorden', 'Stephens', '1936-08-07', null, '57', '3', '1');
+INSERT INTO `users_details` VALUES ('58', 'Lucius', 'Travis', '1984-10-31', null, '58', '3', '2');
+INSERT INTO `users_details` VALUES ('59', 'Armand', 'Barron', '1960-06-07', null, '59', '3', '2');
+INSERT INTO `users_details` VALUES ('60', 'Rahim', 'Estes', '1968-09-26', null, '60', '3', '3');
+INSERT INTO `users_details` VALUES ('61', 'Harper', 'Lynn', '1947-08-28', null, '61', '3', '2');
+INSERT INTO `users_details` VALUES ('62', 'Jillian', 'Mullen', '1988-07-15', null, '62', '3', '1');
+INSERT INTO `users_details` VALUES ('63', 'Adam', 'Ramirez', '1990-04-11', null, '63', '3', '1');
+INSERT INTO `users_details` VALUES ('64', 'Kylan', 'Reynolds', '1976-02-17', null, '64', '3', '3');
+INSERT INTO `users_details` VALUES ('65', 'Gloria', 'Baxter', '1978-12-25', null, '65', '3', '3');
+INSERT INTO `users_details` VALUES ('66', 'Madeline', 'Murphy', '1987-04-18', null, '66', '3', '3');
+INSERT INTO `users_details` VALUES ('67', 'Yuli', 'Todd', '1997-09-22', null, '67', '3', '3');
+INSERT INTO `users_details` VALUES ('68', 'Raymond', 'Lawson', '1993-07-03', null, '68', '3', '3');
+INSERT INTO `users_details` VALUES ('69', 'Nayda', 'Mcpherson', '1938-12-07', null, '69', '3', '3');
+INSERT INTO `users_details` VALUES ('70', 'Cheryl', 'Trujillo', '1988-04-30', null, '70', '3', '3');
+INSERT INTO `users_details` VALUES ('71', 'Jakeem', 'Hines', '1987-06-03', null, '71', '3', '3');
+INSERT INTO `users_details` VALUES ('72', 'Salvador', 'Coffey', '1976-01-02', null, '72', '3', '3');
+INSERT INTO `users_details` VALUES ('73', 'Tad', 'Melendez', '1972-03-15', null, '73', '3', '3');
+INSERT INTO `users_details` VALUES ('74', 'Sade', 'Hebert', '1979-07-04', null, '74', '3', '3');
+INSERT INTO `users_details` VALUES ('75', 'Kieran', 'Bass', '1975-11-07', null, '75', '3', '3');
+INSERT INTO `users_details` VALUES ('76', 'Lars', 'Castillo', '1987-02-08', null, '76', '3', '3');
+INSERT INTO `users_details` VALUES ('77', 'August', 'Weiss', '1982-11-12', null, '77', '3', '3');
+INSERT INTO `users_details` VALUES ('78', 'Vladimir', 'Reilly', '1992-06-25', null, '78', '3', '3');
+INSERT INTO `users_details` VALUES ('79', 'Quamar', 'Lindsay', '1966-12-12', null, '79', '3', '3');
+INSERT INTO `users_details` VALUES ('80', 'Troy', 'Hughes', '1992-01-05', null, '80', '3', '3');
+INSERT INTO `users_details` VALUES ('81', 'Connor', 'Waller', '1985-11-19', null, '81', '3', '3');
+INSERT INTO `users_details` VALUES ('82', 'Phyllis', 'Vincent', '1976-03-16', null, '82', '3', '3');
+INSERT INTO `users_details` VALUES ('83', 'Maisie', 'Graves', '1990-05-13', null, '83', '3', '3');
+INSERT INTO `users_details` VALUES ('84', 'Ima', 'Browning', '1979-09-01', null, '84', '3', '3');
+INSERT INTO `users_details` VALUES ('85', 'Alexander', 'Nieves', '1954-04-12', null, '85', '3', '3');
+INSERT INTO `users_details` VALUES ('86', 'Indigo', 'Hopper', '1985-01-01', null, '86', '3', '3');
+INSERT INTO `users_details` VALUES ('87', 'Ali', 'Griffith', '1970-09-21', null, '87', '3', '3');
+INSERT INTO `users_details` VALUES ('88', 'Geoffrey', 'Stone', '1957-10-01', null, '88', '3', '3');
+INSERT INTO `users_details` VALUES ('89', 'Jaime', 'Cannon', '1936-05-05', null, '89', '3', '3');
+INSERT INTO `users_details` VALUES ('90', 'Frances', 'Giles', '1968-09-25', null, '90', '3', '3');
+INSERT INTO `users_details` VALUES ('91', 'Breanna', 'Livingston', '1943-09-04', null, '91', '3', '3');
+INSERT INTO `users_details` VALUES ('92', 'Elaine', 'Parks', '1983-12-06', null, '92', '3', '3');
+INSERT INTO `users_details` VALUES ('93', 'Yoko', 'Kirby', '1936-06-12', null, '93', '3', '3');
+INSERT INTO `users_details` VALUES ('94', 'Odette', 'Day', '1939-10-28', null, '94', '3', '3');
+INSERT INTO `users_details` VALUES ('95', 'Hollee', 'Sears', '1962-10-27', null, '95', '3', '3');
+INSERT INTO `users_details` VALUES ('96', 'Lunea', 'Livingston', '1947-05-25', null, '96', '3', '3');
+INSERT INTO `users_details` VALUES ('97', 'Thomas', 'Pace', '1969-12-16', null, '97', '3', '3');
+INSERT INTO `users_details` VALUES ('98', 'Emi', 'Dyer', '1972-11-30', null, '98', '3', '3');
+INSERT INTO `users_details` VALUES ('99', 'Yeo', 'Hardy', '1938-02-15', null, '99', '3', '3');
+INSERT INTO `users_details` VALUES ('100', 'Aline', 'Greene', '1989-04-23', null, '100', '3', '3');
 
 -- ----------------------------
--- Table structure for users_roles
+-- Table structure for users_objectives
 -- ----------------------------
-DROP TABLE IF EXISTS `users_roles`;
-CREATE TABLE `users_roles` (
+DROP TABLE IF EXISTS `users_objectives`;
+CREATE TABLE `users_objectives` (
   `record_id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_id` int(11) NOT NULL,
+  `objective_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`record_id`),
-  KEY `fk_user_roles_user` (`user_id`),
-  KEY `fk_user_roles_roles` (`role_id`),
-  CONSTRAINT `fk_user_roles_roles` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_user_roles_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  KEY `fk_usersid_users` (`user_id`),
+  KEY `fk_objectiveid_objectives` (`objective_id`),
+  CONSTRAINT `fk_objectiveid_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_usersid_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
--- Records of users_roles
+-- Records of users_objectives
 -- ----------------------------
+INSERT INTO `users_objectives` VALUES ('1', '1', '1');
 
 -- ----------------------------
 -- Table structure for user_setting

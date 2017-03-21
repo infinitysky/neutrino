@@ -15,7 +15,6 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { OkrSettingTimeFrameRoutingModule } from './okr-setting-time-frame-routing.module';
 import { OkrSettingTimeFrameComponent } from './okr-setting-time-frame.component';
 
-import {OkrSettingNavigationModule} from '../okr-setting-shared/okr-setting-navigation/okr-setting-navigation.module';
 
 
 
@@ -31,7 +30,7 @@ import {OkrSettingNavigationModule} from '../okr-setting-shared/okr-setting-navi
     FormsModule,
     HttpModule,
 
-    OkrSettingNavigationModule,
+
     CommonModule,
     OkrSettingTimeFrameRoutingModule
   ],

@@ -23,6 +23,7 @@ export class SettingObjectiveService {
   private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveOperateUrl;
 
   private betweenUsersAndObjectivesRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userObjectiveOperateUrl;
+  private betweenTeamsAndObjectivesRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamsObjectiveOperateUrl;
   private betweenObjectivesAndGoalsRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalObjectiveOperateUrl;
 
 
@@ -86,7 +87,7 @@ export class SettingObjectiveService {
       .catch(this.handleErrorObservable);
 
   }
-  getById(objectiveId: number): Observable<Objectiveclass>{
+  getByObjevtiveId(objectiveId: number): Observable<Objectiveclass>{
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
@@ -164,19 +165,33 @@ export class SettingObjectiveService {
     let options = new RequestOptions({ headers: headers });
 
     const url = `${this.betweenUsersAndObjectivesRelastionshipAPI}/get_by_user_id/${userId}`;
-    return this.http.get(this.getallAPI)
+    return this.http.get(url)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
       // .do(data => console.log(data)) // eyeball results in the console
       .catch(this.handleErrorObservable);
   }
 
-  getByUserTeamId(teamId: number): Observable<Objectiveclass[]>{
+  // getByUserTeamId(teamId: number): Observable<Objectiveclass[]>{
+  //   let headers = new Headers({ 'Content-Type': 'application/json' });
+  //   let options = new RequestOptions({ headers: headers });
+  //
+  //   const url = `${this.betweenUsersAndObjectivesRelastionshipAPI}/get_by_user_id/${teamId}`;
+  //   return this.http.get(this.getallAPI)
+  //   // .map(res => <DatabasesClass[]> res.json().data)
+  //     .map(res => res.json())
+  //     // .do(data => console.log(data)) // eyeball results in the console
+  //     .catch(this.handleErrorObservable);
+  // }
+
+
+  getByTeamId(teamId: any): Observable<Objectiveclass[]>{
+
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    const url = `${this.betweenUsersAndObjectivesRelastionshipAPI}/get_by_user_id/${teamId}`;
-    return this.http.get(this.getallAPI)
+    const url = `${this.betweenTeamsAndObjectivesRelastionshipAPI}/get_by_team_id/${teamId}`;
+    return this.http.get(url)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
       // .do(data => console.log(data)) // eyeball results in the console
@@ -197,6 +212,7 @@ export class SettingObjectiveService {
       .catch(this.handleErrorObservable);
 
   }
+
   getByKeyResultId(objectiveId: number): Observable<Objectiveclass>{
 
     let headers = new Headers({ 'Content-Type': 'application/json' });

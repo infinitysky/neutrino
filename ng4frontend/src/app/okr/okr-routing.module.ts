@@ -17,6 +17,7 @@ import {OkrCompanyModule} from './okr-company/okr-company.module';
 const routes: Routes = [
   { path: '', redirectTo: 'okr-setting', pathMatch: 'full'},
   { path:'okr-setting', loadChildren:'./okr-setting/okr-setting.module#OkrSettingModule' },
+
   { path:'okr-overview', loadChildren:'./okr-overview/okr-overview.module#OkrOverviewModule' },
   { path:'okr-dashboard', loadChildren:'./okr-dashboard/okr-dashboard.module#OkrDashboardModule' },
 

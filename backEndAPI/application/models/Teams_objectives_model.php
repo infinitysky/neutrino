@@ -9,7 +9,7 @@ class Teams_objectives_model extends CI_Model
     public $table = 'teams_objectives';
     public $team_table='teams';
     public $users_table='users';
-    public $objective_table='objective';
+    public $objective_table='objectives';
 
 
 
@@ -111,12 +111,12 @@ class Teams_objectives_model extends CI_Model
 
 
     // delete data
-    function delete_by_user_id_team_id($userId,$teamId)
+    function delete_by_objective_id_team_id($objective_id,$teamId)
     {
 
         $this->db->trans_start();
 
-        $this->db->where('user_id', $userId);
+        $this->db->where('objective_id', $objective_id);
         $this->db->where('team_id', $teamId);
 
         $this->db->delete($this->table);
@@ -127,12 +127,12 @@ class Teams_objectives_model extends CI_Model
     }
 
 
-    //The idea is comes from DELETE FROM `teams_users` WHERE `teams_users`.`team_id`=3 AND `teams_users`.`user_id` IN (87,88,89)
-    function batch_delete_by_user_id($userId,$teamIdDataArray)
+    //The idea is comes from DELETE FROM `teams_users` WHERE `teams_users`.`team_id`=3 AND `teams_users`.`objective_id` IN (87,88,89)
+    function batch_delete_by_objective($objective_id,$teamIdDataArray)
     {
         $this->db->trans_start();
 
-        $this->db->where('user_id', $userId);
+        $this->db->where('objective_id', $objective_id);
         $this->db->where_in('team_id', $teamIdDataArray);
 
         $this->db->delete($this->table);
@@ -145,13 +145,13 @@ class Teams_objectives_model extends CI_Model
 
 
     //delete data
-    function batch_delete_by_team_id($teamId,$userIdDataArray)
+    function batch_delete_by_team_id($teamId,$objective_idDataArray)
     {
         //DELETE FROM `teams_users` WHERE `team_id` = '19' AND `user_id` IN(0, '100', '99', '76'))
 
         $this->db->trans_start();
         $this->db->where('team_id', $teamId);
-        $this->db->where_in('user_id', $userIdDataArray);
+        $this->db->where_in('objective_id', $objective_idDataArray);
         $this->db->delete($this->table);
         $affectedRowsNumber=$this->db->affected_rows();
         $this->db->trans_complete();
@@ -161,12 +161,12 @@ class Teams_objectives_model extends CI_Model
 
     }
 
-    function delete_all_by_user_id($userId)
+    function delete_all_by_objective_id($objective_id)
     {
         $this->db->trans_start();
 
 
-        $this->db->where_in('team_id', $userId);
+        $this->db->where_in('objective_id', $objective_id);
 
         $this->db->delete($this->table);
         $affectedRowsNumber=$this->db->affected_rows();
@@ -191,18 +191,17 @@ class Teams_objectives_model extends CI_Model
 
 
 
-    function get_by_user_id($user_id){
+    function get_by_objective_id($objective_id){
         $this->db->trans_start();
         $this->db->order_by($this->id, $this->order);
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where('teams_users.user_id',$user_id);
-        $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
-        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
-        $this->db->join('users', 'users.user_id=users_details.user_id','left');
+        $this->db->where($this->table.'.objective_id',$objective_id);
+        $this->db->join($this->$objective_table, $this->objective_table.'.objective_id='.$this->table.'.objective_id','left');
 
 
         $queryResult=$this->db->get();
+
         $this->db->trans_complete();
 
 
@@ -219,14 +218,14 @@ class Teams_objectives_model extends CI_Model
         $this->db->order_by($this->id, $this->order);
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->where('teams_users.team_id',$team_id);
-        $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
-        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
-        $this->db->join('users', 'users.user_id=users_details.user_id','left');
+        $this->db->where($this->table.'.team_id',$team_id);
+        $this->db->join($this->team_table, $this->team_table.'.team_id='.$this->table.'.team_id','left');
+        $this->db->join($this->objective_table, $this->objective_table.'.objective_id='.$this->table.'.objective_id','left');
+
 
         $queryResult=$this->db->get();
         $this->db->trans_complete();
-
+        //echo $this->db->last_query();
 
 
         return $queryResult->result();
@@ -236,8 +235,8 @@ class Teams_objectives_model extends CI_Model
     function get_team_and_users_details(){
         $this->db->select('*');
         $this->db->from($this->table);
-        $this->db->join('teams', 'teams.team_id=teams_users.team_id','left');
-        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+        $this->db->join('teams', 'teams.team_id='.$this->table.'.team_id','left');
+        $this->db->join('users_details', 'users_details.user_id='.$this->table.'.user_id','left');
         $queryResult=$this->db->get();
         $this->db->trans_complete();
         return $queryResult->result();

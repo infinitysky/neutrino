@@ -9,7 +9,6 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { DoorgetsTruncateModule } from 'doorgets-ng-truncate';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 
-
 import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
@@ -23,7 +22,6 @@ import {SelectModule} from 'ng2-select';
 import { HomeModule } from './home/home.module';
 import { AboutModule } from './about/about.module';
 import {OkrModule} from './okr/okr.module';
-import {NotFoundModule} from './not-found/not-found.module';
 
 //developed component import here
 import { AppComponent } from './app.component';

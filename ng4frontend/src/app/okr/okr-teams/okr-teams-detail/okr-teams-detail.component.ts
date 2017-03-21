@@ -42,17 +42,11 @@ export class OkrTeamsDetailComponent implements OnInit {
 
   ngOnInit() {
 
-    // console.log(this._activatedRoute.snapshot.params['teamid']);
-    // this.viewTeamId=this._activatedRoute.snapshot.params['teamid'];
-    // this.getTargetTeamInfo();
-    //
-    // console.log("Router params userID: "+ this._activatedRoute.snapshot.params['teamid']);
-
 
     this.subsTeam = this._activatedRoute.params.subscribe(params => {
       this.viewTeamId = ''+params['teamid']; // (+) converts string 'id' to a number
-      console.log("this.viewUserID"+this.viewTeamId);
-      this.getTargetTeamInfo();
+      console.log("this.viewTeamId"+this.viewTeamId);
+      this.getTargetTeamInfo( this.viewTeamId);
     });
 
   }
@@ -63,12 +57,13 @@ export class OkrTeamsDetailComponent implements OnInit {
   }
 
 
-  getTargetTeamInfo(){
-    this._settingTeamService.getByTeamId(this.viewTeamId).subscribe(
+  getTargetTeamInfo(teamId:any){
+    this._settingTeamService.getByTeamId(teamId).subscribe(
       data=>this.tempData = data,
       error =>  this.errorMessage = <any>error,
       ()=>{
-        if(this.tempData.data&&<Teamclass[]>this.tempData.data){
+        console.log("get team Info: "+this.tempData);
+        if(this.tempData.data&&<Teamclass>this.tempData.data){
           this.randerTeamInforData=<Teamclass>this.tempData.data;
         }
         console.log(this.randerTeamInforData);

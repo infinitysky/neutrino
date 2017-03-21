@@ -40,10 +40,6 @@ export class OkrUsersComponent implements OnInit {
   public lastUpdate:any;
 
 
-
-  public currentTimeFrame:any;
-
-
   private selfUserInfoData:Userclass;
   private selfInfoSubscription:Subscription;
 

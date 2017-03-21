@@ -17,6 +17,7 @@ import {OkrSettingGoalModule} from './okr-setting-goal/okr-setting-goal.module';
 import {OkrSettingObjectiveModule} from './okr-setting-objective/okr-setting-objective.module';
 import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-key-result.module';
 
+import {OkrSettingNavigationComponent}from './okr-setting-shared/okr-setting-navigation/okr-setting-navigation.component';
 
 @NgModule({
   imports: [
@@ -34,6 +35,6 @@ import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-ke
 
 
   ],
-  declarations: [OkrSettingComponent]
+  declarations: [OkrSettingComponent,OkrSettingNavigationComponent]
 })
 export class OkrSettingModule { }
