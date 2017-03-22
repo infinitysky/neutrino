@@ -23,9 +23,9 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { SelectModule} from 'ng2-select';
 
+//import { Ng2LetterAvatar } from "ng2LAjs/ng2letteravatar";
 
-
-
+import { Ng2LetterAvatar } from "ng2letteravatar/ng2letteravatar";
 
 
 @NgModule({
@@ -44,6 +44,6 @@ import { SelectModule} from 'ng2-select';
     OkrUsersRoutingModule
   ],
   providers:[ShareUserOkrinfoService],
-  declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent, OkrsUsersOkrsComponent]
+  declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent, OkrsUsersOkrsComponent,Ng2LetterAvatar]
 })
 export class OkrUsersModule { }

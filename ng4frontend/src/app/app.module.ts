@@ -36,9 +36,8 @@ import {UserInfoContainerService}from'./shared/services/user-info-container.serv
 
 //@import "~nouislider/distribute/nouislider.min.css";
 
-//import { Ng2LetterAvatar } from './shared/modules/ng2letteravatar';
-//import { Ng2LetterAvatar } from "../../node_modules/ng2letteravatar/ng2letteravatar.js";  //provide absolute js file path
 
+//import { Ng2LetterAvatar } from "ng2letteravatar/ng2letteravatar";
 //enableProdMode();
 
 
@@ -57,6 +56,7 @@ import {UserInfoContainerService}from'./shared/services/user-info-container.serv
 
   ],
   imports: [
+
 
 
 

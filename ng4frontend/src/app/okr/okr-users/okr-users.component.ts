@@ -46,6 +46,8 @@ export class OkrUsersComponent implements OnInit {
   private targetUserInfoData:Userclass;
   private targetUserInfoSubscription:Subscription;
 
+  public letterAvatar:string='';
+
 
   constructor(private _usersInfoService:UsersInfoService,
               private _userInfoContainerService:UserInfoContainerService,
@@ -62,7 +64,7 @@ export class OkrUsersComponent implements OnInit {
     this.overallProgressNumber=' - ';
     this.objectivesNumber=' - ';
     this.lastUpdate=' - ';
-
+    this.letterAvatar=" ";
   }
 
 
@@ -93,6 +95,9 @@ export class OkrUsersComponent implements OnInit {
       }else{
 
         this.displayUserInfoData=this.selfUserInfoData;
+        this.letterAvatar=(this.displayUserInfoData.first_name.charAt(0)+this.displayUserInfoData.last_name.charAt(0)).toUpperCase();
+        console.log("his.letterAvatar : "+this.letterAvatar);
+
 
         this._shareUserOkrinfoService.setTargetUserInfoSubject(this.selfUserInfoData);
       }
@@ -111,9 +116,13 @@ export class OkrUsersComponent implements OnInit {
       data=>this.tempData = data,
       error =>  this.errorMessage = <any>error,
       ()=>{
-        this.displayUserInfoData=<Userclass>this.tempData.data;
+        this.displayUserInfoData = <Userclass>this.tempData.data;
+        this.letterAvatar=(this.displayUserInfoData.first_name.charAt(0)+this.displayUserInfoData.last_name.charAt(0)).toUpperCase();
+        console.log("his.letterAvatar : "+this.letterAvatar);
         this._shareUserOkrinfoService.setTargetUserInfoSubject(this.displayUserInfoData);
         console.log("Set Target userinfo"+this.displayUserInfoData);
+
+
       }
     );
   }

@@ -11,6 +11,7 @@ import 'rxjs/Rx';
 import { MY_CONFIG, ApplicationConfig } from '../../../app-config';
 
 import {Objectiveclass} from '../classes/objective-class'
+import {Goalclass} from "../classes/goal-class";
 
 
 @Injectable()
@@ -190,7 +191,7 @@ export class SettingObjectiveService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    const url = `${this.betweenTeamsAndObjectivesRelastionshipAPI}/get_by_team_id/${teamId}`;
+    const url = `${this.betweenTeamsAndObjectivesRelastionshipAPI}/get_by_objective_id/${teamId}`;
     return this.http.get(url)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
@@ -200,17 +201,12 @@ export class SettingObjectiveService {
 
 
   getByGoalId(objectiveId: number): Observable<Objectiveclass>{
-
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-
     const url = `${this.operateAPI}/${objectiveId}`;
     return this.http.get(this.getallAPI)
-    // .map(res => <DatabasesClass[]> res.json().data)
-      .map(res => res.json())
-      // .do(data => console.log(data)) // eyeball results in the console
+       .map(res => res.json())
       .catch(this.handleErrorObservable);
-
   }
 
   getByKeyResultId(objectiveId: number): Observable<Objectiveclass>{
@@ -228,7 +224,61 @@ export class SettingObjectiveService {
   }
 
 
+  setGoalsObjectives(objective:Objectiveclass,goalArray:any){
 
+    // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
+    var i=0;
+    var tempMemberArray=[];
+    for(i=0;i<goalArray.length;i++){
+
+      var info={objective_id:objective.objective_id,user_id:goalArray[i]};
+
+      tempMemberArray.push(info);
+    }
+
+
+    let httpBody = JSON.stringify({data:tempMemberArray });
+
+    //console.log("httpBody"+httpBody);
+
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+
+    const url = `${this.betweenObjectivesAndGoalsRelastionshipAPI}/batch_create`;
+
+
+    //console.log('Post message body: '+httpBody);
+    return this.http.post(url,httpBody, {headers: this.headers})
+    //.map(this.extractDataObservable)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+
+  }
+
+
+  updateGoalsObjectives(objective:Objectiveclass, currentGoalsArray:any){
+    var i=0;
+    var tempMemberArray=[];
+    for(i=0;i<currentGoalsArray.length;i++){
+
+      var info=currentGoalsArray[i];
+      tempMemberArray.push(info);
+    }
+
+    let httpBody = JSON.stringify({data:{objective_id:objective.objective_id,new_members: tempMemberArray } });
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    const url = `${this.betweenObjectivesAndGoalsRelastionshipAPI}/update_members`;
+
+    return this.http.post(url,httpBody, {headers: this.headers})
+    //.map(this.extractDataObservable)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable)
+
+  }
 
 
 

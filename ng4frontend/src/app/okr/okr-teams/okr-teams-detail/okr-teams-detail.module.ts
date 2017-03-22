@@ -11,9 +11,7 @@ import { OkrTeamsDetailComponent } from './okr-teams-detail.component';
 //3rd party library module
 
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
-
-
-
+import { NouisliderModule } from 'ng2-nouislider';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
@@ -28,7 +26,7 @@ import {OkrTeamsOkrComponent} from './okr-teams-okr/okr-teams-okr.component';
 @NgModule({
   imports: [
     Ng2Bs3ModalModule,
-
+    NouisliderModule,
     MyDatePickerModule,
     MyDateRangePickerModule,
     MultiselectDropdownModule,

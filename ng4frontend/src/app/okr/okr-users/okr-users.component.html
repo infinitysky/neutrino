@@ -8,8 +8,12 @@
 
 
           </div>
+          <ng2-letter-avatar [avatar-shape]="'round'"
+                             [avatar-char-count]="2"
+                             avatar-data='{{letterAvatar}}' >
 
-          <img alt="logo" class="img-circle m-b m-t-md" src="images/profile.jpg">
+          </ng2-letter-avatar>
+          <!--<img alt="logo" class="img-circle m-b m-t-md" src="images/profile.jpg">-->
 
           <h1>{{displayUserInfoData.first_name}} {{displayUserInfoData.last_name}}</h1>
 

@@ -1,5 +1,4 @@
 export class Keyresultclass {
-
   result_id: number;
   result_name: string;
   result_description: string;
