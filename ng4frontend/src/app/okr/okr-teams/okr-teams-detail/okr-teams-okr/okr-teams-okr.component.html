@@ -456,7 +456,7 @@
                   </div>
 
                   <div class="panel-footer">
-                    <button class="btn" (click)="keyResultModal.open()"> add new key result </button>
+                    <button class="btn" (click)="addKeyResultButton()"> add new key result </button>
                   </div>
                   <!--End Key Result Panel-->
 
@@ -560,7 +560,7 @@
                 <label class="col-sm-3 control-label">Select A Tag</label>
                 <div class="col-sm-9">
                   <ng-select #tagSelector [allowClear]="true"
-                             [items]="tagDropdownListOptions"
+                             [items]="tagDropDownListOptions"
                              [disabled]="disabled"
                              [(ngModel)]="selectedTag"
                              placeholder="Select a Tag">

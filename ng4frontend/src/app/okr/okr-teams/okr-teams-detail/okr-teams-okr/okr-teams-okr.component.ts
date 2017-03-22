@@ -250,13 +250,13 @@ export class OkrTeamsOkrComponent implements OnInit {
   }
 
 
-  routerSubscription(){
-    console.log("Router params userID:"+ this._activatedRoute.snapshot.params['teamid']);
+  routerSubscription() {
+    console.log( "Router params userID:" + this._activatedRoute.snapshot.params['teamid']);
     this.routerParamsSubscription = this._activatedRoute.params.subscribe(params => {
       this.viewTeamID = ''+params['teamid']; // (+) converts string 'id' to a number
-      console.log("User OKRs this.viewUserID"+this.viewTeamID);
+      console.log("User OKRs this.viewUserID" + this.viewTeamID);
       // In a real app: dispatch action to load the details here.
-      this.viewTeamID=Number(this._activatedRoute.snapshot.params['teamid']);
+      this.viewTeamID = Number (this._activatedRoute.snapshot.params['teamid']);
       // this.getTargetTeamOKRs(this.viewTeamID);
       this.getTeamObjective(this.viewTeamID);
     });
@@ -327,17 +327,23 @@ export class OkrTeamsOkrComponent implements OnInit {
       );
   }
 
-  deleteObjectiveButton(Objective) {
-    this._settingGoalService
-      .delete(Objective)
+  deleteObjectiveButton(teamlObjective) {
+    this._settingObjectiveService
+      .delete(teamlObjective)
       .subscribe(
         data => { this.tempData = data },
         error => { this.errorMessage = <any>error },
         () => {
-          if (this.tempData.data.affectRows > 0) {
-            this.displaySuccessMessage("Your Objective has been deleted.");
-            this.teamObjectives = this.teamObjectives.filter(currentObjectives => currentObjectives !== Objective);
-            this.updateOverallNumbers();
+
+          if (this.tempData.status=="success" && this.tempData.data.affectRows) {
+            if( this.tempData.data.affectRows>0){
+              this.displaySuccessMessage("Your Objective has been deleted.");
+              this.teamObjectives = this.teamObjectives.filter(currentObjectives => currentObjectives !== teamlObjective);
+              this.updateOverallNumbers();
+            }else {
+              this.displayErrorMessage("Your Objective did not deleted successfully.");
+            }
+
           } else {
             this.displayErrorMessage("Your Objective did not deleted successfully.");
           }
@@ -346,18 +352,18 @@ export class OkrTeamsOkrComponent implements OnInit {
   }
 
   deleteKeyResultButton(deletekeyResult) {
-    this._settingGoalService
+    this._settingObjectiveService
       .delete(deletekeyResult)
       .subscribe(
-        data => { this.tempData = data },
-        error => { this.errorMessage = <any>error },
+        data => { this.tempData = data},
+        error => { this.errorMessage = <any>error},
         () => {
           if (this.tempData.data.affectRows > 0) {
-            this.displaySuccessMessage("Your Key Result has been deleted.");
+            this.displaySuccessMessage('Your Key Result has been deleted.');
             this.goals = this.goals.filter(currentKeyResult => currentKeyResult !== deletekeyResult);
             this.updateOverallNumbers();
           } else {
-            this.displayErrorMessage("Your Key Result did not deleted successfully.");
+            this.displayErrorMessage('Your Key Result did not deleted successfully.');
           }
         }
       );
@@ -366,8 +372,8 @@ export class OkrTeamsOkrComponent implements OnInit {
 
   modalSaveObjectiveChangeButton() {
     // read the 2 way binding;
-    var objectiveNameInput=this.objectiveNameInputBoxValue;
-    var objectiveDescription=this.objectiveDescriptionInputBoxValue;
+    var objectiveNameInput = this.objectiveNameInputBoxValue;
+    var objectiveDescription = this.objectiveDescriptionInputBoxValue;
 
 
     console.log("objectiveNameInput : "+ objectiveNameInput);
@@ -500,13 +506,15 @@ export class OkrTeamsOkrComponent implements OnInit {
 
             this.teamObjectives=tempArray;
             var checkStatus=0;
-            checkStatus=checkStatus+this.createGoalObjectiveRelationship(newObjective,goalIds);
+            console.log("goalIds: "+ goalIds);
+
+            checkStatus=checkStatus+this.createGoalObjectiveRelationship( newObjective, goalIds );
             checkStatus=checkStatus+this.createTeamObjectiveRelationship(newObjective, this.viewTeamID);
             if(checkStatus<2){
              this.errorMessage("Your Team Objective did not create successfully");
             }else {
               this.updateOverallNumbers();
-              var submitANewActivity = new Activityclass();
+              let submitANewActivity = new Activityclass();
               submitANewActivity.user_id = this.selfUserInfoData.user_id;
               submitANewActivity.activity_detail = " Created a new Objective : " + newObjective.objective_name;
               submitANewActivity.activity_type = "Create";

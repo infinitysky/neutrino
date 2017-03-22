@@ -7,6 +7,7 @@ class Key_results_model extends CI_Model
 {
 
     public $table = 'key_results';
+    public $objectivesTable = 'objectives';
     public $id = 'result_id';
     public $order = 'DESC';
 
@@ -88,6 +89,18 @@ class Key_results_model extends CI_Model
         $affectedRowsNumber=$this->db->affected_rows();
         $this->db->trans_complete();
         return  $affectedRowsNumber;
+    }
+
+
+    function get_by_objective_id($objective_id){
+        $this->db->trans_start();
+        $this->db->select($this->table.'.*');
+        $this->db->from($this->objectivesTable);
+        $this->db->where($this->objectivesTable.'.objective_id',$objective_id);
+        $this->db->join($this->table,$this->table.'.objective_id='.$this->table.'.objective_id','left');
+        $result=$this->db->get()->result_array();
+        return $result;
+
     }
 
 }

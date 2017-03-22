@@ -94,5 +94,13 @@ class Objectives_model extends CI_Model
         return  $affectedRowsNumber;
     }
 
+    function get_key_results_by_objective_id($objective_id){
+
+        $this->db->like('objective_id', $q);
+        $this->db->or_like('objective_description', $q);
+        $this->db->or_like('objective_name', $q);
+
+    }
+
 }
 

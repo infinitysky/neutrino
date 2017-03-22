@@ -23,14 +23,14 @@ export class SettingObjectiveService {
   private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveCreateUrl;
   private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveOperateUrl;
 
-  private betweenUsersAndObjectivesRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userObjectiveOperateUrl;
-  private betweenTeamsAndObjectivesRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamsObjectiveOperateUrl;
-  private betweenObjectivesAndGoalsRelastionshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalObjectiveOperateUrl;
+  private betweenUsersAndObjectivesRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userObjectiveOperateUrl;
+  private betweenTeamsAndObjectivesRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamsObjectiveOperateUrl;
+  private betweenObjectivesAndGoalsRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalObjectiveOperateUrl;
 
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  public tempdata:any;
+  private tempdata : any;
 
   constructor(private http: Http) { }
 
@@ -103,12 +103,12 @@ export class SettingObjectiveService {
   }
 
 
-  delete(objective: Objectiveclass): Observable<Objectiveclass> {
+  delete( teamlObjective: Objectiveclass): Observable<Objectiveclass> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
 
-    const url = `${this.operateAPI}/${objective.objective_id}`;
+    const url = `${this.operateAPI}/${teamlObjective.objective_id}`;
 
     return this.http.delete(url, options)
       .map(res => res.json())
@@ -165,7 +165,7 @@ export class SettingObjectiveService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    const url = `${this.betweenUsersAndObjectivesRelastionshipAPI}/get_by_user_id/${userId}`;
+    const url = `${this.betweenUsersAndObjectivesRelationshipAPI}/get_by_user_id/${userId}`;
     return this.http.get(url)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
@@ -178,7 +178,7 @@ export class SettingObjectiveService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    const url = `${this.betweenTeamsAndObjectivesRelastionshipAPI}/get_by_objective_id/${teamId}`;
+    const url = `${this.betweenTeamsAndObjectivesRelationshipAPI}/get_by_team_id/${teamId}`;
     return this.http.get(url)
     // .map(res => <DatabasesClass[]> res.json().data)
       .map(res => res.json())
@@ -211,27 +211,27 @@ export class SettingObjectiveService {
   }
 
 
-  setTeamObjectives(objective:Objectiveclass,teamid:any){
-    var info={objective_id:objective.objective_id,teamid:teamid};
+  setTeamObjectives(objective: Objectiveclass,teamid:any){
+    var info={objective_id:objective.objective_id, team_id : teamid};
     let httpBody = JSON.stringify(info);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    const url = `${this.betweenTeamsAndObjectivesRelastionshipAPI}/create`;
+    const url = `${this.betweenTeamsAndObjectivesRelationshipAPI}/create`;
     return this.http.post(url,httpBody, {headers: this.headers})
       .map(res => res.json())
       .catch(this.handleErrorObservable)
 
   }
 
-  setGoalsObjectives(objective:Objectiveclass,goalArray:any){
+  setGoalsObjectives(objective:Objectiveclass,goalArray:  any){
 
     // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
     var i=0;
     var tempMemberArray=[];
     for(i=0;i<goalArray.length;i++){
 
-      var info={objective_id:objective.objective_id,user_id:goalArray[i]};
+      var info={objective_id:objective.objective_id,goal_id:goalArray[i]};
 
       tempMemberArray.push(info);
     }
@@ -242,7 +242,7 @@ export class SettingObjectiveService {
     let options = new RequestOptions({ headers: headers });
 
 
-    const url = `${this.betweenObjectivesAndGoalsRelastionshipAPI}/batch_create`;
+    const url = `${this.betweenObjectivesAndGoalsRelationshipAPI}/batch_create`;
 
 
     //console.log('Post message body: '+httpBody);
@@ -267,7 +267,7 @@ export class SettingObjectiveService {
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
-    const url = `${this.betweenObjectivesAndGoalsRelastionshipAPI}/update_members`;
+    const url = `${this.betweenObjectivesAndGoalsRelationshipAPI}/update_members`;
 
     return this.http.post(url,httpBody, {headers: this.headers})
     //.map(this.extractDataObservable)

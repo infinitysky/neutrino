@@ -19,7 +19,8 @@ class Objectives extends CI_Controller
 
         parent::__construct();
         $this->load->model('Objectives_model');
-        $this->load->library('form_validation');        
+        $this->load->model('Key_results_model');
+        $this->load->library('form_validation');
 	    $this->load->library('datatables');
     }
 
@@ -239,6 +240,36 @@ class Objectives extends CI_Controller
             echo json_encode($tempReturnArray);
 
         }
+
+
+
+    }
+
+
+    public function get_key_results_by_objective_id($objective_id){
+
+        $row = $this->Objectives_model->get_by_id($objective_id);
+        $row2 = $this->Key_results_model->get_by_objective_id($objective_id);
+        if ($row) {
+            $data = array(
+                'objective_id' => $row->objective_id,
+                'objective_name' => $row->objective_name,
+                'objective_description' =>$row->objective_description,
+
+                'objective_unit' => $row->objective_unit,
+                'objective_status' => $row->objective_status,
+                'objective_progress_status' =>$row->objective_progress_status,
+                'objective_target' =>$row->objective_target,
+                'keyResult_array'=>$row2
+
+            );
+            $this->json($data);
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
 
 
 
