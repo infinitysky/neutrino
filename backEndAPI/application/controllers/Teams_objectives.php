@@ -515,8 +515,6 @@ class Teams_objectives extends CI_Controller
         $data=[];
         $row = $this->Teams_objectives_model->get_by_objective_id($objectiveId);
 
-
-
         if ($row){
             $length= count($row);
             for($i=0;$i<$length;$i++){

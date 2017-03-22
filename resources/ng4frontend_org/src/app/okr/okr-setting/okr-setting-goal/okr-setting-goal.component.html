@@ -1,0 +1,159 @@
+
+
+
+    <!--Start right context-->
+    <div class="col-md-9">
+      <div class="hpanel">
+
+
+        <div class="panel-body">
+          <!--Left Button Group-->
+          <div class="row">
+            <div class="col-md-6 m-b-md">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm"><i class="fa fa-refresh" (click)="refreshButton()"></i> Refresh</button>
+
+
+              </div>
+            </div>
+
+            <!--Right Button Group-->
+            <div class="col-md-6 mailbox-pagination m-b-md">
+              <div class="btn-group">
+
+                <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
+
+                <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <button type="button" class="btn btn-default btn-sm"  (click)="addGoalButton()"><i class="fa fa-plus"></i>
+                  Add New
+                </button>
+
+
+                <!--<app-time-frame-setting-modal></app-time-frame-setting-modal>-->
+
+
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="table-responsive">
+            <!--Start Table List-->
+            <table class="table table-hover table-mailbox">
+              <tbody>
+
+              <tr class="active">
+                <td >ID</td>
+                <td >Goal Name</td>
+                <td>Goal Description</td>
+                <td>Time Frame Name</td>
+                <td>Start Date</td>
+                <td>End Date</td>
+                <td [hidden]=isLoaded>Edit</td>
+              </tr>
+
+
+
+
+              <tr *ngFor="let gl of goals">
+                <td >{{ gl.goal_id}}</td>
+                <td >{{ gl.goal_name}}</td>
+                <td> {{ gl.goal_description }} </td>
+                <td> {{ gl.time_frame_description }} </td>
+                <td> {{ gl.time_frame_start }} </td>
+                <td> {{ gl.time_frame_end }} </td>
+
+                <td [hidden]=isLoaded>
+                  <!--Delete the record-->
+                  <button class="btn btn-default btn-sm" (click)="deleteGoalButton(gl);" ><i class="fa fa-trash-o"></i> </button>
+                  <!--Edit the record-->
+                  <button class="btn btn-default btn-sm" (click)="editGoalsButton(gl)"><i class="fa fa-pencil-square-o"></i> </button>
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+
+            <!--End Table List-->
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          {{goals.length}} Records
+        </div>
+
+      </div>
+    </div>
+    <!--End right context-->
+
+
+
+
+
+<!--Add New Record modal module-->
+
+<modal [animation]="animation" [keyboard]="keyboard"   #modal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Create A New Goal</h4>
+  </modal-header>
+  <modal-body>
+    <div class="stage">
+
+      <label >Goal Name</label>
+      <div class="palos-input block" >
+
+        <input type="text" placeholder="Please enter your goal name" autocomplete="off" class="form-control" value="{{goalNameInputBoxValue}}" #goalNameInput> <!---->
+
+      </div>
+
+      <br>
+      <div class="selector-ctn" >
+
+        <label >Goal Description</label>
+        <div class="palos-input block" >
+
+          <textarea style="height: 85px" type="text" placeholder="Please enter your goal description" autocomplete="off" class="form-control" value="{{goalDescriptionInputBoxValue}}" #goalDescriptionInput></textarea> <!---->
+
+        </div>
+
+        <label >Select A Time Frame</label>
+        <div class="palos-input block" >
+
+          <ng-select #timeFrameSelector
+                     [allowClear]="true"
+                     [items]="timeFrameDropdownListOptions"
+                     [disabled]="disabled"
+                     [(ngModel)]="selectedTimeFrame"
+                     placeholder="Select a Time Frame">
+          </ng-select>
+
+
+        </div>
+
+        <label>Select A Tag</label>
+        <div class="palos-input block">
+
+          <ng-select #tagSelector [allowClear]="true"
+                     [items]="tagDropdownListOptions"
+                     [disabled]="disabled"
+                     [(ngModel)]="selectedTag"
+                     placeholder="Select a Tag">
+          </ng-select>
+
+
+        </div>
+
+
+      </div>
+
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(goalNameInput.value,goalDescriptionInput.value);" > Save changes</button>
+  </modal-footer>
+</modal>
+
+

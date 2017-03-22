@@ -197,7 +197,7 @@ class Teams_objectives_model extends CI_Model
         $this->db->select('*');
         $this->db->from($this->table);
         $this->db->where($this->table.'.objective_id',$objective_id);
-        $this->db->join($this->$objective_table, $this->objective_table.'.objective_id='.$this->table.'.objective_id','left');
+        $this->db->join($this->objective_table, $this->objective_table.'.objective_id='.$this->table.'.objective_id','left');
 
 
         $queryResult=$this->db->get();

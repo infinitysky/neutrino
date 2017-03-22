@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="hpanel">
+
+      <div class="panel-heading">
+        <div class="panel-tools">
+
+        </div>
+      </div>
+
+
+      <div class="panel-body" style="display: block; border-top:1px solid #e4e5e7;">
+        <div class="table-responsive">
+          Set A time Frame
+
+          <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
+            <thead>
+            <tr>
+
+              <th >Name</th>
+              <th >Email</th>
+              <th >Position</th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr *ngFor="let user of users">
+              <!--truncate :-->
+              <td> <a [routerLink]="['/okr/okr-users/user/',user.user_id]"> {{ user.first_name + ' - ' + user.last_name  }}  </a></td>
+              <td><a href="mailto:{{user.email}}"> {{ user.email}}</a></td>
+              <td> {{ user.position}}</td>
+
+
+              <td [hidden]=isLoaded>
+                <button class="btn btn-default btn-sm" (click)="deleteTeamMember(user);" ><i class="fa fa-trash-o"></i> </button>
+              </td>
+
+            </tr>
+
+            </tbody>
+          </table>
+
+
+        </div>
+
+      </div>
+      <div class="panel-footer" style="display: block;">
+        Table - {{users.length}} rows
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
