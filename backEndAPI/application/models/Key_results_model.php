@@ -92,13 +92,14 @@ class Key_results_model extends CI_Model
     }
 
 
+   
     function get_by_objective_id($objective_id){
         $this->db->trans_start();
         $this->db->select($this->table.'.*');
-        $this->db->from($this->objectivesTable);
-        $this->db->where($this->objectivesTable.'.objective_id',$objective_id);
-        $this->db->join($this->table,$this->table.'.objective_id='.$this->table.'.objective_id','left');
-        $result=$this->db->get()->result_array();
+        $this->db->from($this->table);
+        $this->db->where($this->table.'.objective_id',$objective_id);
+        $query=$this->db->get();
+        $result=$query->result();
         return $result;
 
     }

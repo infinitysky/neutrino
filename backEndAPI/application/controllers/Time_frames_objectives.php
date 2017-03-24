@@ -20,6 +20,7 @@ class Time_frames_objectives extends CI_Controller
 
         parent::__construct();
         $this->load->model('Time_frames_objectives_model');
+       
         $this->load->library('form_validation');
         $this->load->library('datatables');
     }

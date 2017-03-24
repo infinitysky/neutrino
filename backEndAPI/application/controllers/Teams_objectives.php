@@ -18,6 +18,7 @@ class Teams_objectives extends CI_Controller
 
         parent::__construct();
         $this->load->model('Teams_objectives_model');
+         $this->load->model('Key_results_model');
         $this->load->library('form_validation');
         $this->load->library('datatables');
     }
@@ -548,10 +549,15 @@ class Teams_objectives extends CI_Controller
 
         $data=[];
         $row = $this->Teams_objectives_model->get_by_team_id($id);
+        $keyresultArray=[];
         if ($row){
             $length= count($row);
             for($i=0;$i<$length;$i++){
-
+            $row2 = $this->Key_results_model->get_by_objective_id($row[$i]->objective_id);
+            if($row2){
+                   $keyresultArray=$row2; 
+            }
+            
                 $info = array(
 
                     'record_id' => set_value('record_id', $row[$i]->record_id),
@@ -563,6 +569,8 @@ class Teams_objectives extends CI_Controller
                     'objective_status' => set_value('mobile_number', $row[$i]->objective_status),
                     'objective_progress_status' => set_value('position', $row[$i]->objective_progress_status),
                     'objective_target' => set_value('email', $row[$i]->objective_target),
+                    'keyResult_array' => $keyresultArray
+
                 );
                 array_push($data,$info);
 
@@ -609,6 +617,36 @@ class Teams_objectives extends CI_Controller
             $tempReturnArray=$this->create_error_messageArray('Record Not Found');
             echo json_encode($tempReturnArray);
         }
+
+
+    }
+
+
+    public function get_key_results_by_objective_id($objective_id){
+
+        $row = $this->Objectives_model->get_by_id($objective_id);
+        $row2 = $this->Key_results_model->get_by_objective_id($objective_id);
+        if ($row) {
+            $data = array(
+                'objective_id' => $row->objective_id,
+                'objective_name' => $row->objective_name,
+                'objective_description' =>$row->objective_description,
+
+                'objective_unit' => $row->objective_unit,
+                'objective_status' => $row->objective_status,
+                'objective_progress_status' =>$row->objective_progress_status,
+                'objective_target' =>$row->objective_target,
+                'keyResult_array'=>$row2
+
+            );
+            $this->json($data);
+        }
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
 
 
     }
