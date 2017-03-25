@@ -1,0 +1,14 @@
+{
+  "user_details_id":"1",
+  "first_name":"teast",
+  "last_name":"admin",
+  "dob":"1955-10-23",
+  "mobile_number":"0430305838",
+  "user_id":"1",
+  "position":"General Manager",
+  "email":"admin@admin.com",
+  "username":"admin",
+  "role":"admin",
+
+  "statu":"success"
+}

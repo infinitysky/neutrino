@@ -1,7 +1,1 @@
 /* You can add global styles to this file, and also import other style files */
-
-/*Fix Opening a new modal causes page to scroll top*/
-/*https://github.com/jschr/bootstrap-modal/issues/131*/
-body.modal-open {
-  overflow: visible;
-}

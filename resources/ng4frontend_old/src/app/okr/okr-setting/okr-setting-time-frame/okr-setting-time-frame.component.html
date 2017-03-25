@@ -1,0 +1,180 @@
+    <!--Start right context-->
+    <div class="col-md-9">
+      <div class="hpanel">
+
+
+        <div class="panel-body">
+          <!--Left Button Group-->
+          <div class="row">
+            <div class="col-md-6 m-b-md">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm"><i class="fa fa-refresh" (click)="refreshButton()"></i> Refresh</button>
+
+
+              </div>
+            </div>
+
+            <!--Right Button Group-->
+            <div class="col-md-6 mailbox-pagination m-b-md">
+              <div class="btn-group">
+
+                <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
+
+                <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <button type="button" class="btn btn-default btn-sm"  (click)="quickSetModal.open()"><i class="fa fa-plus"></i>
+                  Quick Set
+                </button>
+                <button type="button" class="btn btn-default btn-sm"  (click)="addTimeFrameButton()"><i class="fa fa-plus"></i>
+                  Add New
+                </button>
+
+
+
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="table-responsive">
+            <!--Start Table List-->
+            <table class="table table-hover table-mailbox">
+              <tbody>
+
+              <tr class="active">
+                <td >ID</td>
+                <td >Name</td>
+                <td>Starting Date</td>
+                <td>Ending Date</td>
+                <td [hidden]=isLoaded>Edit</td>
+              </tr>
+
+              <tr *ngFor="let tf of timeFrames">
+                <td >{{ tf.time_frame_id}}</td>
+                <td> {{ tf.time_frame_description }} </td>
+                <!--<td> {{ tf.time_frame_start }} </td>-->
+                <!--<td> {{ tf.time_frame_end  }}</td>-->
+
+                <td> {{ tf.time_frame_start  }} </td>
+                <td> {{ tf.time_frame_end }}</td>
+
+                <td [hidden]=isLoaded>
+                  <!--Delete the record-->
+                  <button class="btn btn-default btn-sm" (click)="deleteTimeFrameButton(tf);" ><i class="fa fa-trash-o"></i> </button>
+                  <!--Edit the record-->
+                  <button class="btn btn-default btn-sm" (click)="editTimeFramesButton(tf)"><i class="fa fa-pencil-square-o"></i> </button>
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+
+            <!--End Table List-->
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          {{timeFrames.length}} Records
+        </div>
+
+      </div>
+    </div>
+    <!--End right context-->
+
+
+<!--Add New Record modal module-->
+
+<modal [animation]="animation" [keyboard]="keyboard"  [backdrop]="backdrop"  #modal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Create New Time Frame</h4>
+  </modal-header>
+  <modal-body>
+    <div class="stage">
+      <fieldset >
+        <label >Time Frame Name</label>
+        <div class="palos-input block" >
+
+          <input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{timeFrameNameInputBoxValue}}" #timeFrameNameInput> <!---->
+
+        </div>
+      </fieldset>
+
+      <div class="selector-ctn ">
+        <fieldset class="form-group">
+          <label >Starting Date And Enging Date</label>
+          <div class="datepicker " ><!---->
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+            <my-date-range-picker [options]="myDateRangePickerOptionsNormal"
+                                  (dateRangeChanged)="onDateRangeChanged($event)"
+                                  (inputFieldChanged)="onInputFieldChanged($event)"
+                                  (calendarViewChanged)="onCalendarViewChanged($event)"
+                                  [selDateRange]="edit_dateRange"
+                                  [placeholder]="rangeTextPlaceholder" #dateRange></my-date-range-picker >
+
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(timeFrameNameInput.value);" > Save changes</button>
+  </modal-footer>
+</modal>
+
+
+
+
+
+
+<modal [animation]="animation" [keyboard]="keyboard"   #quickSetModal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Quick Set Time Frame</h4>
+  </modal-header>
+  <modal-body>
+    <div class="stage">
+      <!--<fieldset >-->
+        <!--<label >Time Frame Name</label>-->
+        <!--<div class="palos-input block" >-->
+
+          <!--<input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{timeFrameNameInputBoxValue}}" #timeFrameNameInput> &lt;!&ndash;&ndash;&gt;-->
+
+        <!--</div>-->
+      <!--</fieldset>-->
+
+      <div class="selector-ctn ">
+        <fieldset class="form-group">
+          <label >Starting Year</label>
+          <small> From 01/01/XXXX </small>
+          <div class="palos-input block" >
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+
+            <input type="text" placeholder="Please enter your Starting Year" autocomplete="off" class="form-control"  #timeFrameStartingYearInput> <!---->
+
+
+          </div>
+        </fieldset>
+        <br>
+        <fieldset class="form-group">
+          <label >Ending Year</label>
+          <small> To 31/12/XXXX </small>
+          <div class="palos-input block" >
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+
+            <input type="text" placeholder="Please enter your Ending Year" autocomplete="off" class="form-control"  #timeFrameEndingYearInput> <!---->
+
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="quickSetModal.close()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="quickSetTimeFrameModalSaveChangeButton(timeFrameStartingYearInput.value,timeFrameEndingYearInput.value); quickSetModal.close();timeFrameEndingYearInput.value=''; timeFrameStartingYearInput.value=''; " > Save changes</button>
+  </modal-footer>
+</modal>

@@ -1,0 +1,130 @@
+
+    <!--Start right context-->
+    <div class="col-md-9">
+      <div class="hpanel">
+
+
+        <div class="panel-body">
+          <!--Left Button Group-->
+          <div class="row">
+            <div class="col-md-6 m-b-md">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm"><i class="fa fa-refresh" (click)="refreshButton()"></i> Refresh</button>
+
+
+              </div>
+            </div>
+
+            <!--Right Button Group-->
+            <div class="col-md-6 mailbox-pagination m-b-md">
+              <div class="btn-group">
+
+                <!--<button class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Add New</button>-->
+
+                <button class="btn btn-default btn-sm" (click)="editButton()"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                <button type="button" class="btn btn-default btn-sm"  (click)="addObjectiveButton()"><i class="fa fa-plus"></i>
+                  Add New
+                </button>
+
+
+                <!--<app-time-frame-setting-modal></app-time-frame-setting-modal>-->
+
+
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="table-responsive">
+            <!--Start Table List-->
+            <table class="table table-hover table-mailbox">
+              <tbody>
+
+              <tr class="active">
+                <td >ID</td>
+                <td >Name</td>
+                <td>Description</td>
+                <td>Unit</td>
+                <td>Current status</td>
+                <td>Process status</td>
+                <td>Target</td>
+
+                <td [hidden]=isLoaded>Edit</td>
+              </tr>
+
+
+
+
+              <tr *ngFor="let objt of Objectives">
+                <td >{{ objt.objective_id}}</td>
+                <td> {{ objt.objective_description }} </td>
+                <td> {{ objt.objective_unit }} </td>
+                <td> {{ objt.objective_status }} </td>
+                <td> {{ objt.objective_process_status }} </td>
+
+
+                <td [hidden]=isLoaded>
+                  <!--Delete the record-->
+                  <button class="btn btn-default btn-sm" (click)="deleteObjectiveButton(objt);" ><i class="fa fa-trash-o"></i> </button>
+                  <!--Edit the record-->
+                  <button class="btn btn-default btn-sm" (click)="editObjectiveButton(objt)"><i class="fa fa-pencil-square-o"></i> </button>
+                </td>
+              </tr>
+
+              </tbody>
+            </table>
+
+            <!--End Table List-->
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          {{Objectives.length}} Records
+        </div>
+
+      </div>
+    </div>
+    <!--End right context-->
+
+
+
+
+<!--Add New Record modal module-->
+
+<modal [animation]="animation" [keyboard]="keyboard"  [backdrop]="backdrop"  #modal>
+  <div class="color-line"></div>
+  <modal-header [show-close]="true">
+    <h4 class="modal-title">Create New Time Frame</h4>
+  </modal-header>
+  <modal-body>
+    <div class="stage">
+      <fieldset >
+        <label >Time Frame Name</label>
+        <div class="palos-input block" >
+
+          <input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{ObjectiveNameInputBoxValue}}" #ObjectiveNameInput> <!---->
+
+        </div>
+      </fieldset>
+
+      <div class="selector-ctn ">
+        <fieldset class="form-group">
+          <label >Starting Date And Enging Date</label>
+          <div class="datepicker " ><!---->
+            <!--<i class="el-input__icon el-icon-date"></i>-->
+            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+
+          </div>
+        </fieldset>
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(ObjectiveNameInput.value);" > Save changes</button>
+  </modal-footer>
+</modal>
+
+
+
