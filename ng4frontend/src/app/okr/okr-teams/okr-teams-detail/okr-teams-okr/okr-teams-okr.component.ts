@@ -327,9 +327,9 @@ export class OkrTeamsOkrComponent implements OnInit {
       );
   }
 
-  deleteObjectiveButton(teamlObjective) {
+  deleteObjectiveButton(teamObjective) {
     this._settingObjectiveService
-      .delete(teamlObjective)
+      .delete(teamObjective)
       .subscribe(
         data => { this.tempData = data },
         error => { this.errorMessage = <any>error },
@@ -338,7 +338,7 @@ export class OkrTeamsOkrComponent implements OnInit {
           if (this.tempData.status=="success" && this.tempData.data.affectRows) {
             if( this.tempData.data.affectRows>0){
               this.displaySuccessMessage("Your Objective has been deleted.");
-              this.teamObjectives = this.teamObjectives.filter(currentObjectives => currentObjectives !== teamlObjective);
+              this.teamObjectives = this.teamObjectives.filter(currentObjectives => currentObjectives !== teamObjective);
               this.updateOverallNumbers();
             }else {
               this.displayErrorMessage("Your Objective did not deleted successfully.");
