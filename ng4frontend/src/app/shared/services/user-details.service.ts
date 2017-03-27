@@ -73,8 +73,10 @@ export class UserDetailsService {
 
 
   get(user: Userclass): Observable<Userclass> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let headers: Headers;
+    let options: RequestOptions;
+    headers = new Headers({'Content-Type': 'application/json'});
+    options = new RequestOptions({headers: headers});
 
     const url = `${this.operateAPI}/${user.user_id}`;
 

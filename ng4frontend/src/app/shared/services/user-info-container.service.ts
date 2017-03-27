@@ -11,7 +11,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 
 import {Userclass} from '../classes/user-class';
-import {Timeframeclass} from '../../okr/okr-shared/classes/time-frame-class';
+import {Timeframeclass} from '../../main/okr/okr-shared/classes/time-frame-class';
 
 
 

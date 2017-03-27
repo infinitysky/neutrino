@@ -1,0 +1,540 @@
+<!--<div class="row">-->
+<!--<div style="padding-right: 20px;">-->
+<!--<button type="button" class="btn w-xs btn-primary pull-right" (click)="addObjectiveButton()"><i class="fa fa-plus"></i> Add New Objective</button>-->
+<!--</div>-->
+<!--</div>-->
+
+<div class="row" *ngIf="selfUserInfoData.user_id == targetTeamInfoData.team_leader_user_id || selfUserInfoData.role=='admin' "><!-- check the viewing user the 'addObjectiveButton' -->
+    <div style="padding-right: 20px;" >
+        <button type="button" class="btn w-xs btn-primary pull-right" (click)="addObjectiveButton()"><i class="fa fa-plus"></i> Add Team Objective</button>
+    </div>
+
+
+</div>
+
+
+
+<div class="row">
+    <div class="OKRs-Cards" style="margin-top: 2%">
+        <div class="row" style="margin-bottom:20px;">
+            <div class="col-md-12">
+
+                <!--start Of project-->
+                <div class="row projects" *ngFor=" let teamObjective of teamObjectives" style="padding-left: 20px; padding-right: 20px;">
+                    <div class="col-lg-12">
+                        <!--START COL-LG-12-->
+
+                        <div class="ngswitch" [ngSwitch]="teamObjective.objective_status">
+
+                            <div *ngSwitchCase="'Complete'">
+                                <!-- START Yellow/Warning HPANEL-->
+                                <div class="hpanel hgreen">
+                                    <div class="panel-body">
+                                        <span class="label label-success pull-right">{{teamObjective.objective_status}}</span>
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h4><a [routerLink]="['/okr/okr-objective/objective/',teamObjective.objective_id]">
+                                                    {{teamObjective.objective_name}}</a></h4>
+
+                                                <p>
+                                                    {{teamObjective.objective_description}}
+                                                </p>
+
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="project-label">Goal Name</div>
+                                                        <small>{{teamObjective.time_frame_end | date:'dd-MM-y'}}</small>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <div class="project-label">PROGRESS</div>
+                                                        <div class="progress m-t-xs full progress-small">
+                                                            <div [ngStyle]="{'width':  teamObjective.objective_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="personalObjective.objective_progress_status" role="progressbar" class=" progress-bar progress-bar-success">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 project-info">
+                                                <div class="project-action m-t-md">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',teamObjective.objective_id]"> View</button>
+                                                        <button class="btn btn-xs btn-default" (click)="editObjectiveButton(teamObjective)"> Edit</button>
+                                                        <button class="btn btn-xs btn-default"(click)="deleteObjectiveButton(teamObjective)"> Delete</button>
+                                                    </div>
+                                                </div>
+                                                <div class="project-value">
+                                                    <h2 class="text-success">
+                                                        {{teamObjective.objective_progress_status}} %
+                                                    </h2>
+                                                </div>
+                                                <div class="project-people">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+                                <!-- END green/complete HPANEL-->
+                            </div>
+                            <!--End of ngSwitchcomplete-->
+
+                            <div *ngSwitchCase="'Warning'">
+                                <!-- START Yellow/Warning HPANEL-->
+                                <div class="hpanel hyellow">
+                                    <div class="panel-body">
+                                        <span class="label label-warning pull-right">{{teamObjective.objective_status}}</span>
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h4><a [routerLink]="['/okr/okr-goal/goal/',teamObjective.objective_id]">
+                                                    {{teamObjective.objective_name}}</a></h4>
+
+                                                <p>
+                                                    {{teamObjective.objective_description}}
+                                                </p>
+
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="project-label">Goal Name</div>
+                                                        <small>{{ teamObjective.time_frame_end | date:'dd-MM-y'}}</small>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <div class="project-label">PROGRESS</div>
+                                                        <div class="progress m-t-xs full progress-small">
+                                                            <div [ngStyle]="{'width':  teamObjective.objective_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="personalObjective.objective_progress_status" role="progressbar" class=" progress-bar progress-bar-warning">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 project-info">
+                                                <div class="project-action m-t-md">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',teamObjective.objective_id]"> View</button>
+                                                        <button class="btn btn-xs btn-default" (click)="editObjectiveButton(teamObjective)"> Edit</button>
+                                                        <button class="btn btn-xs btn-default"(click)="deleteObjectiveButton(teamObjective)"> Delete</button>
+                                                    </div>
+                                                </div>
+                                                <div class="project-value">
+                                                    <h2 class="text-warning">
+                                                        {{teamObjective.objective_progress_status}} %
+                                                    </h2>
+                                                </div>
+                                                <div class="project-people">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- END Yellow/Warning HPANEL-->
+                            </div>
+                            <!--End of ngSwitchWarning-->
+
+                            <!--Start of ngSwitch Risk-->
+                            <div *ngSwitchCase="'Risk'">
+                                <!-- START hred/Risk HPANEL-->
+                                <div class="hpanel hred">
+                                    <div class="panel-body">
+                                        <span class="label label-danger pull-right">{{teamObjective.objective_status}}</span>
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h4><a [routerLink]="['/okr/okr-goal/goal/',teamObjective.objective_id]">
+                                                    {{teamObjective.objective_name}}</a></h4>
+
+                                                <p>
+                                                    {{teamObjective.objective_description}}
+                                                </p>
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-3">
+                                                        <div class="project-label">Goal Name</div>
+                                                        <small>{{ teamObjective.time_frame_end | date:'dd-MM-y'}}</small>
+                                                    </div>
+
+                                                    <div class="col-sm-9">
+                                                        <div class="project-label">PROGRESS</div>
+                                                        <div class="progress m-t-xs full progress-small">
+                                                            <div [ngStyle]="{'width':  teamObjective.objective_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="personalObjective.objective_progress_status" role="progressbar" class=" progress-bar progress-bar-danger">
+                                                            </div>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-sm-4 project-info">
+                                                <div class="project-action m-t-md">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',teamObjective.objective_id]"> View</button>
+                                                        <button class="btn btn-xs btn-default" (click)="editObjectiveButton(teamObjective)"> Edit</button>
+                                                        <button class="btn btn-xs btn-default"(click)="deleteObjectiveButton(teamObjective)"> Delete</button>
+                                                    </div>
+                                                </div>
+                                                <div class="project-value">
+                                                    <h2 class="text-danger">
+                                                        {{teamObjective.objective_progress_status}} %
+                                                    </h2>
+                                                </div>
+                                                <div class="project-people">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- END Yellow/Warning HPANEL-->
+                            </div>
+
+                            <!--End of NgSwitch Risk-->
+
+
+                            <div *ngSwitchDefault>
+
+                                <!-- START Info/Blue HPANEL-->
+                                <div class="hpanel hblue">
+                                    <div class="panel-body">
+                                        <span class="label label-info pull-right"></span> <!--Tag Here-->
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <h4><a [routerLink]="['/okr/okr-goal/goal/',teamObjective.objective_id]">
+                                                    {{teamObjective.objective_name}}</a></h4>
+
+                                                <p>
+                                                    {{teamObjective.objective_description}}
+                                                </p>
+
+                                                <div class="row">
+
+
+                                                    <div class="col-sm-3">
+                                                        <div class="project-label">Goal Name</div>
+                                                        <small>{{teamObjective.time_frame_end | date:'dd-MM-y'}}</small>
+                                                    </div>
+
+                                                    <div class="col-sm-9">
+                                                        <div class="project-label">PROGRESS</div>
+                                                        <div class="progress m-t-xs full progress-small">
+                                                            <div [ngStyle]="{'width':  teamObjective.objective_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="personalObjective.objective_progress_status" role="progressbar" class=" progress-bar progress-bar-info">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="col-sm-4 project-info">
+                                                <div class="project-action m-t-md">
+                                                    <div class="btn-group">
+                                                        <button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',teamObjective.objective_id]"> View</button>
+                                                        <button class="btn btn-xs btn-default" (click)="editGoalsButton(teamObjective)"> Edit</button>
+                                                        <button class="btn btn-xs btn-default"(click)="deleteGoalButton(teamObjective)"> Delete</button>
+                                                    </div>
+                                                </div>
+                                                <div class="project-value">
+                                                    <h2 class="text-info">
+                                                        {{teamObjective.objective_progress_status}} %
+                                                    </h2>
+                                                </div>
+                                                <div class="project-people">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <!-- END GREEN HPANEL-->
+                            </div>
+                            <!--End of ngSwitchDefault-->
+                        </div>
+                        <!--Eng of NG Switch-->
+
+
+                        <!--Start Key Result Panel-->
+                        <div class="keyResult-panel" style="margin-top: -25px;margin-bottom: 20px;">
+                            <div  class="panel-body list" *ngIf="teamObjective.keyResult_array.length>0;">
+                                <div class="table-responsive project-list" >
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Key Result</th>
+                                            <th>Progress</th>
+                                            <th>%</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let keyresult of teamObjective.keyResult_array">
+                                            <td>{{keyresult.result_name}}</td>
+                                            <td>
+
+                                                <nouislider
+                                                        [connect]="true"
+                                                        [min]="0" [max]="100" [step]="1"
+
+                                                        [(ngModel)]="keyresult.result_progress_status"
+                                                        [tooltips]="true"
+                                                        (ngModelChange)="keyResultOnChange('dfd', $event)">
+                                                </nouislider>
+
+
+                                            </td>
+
+                                            <td>
+                                                <strong>{{keyresult.result_progress_status}}%</strong>
+                                            </td>
+                                            <td>
+
+                                                <div class="btn-group">
+                                                    <button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Action
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#">Action</a></li>
+                                                        <li><a href="#">Another action</a></li>
+                                                        <li><a href="#">Something else here</a></li>
+                                                        <li class="divider"></li>
+                                                        <li><a href="#">Separated link</a></li>
+                                                    </ul>
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="panel-footer">
+                                <div  *ngIf="selfUserInfoData.user_id == targetTeamInfoData.team_leader_user_id || selfUserInfoData.role=='admin' "><!-- check the viewing user the 'addObjectiveButton' -->
+
+                                    <button class="btn" (click)="addKeyResultButton(teamObjective)"> add new key result </button>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Key Result Panel-->
+
+
+
+
+                    </div>
+                    <!--END COL-LG-12-->
+
+                </div>
+                <!--End of Project/ Personal Objectives-->
+
+
+
+
+                <div class="hr-line-dashed"></div>
+
+
+
+            </div>
+            <!--END COL-MD-12-->
+        </div>
+        <!--END ROW -->
+    </div>
+    <!-- END OKRs-Cards-->
+</div>
+<!--END ROW (TOP) -->
+
+
+
+
+
+
+
+
+
+<!--Add New Record modal module-->
+
+<modal [animation]="animation" [keyboard]="keyboard" [backdrop]="backdrop" #modal>
+    <div class="color-line"></div>
+    <modal-header [show-close]="true">
+        <h4 class="modal-title"> {{modalTitle}}  </h4>
+    </modal-header>
+    <modal-body>
+        <div class="stage">
+            <div class="panel-body">
+                <div  [ngSwitch]="modalType" >
+                    <div *ngSwitchCase="'objective'">
+                        <!--<form class="form-horizontal">-->
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Objective Name (*)</label>
+
+                                <div class="col-sm-9">
+                                    <input name="objectiveNameInputBoxValue" type="text"
+                                           placeholder="Please enter your objective name"
+                                           autocomplete="off" class="form-control"
+                                           [(ngModel)]="objectiveNameInputBoxValue"
+
+                                           #objectiveNameInput>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Objective Description  (*)</label>
+                                <div class="col-sm-9">
+              <textarea style="height: 85px" type="text"
+                        placeholder="Please enter your objective description"
+                        autocomplete="off" class="form-control"
+                        name="goalDescriptionInputBoxValue"
+                        [(ngModel)]="objectiveDescriptionInputBoxValue"
+                        #objectiveDescriptionInput>
+              </textarea>
+
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Select A Goal</label>
+                                <div class="col-sm-9">
+                                    <ss-multiselect-dropdown [options]="goalsDropDownListOptions"
+                                                             [texts]="goalsSelectorTexts"
+                                                             [settings]="goalsSelectorSettings"
+                                                             [(ngModel)]="selectedGoal" #goalSelector>
+
+                                    </ss-multiselect-dropdown>
+
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Select A Tag</label>
+                                <div class="col-sm-9">
+                                    <ng-select #tagSelector [allowClear]="true"
+                                               [items]="tagDropDownListOptions"
+                                               [disabled]="disabled"
+                                               [(ngModel)]="selectedTag"
+                                               placeholder="Select a Tag">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--</form>-->
+
+                    </div>
+
+                    <div *ngSwitchCase="'keyresult'">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Key Result Name (*)</label>
+
+                                <div class="col-sm-9">
+                                    <input name="objectiveNameInputBoxValue" type="text"
+                                           placeholder="Please enter your key result name"
+                                           autocomplete="off" class="form-control"
+                                           [(ngModel)]="keyresultNameInputBoxValue"
+
+                                           #keyresultNameInput>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Key Result Description  (*)</label>
+                                <div class="col-sm-9">
+              <textarea style="height: 85px" type="text"
+                        placeholder="Please enter your key result description"
+                        autocomplete="off" class="form-control"
+                        name="goalDescriptionInputBoxValue"
+                        [(ngModel)]="keyresultDescriptionInputBoxValue"
+                        #objectiveDescriptionInput>
+              </textarea>
+
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+
+
+                        </div>
+                        <!--</form>-->
+
+                    </div>
+
+                    <div *ngSwitchCase="'progressUpdate'">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <h2>What did you do for this key result?</h2>
+                                <h5> Update current progress to %</h5>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                    <input name="objectiveNameInputBoxValue" type="text"
+                                           placeholder="Please enter your objective name"
+                                           autocomplete="off" class="form-control"
+                                           [(ngModel)]="progressUpdateDescription" >
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+
+                        </div>
+                        <!--</form>-->
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </modal-body>
+    <modal-footer>
+        <div class="panel-body">
+            <div  [ngSwitch]="modalType" >
+
+                <div *ngSwitchCase="'objective'">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeObjectiveButton()">Close</button>
+                    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveObjectiveChangeButton()"> Save changes</button>
+                </div>
+
+                <div *ngSwitchCase="'keyresult'">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeKeyResultButton()"> Close</button>
+                    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveKeyResultChangeButton()"> Save changes</button>
+                </div>
+
+                <div *ngSwitchCase="'progressUpdate'">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeKeyResultProgressChangeButton()"> Cancel</button>
+                    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveKeyResultProgressChangeButton()"> Save changes</button>
+                </div>
+
+            </div>
+
+        </div><!--End of class panel-body-->
+
+    </modal-footer>
+</modal>
+
+
+

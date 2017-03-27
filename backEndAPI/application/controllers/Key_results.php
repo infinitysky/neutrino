@@ -60,20 +60,9 @@ class Key_results extends CI_Controller
             if (empty($Data['result_name'])) {
                 echo json_encode($this->create_error_messageArray("result_name Empty"));
                 return 0;
-            }elseif (empty($Data['result_unit'])) {
-                echo json_encode($this->create_error_messageArray("result_unit Empty"));
-                return 0;
             }
             elseif (empty($Data['objective_id'])) {
                 echo json_encode($this->create_error_messageArray("objective_id Empty"));
-                return 0;
-            }
-            elseif (empty($Data['result_target'])) {
-                echo json_encode($this->create_error_messageArray("result_target Empty"));
-                return 0;
-            }
-            elseif (empty($Data['result_process_status'])) {
-                echo json_encode($this->create_error_messageArray("result_process_status Empty"));
                 return 0;
             }
 
@@ -82,7 +71,16 @@ class Key_results extends CI_Controller
                     $Data['result_description']='';
                 }
                 if (empty($Data['result_status'])) {
-                    $Data['result_description']='None';
+                    $Data['result_status']='None';
+                }
+                if (empty($Data['result_unit'])) {
+                    $Data['result_unit']='%';
+                }
+                if (empty($Data['result_target'])) {
+                    $Data['result_target']='';
+                }
+                if (empty($Data['result_progress_status'])) {
+                    $Data['result_progress_status']='0';
                 }
 
 
@@ -91,7 +89,7 @@ class Key_results extends CI_Controller
                     'result_description' => $Data['result_description'],
                     'result_unit' => $Data['result_unit'],
                     'result_status' => $Data['result_status'],
-                    'result_process_status' => $Data['result_process_status'],
+                    'result_progress_status' => $Data['result_progress_status'],
                     'result_target' => $Data['result_target'],
                     'objective_id' => $Data['objective_id'],
 
@@ -154,7 +152,7 @@ class Key_results extends CI_Controller
 
                 'result_unit' => $row->result_unit,
                 'result_status' => $row->result_status,
-                'result_process_status' => $row->result_process_status,
+                'result_progress_status' => $row->result_progress_status,
                 'result_target' => $row->result_target,
                 'objective_id' => $row->objective_id,
 
@@ -203,7 +201,7 @@ class Key_results extends CI_Controller
 
                     'result_unit' => $processArray['result_unit'],
                     'result_status' => $processArray['result_status'],
-                    'result_process_status' => $processArray['result_process_status'],
+                    'result_progress_status' => $processArray['result_progress_status'],
                     'result_target' => $processArray['result_target'],
                     'objective_id' => $processArray['objective_id'],
 

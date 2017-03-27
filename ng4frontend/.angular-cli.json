@@ -19,6 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+
         "../node_modules/primeng/resources/themes/omega/theme.css",
         "../node_modules/primeng/resources/primeng.min.css",
         "../node_modules/nouislider/distribute/nouislider.min.css",
@@ -35,7 +36,9 @@
         "styles.css"
       ],
       "scripts": [
-        "../library/vendor/jquery/dist/jquery.min.js",
+
+        "../node_modules/jquery/dist/jquery.min.js",
+
         "../library/vendor/slimScroll/jquery.slimscroll.min.js",
         "../library/vendor/jquery-ui/jquery-ui.min.js",
         "../library/vendor/metisMenu/dist/metisMenu.min.js",
@@ -45,6 +48,8 @@
         "../library/vendor/select2-4.0.3/dist/js/select2.full.min.js",
         "../library/bootstrap/dist/js/bootstrap.js",
         "../library/scripts/homer.js",
+
+
         "../node_modules/chart.js/dist/Chart.min.js",
         "../node_modules/chart.js/dist/Chart.bundle.min.js"
       ],
