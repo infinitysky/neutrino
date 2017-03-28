@@ -17,7 +17,7 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { SelectModule} from 'ng2-select';
 import { DoorgetsTruncateModule } from 'doorgets-ng-truncate';
-
+import { ModalModule } from 'ng2-bootstrap/modal';
 
 
 import {OkrTeamsMembersComponent} from '../okr-teams-members/okr-teams-members.component';
@@ -27,6 +27,7 @@ import { ShareTeamsOkrinfoService } from '../share-teams-okrinfo.service';
 
 @NgModule({
     imports: [
+        ModalModule.forRoot(),
         Ng2Bs3ModalModule,
         NouisliderModule,
         MyDatePickerModule,

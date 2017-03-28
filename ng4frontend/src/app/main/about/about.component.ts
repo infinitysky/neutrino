@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter} from '@angular/core';
 
-
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 @Component({
   selector: 'app-about',
@@ -16,5 +16,15 @@ export class AboutComponent implements OnInit {
   ngOnInit() {
 
   }
+
+    @ViewChild('childModal') public childModal: ModalDirective;
+
+    public showChildModal():void {
+        this.childModal.show();
+    }
+
+    public hideChildModal():void {
+        this.childModal.hide();
+    }
 
 }

@@ -49,11 +49,12 @@
                 </a>
             </li>
 
-          <li routerLinkActive="active" class="nav-item nav-dropdown">
+          <li  class="nav-item nav-dropdown">
             <a >
               <span class="nav-label">OKR System</span><span class="fa arrow"></span>
             </a>
-            <ul class="nav nav-second-level nav-dropdown-items nav " routerLinkActive="collapse in">
+            <ul class="nav nav-second-level nav-dropdown-items" >
+            <!--<ul class="nav nav-second-level nav-dropdown-items" routerLinkActive="in">-->
 
               <li routerLinkActive="active"><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>
 
@@ -72,29 +73,10 @@
           </li>
 
 
-            <!--<li routerLinkActive="router-link-active" class="nav-item nav-dropdown" >-->
-                <!--<a >-->
-                  <!--<span class="nav-label">OKR System</span><span class="fa arrow"></span> </a>-->
-                <!--<ul class="nav nav-second-level">-->
-
-                    <!--<li routerLinkActive="router-link-active"><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>-->
-
-                  <!--&lt;!&ndash;Router parameter 1&ndash;&gt;-->
-                  <!--<li routerLinkActive="router-link-active"><a [routerLink]="['/okr/okr-users/user/',selfInfo.user_id]">OKRs Users</a></li>-->
-
-                  <!--<li routerLinkActive="router-link-active" ><a [routerLink]="['/okr/okr-teams']">OKRs Team</a></li>-->
-
-                  <!--&lt;!&ndash;<li><a [routerLink]="['/okr/okr-company',subscribeTimeFrameData.time_frame_id]">OKRs Company</a></li>&ndash;&gt;-->
-                  <!--<li routerLinkActive="router-link-active"><a [routerLink]="['/okr/okr-company']">OKRs Company</a></li>-->
-
-                  <!--<li routerLinkActive="router-link-active" ><a [routerLink]="['/okr/okr-setting']">ORKs Setting</a></li>-->
-                <!--</ul>-->
-            <!--</li>-->
-
-
             <li routerLinkActive="active" >
                 <a routerLink="/aboutus"> <span class="nav-label">About Us</span></a>
             </li>
+
 
 
 

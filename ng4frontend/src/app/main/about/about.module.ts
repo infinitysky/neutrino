@@ -10,19 +10,20 @@ import { AboutComponent } from './about.component';
 
 
 
-
+import { ModalModule } from 'ng2-bootstrap/modal';
 
 
 @NgModule({
-  imports: [
+    imports: [
+        ModalModule.forRoot(),
 
-    FormsModule,
-    HttpModule,
+        FormsModule,
+        HttpModule,
 
-    CommonModule,
-    AboutRoutingModule
-  ],
-  providers: [],
-  declarations: [AboutComponent]
+        CommonModule,
+        AboutRoutingModule
+    ],
+    providers: [],
+    declarations: [AboutComponent]
 })
 export class AboutModule { }

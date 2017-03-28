@@ -5,7 +5,7 @@ export class Objectiveclass {
     objective_description: string;
     objective_unit: string;
     objective_status: string;
-    objective_progress_status: string;
+    objective_progress_status: number;
 
 
     objective_target: string;

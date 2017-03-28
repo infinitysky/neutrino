@@ -61,7 +61,7 @@ export class OkrTeamsDetailComponent implements OnInit {
 
     ngOnDestroy() {
         this.subsTeam.unsubscribe();
-        this.overallObjectivesNumberSubscription.unsubscribe();
+
         this.overallProgressNumberSubscription.unsubscribe();
         this.overallObjectivesNumberSubscription.unsubscribe();
 
@@ -98,18 +98,17 @@ export class OkrTeamsDetailComponent implements OnInit {
     getTotalObjectivesNumber() {
 
         this.overallObjectivesNumberSubscription = this._shareTeamsOkrinfoService._shareObjectivesNumber$.subscribe(data => this.totalObjectivesNumber = data);
-
         if (!this.totalObjectivesNumber) {
-            this.totalObjectivesNumber = ' - ';
+            this.totalObjectivesNumber = 0;
         }
     }
 
     getOverallProgressNumber() {
 
         this.overallProgressNumberSubscription = this._shareTeamsOkrinfoService._shareOverallProgressNumber$.subscribe(data => this.overallProgressNumber = data);
-
+        console.log(this.overallProgressNumber );
         if (!this.overallProgressNumber) {
-            this.overallProgressNumber = ' - ';
+            this.overallProgressNumber = 0;
         }
     }
 

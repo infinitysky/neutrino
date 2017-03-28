@@ -193,24 +193,13 @@ class Key_results extends CI_Controller
             $processArray=$this->dataValidate($updateData);
             if($processArray!=0) {
                 $data = array(
-
-
                     'result_name' => $processArray['result_name'],
                     'result_description' => $processArray['result_description'],
-
-
                     'result_unit' => $processArray['result_unit'],
                     'result_status' => $processArray['result_status'],
                     'result_progress_status' => $processArray['result_progress_status'],
                     'result_target' => $processArray['result_target'],
                     'objective_id' => $processArray['objective_id'],
-
-
-
-
-
-
-
 
                 );
                 $affectedRowsNumber = $this->Key_results_model->update($id, $data);
@@ -249,6 +238,21 @@ class Key_results extends CI_Controller
             $tempReturnArray = $this->create_error_messageArray('Record Not Found');
             echo json_encode($tempReturnArray);
 
+        }
+
+    }
+
+
+
+    public function get_by_team_id($id)
+    {
+        if(!empty($id)){
+            $tempData=$this->Key_results_model->get_by_team_id($id);
+            echo $this->json($tempData);
+        }
+        else{
+            $tempReturnArray = $this->create_error_messageArray('Team ID empty');
+            echo json_encode($tempReturnArray);
         }
 
     }

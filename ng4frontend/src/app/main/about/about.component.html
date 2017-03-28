@@ -1,1 +1,62 @@
 <h1>Current Time Frame</h1>
+<button type="button" class="btn btn-primary" (click)="showChildModal()">Open child modal</button>
+
+<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="color-line"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">Child modal</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="stage">
+                    <div class="panel-body">
+                        <!--<form class="form-horizontal">-->
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Goal Name</label>
+                                <div class="col-sm-9">
+                                    <input name="goalNameInputBoxValue" type="text" placeholder="Please enter your goal name" autocomplete="off" class="form-control" value="{{goalNameInputBoxValue}}"
+                                           #goalNameInput>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Goal Description</label>
+                                <div class="col-sm-9">
+              <textarea style="height: 85px" type="text"
+                        placeholder="Please enter your goal description"
+                        autocomplete="off" class="form-control"
+                        name="goalDescriptionInputBoxValue"
+                        value="{{goalDescriptionInputBoxValue}}" #goalDescriptionInput></textarea>
+
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+
+
+
+                            <div class="hr-line-dashed"></div>
+
+
+
+                        </div>
+                        <!--</form>-->
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="hideChildModal()">Close</button>
+                <button type="button" class="btn btn-primary" autofocus > Save changes</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

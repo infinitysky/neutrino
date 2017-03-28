@@ -277,28 +277,6 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
   }
 
-  deleteGoalButton(Goal) {
-    //this.showAlert();
-    this._settingGoalService
-      .delete(Goal)
-      .subscribe(
-        data => { this.tempData = data },
-        error => { this.errorMessage = <any>error },
-        () => {
-
-          if (this.tempData.data.affectRows > 0) {
-            swal("Deleted!", "Your goal has been deleted.", "success");
-            this.goals = this.goals.filter(currentGoals => currentGoals !== Goal);
-
-            this.updateOverallNumbers();
-
-          } else {
-            swal("Error!", "Your goal did not been deleted successfully.", "error");
-          }
-        }
-      );
-  }
-
 
   modalSaveChangeButton() {
       // read the 2 way binding;
@@ -484,38 +462,8 @@ export class OkrsUsersOkrsComponent implements OnInit {
       );
   }
 
-  getPersonalObjective() {
-    this._settingObjectiveService.getByUserId(this.viewUserID)
-      .subscribe(
-        data => this.tempData = data,
-        error => this.errorMessage = <any>error,
-        () => {
-          if (this.tempData.status == "success" && this.tempData.data) {
-            this.personalObjectives = <Objectiveclass[]> this.tempData.data;
-
-            //this.goals.sort();
-          }
-        }
-      );
-  }
-
-  getTeamObjective() {
-    // this._settingObjectiveService.getByTeamId(this.viewUserID)
-    //   .subscribe(
-    //     data => this.tempData = data,
-    //     error => this.errorMessage = <any>error,
-    //     () => {
-    //       if (this.tempData.status == "success" && this.tempData.data) {
-    //         this.teamObjectives = <Objectiveclass[]> this.tempData.data;
-    //         this.setGoalsDropDownList(this.goals);
-    //         //this.goals.sort();
-    //       }
-    //     }
-    //   );
 
 
-
-  }
 
 
 
@@ -543,7 +491,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
 
 
-  //createNewObjective(goalNameInput: string, goalDescription: string) {
+
   createNewObjective(objectiveNameInput: string, objectiveDescription: string) { // now I start use 2-way binding to process this
 
 
@@ -567,7 +515,7 @@ export class OkrsUsersOkrsComponent implements OnInit {
 
       newObjective.objective_name=objectiveNameInput;
       newObjective.objective_description=objectiveDescription;
-      newObjective.objective_progress_status="0";
+      newObjective.objective_progress_status = 0;
 
       newObjective.objective_status=objectiveStatusTag;
 

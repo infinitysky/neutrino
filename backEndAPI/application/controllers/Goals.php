@@ -99,8 +99,6 @@ class Goals extends CI_Controller
 
 
                 $processArray = array(
-
-
                     'goal_name' => $Data['goal_name'],
                     'goal_description' => $Data['goal_description'],
                     'time_frame_id' => $Data['time_frame_id'],
@@ -108,13 +106,7 @@ class Goals extends CI_Controller
                     'goal_unit' => $Data['goal_unit'],
                     'goal_progress_status' => $Data['goal_progress_status'],
                     'goal_target' => $Data['goal_target'],
-
-
-
-
-
-
-
+                    
                 );
                 return $processArray;
             }

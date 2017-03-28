@@ -20,9 +20,7 @@
       "prefix": "app",
       "styles": [
 
-        "../node_modules/primeng/resources/themes/omega/theme.css",
-        "../node_modules/primeng/resources/primeng.min.css",
-        "../node_modules/nouislider/distribute/nouislider.min.css",
+
 
         "../library/vendor/fontawesome/css/font-awesome.css",
         "../library/vendor/metisMenu/dist/metisMenu.css",
@@ -33,12 +31,17 @@
         "../library/vendor/sweetalert2/dist/sweetalert2.css",
         "../library/vendor/toastr/build/toastr.min.css",
         "../library/styles/style.css",
+
+
+        "../node_modules/nouislider/distribute/nouislider.min.css",
+
+
         "styles.css"
       ],
       "scripts": [
 
-        "../node_modules/jquery/dist/jquery.min.js",
-
+        "../library/vendor/jquery/dist/jquery.min.js",
+        "../library/bootstrap/dist/js/bootstrap.js",
         "../library/vendor/slimScroll/jquery.slimscroll.min.js",
         "../library/vendor/jquery-ui/jquery-ui.min.js",
         "../library/vendor/metisMenu/dist/metisMenu.min.js",
@@ -46,7 +49,7 @@
         "../library/vendor/toastr/build/toastr.min.js",
 
         "../library/vendor/select2-4.0.3/dist/js/select2.full.min.js",
-        "../library/bootstrap/dist/js/bootstrap.js",
+
         "../library/scripts/homer.js",
 
 

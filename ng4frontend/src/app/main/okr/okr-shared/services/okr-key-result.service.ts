@@ -17,6 +17,7 @@ import {Keyresultclass} from '../classes/key-restult-class';
 export class SettingKeyResultService {
 
     private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultGetAllUrl;
+    private basicCallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultGetAllUrl;
     private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultCreateUrl;
     private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultOperateUrl;
 
@@ -77,6 +78,16 @@ export class SettingKeyResultService {
     }
     getById(keyResultId: number): Observable<Keyresultclass> {
         const url = `${this.operateAPI}/${keyResultId}`;
+        return this.http.get(url)
+
+            .map(res => res.json())
+
+            .catch(this.handleErrorObservable);
+
+    }
+
+    getByTeamId(teamId: any): Observable<Keyresultclass> {
+        const url = `${this.basicCallAPI}/get_by_team_id/${teamId}`;
         return this.http.get(url)
 
             .map(res => res.json())

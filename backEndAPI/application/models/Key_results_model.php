@@ -8,6 +8,8 @@ class Key_results_model extends CI_Model
 
     public $table = 'key_results';
     public $objectivesTable = 'objectives';
+    public $teams_objectives_table = 'teams_objectives';
+    public $users_objectives_table = 'users_objectives';
     public $id = 'result_id';
     public $order = 'DESC';
 
@@ -94,6 +96,32 @@ class Key_results_model extends CI_Model
 
    
     function get_by_objective_id($objective_id){
+        $this->db->trans_start();
+        $this->db->select($this->table.'.*');
+        $this->db->from($this->table);
+        $this->db->where($this->table.'.objective_id',$objective_id);
+        $query=$this->db->get();
+        $result=$query->result();
+        return $result;
+
+    }
+
+
+    function get_by_team_id($team_id){
+        $this->db->trans_start();
+        $this->db->select($this->table.'.*');
+        $this->db->from($this->table);
+        $this->db->join($this->teams_objectives_table, $this->teams_objectives_table.'.objective_id='.$this->table.'.objective_id','left');
+        $this->db->where($this->teams_objectives_table.'.team_id',$team_id);
+        $query=$this->db->get();
+        $result=$query->result();
+
+        return $result;
+
+    }
+
+
+    function get_by_user_id($user_id){
         $this->db->trans_start();
         $this->db->select($this->table.'.*');
         $this->db->from($this->table);

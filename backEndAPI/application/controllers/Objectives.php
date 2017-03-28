@@ -81,6 +81,9 @@ class Objectives extends CI_Controller
                 if(empty($Data['objective_status'])){
                     $Data['objective_status']="None";
                 }
+                if(empty($Data['objective_target'])){
+                    $Data['objective_target']="";
+                }
 
                 $processArray = array(
 
@@ -89,9 +92,7 @@ class Objectives extends CI_Controller
                     'objective_unit' => $Data['objective_unit'],
                     'objective_status' => $Data['objective_status'],
                     'objective_progress_status' => $Data['objective_progress_status'],
-
-
-
+                    'objective_target' => $Data['objective_target'],
 
 
                 );
