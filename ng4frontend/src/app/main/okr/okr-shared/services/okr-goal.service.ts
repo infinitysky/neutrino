@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+﻿import {Injectable} from '@angular/core';
 
 
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
@@ -17,6 +17,7 @@ import {Goalclass} from '../classes/goal-class';
 export class SettingGoalService {
 
     private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalGetAllUrl;
+    private basicOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalGetAllUrl;
     private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalCreateUrl;
     private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalOperateUrl;
 
@@ -65,6 +66,16 @@ export class SettingGoalService {
             .catch(this.handleErrorObservable);
     }
 
+    getAllDetailed(): Observable<Goalclass[]> {
+
+        const url = `${this.basicOperateAPI}/get_detailed_goals`;
+        return this.http.get(url)
+
+            .map(res => res.json())
+
+            .catch(this.handleErrorObservable);
+    }
+
 
     get(goal: Goalclass): Observable<Goalclass> {
         const url = `${this.operateAPI}/${goal.goal_id}`;
@@ -77,6 +88,14 @@ export class SettingGoalService {
     }
     getById(goal_id: number): Observable<Goalclass> {
         const url = `${this.operateAPI}/${goal_id}`;
+        return this.http.get(url)
+            .map(res => res.json())
+            .catch(this.handleErrorObservable);
+
+    }
+
+    getByTimeFrameId(timeFrameId: number): Observable<Goalclass> {
+        const url = `${this.basicOperateAPI}/get_detail_by_time_frame/${timeFrameId}`;
         return this.http.get(url)
             .map(res => res.json())
             .catch(this.handleErrorObservable);

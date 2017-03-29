@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import {Http}from '@angular/http';
 
 
@@ -20,7 +20,7 @@ import {Userclass} from '../../../../shared/classes/user-class';
 })
 export class OkrTeamsOverviewComponent implements OnInit {
 
-
+    
   public teams:Teamclass[];
   public users:Userclass[];
 

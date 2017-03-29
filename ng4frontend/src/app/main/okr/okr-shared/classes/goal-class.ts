@@ -14,7 +14,7 @@ export class Goalclass {
   goal_progress_status: string;
   goal_target: string;
 
-
+    objective_array:any;
 
 
 

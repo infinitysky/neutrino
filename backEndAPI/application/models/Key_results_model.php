@@ -132,5 +132,25 @@ class Key_results_model extends CI_Model
 
     }
 
+    function get_by_objective_id_array($objectiveIdArray)
+    {
+
+        $this->db->trans_start();
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where_in($this->table.'.objective_id',$objectiveIdArray);
+        $query=$this->db->get();
+        $this->db->trans_complete();
+
+       // echo $this->db->last_query();
+
+        $result=$query->result();
+        return $result;
+
+    }
+
+
+
 }
 

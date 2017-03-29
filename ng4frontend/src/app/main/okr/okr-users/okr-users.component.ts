@@ -64,7 +64,7 @@ export class OkrUsersComponent implements OnInit {
     this.overallProgressNumber=' - ';
     this.objectivesNumber=' - ';
     this.lastUpdate=' - ';
-    this.letterAvatar=" ";
+    this.letterAvatar="a";
   }
 
 
@@ -117,7 +117,9 @@ export class OkrUsersComponent implements OnInit {
       error =>  this.errorMessage = <any>error,
       ()=>{
         this.displayUserInfoData = <Userclass>this.tempData.data;
+
         this.letterAvatar=(this.displayUserInfoData.first_name.charAt(0)+this.displayUserInfoData.last_name.charAt(0)).toUpperCase();
+
         console.log("his.letterAvatar : "+this.letterAvatar);
         this._shareUserOkrinfoService.setTargetUserInfoSubject(this.displayUserInfoData);
         console.log("Set Target userinfo"+this.displayUserInfoData);
@@ -129,7 +131,7 @@ export class OkrUsersComponent implements OnInit {
 
 
   setTargetUserInfo(){
-
+      this.letterAvatar="Lot Lo";
   }
 
 

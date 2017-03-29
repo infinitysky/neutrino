@@ -70,7 +70,7 @@ export class OkrCompanyComponent implements OnInit {
         this.overallProgressNumberSubscription = this._shareCompanyOkrinfoService._shareOverallProgressNumber$.subscribe(data => this.overallProgressNumber = data);
 
         if (!this.overallProgressNumber) {
-            this.overallProgressNumber = ' - ';
+            this.overallProgressNumber = '0';
         }
     }
 

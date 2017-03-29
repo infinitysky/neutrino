@@ -53,7 +53,8 @@ class Goals_model extends CI_Model
     {
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
-    }
+    } // get data by id
+
     
     // get total rows
     function total_rows($q = NULL) {
@@ -110,6 +111,20 @@ class Goals_model extends CI_Model
         $affectedRowsNumber=$this->db->affected_rows();
         $this->db->trans_complete();
         return  $affectedRowsNumber;
+    }
+
+
+    function get_by_timeFrame_id($time_frame_id)
+    {
+        $this->db->trans_start();
+        $this->db->select('*');
+        $this->db->where('time_frame_id',$time_frame_id);
+        $this->db->from($this->table);
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+
+        return $result->result();
     }
 
 }

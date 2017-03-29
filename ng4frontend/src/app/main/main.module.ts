@@ -4,14 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
+
+
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
 import { HeaderpageComponent } from './headerpage/headerpage.component';
 import { FooterpageComponent } from './footerpage/footerpage.component';
 import { NavigationComponent } from './navigation/navigation.component';
 
+
+
+import { AccordionModule } from 'ng2-bootstrap/accordion';
+
 @NgModule({
     imports: [
+        AccordionModule.forRoot(),
         FormsModule,
         HttpModule,
         CommonModule,

@@ -8,6 +8,9 @@ import {Activityclass}from '../../../okr-shared/classes/activitie-class';
 import {OkrActivitiesService}from '../../../okr-shared/services/okr-activities.service';
 import {UserInfoContainerService} from '../../../../../shared/services/user-info-container.service';
 
+//import swal from 'sweetalert2'
+declare var swal: any;
+
 @Component({
   selector: 'app-okr-teams-activity',
   templateUrl: './okr-teams-activity.component.html',
@@ -46,14 +49,15 @@ export class OkrTeamsActivityComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.getCurrentUserInfo();
 
     this.subscribeTeamActivity = this._activatedRoute.params.subscribe(params => {
       this.viewTeamId = +params['teamid']; // (+) converts string 'id' to a number
-      this.getUserActivities();
+      this.getTeamMembersActivities();
 
     });
 
-    this.getCurrentUserInfo();
+
 
   }
 
@@ -62,7 +66,7 @@ export class OkrTeamsActivityComponent implements OnInit {
     this.selfInfoSubscription.unsubscribe();
   }
 
-  getUserActivities(){
+  getTeamMembersActivities(){
     console.log("Current User activities activity");
     this._okrActivitiesService.getByTeamId(this.viewTeamId).subscribe(
       data=>this.tempData=data,
@@ -81,21 +85,21 @@ export class OkrTeamsActivityComponent implements OnInit {
 
 
   getCurrentUserInfo(){
-    this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
+    this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo => this.selfUserInforData = userInfo);
     console.log("self Info"+ JSON.stringify(this.selfUserInforData.user_id));
-
+    this.buttonIO = true;
 
   }
 
 
 
   submitNoteButton(inputString:any){
-    this.buttonIO=true;
-    this.content=inputString
+    this.buttonIO = true;
+    this.content = inputString;
     console.log(this.content);
     var i=0;
 
-    let activityType='note';
+    let activityType='Note';
 
     let myID=this.selfUserInforData.user_id;
     console.log("myID" + myID);
@@ -111,17 +115,47 @@ export class OkrTeamsActivityComponent implements OnInit {
             for(i=0;i<this.activities.length;i++){
               if(newActivity.activity_timestamp > this.activities[i].activity_timestamp){
                 tempSortingArray.push(newActivity);
+
               }else{
                 tempSortingArray.push(this.activities[i]);
               }
             }
-            this.activities=tempSortingArray;
+            this.displaySuccessMessage("");
+
+            this.activities = tempSortingArray;
             this.content='';
-            this.buttonIO=false;
+            this.buttonIO=true;
           }
         }
       );
     }
+
+
+
   }
+
+
+
+
+
+
+
+
+
+
+    displayWarningMessage(warningMessage:string){
+        swal("Warning", warningMessage, "warning");
+    }
+    displayErrorMessage(errorMessage:string){
+        swal("Error!", errorMessage , "error");
+    }
+
+    displaySuccessMessage(successMessage:string){
+        swal("Success!", successMessage, "success");
+    }
+
+
+
+
 
 }

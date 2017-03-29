@@ -10,6 +10,6 @@ export class Objectiveclass {
 
     objective_target: string;
 
-    keyResult_array:any[];
+    keyResult_array:any;
 
 }

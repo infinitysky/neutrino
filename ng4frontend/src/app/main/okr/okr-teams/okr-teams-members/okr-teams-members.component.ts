@@ -35,13 +35,13 @@ export class OkrTeamsMembersComponent implements OnInit {
   ngOnInit() {
 
     this.viewTeamId=this._activatedRoute.snapshot.params['teamid'];
-    console.log("geted team id:"+ this.viewTeamId);
+
 
 
     this.subscribeTeamInfo=this._activatedRoute.params.subscribe(
       params=>{
         this.viewTeamId = ''+params['teamid']; // (+) converts string 'id' to a number
-        console.log("this.viewUserID"+this.viewTeamId);
+
 
         this.getTeamMembers();
       });

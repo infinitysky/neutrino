@@ -7,14 +7,14 @@
           <fieldset>
             <div class="form-group">
 
-              <textarea style="width: 100%;height: 100px;" type="text" autocomplete="off" value="{{content}}" placeholder="Please leave your note" #newNote></textarea>
+              <textarea style="width: 100%;height: 100px;" type="text" autocomplete="off" [(ngModel)]="content" placeholder="Please leave your note" #newNote></textarea>
             </div>
           </fieldset>
           <!-- Buttons -->
           <fieldset>
             <div class="form-group">
 
-              <button class="btn btn-primary pull-right" [ngClass]='{disabled: buttonIO}' (click)="submitNoteButton(newNote.value)">Submit Note</button>
+              <button class="btn btn-primary pull-right" (click)="submitNoteButton(newNote.value)">Submit Note</button>
 
             </div>
           </fieldset>

@@ -4,7 +4,7 @@
         <div class="profile-picture">
 
             <a href="index.html">
-              <!--<ng2-letter-avatar avatar-data='{{letterAvatar}}' ></ng2-letter-avatar>-->
+                <!--<ng2-letter-avatar avatar-data='{{letterAvatar}}' ></ng2-letter-avatar>-->
                 <!--<img src="images/profile.jpg" class="img-circle m-b" alt="logo">-->
             </a>
 
@@ -49,38 +49,58 @@
                 </a>
             </li>
 
-          <li  class="nav-item nav-dropdown">
-            <a >
-              <span class="nav-label">OKR System</span><span class="fa arrow"></span>
-            </a>
-            <ul class="nav nav-second-level nav-dropdown-items" >
-            <!--<ul class="nav nav-second-level nav-dropdown-items" routerLinkActive="in">-->
+            <li  class="nav-item nav-dropdown">
+                <a >
+                    <span class="nav-label">OKR System</span><span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level nav-dropdown-items" >
+                    <!--<ul class="nav nav-second-level nav-dropdown-items" routerLinkActive="in">-->
 
-              <li routerLinkActive="active"><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>
+                    <li routerLinkActive="active"><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>
 
-              <!--Router parameter 1-->
-              <li routerLinkActive="active"><a [routerLink]="['/okr/okr-users/user/',selfInfo.user_id]">OKRs Users</a></li>
+                    <!--Router parameter 1-->
+                    <li routerLinkActive="active"><a [routerLink]="['/okr/okr-users/user/',selfInfo.user_id]">OKRs Users</a></li>
 
-              <li routerLinkActive="active" ><a [routerLink]="['/okr/okr-teams']">OKRs Team</a></li>
+                    <li routerLinkActive="active" ><a [routerLink]="['/okr/okr-teams']">OKRs Team</a></li>
 
-              <!--<li><a [routerLink]="['/okr/okr-company',subscribeTimeFrameData.time_frame_id]">OKRs Company</a></li>-->
-              <li routerLinkActive="active"><a [routerLink]="['/okr/okr-company']">OKRs Company</a></li>
+                    <!--<li><a [routerLink]="['/okr/okr-company',subscribeTimeFrameData.time_frame_id]">OKRs Company</a></li>-->
+                    <li routerLinkActive="active"><a [routerLink]="['/okr/okr-company']">OKRs Company</a></li>
 
-              <li routerLinkActive="active" ><a [routerLink]="['/okr/okr-setting']">ORKs Setting</a></li>
-            </ul>
+                    <li routerLinkActive="active" ><a [routerLink]="['/okr/okr-setting']">ORKs Setting</a></li>
+                </ul>
 
 
-          </li>
+            </li>
 
 
             <li routerLinkActive="active" >
                 <a routerLink="/aboutus"> <span class="nav-label">About Us</span></a>
             </li>
 
+            <!--<li >-->
+                <!--<accordion-group #group>-->
+                    <!--<div accordion-heading>-->
+                        <!--OKRS-->
+                        <!--<ul class="nav nav-second-level nav-dropdown-items" >-->
+                            <!--&lt;!&ndash;<ul class="nav nav-second-level nav-dropdown-items" routerLinkActive="in">&ndash;&gt;-->
 
+                            <!--<li routerLinkActive="active"><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>-->
 
+                            <!--&lt;!&ndash;Router parameter 1&ndash;&gt;-->
+                            <!--<li routerLinkActive="active"><a [routerLink]="['/okr/okr-users/user/',selfInfo.user_id]">OKRs Users</a></li>-->
 
+                            <!--<li routerLinkActive="active" ><a [routerLink]="['/okr/okr-teams']">OKRs Team</a></li>-->
+
+                            <!--&lt;!&ndash;<li><a [routerLink]="['/okr/okr-company',subscribeTimeFrameData.time_frame_id]">OKRs Company</a></li>&ndash;&gt;-->
+                            <!--<li routerLinkActive="active"><a [routerLink]="['/okr/okr-company']">OKRs Company</a></li>-->
+
+                            <!--<li routerLinkActive="active" ><a [routerLink]="['/okr/okr-setting']">ORKs Setting</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</accordion-group>-->
+            <!--</li>-->
 
         </ul>
+
     </div>
 </aside>

@@ -7,7 +7,7 @@ class Goals_objectives_model extends CI_Model
 {
 
     public $table = 'goals_objectives';
-    public $id = 'id';
+    public $id = 'record_id';
     public $order = 'DESC';
 
     function __construct()
@@ -277,6 +277,27 @@ class Goals_objectives_model extends CI_Model
         return $query;
 
     }
+
+    function get_by_goal_id_array($goalIdArray)
+    {
+        $this->db->trans_start();
+
+        $this->db->trans_start();
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where_in($this->table.'.goal_id',$goalIdArray);
+        //$this->db->join('goals', $this->table.'.goal_id=goals.goal_id','left');
+        $this->db->join('objectives', $this->table.'.objective_id=objectives.objective_id','left');
+
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+        //echo $this->db->last_query();
+
+        return $result->result();
+    }
+
 
 
 

@@ -367,7 +367,8 @@ getCurrentUserInfo(){
 
 
   getGoals() {
-    this._settingGoalService.getAll()
+   // this._settingGoalService.getAll()
+    this._settingGoalService.getAllDetailed()
       .subscribe(
         data => this.tempData = data,
         error => this.errorMessage = <any>error,

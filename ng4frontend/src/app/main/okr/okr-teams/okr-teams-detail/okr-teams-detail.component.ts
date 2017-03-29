@@ -70,7 +70,7 @@ export class OkrTeamsDetailComponent implements OnInit {
     subsTargetTeamId(){
         this.subsTeam = this._activatedRoute.params.subscribe(params => {
             this.viewTeamId = ''+params['teamid']; // (+) converts string 'id' to a number
-            console.log("this.viewTeamId"+this.viewTeamId);
+
             this.getTargetTeamInfo( this.viewTeamId);
         });
 
@@ -82,12 +82,12 @@ export class OkrTeamsDetailComponent implements OnInit {
             data => this.tempData = data,
             error =>  this.errorMessage = <any>error,
             () => {
-                console.log("get team Info: "+this.tempData);
+
                 if(this.tempData.data&&<Teamclass>this.tempData.data){
                     this.randerTeamInforData = <Teamclass> this.tempData.data;
                     this._shareTeamsOkrinfoService.setTargetTeamInfo(this.randerTeamInforData);
                 }
-                console.log(this.randerTeamInforData);
+
             }
         );
     }
@@ -106,7 +106,7 @@ export class OkrTeamsDetailComponent implements OnInit {
     getOverallProgressNumber() {
 
         this.overallProgressNumberSubscription = this._shareTeamsOkrinfoService._shareOverallProgressNumber$.subscribe(data => this.overallProgressNumber = data);
-        console.log(this.overallProgressNumber );
+
         if (!this.overallProgressNumber) {
             this.overallProgressNumber = 0;
         }
