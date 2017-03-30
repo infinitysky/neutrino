@@ -49,11 +49,11 @@
                 </a>
             </li>
 
-            <li  class="nav-item nav-dropdown">
+            <li  class="nav-item nav-dropdown" routerLinkActive="active" (click)="showOkrsSubMenu = !showOkrsSubMenu" >
                 <a >
                     <span class="nav-label">OKR System</span><span class="fa arrow"></span>
                 </a>
-                <ul class="nav nav-second-level nav-dropdown-items" >
+                <ul class="nav nav-second-level nav-dropdown-items collapse" routerLinkActive="in" [class.in]="showOkrsSubMenu" >
                     <!--<ul class="nav nav-second-level nav-dropdown-items" routerLinkActive="in">-->
 
                     <li routerLinkActive="active"><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>
@@ -76,6 +76,16 @@
             <li routerLinkActive="active" >
                 <a routerLink="/aboutus"> <span class="nav-label">About Us</span></a>
             </li>
+
+          <li >
+            <a href="#" aria-expanded="true"><span class="nav-label">Tables</span><span class="fa arrow"></span> </a>
+            <ul class="nav nav-second-level collapse " aria-expanded="true">
+              <li><a href="tables_design.html">Tables design</a></li>
+              <li><a href="datatables.html">Data tables</a></li>
+              <li><a href="footable.html">Foo Table</a></li>
+
+            </ul>
+          </li>
 
             <!--<li >-->
                 <!--<accordion-group #group>-->

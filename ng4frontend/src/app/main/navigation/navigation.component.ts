@@ -61,8 +61,15 @@ export class NavigationComponent implements OnInit {
     console.log('self Info'+ JSON.stringify(this.subscribeTimeFrameData));
   }
 
-
-
+public showOkrsSubMenu : false;
+ // Menu management :
+  extendOkrsSubMenu(){
+    // if (this.showOkrsSubMenu.length = 0 ){
+    //   this.showOkrsSubMenu.push('in');
+    // }else{
+    //   this.showOkrsSubMenu.pop('in');
+    // }
+  }
 
 
 
