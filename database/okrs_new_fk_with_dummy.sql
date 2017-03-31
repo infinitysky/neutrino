@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2017-03-21 15:25:25
+Date: 2017-03-31 09:21:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,32 +25,28 @@ CREATE TABLE `activities` (
   `activity_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `activity_timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `activity_group` varchar(255) DEFAULT NULL,
+  `activity_group_id` int(11) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`activity_id`),
   KEY `fk_activities_users` (`user_id`),
   CONSTRAINT `fk_activities_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of activities
 -- ----------------------------
-INSERT INTO `activities` VALUES ('1', 0x7267646667646667, 'update', '4', '2017-02-28 10:58:47');
-INSERT INTO `activities` VALUES ('2', 0x323133313233, 'create', '1', '2017-03-03 10:58:53');
-INSERT INTO `activities` VALUES ('4', 0x3232343234, 'note', '1', '2017-02-28 11:41:19');
-INSERT INTO `activities` VALUES ('5', 0x323133313233, 'create', '1', '2017-02-28 11:45:03');
-INSERT INTO `activities` VALUES ('6', 0x323133313233, 'create', '1', '2017-02-28 11:45:15');
-INSERT INTO `activities` VALUES ('7', 0x323133313233, 'create', '1', '2017-02-28 11:45:15');
-INSERT INTO `activities` VALUES ('8', 0x323133313233, 'create', '1', '2017-02-28 11:45:16');
-INSERT INTO `activities` VALUES ('9', 0x323133313233, 'create', '1', '2017-02-28 11:45:17');
-INSERT INTO `activities` VALUES ('10', 0x323133313233, 'create', '1', '2017-02-28 11:45:18');
-INSERT INTO `activities` VALUES ('11', 0x323133313233, 'create', '1', '2017-02-28 11:45:19');
-INSERT INTO `activities` VALUES ('12', 0x323133313233, 'create', '1', '2017-02-28 11:45:23');
-INSERT INTO `activities` VALUES ('13', 0x6466666673647364736473775C6E61333264666464, 'note', '1', '2017-03-08 16:06:02');
-INSERT INTO `activities` VALUES ('14', 0x6565777145534532314553416532316577, 'note', '1', '2017-02-28 15:52:19');
-INSERT INTO `activities` VALUES ('34', 0x666473616663647361206664736120663334712066647361662073616420660A0A0A6473610A6473610A33334444330A514544510A, 'note', '1', '2017-03-08 15:08:00');
-INSERT INTO `activities` VALUES ('35', 0x74656173742061646D696E207570646174656420676F616C203A2079657379743333, 'update', '1', '2017-03-08 15:15:49');
-INSERT INTO `activities` VALUES ('36', 0x74656173742061646D696E207570646174656420676F616C203A207965737974333320757064617465206C6F67203A20, 'update', '1', '2017-03-08 15:18:58');
-INSERT INTO `activities` VALUES ('37', 0x34353634353634, 'Note', '1', '2017-03-16 09:45:34');
-INSERT INTO `activities` VALUES ('38', 0x3B6C3B6C6B6C6B6C6C6B, 'note', '1', '2017-03-21 10:09:07');
+INSERT INTO `activities` VALUES ('105', 0x72727272, 'note', '1', '2017-03-29 09:17:08', null, null);
+INSERT INTO `activities` VALUES ('106', 0x7070707070, 'note', '1', '2017-03-29 09:29:55', null, null);
+INSERT INTO `activities` VALUES ('107', 0x64, 'note', '1', '2017-03-29 09:32:28', null, null);
+INSERT INTO `activities` VALUES ('108', 0x383838, 'note', '1', '2017-03-29 09:36:14', null, null);
+INSERT INTO `activities` VALUES ('109', 0x303030, 'note', '1', '2017-03-29 09:36:31', null, null);
+INSERT INTO `activities` VALUES ('110', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 11:20:30', null, null);
+INSERT INTO `activities` VALUES ('111', 0x20437265617465642061206E6577204F626A656374697665203A206164642074656D206F626A656374697665, 'Create', '1', '2017-03-29 14:34:36', null, null);
+INSERT INTO `activities` VALUES ('112', 0x55706461746564204F626A656374697665203A206164642074656D206F626A65637469766520757064617465206C6F67203A20, 'Update', '1', '2017-03-29 14:34:43', null, null);
+INSERT INTO `activities` VALUES ('113', 0x20437265617465642061206E6577204B657920526573756C74203A646464, 'Create', '1', '2017-03-29 14:34:47', null, null);
+INSERT INTO `activities` VALUES ('114', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 14:34:56', null, null);
+INSERT INTO `activities` VALUES ('115', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 14:35:48', null, null);
+INSERT INTO `activities` VALUES ('116', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 14:35:58', null, null);
 
 -- ----------------------------
 -- Table structure for company_infos
@@ -83,7 +79,7 @@ CREATE TABLE `goals` (
   `goal_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `time_frame_id` int(11) NOT NULL,
   `goal_unit` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `goal_progress_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `goal_progress_status` int(255) DEFAULT '0',
   `goal_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`goal_id`),
   KEY `goal_id` (`goal_id`),
@@ -94,10 +90,10 @@ CREATE TABLE `goals` (
 -- ----------------------------
 -- Records of goals
 -- ----------------------------
-INSERT INTO `goals` VALUES ('12', 0x496D70726F7665203230252073616C6573, 0x496D70726F7665203230252073616C6573, 'None', '63', '%', '12', '0');
-INSERT INTO `goals` VALUES ('13', 0x496D70726F7665203235252073616C6573, 0x496D70726F7665203235252073616C6573, 'Warning', '63', '%', '50', null);
-INSERT INTO `goals` VALUES ('14', 0x66696E6420323025206D6F726520637573746F6D6572, 0x66696E6420323025206D6F726520637573746F6D6572, 'Risk', '63', '%', '30', null);
-INSERT INTO `goals` VALUES ('15', 0x636F6D65706C65746564205461736B, 0x636F6D65706C65746564205461736B, 'Complete', '63', '%', '100', null);
+INSERT INTO `goals` VALUES ('12', 0x496D70726F7665203230252073616C6573, 0x496D70726F7665203230252073616C6573, 'None', '63', '%', '0', '0');
+INSERT INTO `goals` VALUES ('13', 0x496D70726F7665203235252073616C6573, 0x496D70726F7665203235252073616C6573, 'Warning', '63', '%', '0', null);
+INSERT INTO `goals` VALUES ('14', 0x66696E6420323025206D6F726520637573746F6D6572, 0x66696E6420323025206D6F726520637573746F6D6572, 'Risk', '63', '%', '0', null);
+INSERT INTO `goals` VALUES ('15', 0x636F6D65706C65746564205461736B, 0x636F6D65706C65746564205461736B, 'Complete', '63', '%', '0', null);
 
 -- ----------------------------
 -- Table structure for goals_objectives
@@ -112,11 +108,17 @@ CREATE TABLE `goals_objectives` (
   KEY `fk_goals_objectives_objectivs` (`objective_id`),
   CONSTRAINT `fk_goals_objectives_goals` FOREIGN KEY (`goal_id`) REFERENCES `goals` (`goal_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_goals_objectives_objectivs` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of goals_objectives
 -- ----------------------------
+INSERT INTO `goals_objectives` VALUES ('20', '13', '27');
+INSERT INTO `goals_objectives` VALUES ('21', '14', '28');
+INSERT INTO `goals_objectives` VALUES ('23', '13', '35');
+INSERT INTO `goals_objectives` VALUES ('24', '14', '36');
+INSERT INTO `goals_objectives` VALUES ('25', '13', '36');
+INSERT INTO `goals_objectives` VALUES ('26', '12', '36');
 
 -- ----------------------------
 -- Table structure for key_results
@@ -128,17 +130,26 @@ CREATE TABLE `key_results` (
   `result_description` text COLLATE utf8mb4_bin,
   `result_unit` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `result_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `result_progress_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `result_progress_status` int(255) DEFAULT '0',
   `result_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_id` int(11) NOT NULL,
   PRIMARY KEY (`result_id`),
   KEY `fk_key_results_objectives` (`objective_id`),
   CONSTRAINT `fk_key_results_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of key_results
 -- ----------------------------
+INSERT INTO `key_results` VALUES ('12', '9999', 0x39393939, null, null, '0', null, '20');
+INSERT INTO `key_results` VALUES ('15', 'KR1', 0x4B5231, '%', 'None', '24', '', '27');
+INSERT INTO `key_results` VALUES ('17', 'kr3', 0x6B7233, '%', 'None', '88', '', '27');
+INSERT INTO `key_results` VALUES ('18', 'K4', 0x4B34, '%', 'None', '30', '', '27');
+INSERT INTO `key_results` VALUES ('22', 'New Key Result 1', 0x4E6577204B657920526573756C742031, '%', 'None', '38', '', '34');
+INSERT INTO `key_results` VALUES ('23', 'h1', 0x6831, '%', 'None', '36', '', '34');
+INSERT INTO `key_results` VALUES ('24', 'ffsdfsdfsdfsfawfefsdfsf4fase', 0x66736466736461667364666177666473, '%', 'None', '50', '', '34');
+INSERT INTO `key_results` VALUES ('25', 'key result  1', 0x6B657920726573756C74202031, '%', 'None', '40', '', '35');
+INSERT INTO `key_results` VALUES ('26', 'ddd', 0x646464, '%', 'None', '80', '', '36');
 
 -- ----------------------------
 -- Table structure for objectives
@@ -150,54 +161,24 @@ CREATE TABLE `objectives` (
   `objective_description` text COLLATE utf8mb4_bin,
   `objective_unit` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `objective_progress_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `objective_progress_status` int(255) DEFAULT '0',
   `objective_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   PRIMARY KEY (`objective_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of objectives
 -- ----------------------------
-INSERT INTO `objectives` VALUES ('1', 'fdsfsd', 0x736466736466736466, '%', 'None', '0', null);
-INSERT INTO `objectives` VALUES ('2', 'fdasfds', 0x66647361667364616673646661736466, '%', 'None', '0', null);
-INSERT INTO `objectives` VALUES ('3', 'team objective', 0x7465616D206F626A656374697665, null, null, null, null);
-
--- ----------------------------
--- Table structure for objectives_teams
--- ----------------------------
-DROP TABLE IF EXISTS `objectives_teams`;
-CREATE TABLE `objectives_teams` (
-  `record_id` int(11) NOT NULL AUTO_INCREMENT,
-  `objective_id` int(11) DEFAULT NULL,
-  `team_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`record_id`),
-  KEY `fk_from_objectives` (`objective_id`),
-  KEY `fk_from_teams` (`team_id`),
-  CONSTRAINT `fk_from_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_from_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
--- ----------------------------
--- Records of objectives_teams
--- ----------------------------
-
--- ----------------------------
--- Table structure for risk_status
--- ----------------------------
-DROP TABLE IF EXISTS `risk_status`;
-CREATE TABLE `risk_status` (
-  `risk_id` int(11) NOT NULL AUTO_INCREMENT,
-  `risk_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  PRIMARY KEY (`risk_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
--- ----------------------------
--- Records of risk_status
--- ----------------------------
-INSERT INTO `risk_status` VALUES ('1', 'None');
-INSERT INTO `risk_status` VALUES ('2', 'Normal');
-INSERT INTO `risk_status` VALUES ('3', 'Warning');
-INSERT INTO `risk_status` VALUES ('4', 'At Risk');
+INSERT INTO `objectives` VALUES ('8', 'team 123 objective1', 0x7465616D20313233206F626A65637469766531, '%', 'None', '0', null);
+INSERT INTO `objectives` VALUES ('19', ' f', 0x66, '%', 'None', '0', null);
+INSERT INTO `objectives` VALUES ('20', 'fff', 0x666666, '%', 'None', '0', null);
+INSERT INTO `objectives` VALUES ('27', 'find more customer111', 0x492066696E64206F6E6520676F6F64206578616D706C6531, '%', 'Warning', '0', '');
+INSERT INTO `objectives` VALUES ('28', 'team 24', 0x7465616D203234, '%', 'None', '0', null);
+INSERT INTO `objectives` VALUES ('29', 'Personal Objective 1', 0x506572736F6E616C204F626A6563746976652031, '%', 'None', '0', null);
+INSERT INTO `objectives` VALUES ('30', 'Personal Objective 1', 0x506572736F6E616C204F626A6563746976652031, null, 'None', '0', null);
+INSERT INTO `objectives` VALUES ('34', 'tt1', 0x74747431, '%', 'None', '0', '');
+INSERT INTO `objectives` VALUES ('35', 'Objective test1', 0x4F626A656374697665207465737431, '%', 'None', '0', '');
+INSERT INTO `objectives` VALUES ('36', 'add tem objective', 0x6164642074656D206F626A656374697665, '%', 'Risk', '0', '');
 
 -- ----------------------------
 -- Table structure for roles
@@ -239,7 +220,7 @@ INSERT INTO `teams` VALUES ('22', 'Team blue', 0x205465616D20426C7565, '0', '2')
 INSERT INTO `teams` VALUES ('23', 'Team Red', 0x205465616D20546564, '0', '5');
 INSERT INTO `teams` VALUES ('24', 'Team Yellow', 0x205465616D2059656C6C6F77, '0', '6');
 INSERT INTO `teams` VALUES ('25', 'Sub-team of Yellow', 0x5375622D7465616D206F662059656C6C6F77, '24', '27');
-INSERT INTO `teams` VALUES ('28', 'team 123', 0x7465616D20313233, '22', '52');
+INSERT INTO `teams` VALUES ('28', 'team 123', 0x7465616D20313233, '22', '2');
 
 -- ----------------------------
 -- Table structure for teams_objectives
@@ -254,12 +235,16 @@ CREATE TABLE `teams_objectives` (
   KEY `fk_teams_objectives_objectives` (`objective_id`),
   CONSTRAINT `fk_teams_objectives_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_teams_objectives_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of teams_objectives
 -- ----------------------------
-INSERT INTO `teams_objectives` VALUES ('1', '28', '3');
+INSERT INTO `teams_objectives` VALUES ('15', '28', '27');
+INSERT INTO `teams_objectives` VALUES ('16', '24', '28');
+INSERT INTO `teams_objectives` VALUES ('20', '28', '34');
+INSERT INTO `teams_objectives` VALUES ('21', '28', '35');
+INSERT INTO `teams_objectives` VALUES ('22', '28', '36');
 
 -- ----------------------------
 -- Table structure for teams_users
@@ -477,21 +462,6 @@ INSERT INTO `time_frames` VALUES ('119', 0x323033302C205131, '2030-01-01', '2030
 INSERT INTO `time_frames` VALUES ('120', 0x323033302C205132, '2030-04-01', '2030-06-30');
 INSERT INTO `time_frames` VALUES ('121', 0x323033302C205133, '2030-07-01', '2030-09-30');
 INSERT INTO `time_frames` VALUES ('122', 0x323033302C205134, '2030-10-01', '2030-12-31');
-
--- ----------------------------
--- Table structure for time_frames_goals
--- ----------------------------
-DROP TABLE IF EXISTS `time_frames_goals`;
-CREATE TABLE `time_frames_goals` (
-  `record_id` int(11) NOT NULL,
-  `goal_id` int(11) NOT NULL,
-  `time_frame_id` int(11) NOT NULL,
-  PRIMARY KEY (`record_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
--- ----------------------------
--- Records of time_frames_goals
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for users
@@ -752,7 +722,7 @@ CREATE TABLE `users_objectives` (
 -- ----------------------------
 -- Records of users_objectives
 -- ----------------------------
-INSERT INTO `users_objectives` VALUES ('1', '1', '1');
+INSERT INTO `users_objectives` VALUES ('1', '30', '1');
 
 -- ----------------------------
 -- Table structure for user_setting

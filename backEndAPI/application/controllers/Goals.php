@@ -269,7 +269,7 @@ class Goals extends CI_Controller
         $j=0;
         $goalsIdArray=[];
 
-
+        array_push($goalsIdArray,'0');
         if ($goalsArray){
             $lengthOfGoalsArray=count($goalsArray);
 
@@ -375,6 +375,7 @@ class Goals extends CI_Controller
     function searchObjectivesForGoal($goalsIdArray){
         $objectives=[];
         $objectivesIdArray=[];
+        array_push($objectivesIdArray,'0');
         $i=0;
         $j = 0;
 
@@ -416,11 +417,11 @@ class Goals extends CI_Controller
         return $objectives;
     }
 
-    function searchKeyResultsForObjective($objective_id){
+    function searchKeyResultsForObjective($objectivesIdArray){
         $keyResult=[];
         $i=0;
 
-        $keyResultArray=$this->Key_results_model->get_by_objective_id_array($objective_id);
+        $keyResultArray=$this->Key_results_model->get_by_objective_id_array($objectivesIdArray);
 
         if ($keyResultArray){
             $keyResult=$keyResultArray;

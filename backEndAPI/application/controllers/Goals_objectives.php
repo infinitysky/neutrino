@@ -320,26 +320,18 @@ class Goals_objectives extends CI_Controller
 
     }
     public function get_by_objective_id($id){
-
-
         $data=[];
         $row = $this->Goals_objectives_model->get_by_objective_id($id);
-
-
         if ($row){
             $length= count($row);
             for($i=0;$i<$length;$i++){
-
-
                 $info = array(
-
                     'record_id' => set_value('record_id', $row[$i]->record_id),
                     //goals informations
                     'goal_id' => set_value('goal_id', $row[$i]->goal_id),
                     'goal_name' => set_value('goal_name', $row[$i]->goal_name),
                     'goal_description' => set_value('goal_description', $row[$i]->goal_description),
                     'time_frame_id' => set_value('time_frame_id', $row[$i]->time_frame_id),
-
 
                     //objectives
                     'objective_id' => set_value('objective_id', $row[$i]->objective_id),

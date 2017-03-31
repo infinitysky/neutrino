@@ -243,5 +243,28 @@ class Teams_objectives_model extends CI_Model
 
     }
 
+
+    function get_by_team_id_array($teamIdArray)
+    {
+        $this->db->trans_start();
+
+        $this->db->trans_start();
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where_in($this->table.'.team_id',$teamIdArray);
+
+        $this->db->join('objectives', $this->table.'.objective_id=objectives.objective_id','left');
+
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+        //echo $this->db->last_query();
+
+        return $result->result();
+    }
+
+
+
 }
 

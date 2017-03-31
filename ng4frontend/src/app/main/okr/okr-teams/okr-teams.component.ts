@@ -44,7 +44,7 @@ export class OkrTeamsComponent implements OnInit {
 
   getTeams() {
     console.log("get All teams");
-    this._settingTeamService.getAll()
+    this._settingTeamService.getAllTeamProgressAndMember()
       .subscribe(
         data => this.tempData = data,
         error =>  this.errorMessage = <any>error,

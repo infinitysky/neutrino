@@ -16,6 +16,7 @@ import {Teamclass} from '../classes/team-class';
 export class SettingTeamService {
 
   private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamGetAllUrl;
+  private basicOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamGetAllUrl;
   private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamCreateUrl;
   private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamOperateUrl;
 
@@ -66,6 +67,15 @@ export class SettingTeamService {
       // .do(data => console.log(data)) // eyeball results in the console
       .catch(this.handleErrorObservable);
   }
+
+
+  getAllTeamProgressAndMember(): Observable<Teamclass[]> {
+      const url = `${this.basicOperateAPI}/get_teams_over_view`;
+        return this.http.get(url)
+            .map(res => res.json())
+            .catch(this.handleErrorObservable);
+    }
+
 
    get(team: Teamclass): Observable<Teamclass> {
     let headers = new Headers({ 'Content-Type': 'application/json' });

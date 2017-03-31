@@ -227,6 +227,28 @@ class Teams_users_model extends CI_Model
 
     }
 
+    function get_by_team_id_array($teamIdArray){
+
+        $this->db->trans_start();
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+
+        $this->db->where_in( $this->table.'.team_id',$teamIdArray);
+
+        $this->db->join('users_details', 'users_details.user_id=teams_users.user_id','left');
+        $this->db->join('users', 'users.user_id=users_details.user_id','left');
+        $this->db->join('roles' ,'roles.role_id=users_details.role_id','inner');
+        $queryResult=$this->db->get();
+        $this->db->trans_complete();
+
+
+
+        return $queryResult->result();
+
+    }
+
+
     function get_team_and_users_details(){
         $this->db->select('*');
         $this->db->from($this->table);
