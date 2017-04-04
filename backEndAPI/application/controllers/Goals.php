@@ -258,9 +258,6 @@ class Goals extends CI_Controller
             echo json_encode($tempReturnArray);
         }
 
-
-
-
     }
 
     public function get_detailed_goals(){
@@ -292,21 +289,12 @@ class Goals extends CI_Controller
                     for ( $j = 0; $j<$lengthOfGoalsArray ; $j++){
                         if ($objectives[$i]->goal_id == $goalsArray[$j]->goal_id){
                             array_push($goalsArray[$j]->objective_array,$objectives[$i]);
-
-
                         }
                     }
-
-
                 }
             }
 
-
-
-
-
             $calculatedArray=$this->calculateProgress($goalsArray);
-
             $this->json($calculatedArray);
 
         }else{

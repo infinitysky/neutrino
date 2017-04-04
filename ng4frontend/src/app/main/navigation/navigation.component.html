@@ -49,11 +49,12 @@
                 </a>
             </li>
 
-            <li  class="nav-item nav-dropdown" routerLinkActive="active" (click)="showOkrsSubMenu = !showOkrsSubMenu" >
+            <li  class="nav-item nav-dropdown" routerLinkActive="active" (click)="extendOkrsSubMenu()" >
                 <a >
                     <span class="nav-label">OKR System</span><span class="fa arrow"></span>
                 </a>
-                <ul class="nav nav-second-level nav-dropdown-items collapse" routerLinkActive="in" [class.in]="showOkrsSubMenu" >
+                <!--<ul class="nav nav-second-level nav-dropdown-items collapse in" routerLinkActive="collapse " [ngClass]="{'in': showOkrsSubMenu}" >-->
+                <ul class="nav nav-second-level nav-dropdown-items collapse in" routerLinkActive="collapse in"  >
                     <!--<ul class="nav nav-second-level nav-dropdown-items" routerLinkActive="in">-->
 
                     <li routerLinkActive="active"><a routerLink="/okr/okr-dashboard">OKRs Dashbaod</a></li>
@@ -66,7 +67,7 @@
                     <!--<li><a [routerLink]="['/okr/okr-company',subscribeTimeFrameData.time_frame_id]">OKRs Company</a></li>-->
                     <li routerLinkActive="active"><a [routerLink]="['/okr/okr-company']">OKRs Company</a></li>
 
-                    <li routerLinkActive="active" ><a [routerLink]="['/okr/okr-setting']">ORKs Setting</a></li>
+                    <li routerLinkActive="active" ><a [routerLink]="['/okr/okr-setting/setting-time-frame']">ORKs Setting</a></li>
                 </ul>
 
 
@@ -77,15 +78,7 @@
                 <a routerLink="/aboutus"> <span class="nav-label">About Us</span></a>
             </li>
 
-          <li >
-            <a href="#" aria-expanded="true"><span class="nav-label">Tables</span><span class="fa arrow"></span> </a>
-            <ul class="nav nav-second-level collapse " aria-expanded="true">
-              <li><a href="tables_design.html">Tables design</a></li>
-              <li><a href="datatables.html">Data tables</a></li>
-              <li><a href="footable.html">Foo Table</a></li>
 
-            </ul>
-          </li>
 
             <!--<li >-->
                 <!--<accordion-group #group>-->

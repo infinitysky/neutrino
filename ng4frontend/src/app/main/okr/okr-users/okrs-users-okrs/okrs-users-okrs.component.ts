@@ -52,7 +52,7 @@ import {Userclass}from '../../../../shared/classes/user-class';
 @Component({
   selector: 'app-okrs-users-okrs',
   templateUrl: './okrs-users-okrs.component.html',
-  providers:[SettingGoalService,SettingTimeFrameService,SettingTeamService,SettingObjectiveService,SettingKeyResultService,OkrActivitiesService],
+  providers:[SettingGoalService, SettingTimeFrameService, SettingTeamService, SettingObjectiveService, SettingKeyResultService, OkrActivitiesService],
   styleUrls: ['./okrs-users-okrs.component.css']
 })
 export class OkrsUsersOkrsComponent implements OnInit {

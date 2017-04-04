@@ -258,7 +258,7 @@ export class OkrSettingTeamComponent implements OnInit {
   }
 
 
-  //TODO: Fix the date format handling issue.
+
   updateTeam(editTeam, TeamNameInput: string, teamDescription: string) {
     console.log("update" + editTeam);
 

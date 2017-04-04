@@ -128,7 +128,7 @@ export class OkrSettingKeyResultComponent implements OnInit {
   }
 
 
-//TODO: Fix the date format handling issue.
+
   updateKeyResult(editKeyResult,KeyResultNameInput:string) {
 
 

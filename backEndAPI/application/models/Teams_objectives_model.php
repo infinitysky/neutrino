@@ -79,7 +79,7 @@ class Teams_objectives_model extends CI_Model
     {
         $this->db->trans_start();
         $query=$this->db->insert_batch($this->table, $data);
-       // $query=$this->db->insert_id();
+        // $query=$this->db->insert_id();
         $this->db->trans_complete();
         return $query;
 
@@ -156,7 +156,7 @@ class Teams_objectives_model extends CI_Model
         $affectedRowsNumber=$this->db->affected_rows();
         $this->db->trans_complete();
 
-     //   echo $this->db->last_query();
+        //   echo $this->db->last_query();
         return $affectedRowsNumber;
 
     }
@@ -231,6 +231,7 @@ class Teams_objectives_model extends CI_Model
         return $queryResult->result();
 
     }
+
 
     function get_team_and_users_details(){
         $this->db->select('*');

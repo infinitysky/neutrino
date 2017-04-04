@@ -10,6 +10,7 @@ import { OkrUsersComponent } from './okr-users.component';
 import {OkrUsersActivityComponent} from './okr-users-activity/okr-users-activity.component';
 import {OkrUsersTeamsComponent} from './okr-users-teams/okr-users-teams.component';
 import { OkrsUsersOkrsComponent } from './okrs-users-okrs/okrs-users-okrs.component';
+import { OkrUserOkrTeamComponent } from './okr-user-okr-team/okr-user-okr-team.component';
 
 import {ShareUserOkrinfoService} from './share-user-okrinfo.service';
 
@@ -28,6 +29,7 @@ import { SelectModule} from 'ng2-select';
 import { Ng2LetterAvatar } from "ng2letteravatar/ng2letteravatar";
 
 
+
 @NgModule({
   imports: [
     ToastyModule.forRoot(),
@@ -44,6 +46,6 @@ import { Ng2LetterAvatar } from "ng2letteravatar/ng2letteravatar";
     OkrUsersRoutingModule
   ],
   providers:[ShareUserOkrinfoService],
-  declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent, OkrsUsersOkrsComponent,Ng2LetterAvatar]
+  declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent, OkrsUsersOkrsComponent,Ng2LetterAvatar, OkrUserOkrTeamComponent]
 })
 export class OkrUsersModule { }

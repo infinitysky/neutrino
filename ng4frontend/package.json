@@ -26,15 +26,16 @@
 
 
     "Select2": "^3.5.7",
-    "angular-2-dropdown-multiselect": "^1.0.5",
-    "angular2-datatable": "^0.5.3",
+    "angular-2-dropdown-multiselect": "^1.0.6",
+    "angular2-datatable": "^0.6.0",
     "angular2-google-maps": "^0.17.0",
     "doorgets-ng-truncate":"^1.0.1",
 
-    "ng-select": "^1.0.0-beta.4",
+    "ng-select": "^1.0.0-beta.5",
     "bootstrap": "^3.3.7",
-    "mydatepicker": "^1.7.14",
+    "mydatepicker": "^1.8.0",
     "mydaterangepicker": "^1.4.3",
+    
     "ng2-bs3-modal": "^0.10.4",
     "ng2-charts": "^1.5.0",
 
@@ -43,7 +44,7 @@
     "ng2-slider-component": "^1.0.9",
     "ng2-table": "^1.3.2",
     "ng2-toasty": "^2.5.0",
-    "ng2-bootstrap":"^1.4.2",
+    "ng2-bootstrap":"^1.6.1",
     "@ng-bootstrap/ng-bootstrap":"^1.0.0-alpha.22",
 
     "ts-md5":"^1.2.0",
@@ -51,16 +52,16 @@
     "ng2-styled-directive":"^1.0.5",
     "ng2-slideable-directive":"^1.0.13",
     "ng2-slider-component":"^1.0.9",
-    "ng2-nouislider": "^1.5.2",
+    "ng2-nouislider": "^1.6.0",
     "ng2-ion-range-slider":"^1.0.1",
 
-    "ng2letteravatar": "^1.0.1",
+    "ng2letteravatar": "^1.0.3",
     "ngletteravatar": "^4.0.4",
     "ngx-progress-bar": "^0.0.10",
 
 
-    "primeng": "^4.0.0-rc.1",
-    "tinymce": "^4.5.5"
+    "primeng": "^4.0.0-rc.2",
+    "tinymce": "^4.5.6"
   },
   "devDependencies": {
     "@angular/cli": "1.0.0",

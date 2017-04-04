@@ -37,6 +37,7 @@ export class NavigationComponent implements OnInit {
 
     this.currentTimeFrame = new Timeframeclass();
     this.selfInfo=new Userclass();
+    this.showOkrsSubMenu=false;
 
   }
 
@@ -61,9 +62,10 @@ export class NavigationComponent implements OnInit {
     console.log('self Info'+ JSON.stringify(this.subscribeTimeFrameData));
   }
 
-public showOkrsSubMenu : false;
+public showOkrsSubMenu : boolean;
  // Menu management :
   extendOkrsSubMenu(){
+      this.showOkrsSubMenu=!this.showOkrsSubMenu;
     // if (this.showOkrsSubMenu.length = 0 ){
     //   this.showOkrsSubMenu.push('in');
     // }else{

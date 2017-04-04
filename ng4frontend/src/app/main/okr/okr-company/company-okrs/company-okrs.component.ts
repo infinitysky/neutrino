@@ -286,7 +286,7 @@ getCurrentUserInfo(){
 
 
 
-  //TODO: Fix the date format handling issue.
+
   updateGoal(editGoal, goalNameInput: string, goalDescription: string) {
 
     if (!goalNameInput) {

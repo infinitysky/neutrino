@@ -18,8 +18,15 @@ class Objectives extends CI_Controller
         };
 
         parent::__construct();
+        $this->load->model('Teams_users_model');
+        $this->load->model('Goals_model');
         $this->load->model('Objectives_model');
+        $this->load->model('Goals_objectives_model');
         $this->load->model('Key_results_model');
+        $this->load->model('Users_model');
+        $this->load->model('Teams_objectives_model');
+
+
         $this->load->library('form_validation');
 	    $this->load->library('datatables');
     }
@@ -271,10 +278,173 @@ class Objectives extends CI_Controller
             echo json_encode($tempReturnArray);
         }
 
+    }
 
+
+
+
+
+
+
+
+
+
+    // User - Objectives
+
+
+    public function get_users_team_objectives($userId){
+
+        $teamIdArray=$this->searchUsersTeamId($userId);
+        $objectivesArray=$this->searchObjectivesByTeamIdArray($teamIdArray);
+        $objectivesIdArray=[];
+        $keyResultArray=[];
+        $teamObjectiveWithKeyResult=[];
+        if ($objectivesArray){
+            $i=0;
+            $objectiveLength=count($objectivesArray);
+            for ($i=0; $i<$objectiveLength; $i++){
+                $objectivesArray[$i]->keyResult_array=[];
+                array_push($objectivesIdArray,$objectivesArray[$i]->objective_id);
+            }
+
+            $keyResultArray=$this->searchKeyResultsForObjective($objectivesIdArray);
+            $teamObjectiveWithKeyResult=$this->insertKeyResultToObjective($objectivesArray,$keyResultArray);
+
+
+        }
+
+        $teamObjectiveWithKeyResult=$this->calculateObjectivesProgress($teamObjectiveWithKeyResult);
+
+        $this->json($teamObjectiveWithKeyResult);
 
 
     }
+
+    function searchUsersTeamId($userId){
+        $userTeamsIdArray=[];
+        $tramResult = $this->Teams_users_model->get_by_user_id($userId);
+        if ($tramResult){
+            $i=0;
+
+            $arrayLength=count($tramResult);
+            for ( $i =0; $i<$arrayLength; $i++){
+                array_push($userTeamsIdArray,$tramResult[$i]->team_id);
+            }
+        }else{
+            // TODO :  This logic needs to be refactor. (should I set a 0 into the array at the beginning?)
+            // init search Id array, and 0 means the not exist value but show something for the mysql where_in array
+            // mysql where in not allowed empty search.
+            array_push($userTeamsIdArray,0);
+        }
+        return $userTeamsIdArray;
+    }
+
+    function searchObjectivesByTeamIdArray($teamIdArray){
+
+        $objectivesArray=[];
+        $row = $this->Teams_objectives_model->get_by_team_id_array($teamIdArray);
+
+        if ($row){
+            $objectivesArray=$row;
+
+        }
+
+        return $objectivesArray;
+
+    }
+
+
+
+    function searchKeyResultsForObjective($objectivesIdArray){
+        $keyResult=[];
+        $i=0;
+
+        $keyResultArray=$this->Key_results_model->get_by_objective_id_array($objectivesIdArray);
+
+        if ($keyResultArray){
+            $keyResult=$keyResultArray;
+
+        }
+
+        return $keyResult;
+    }
+
+    function insertKeyResultToObjective($objectivesArray,$keyResultArray){
+        $i=0;
+        $j=0;
+        if ($objectivesArray && $keyResultArray){
+            $objectivesLength=count($objectivesArray);
+            $keyResultArrayLength=count($keyResultArray);
+
+
+            for ($i=0;$i<$objectivesLength;$i++){
+                for ($j=0; $j<$keyResultArrayLength; $j++){
+                    if ($keyResultArray[$j]->objective_id == $objectivesArray[$i]-> objective_id){
+
+                        array_push($objectivesArray[$i]->keyResult_array,$keyResultArray[$j]);
+
+                    }
+                }
+            }
+
+        }
+
+
+        return $objectivesArray;
+    }
+
+
+    function calculateObjectivesProgress($objectivesArray){
+        $calculatedArray=[];
+        $x = 0;
+        $y = 0;
+        $z = 0;
+
+
+        if ($objectivesArray){
+
+            $objectivesLength=count($objectivesArray);
+
+            for ($x=0;$x< $objectivesLength;$x++){
+                if ($objectivesArray[$x]->keyResult_array){
+
+                    $keyResultLength = count($objectivesArray[$x]->keyResult_array);
+                    $totalKeyResult=0;
+
+
+                    for ($y=0; $y<$keyResultLength;$y++){
+                        $totalKeyResult=$totalKeyResult+$objectivesArray[$x]->keyResult_array[$y]->result_progress_status;
+                    }
+
+                    $objectivesArray[$x]->objective_progress_status=$totalKeyResult / $keyResultLength;
+
+                }else{
+                    $objectivesArray[$x]->objective_progress_status=0;
+                }
+
+            }
+
+
+        }
+
+        $calculatedArray=$objectivesArray;
+        return $calculatedArray;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

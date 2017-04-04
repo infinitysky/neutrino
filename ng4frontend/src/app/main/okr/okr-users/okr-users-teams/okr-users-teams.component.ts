@@ -31,8 +31,6 @@ export class OkrUsersTeamsComponent implements OnInit {
 
 
 
-
-
   }
 
   ngOnInit() {

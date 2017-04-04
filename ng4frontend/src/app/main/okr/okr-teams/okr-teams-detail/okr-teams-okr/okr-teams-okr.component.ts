@@ -74,6 +74,7 @@ export class OkrTeamsOkrComponent implements OnInit {
 
     public keyresults: Keyresultclass[];
     public teamkeyresults: Keyresultclass[];
+   // public backUpTeamKeyResult: Keyresultclass[];
 
 
     public newSubmitActivity: Activityclass;
@@ -327,10 +328,11 @@ export class OkrTeamsOkrComponent implements OnInit {
 
 
     closeKeyResultProgressChangeButton() {
+        this.updateProgressModal.hide();
 
 
         this.rollBackObjectiveKeyResults();
-        this.updateProgressModal.hide();
+
         this.progressUpdateDescription = '';
         this.modalType='';
         this.modalTitle='';
@@ -348,8 +350,8 @@ export class OkrTeamsOkrComponent implements OnInit {
         this._settingObjectiveService
             .delete(teamObjective)
             .subscribe(
-                data => { this.tempData = data },
-                error => { this.errorMessage = <any>error },
+                data => { this.tempData = data},
+                error => { this.errorMessage = <any>error},
                 () => {
 
                     if (this.tempData.status=="success" && this.tempData.data.affectRows) {
@@ -521,6 +523,7 @@ export class OkrTeamsOkrComponent implements OnInit {
             () => {
                 if ( this.tempData.status == 'success' && this.tempData.data){
                     this.teamkeyresults= <Keyresultclass[]>this.tempData.data;
+
                 }
             }
         );
@@ -792,7 +795,7 @@ export class OkrTeamsOkrComponent implements OnInit {
     }
 
 
-    //TODO: Fix the date format handling issue.
+
     updateKeyResult(editObjective, objectiveNameInput: string, objectiveDescription: string) {
 
         if (!objectiveNameInput||!objectiveDescription) {
@@ -970,26 +973,40 @@ export class OkrTeamsOkrComponent implements OnInit {
 
     }
 
+/*
+ TODO: find a bug there. :
+ If the user changed the result, but they wish to cancel it, I need click 'close' button twice to close it. \
+ The fist time to click 'close' button, it will reset the value to the begning, with out any change it will be closed
+
+ */
 
     rollBackObjectiveKeyResults(){
 
-
-        if(this.editKeyResult){
+    this.updateProgressModal.hide();
+        // if(this.editKeyResult){
             // Find out the original value from backup group
-            var rollbackKeyResult = this.teamkeyresults.find(keyResult => keyResult.result_id == this.editKeyResult.result_id );
 
+            var rollbackKeyResult = this.teamkeyresults.find(keyResult => keyResult.result_id == this.editKeyResult.result_id );
+            console.log('roll back key' + rollbackKeyResult.result_progress_status);
             var i = 0;
             var j = 0;
+
+
             for( i = 0; i < this.teamObjectives.length; i++){
                 for(j=0; j<this.teamObjectives[i].keyResult_array.length;j++){
                     if (this.teamObjectives[i].keyResult_array[j].result_id == rollbackKeyResult.result_id){
 
-                        this.teamObjectives[i].keyResult_array[j] = rollbackKeyResult;
+                        this.teamObjectives[i].keyResult_array[j].result_progress_status = rollbackKeyResult.result_progress_status;
 
                     }
                 }
             }
-        }
+
+
+
+        // }
+
+
     }
 
 
@@ -1056,12 +1073,11 @@ export class OkrTeamsOkrComponent implements OnInit {
 
         this.editKeyResult = keyResult;
 
-
-
+        console.log('change progress : ' + JSON.stringify(this.editKeyResult.result_id));
 
         this.keyresultNameInputBoxValue = '';
         this.objectiveDescriptionInputBoxValue = '';
-        this.keyresultProgressValue=0;
+        this.keyresultProgressValue = 0;
         this.updateProgressModal.show();
        
     }

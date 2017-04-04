@@ -173,6 +173,20 @@ export class SettingObjectiveService {
             .catch(this.handleErrorObservable);
     }
 
+
+    getUsersTeamByUserId(userId: number): Observable<Objectiveclass[]>{
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        const url = `${this.basicAPI}/get_users_team_objectives/${userId}`;
+        return this.http.get(url)
+        // .map(res => <DatabasesClass[]> res.json().data)
+            .map(res => res.json())
+            // .do(data => console.log(data)) // eyeball results in the console
+            .catch(this.handleErrorObservable);
+    }
+
+
     getByTeamId(teamId: any): Observable<Objectiveclass[]>{
 
         let headers = new Headers({ 'Content-Type': 'application/json' });

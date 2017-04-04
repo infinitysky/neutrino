@@ -153,7 +153,7 @@ export class OkrSettingObjectiveComponent implements OnInit {
   }
 
 
-//TODO: Fix the date format handling issue.
+
   updateObjective(editObjective,ObjectiveNameInput:string) {
 
     if (!ObjectiveNameInput  ) {
