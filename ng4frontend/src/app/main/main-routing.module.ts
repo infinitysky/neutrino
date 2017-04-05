@@ -10,10 +10,12 @@ const routes: Routes = [
         children:[
 
             { path: '', loadChildren: './home/home.module#HomeModule' },
-            { path: 'aboutus', loadChildren: './about/about.module#AboutModule'  },
-            { path: 'aboutus/:timeFrame', loadChildren: './about/about.module#AboutModule'  },
             { path: 'okr', loadChildren: './okr/okr.module#OkrModule'},
             { path: 'playground', loadChildren: './play-ground/play-ground.module#PlayGroundModule'},
+
+            { path: 'aboutus', loadChildren: './about/about.module#AboutModule'  },
+            { path: 'aboutus/:userid', loadChildren: './about/about.module#AboutModule'  },
+            { path: 'aboutus/:userid/:timeFrameId', loadChildren: './about/about.module#AboutModule'  },
         ]
 
 

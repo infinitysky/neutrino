@@ -32,7 +32,6 @@
         "../library/vendor/toastr/build/toastr.min.css",
         "../library/styles/style.css",
 
-
         "../node_modules/nouislider/distribute/nouislider.min.css",
 
 
@@ -40,21 +39,28 @@
       ],
       "scripts": [
 
+
+
         "../library/vendor/jquery/dist/jquery.min.js",
-        "../library/bootstrap/dist/js/bootstrap.js",
-        "../library/vendor/slimScroll/jquery.slimscroll.min.js",
         "../library/vendor/jquery-ui/jquery-ui.min.js",
-        "../library/vendor/metisMenu/dist/metisMenu.min.js",
-        "../library/vendor/sweetalert2/dist/sweetalert2.js",
-        "../library/vendor/toastr/build/toastr.min.js",
-
-        "../library/vendor/select2-4.0.3/dist/js/select2.full.min.js",
-
-        "../library/scripts/homer.js",
+        "../library/vendor/slimScroll/jquery.slimscroll.min.js",
 
 
         "../node_modules/chart.js/dist/Chart.min.js",
-        "../node_modules/chart.js/dist/Chart.bundle.min.js"
+        "../node_modules/chart.js/dist/Chart.bundle.min.js",
+
+        "../library/bootstrap/dist/js/bootstrap.js",
+
+
+        "../library/vendor/metisMenu/dist/metisMenu.min.js",
+        "../library/vendor/sweetalert2/dist/sweetalert2.js",
+        "../library/vendor/toastr/build/toastr.min.js",
+        "../library/vendor/select2-4.0.3/dist/js/select2.full.min.js",
+
+        "../library/scripts/homer.js"
+
+
+
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

@@ -377,8 +377,8 @@ class Objectives extends CI_Controller
             $keyResultArrayLength=count($keyResultArray);
 
 
-            for ($i=0;$i<$objectivesLength;$i++){
                 for ($j=0; $j<$keyResultArrayLength; $j++){
+                    for ($i=0;$i<$objectivesLength;$i++){
                     if ($keyResultArray[$j]->objective_id == $objectivesArray[$i]-> objective_id){
 
                         array_push($objectivesArray[$i]->keyResult_array,$keyResultArray[$j]);

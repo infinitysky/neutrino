@@ -1,4 +1,19 @@
 <h1>Current Time Frame</h1>
+
+<a [routerLink]="['/aboutus']">About US</a>
+<br/>
+<a [routerLink]="['/aboutus/','2']">path: 'aboutus/:userId',</a>
+<br/>
+<a [routerLink]="['/aboutus/','2','3']">path: 'aboutus/:userId/:timeFrame',</a>
+<br/>
+<br/>
+<br/>
+<!--&gt;<a [routerLink]="['/okr/okr-users/user/',selfInfo.user_id]">OKRs Users</a>-->
+
+<!--<a routerLinkActive="">   path: 'about/:userId', </a>-->
+
+
+
 <button type="button" class="btn btn-primary" (click)="showChildModal()">Open child modal</button>
 
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">

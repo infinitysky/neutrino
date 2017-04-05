@@ -70,7 +70,7 @@ export class HeaderpageComponent implements OnInit {
       data => this.tempData = data,
       error => this.errorMessage = <any>error,
       () =>{
-        if(this.tempData.data&& this.tempData.status  == 'success'){
+        if(this.tempData.data && this.tempData.status  == 'success'){
           this.timeFrames = <Timeframeclass[]>this.tempData.data;
 
         }
@@ -96,9 +96,10 @@ export class HeaderpageComponent implements OnInit {
         () => {
           if (this.tempData.status=='sucess' && this.tempData.data){
             let tempTF = <Timeframeclass> this.tempData.data[0];
-
-            this._userInfoContainerService.setDefaultTimeFrameSubject(tempTF);
-            this.setCurrentTimeFrame(tempTF);
+            this.selectedTimeFrame = <Timeframeclass> this.tempData.data[0];
+            this.defaultTimeFrame =<Timeframeclass> this.tempData.data[0];
+            this._userInfoContainerService.setDefaultTimeFrameSubject(this.tempData.data[0]);
+            this.setCurrentTimeFrame( this.tempData.data[0]);
             //  console.log("set default time frame frame" + JSON.stringify(this.defaultTimeFrame));
             //  console.log("selfTimeFrameSubscription" + JSON.stringify(this.currentTimeFrame));
           }

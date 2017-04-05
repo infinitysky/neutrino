@@ -8,15 +8,30 @@ const routes: Routes = [
         path: 'about',
         component: AboutComponent
     },
-  {
-    path: '',
-    component: AboutComponent
-  }
+
+    {
+        path: 'about/:userId',
+        component: AboutComponent
+    },
+    {
+        path: '/:userId/:timFrameId',
+        component: AboutComponent
+    },
+    {
+        path: '/:userId',
+        component: AboutComponent
+    },
+
+
+    {
+        path: '',
+        component: AboutComponent
+    }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: []
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+    providers: []
 })
 export class AboutRoutingModule { }
