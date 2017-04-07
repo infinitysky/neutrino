@@ -13,7 +13,7 @@ const routes: Routes = [
 
     { path: '404', loadChildren: './not-found/not-found.module#NotFoundModule'},
     { path: 'login', loadChildren: './login/login.module#LoginModule'},
-    { path: 'register', loadChildren: './login/login.module#LoginModule'},
+    { path: 'register', loadChildren: './register/register.module#RegisterModule'},
     // { path: '**', redirectTo: '404', pathMatch: 'full'},
 
 ];
