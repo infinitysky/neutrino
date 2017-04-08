@@ -8,19 +8,19 @@
             </div>
             <div class="hpanel">
                 <div class="panel-body">
-                    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+                    <form [formGroup]="form" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
                         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
 
                             <label  class="control-label" for="Email">Email</label>
-                            <input type="text"  class="form-control"  id="Email"  name="Email" [(ngModel)]="model.email" #username="ngModel" required title="Please enter you email" />
+                            <input formControlName="email" type="text"  class="form-control"  id="Email"  name="Email" required title="Please enter you email" />
                             <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
                             <span class="help-block small">Your unique email address to app</span>
-
+                          <p>Email Validation Status: {{ form.status }}</p>
                         </div>
 
                         <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
                             <label class="control-label" for="password">Password</label>
-                            <input type="password" placeholder="******" required="" value="" name="password" id="password" class="form-control" title="Please enter your password"  [(ngModel)]="model.password" #password="ngModel" required />
+                            <input type="password" placeholder="******" required="" value="" name="password" id="password" class="form-control" title="Please enter your password" required />
                             <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
 
                             <span class="help-block small">Yur strong password</span>

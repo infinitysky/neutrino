@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../shared/services/authentication.service';
 
 import {LoginInfo} from './login-info';
@@ -18,8 +18,10 @@ export class LoginComponent implements OnInit {
     model: any = {};
     loading = false;
     returnUrl: string;
+  public form: FormGroup;
 
-    private passwordEncryption: string;
+
+  private passwordEncryption: string;
     private loginInfo: LoginInfo = new LoginInfo();
 
 
@@ -28,6 +30,7 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
+        private _formBuilder: FormBuilder
       ) {
         this.loginInfo = new LoginInfo();
 
@@ -41,6 +44,13 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.setupForm();
+    }
+
+    setupForm() {
+      this.form = this._formBuilder.group({
+        email: ['', [Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]],
+      });
     }
 
     login() {
