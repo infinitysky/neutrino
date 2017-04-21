@@ -1,5 +1,5 @@
 export class LoginInfo {
-    emailAddress: string;
+    email: string;
     password: string;
 }
 

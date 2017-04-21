@@ -124,7 +124,7 @@
           <ng-select #timeFrameSelector
                      [allowClear]="true"
                      [items]="timeFrameDropdownListOptions"
-                     [disabled]="disabled"
+
                      [(ngModel)]="selectedTimeFrame"
                      placeholder="Select a Time Frame">
           </ng-select>
@@ -137,7 +137,7 @@
 
           <ng-select #tagSelector [allowClear]="true"
                      [items]="tagDropdownListOptions"
-                     [disabled]="disabled"
+
                      [(ngModel)]="selectedTag"
                      placeholder="Select a Tag">
           </ng-select>

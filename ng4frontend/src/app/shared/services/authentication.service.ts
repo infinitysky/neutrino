@@ -6,20 +6,24 @@ import 'rxjs/Rx';
 
 import { MY_CONFIG, ApplicationConfig } from '../../app-config';
 
+import { CookieService } from './cookie.service';
+
 @Injectable()
 export class AuthenticationService {
 
 
 
-    private userInfoAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.getUserInfoUrl;
-    private loginAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.loginUrl;
+    private userInfoAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.getUserInfoUrl;
+    private loginAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.loginUrl;
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
 
     public myDatas: any;
 
 
-    constructor(public http: Http) {
+    constructor(public http: Http,
+    private _cookieService: CookieService
+    ) {
         this.http = http;
     }
 
@@ -30,12 +34,24 @@ export class AuthenticationService {
             .map((res: Response) => res.json());
     }
 
+
+    isLoggedIn(): boolean{
+
+        let status = false;
+        if (this._cookieService.getCookie('currentUser')&&  this._cookieService.getCookie('currentTimeFrame') && this._cookieService.getCookie('currentLoginTime')){
+            status = true;
+        }
+
+        return status;
+    }
+
     login(loginInfo){
       //  username: string, password: string
         const url = this.loginAPi;
         const httpBody = JSON.stringify({email: loginInfo.email, password: loginInfo.password });
         return this.http.post(url, httpBody, {headers: this.headers})
             .map(res => res.json())
+            .timeout(1000)
             .catch(this.handleErrorObservable)
     }
 
@@ -43,7 +59,11 @@ export class AuthenticationService {
 
         // remove user from local storage to log user out
 
-        localStorage.removeItem('currentUser');
+       // localStorage.removeItem('currentUser');
+        this._cookieService.removeAll();
+
+        localStorage.clear();
+
     }
 
     private handleErrorObservable (error: Response | any) {

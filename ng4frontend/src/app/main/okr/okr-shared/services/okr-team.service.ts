@@ -15,12 +15,12 @@ import {Teamclass} from '../classes/team-class';
 @Injectable()
 export class SettingTeamService {
 
-  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamGetAllUrl;
-  private basicOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamGetAllUrl;
-  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamCreateUrl;
-  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamOperateUrl;
+  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.teamGetAllUrl;
+  private basicOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.teamGetAllUrl;
+  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.teamCreateUrl;
+  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.teamOperateUrl;
 
-  private teamsUsersOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamsUsersOperateUrl;
+  private teamsUsersOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.teamsUsersOperateUrl;
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
@@ -72,6 +72,14 @@ export class SettingTeamService {
   getAllTeamProgressAndMember(): Observable<Teamclass[]> {
       const url = `${this.basicOperateAPI}/get_teams_over_view`;
         return this.http.get(url)
+            .map(res => res.json())
+            .catch(this.handleErrorObservable);
+    }
+
+    getCurrentTeamProgressAndMember(timeFrameId): Observable<Teamclass[]> {
+        const url = `${this.basicOperateAPI}/get_teams_over_view`;
+        const httpBody = { timeFrameId : timeFrameId };
+        return this.http.post(url, httpBody, this.headers)
             .map(res => res.json())
             .catch(this.handleErrorObservable);
     }
@@ -135,7 +143,7 @@ export class SettingTeamService {
     let options = new RequestOptions({ headers: headers });
 
     //console.log('Post message body: '+httpBody);
-    return this.http.post(this.creatAPI,httpBody, {headers: this.headers})
+    return this.http.post(this.creatAPI, httpBody, {headers: this.headers})
       //.map(this.extractDataObservable)
       .map(res => res.json())
       .catch(this.handleErrorObservable)

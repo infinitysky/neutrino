@@ -20,20 +20,19 @@
       "prefix": "app",
       "styles": [
 
+        "../node_modules/nouislider/distribute/nouislider.min.css",
 
+        "../library/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css",
+        "../library/fonts/pe-icon-7-stroke/css/helper.css",
 
         "../library/vendor/fontawesome/css/font-awesome.css",
         "../library/vendor/metisMenu/dist/metisMenu.css",
         "../library/vendor/animate.css/animate.css",
         "../library/vendor/bootstrap/dist/css/bootstrap.css",
-        "../library/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css",
-        "../library/fonts/pe-icon-7-stroke/css/helper.css",
+
         "../library/vendor/sweetalert2/dist/sweetalert2.css",
-        "../library/vendor/toastr/build/toastr.min.css",
+
         "../library/styles/style.css",
-
-        "../node_modules/nouislider/distribute/nouislider.min.css",
-
 
         "styles.css"
       ],
@@ -44,21 +43,26 @@
         "../library/vendor/jquery/dist/jquery.min.js",
         "../library/vendor/jquery-ui/jquery-ui.min.js",
         "../library/vendor/slimScroll/jquery.slimscroll.min.js",
+        "../library/vendor/bootstrap/dist/js/bootstrap.min.js",
 
 
-        "../node_modules/chart.js/dist/Chart.min.js",
-        "../node_modules/chart.js/dist/Chart.bundle.min.js",
-
-        "../library/bootstrap/dist/js/bootstrap.js",
 
 
         "../library/vendor/metisMenu/dist/metisMenu.min.js",
+        "../library/vendor/iCheck/icheck.min.js",
+        "../library/vendor/peity/jquery.peity.min.js",
+        "../library/vendor/sparkline/index.js",
+
+        "../library/scripts/homer.js",
+
+        "../node_modules/chart.js/dist/Chart.min.js",
+
         "../library/vendor/sweetalert2/dist/sweetalert2.js",
         "../library/vendor/toastr/build/toastr.min.js",
         "../library/vendor/select2-4.0.3/dist/js/select2.full.min.js",
 
-        "../library/scripts/homer.js"
 
+        "../node_modules/crypto-js/crypto-js.js"
 
 
       ],

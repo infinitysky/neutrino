@@ -6,146 +6,156 @@ import {OpaqueToken} from "@angular/core";
 // Although the ApplicationConfig interface plays no role in dependency injection,
 // it supports typing of the configuration object within the class.
 export interface ApplicationConfig {
-  appName:  string;
-  apiEndpoint:  string;
-  getBarChartUrl: string;
-  getUserInfoUrl: string;
-  loginUrl: string;
+    appName:  string;
+    apiEndpoint:  string;
+    apiPath : string;
 
 
-  timeFrameOperateUrl: string;
-  timeFrameGetAllUrl: string;
-  timeFrameCreateUrl: string;
+    getBarChartUrl: string;
+    getUserInfoUrl: string;
+    loginUrl: string;
 
 
-  teamGetAllUrl: string;
-  teamCreateUrl: string;
-  teamOperateUrl: string;
-
-  goalGetAllUrl: string;
-  goalCreateUrl: string;
-  goalOperateUrl: string;
+    timeFrameOperateUrl: string;
+    timeFrameGetAllUrl: string;
+    timeFrameCreateUrl: string;
 
 
-  objectiveGetAllUrl: string;
-  objectiveCreateUrl: string;
-  objectiveOperateUrl: string;
+    teamGetAllUrl: string;
+    teamCreateUrl: string;
+    teamOperateUrl: string;
+
+    goalGetAllUrl: string;
+    goalCreateUrl: string;
+    goalOperateUrl: string;
 
 
-  userObjectiveOperateUrl: string;
-  goalObjectiveOperateUrl: string;
+    objectiveGetAllUrl: string;
+    objectiveCreateUrl: string;
+    objectiveOperateUrl: string;
 
 
-
-
-
-  keyResultGetAllUrl: string;
-  keyResultCreateUrl: string;
-  keyResultOperateUrl: string;
-
-
-  activityGetAllUrl: string;
-  activityCreateUrl: string;
-  activityOperateUrl: string;
+    userObjectiveOperateUrl: string;
+    goalObjectiveOperateUrl: string;
 
 
 
-  companyGetAllUrl: string;
-  companyCreateUrl: string;
-  companyOperateUrl: string;
+
+
+    keyResultGetAllUrl: string;
+    keyResultCreateUrl: string;
+    keyResultOperateUrl: string;
+
+
+    activityGetAllUrl: string;
+    activityCreateUrl: string;
+    activityOperateUrl: string;
 
 
 
-  userGetAllUrl: string;
-  userCreateUrl: string;
-  userOperateUrl: string;
+    companyGetAllUrl: string;
+    companyCreateUrl: string;
+    companyOperateUrl: string;
 
 
-  //User-detail Urls: 
-  userDetailGetAllUrl: string;
-  userDetailCreateUrl: string;
-  userDetailOperateUrl: string;
-  userDetailFullInfo: string;
+
+    userGetAllUrl: string;
+    userCreateUrl: string;
+    userOperateUrl: string;
 
 
-  teamsUsersOperateUrl: string;
-  teamsObjectiveOperateUrl: string;
+    //User-detail Urls:
+    userDetailGetAllUrl: string;
+    userDetailCreateUrl: string;
+    userDetailOperateUrl: string;
+    userDetailFullInfo: string;
+    userTeamsObjectivesUrl: string;
+
+
+    teamsUsersOperateUrl: string;
+    teamsObjectiveOperateUrl: string;
+
+    homepageUrl: string;
 
 
 }
 
 // Configuration values for our app
 export const MY_CONFIG:  ApplicationConfig = {
-  appName:  'My new App',
-  apiEndpoint:  'http://127.0.0.1:8080',
+    appName:  'My new App',
+    apiEndpoint:  'http://127.0.0.1:8080',
+    apiPath : '/neutrino/backEndAPI/index.php',
 
-  getBarChartUrl:  '/uniBackEnd/index.php/BarChart',
+    getBarChartUrl: '/uniBackEnd/index.php/BarChart',
 
-  loginUrl: '/neutrino/backEndAPI/index.php/Login',
-  getUserInfoUrl: '/assets/mockUserInfo.json',
-
-
-  // time frame Urls:
-  timeFrameGetAllUrl: '/neutrino/backEndAPI/index.php/Time_frames',
-  timeFrameCreateUrl: '/neutrino/backEndAPI/index.php/Time_frames/create',
-  timeFrameOperateUrl: '/neutrino/backEndAPI/index.php/Time_frames/items',
+    loginUrl: '/Login',
+    getUserInfoUrl: '/assets/mockUserInfo.json',
 
 
-  // team Urls:
-  teamGetAllUrl: '/neutrino/backEndAPI/index.php/Teams',
-  teamCreateUrl: '/neutrino/backEndAPI/index.php/Teams/create',
-  teamOperateUrl: '/neutrino/backEndAPI/index.php/Teams/items',
-
-  teamsObjectiveOperateUrl: '/neutrino/backEndAPI/index.php/Teams_objectives',
-  teamsUsersOperateUrl: '/neutrino/backEndAPI/index.php/Teams_users',
+    // time frame Urls:
+    timeFrameGetAllUrl: '/Time_frames',
+    timeFrameCreateUrl: '/Time_frames/create',
+    timeFrameOperateUrl: '/Time_frames/items',
 
 
-  // goal Urls:
-  goalGetAllUrl: '/neutrino/backEndAPI/index.php/Goals',
-  goalCreateUrl: '/neutrino/backEndAPI/index.php/Goals/create',
-  goalOperateUrl: '/neutrino/backEndAPI/index.php/Goals/items',
+    // team Urls:
+    teamGetAllUrl: '/Teams',
+    teamCreateUrl: '/Teams/create',
+    teamOperateUrl: '/Teams/items',
+
+    teamsObjectiveOperateUrl: '/Teams_objectives',
+    teamsUsersOperateUrl: '/Teams_users',
 
 
-  // objective Urls:
-  objectiveGetAllUrl: '/neutrino/backEndAPI/index.php/Objectives',
-  objectiveCreateUrl: '/neutrino/backEndAPI/index.php/Objectives/create',
-  objectiveOperateUrl: '/neutrino/backEndAPI/index.php/Objectives/items',
+    // goal Urls:
+    goalGetAllUrl: '/Goals',
+    goalCreateUrl: '/Goals/create',
+    goalOperateUrl: '/Goals/items',
 
 
-  // key result Urls:
-  keyResultGetAllUrl: '/neutrino/backEndAPI/index.php/Key_results',
-  keyResultCreateUrl: '/neutrino/backEndAPI/index.php/Key_results/create',
-  keyResultOperateUrl: '/neutrino/backEndAPI/index.php/Key_results/items',
+    // objective Urls:
+    objectiveGetAllUrl: '/Objectives',
+    objectiveCreateUrl: '/Objectives/create',
+    objectiveOperateUrl: '/Objectives/items',
 
 
-  // activity Urls:
-  activityGetAllUrl: '/neutrino/backEndAPI/index.php/Activities',
-  activityCreateUrl: '/neutrino/backEndAPI/index.php/Activities/create',
-  activityOperateUrl: '/neutrino/backEndAPI/index.php/Activities/items',
+    // key result Urls:
+    keyResultGetAllUrl: '/Key_results',
+    keyResultCreateUrl: '/Key_results/create',
+    keyResultOperateUrl: '/Key_results/items',
 
 
-  // company Urls:
-  companyGetAllUrl: '/neutrino/backEndAPI/index.php/Company_info',
-  companyCreateUrl: '/neutrino/backEndAPI/index.php/Company_info/create',
-  companyOperateUrl: '/neutrino/backEndAPI/index.php/Company_info/items',
+    // activity Urls:
+    activityGetAllUrl: '/Activities',
+    activityCreateUrl: '/Activities/create',
+    activityOperateUrl: '/Activities/items',
 
 
-  // User Urls:
-  userGetAllUrl: '/neutrino/backEndAPI/index.php/Users',
-  userCreateUrl: '/neutrino/backEndAPI/index.php/Users/create',
-  userOperateUrl: '/neutrino/backEndAPI/index.php/Users/items',
-
-  // User-detail Urls:
-  userDetailGetAllUrl: '/neutrino/backEndAPI/index.php/Users_details',
-  userDetailFullInfo: '/neutrino/backEndAPI/index.php/Users_details/items_full_info',
-  userDetailCreateUrl: '/neutrino/backEndAPI/index.php/Users_details/create',
-  userDetailOperateUrl: '/neutrino/backEndAPI/index.php/Users_details/items',
+    // company Urls:
+    companyGetAllUrl: '/Company_info',
+    companyCreateUrl: '/Company_info/create',
+    companyOperateUrl: '/Company_info/items',
 
 
+    // User Urls:
+    userGetAllUrl: '/Users',
+    userCreateUrl: '/Users/create',
+    userOperateUrl: '/Users/items',
 
-  userObjectiveOperateUrl: '/neutrino/backEndAPI/index.php/Users_objectives/',
+    // User-detail Urls:
+    userDetailGetAllUrl: '/Users_details',
+    userDetailFullInfo: '/Users_details/items_full_info',
+    userDetailCreateUrl: '/Users_details/create',
+    userDetailOperateUrl: '/Users_details/items',
+    userTeamsObjectivesUrl: '/User_teams_objectives',
 
-  goalObjectiveOperateUrl: '/neutrino/backEndAPI/index.php/Goals_objectives/',
+
+    userObjectiveOperateUrl: '/Users_objectives/',
+
+    goalObjectiveOperateUrl: '/Goals_objectives/',
+
+
+    homepageUrl: '/Home_page',
 
 
 

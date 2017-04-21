@@ -17,15 +17,15 @@ import {Goalclass} from '../classes/goal-class';
 @Injectable()
 export class SettingObjectiveService {
 
-    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveGetAllUrl;
-    private basicAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveGetAllUrl;
+    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.objectiveGetAllUrl;
+    private basicAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.objectiveGetAllUrl;
 
-    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveCreateUrl;
-    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.objectiveOperateUrl;
+    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.objectiveCreateUrl;
+    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.objectiveOperateUrl;
 
-    private betweenUsersAndObjectivesRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userObjectiveOperateUrl;
-    private betweenTeamsAndObjectivesRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.teamsObjectiveOperateUrl;
-    private betweenObjectivesAndGoalsRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalObjectiveOperateUrl;
+    private betweenUsersAndObjectivesRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userObjectiveOperateUrl;
+    private betweenTeamsAndObjectivesRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.teamsObjectiveOperateUrl;
+    private betweenObjectivesAndGoalsRelationshipAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.goalObjectiveOperateUrl;
 
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -194,6 +194,18 @@ export class SettingObjectiveService {
 
         const url = `${this.betweenTeamsAndObjectivesRelationshipAPI}/get_by_team_id/${teamId}`;
         return this.http.get(url)
+        // .map(res => <DatabasesClass[]> res.json().data)
+            .map(res => res.json())
+            // .do(data => console.log(data)) // eyeball results in the console
+            .catch(this.handleErrorObservable);
+    }
+
+
+    getByTeamIdNTimeFrame(teamId: any, TimeFrameId:any): Observable<Objectiveclass[]>{
+
+        const httpBody = JSON.stringify({team_id: teamId, time_frame_id: TimeFrameId });
+        const url = `${this.basicAPI}/get_by_team_id_timeFrame`;
+        return this.http.post(url, httpBody, this.headers)
         // .map(res => <DatabasesClass[]> res.json().data)
             .map(res => res.json())
             // .do(data => console.log(data)) // eyeball results in the console

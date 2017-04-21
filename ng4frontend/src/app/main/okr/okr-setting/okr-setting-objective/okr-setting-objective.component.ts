@@ -28,194 +28,193 @@ import {  SettingObjectiveService } from '../../okr-shared/services/okr-objectiv
 import {Objectiveclass} from '../../okr-shared/classes/objective-class';
 
 @Component({
-  selector: 'app-okr-setting-objective',
-  templateUrl: './okr-setting-objective.component.html',
+    selector: 'app-okr-setting-objective',
+    templateUrl: './okr-setting-objective.component.html',
 
 
-  providers: [SettingObjectiveService],
-  styleUrls: ['./okr-setting-objective.component.css']
+    providers: [SettingObjectiveService],
+    styleUrls: ['./okr-setting-objective.component.css']
 })
 export class OkrSettingObjectiveComponent implements OnInit {
 
 
-  public Objectives: Objectiveclass[];
+    public Objectives: Objectiveclass[];
 
 
-  public pageTitle = 'OKRs Setting';
-  public subPageTitle = 'Objective Setting';
-
-
-
-  public ObjectivesData:any;
-  public errorMessage:any;
-
-  public isLoaded:boolean=true;
-  selectedObjective: Objectiveclass;
-
-  public tempData:any;
-
-  animation: boolean = true;
-  keyboard: boolean = true;
-  backdrop: string | boolean = true;
+    public pageTitle = 'OKRs Setting';
+    public subPageTitle = 'Objective Setting';
 
 
 
-  public editObjective:any;
+    public ObjectivesData:any;
+    public errorMessage:any;
+
+    public isLoaded:boolean=true;
+    selectedObjective: Objectiveclass;
+
+    public tempData:any;
 
 
-  edit_startDate:Date;
-  edit_EndDate:Date;
-  edit_dateRange:string="";
-  editModeIO:number=0;//this is for check edit Mode on or off.
-  ObjectiveNameInputBoxValue:string="Please enter the Objective name";
-  ObjectiveDescriptionInputBoxValue:string="Please enter the Objective description";
+    animation: boolean = true;
+    keyboard: boolean = true;
+    backdrop: string | boolean = "static";
+
+    public editObjective:any;
 
 
+    edit_startDate:Date;
+    edit_EndDate:Date;
+    edit_dateRange:string="";
+    editModeIO:number=0;//this is for check edit Mode on or off.
+    ObjectiveNameInputBoxValue:string="Please enter the Objective name";
+    ObjectiveDescriptionInputBoxValue:string="Please enter the Objective description";
 
 
 
 
-  //goals dropdown list
-
-  //
 
 
-  constructor(private _settingObjectiveService: SettingObjectiveService){
+    //goals dropdown list
+
+    //
 
 
-    this.Objectives=[];
-    this.edit_startDate = new Date();
-    this.edit_EndDate = new Date();
-    this.editModeIO=0;
-    this.editObjective=null;
+    constructor(private _settingObjectiveService: SettingObjectiveService){
+
+
+        this.Objectives=[];
+        this.edit_startDate = new Date();
+        this.edit_EndDate = new Date();
+        this.editModeIO=0;
+        this.editObjective=null;
 
 
 
     }
 
-  editButton(){
-    this.isLoaded=!this.isLoaded;
-  }
-  refreshButton(){
-    this.getObjectives();
-  }
-  addObjectiveButton(){
+    editButton(){
+        this.isLoaded=!this.isLoaded;
+    }
+    refreshButton(){
+        this.getObjectives();
+    }
+    addObjectiveButton(){
 
-    this.ObjectiveNameInputBoxValue="Please enter the Objective name";
-    this.ObjectiveDescriptionInputBoxValue="Please enter the Objective description";
+        this.ObjectiveNameInputBoxValue="Please enter the Objective name";
+        this.ObjectiveDescriptionInputBoxValue="Please enter the Objective description";
 
-    this.editModeIO=0;
-    this.modal.open();
-  }
+        this.editModeIO=0;
+        this.modal.open();
+    }
 
-  deleteObjectiveButton(Objective) {
-    //this.showAlert();
-    this._settingObjectiveService
-      .delete(Objective)
-      .subscribe(
-        data =>{this.tempData=data},
-        error => {this.errorMessage = <any>error},
-        ()=>{
+    deleteObjectiveButton(Objective) {
+        //this.showAlert();
+        this._settingObjectiveService
+            .delete(Objective)
+            .subscribe(
+                data =>{this.tempData=data},
+                error => {this.errorMessage = <any>error},
+                ()=>{
 
 
-          if(this.tempData.data.affectRows>0){
-            swal("Deleted!", "Your time frame has been deleted.", "success");
-            this.Objectives = this.Objectives.filter(currentObjectives => currentObjectives !== Objective);
+                    if(this.tempData.data.affectRows>0){
+                        swal("Deleted!", "Your time frame has been deleted.", "success");
+                        this.Objectives = this.Objectives.filter(currentObjectives => currentObjectives !== Objective);
 
-          }else{
-            swal("Error!", "Your time frame did not been deleted successfully.", "error");
-          }
+                    }else{
+                        swal("Error!", "Your time frame did not been deleted successfully.", "error");
+                    }
+                }
+            );
+    }
+
+
+    modalSaveChangeButton(ObjectiveNameInput:string,ObjectiveDescription:string){
+        if(0==this.editModeIO){
+            this.createNew(ObjectiveNameInput);
+        }else {
+            this.updateObjective( this.editObjective,ObjectiveNameInput);
         }
-      );
-  }
-
-
-  modalSaveChangeButton(ObjectiveNameInput:string,ObjectiveDescription:string){
-    if(0==this.editModeIO){
-      this.createNew(ObjectiveNameInput);
-    }else {
-      this.updateObjective( this.editObjective,ObjectiveNameInput);
     }
-  }
 
 
-  editObjectiveButton(Objective){
-    this.editModeIO=1;
-    this.editObjective=Objective;
-    this.ObjectiveNameInputBoxValue=Objective.Objective_name;
-    this.ObjectiveDescriptionInputBoxValue=Objective.Objective_description;
-
-
-
-
-    this.modal.open();
-
-  }
+    editObjectiveButton(Objective){
+        this.editModeIO=1;
+        this.editObjective=Objective;
+        this.ObjectiveNameInputBoxValue=Objective.Objective_name;
+        this.ObjectiveDescriptionInputBoxValue=Objective.Objective_description;
 
 
 
-  updateObjective(editObjective,ObjectiveNameInput:string) {
 
-    if (!ObjectiveNameInput  ) {
-      //alert("Do not leave any empty!");
-     // swal("Warning", "you did not change any time!", "warning");
-
-      return;
-    }else{
-      this._settingObjectiveService.update(editObjective)
-        .subscribe(
-          data  => {this.tempData = data},
-          error =>  this.errorMessage = <any>error,
-          ()=>{
-
-            if(this.tempData.affectRows>0){
-              swal("Success!", "Your time frame has been updated.", "success");
-
-            }else{
-              swal("Error!", "Your time frame did not been deleted successfully.", "error");
-            }
-
-          }
-        );
+        this.modal.open();
 
     }
 
 
-    this.modal.close();
 
-  }
+    updateObjective(editObjective,ObjectiveNameInput:string) {
 
+        if (!ObjectiveNameInput  ) {
+            //alert("Do not leave any empty!");
+            // swal("Warning", "you did not change any time!", "warning");
 
+            return;
+        }else{
+            this._settingObjectiveService.update(editObjective)
+                .subscribe(
+                    data  => {this.tempData = data},
+                    error =>  this.errorMessage = <any>error,
+                    ()=>{
 
+                        if(this.tempData.affectRows>0){
+                            swal("Success!", "Your time frame has been updated.", "success");
 
-  getObjectives() {
-    this._settingObjectiveService.getAll()
-      .subscribe(
-        data => this.ObjectivesData = data,
-        error =>  this.errorMessage = <any>error,
-        ()=>{
-          this.Objectives=<Objectiveclass[]>this.ObjectivesData.data;
+                        }else{
+                            swal("Error!", "Your time frame did not been deleted successfully.", "error");
+                        }
+
+                    }
+                );
+
         }
-      );
-
-  }
 
 
+        this.modal.close();
 
-
-
-  createNew (ObjectiveNameInput:string) {
-    if (!ObjectiveNameInput  ) {
-      //alert("Do not leave any empty!");
-      swal("Warning", "Do not leave any empty!", "warning");
-      return;
     }
 
-    this.modal.close();
-  }
 
 
- //warning functions
+
+    getObjectives() {
+        this._settingObjectiveService.getAll()
+            .subscribe(
+                data => this.ObjectivesData = data,
+                error =>  this.errorMessage = <any>error,
+                ()=>{
+                    this.Objectives=<Objectiveclass[]>this.ObjectivesData.data;
+                }
+            );
+
+    }
+
+
+
+
+
+    createNew (ObjectiveNameInput:string) {
+        if (!ObjectiveNameInput  ) {
+            //alert("Do not leave any empty!");
+            swal("Warning", "Do not leave any empty!", "warning");
+            return;
+        }
+
+        this.modal.close();
+    }
+
+
+    //warning functions
 //this function is not a native angular 2 function, it was implemented by third-party javascript library!
 
 
@@ -226,71 +225,71 @@ export class OkrSettingObjectiveComponent implements OnInit {
 
 
 
-  //ng2 liftcycle functions
+    //ng2 liftcycle functions
 
-  onSelect(Objective: Objectiveclass ): void {
-    this.selectedObjective = Objective;
-  }
+    onSelect(Objective: Objectiveclass ): void {
+        this.selectedObjective = Objective;
+    }
 
-  //component functions
-  ngOnInit() {
+    //component functions
+    ngOnInit() {
 
-    this.getObjectives();
-  }
-
-
+        this.getObjectives();
+    }
 
 
 
 
-  //modal setting and control
 
 
-  //Modal actions
-  @ViewChild('modal')
-  modal: ModalComponent;
+    //modal setting and control
 
 
-  closed() {
-    this.ObjectiveNameInputBoxValue= "";
-    this.ObjectiveDescriptionInputBoxValue= "";
+    //Modal actions
+    @ViewChild('modal')
+    modal: ModalComponent;
 
 
-    this.modal.close();
-  }
-
-  dismissed() {
-
-  }
-
-  opened() {
+    closed() {
+        this.ObjectiveNameInputBoxValue= "";
+        this.ObjectiveDescriptionInputBoxValue= "";
 
 
-  }
+        this.modal.close();
+    }
 
-  navigate() {
+    dismissed() {
 
-  }
+    }
 
-  open() {
-
-    this.modal.open();
-  }
+    opened() {
 
 
+    }
 
-  // major functions
-  submitInfo(){
+    navigate() {
 
-  }
+    }
 
-  cleanData(){
+    open() {
 
-  }
+        this.modal.open();
+    }
+
+
+
+    // major functions
+    submitInfo(){
+
+    }
+
+    cleanData(){
+
+    }
 
     closeModal(){
 
-  }
+    }
 
 
 

@@ -376,8 +376,6 @@ class Time_frames extends CI_Controller
 
 
 
-
-
     function findRangeFromToday(){
 
         $temp=$this->Time_frames_model->getRangeTime();

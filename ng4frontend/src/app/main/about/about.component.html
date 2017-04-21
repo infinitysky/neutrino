@@ -1,4 +1,4 @@
-<h1>Current Time Frame</h1>
+<h1>Current Time Frame {{currentTimeFrameId}}</h1>
 
 <a [routerLink]="['/aboutus']">About US</a>
 <br/>
@@ -7,17 +7,29 @@
 <a [routerLink]="['/aboutus/','2','3']">path: 'aboutus/:userId/:timeFrame',</a>
 <br/>
 <br/>
+<a [routerLink]="['/aboutus']" [queryParams]="{ timeFrameId: 99 }">Go to timeFrameId 99</a>
 <br/>
+<a [routerLink]="['/aboutus/','2']" [queryParams]="{ timeFrameId: 99 }">Go to userId : 2 -- timeFrameId 99</a>
+
 <!--&gt;<a [routerLink]="['/okr/okr-users/user/',selfInfo.user_id]">OKRs Users</a>-->
 
 <!--<a routerLinkActive="">   path: 'about/:userId', </a>-->
 
+<br/>
+<a (click)="jump()">Jump by click userId : 2 -- timeFrameId 99</a>
 
+<br/>
+
+<a (click)="updateTimeFrameId()">update Time Frame</a>
+
+<br/>
+<br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 <button type="button" class="btn btn-primary" (click)="showChildModal()">Open child modal</button>
 
 <div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog ">
         <div class="color-line"></div>
         <div class="modal-content">
             <div class="modal-header">
@@ -28,40 +40,7 @@
             </div>
             <div class="modal-body">
                 <div class="stage">
-                    <div class="panel-body">
-                        <!--<form class="form-horizontal">-->
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Goal Name</label>
-                                <div class="col-sm-9">
-                                    <input name="goalNameInputBoxValue" type="text" placeholder="Please enter your goal name" autocomplete="off" class="form-control" value="{{goalNameInputBoxValue}}"
-                                           #goalNameInput>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
-                                <label class="col-sm-3 control-label">Goal Description</label>
-                                <div class="col-sm-9">
-              <textarea style="height: 85px" type="text"
-                        placeholder="Please enter your goal description"
-                        autocomplete="off" class="form-control"
-                        name="goalDescriptionInputBoxValue"
-                        value="{{goalDescriptionInputBoxValue}}" #goalDescriptionInput></textarea>
 
-                                </div>
-                            </div>
-
-                            <div class="hr-line-dashed"></div>
-
-
-
-                            <div class="hr-line-dashed"></div>
-
-
-
-                        </div>
-                        <!--</form>-->
-                    </div>
                 </div>
 
             </div>

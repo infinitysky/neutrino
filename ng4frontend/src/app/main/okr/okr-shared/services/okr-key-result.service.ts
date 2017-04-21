@@ -16,10 +16,10 @@ import {Keyresultclass} from '../classes/key-restult-class';
 @Injectable()
 export class SettingKeyResultService {
 
-    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultGetAllUrl;
-    private basicCallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultGetAllUrl;
-    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultCreateUrl;
-    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.keyResultOperateUrl;
+    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.keyResultGetAllUrl;
+    private basicCallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.keyResultGetAllUrl;
+    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.keyResultCreateUrl;
+    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.keyResultOperateUrl;
 
 
     private headers = new Headers({'Content-Type': 'application/json'});

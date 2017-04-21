@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
-import { Router } from '@angular/router';
+
 
 import 'rxjs';
 
@@ -43,10 +43,10 @@ import {Activityclass} from '../../okr-shared/classes/activitie-class';
 
 
 @Component({
-  selector: 'app-company-okrs',
-  providers: [SettingGoalService, SettingTimeFrameService,SettingTeamService,OkrActivitiesService],
-  templateUrl: './company-okrs.component.html',
-  styleUrls: ['./company-okrs.component.css']
+    selector: 'app-company-okrs',
+    providers: [SettingGoalService, SettingTimeFrameService,SettingTeamService,OkrActivitiesService],
+    templateUrl: './company-okrs.component.html',
+    styleUrls: ['./company-okrs.component.css']
 })
 export class CompanyOkrsComponent implements OnInit {
 
@@ -54,546 +54,596 @@ export class CompanyOkrsComponent implements OnInit {
 
 
 
-  public modaltitle :string;
-  public subPageTitle = "Goals Setting";
-
-  public goals: Goalclass[];
-  public displayGoals:Goalclass[];
-  public timeframes: Timeframeclass[];
-  public teams:Teamclass[];
-  public sumitActivity:Activityclass;
+    public modaltitle :string;
 
 
-
-  //modal parameter
-  public goalsData: any;
-  public errorMessage: any;
-
-  public isLoaded: boolean = true;
-  public selectedGoal: Goalclass;
-  public selectedValue: any;
-  public tempData: any;
-
-  animation: boolean = true;
-  keyboard: boolean = true;
-  backdrop: string | boolean = "static";
-
-
-  //current model
-  editModeIO: number;
-
-
-  //edit mode parameter
-  editGoal: any;
-  goalNameInputBoxValue: string;
-  goalDescriptionInputBoxValue: string;
-
-
-  //Dropdownlist;
-  private timeFrameDropdownListOptions: any;
-  private selectedTimeFrame: any;
-
-
-  private tagDropdownListOptions :any;
-  private selectedTag: any;
+    public goals: Goalclass[];
+    public displayGoals:Goalclass[];
+    public timeframes: Timeframeclass[];
+    public teams:Teamclass[];
+    public sumitActivity:Activityclass;
 
 
 
+    //modal parameter
+    public goalsData: any;
+    public errorMessage: any;
 
-  //For sharing service
-  public toalGoalsNumber: any;
+    public isLoaded: boolean = true;
+    public selectedGoal: Goalclass;
+    public selectedValue: any;
+    public tempData: any;
 
-  public overallProgressNumber: any;
-
-  private overallProgressNumberSubscription: Subscription;
-  private overallGoalNumberSubscription: Subscription;
-
-
-  private selfUserInforData:any;
-  private selfInfoSubscription:Subscription;
+    animation: boolean = true;
+    keyboard: boolean = true;
+    backdrop: string | boolean = "static";
 
 
-  constructor(private _settingGoalService: SettingGoalService,
-              private _settingTimeFrameService: SettingTimeFrameService,
-              private _shareCompanyOkrinfoService: ShareCompanyOkrinfoService,
-              private _userInfoContainerService:UserInfoContainerService,
-              private _okrActivitiesService:OkrActivitiesService) {
-    this.modaltitle="";
-    this.goals = [];
+    //current model
+    public editModeIO: number;
 
-    this.timeframes = [];
-    this.editModeIO = 0;
-    this.editGoal = new Goalclass();
-    this.goalNameInputBoxValue = '';
-    this.goalDescriptionInputBoxValue = '';
-    this.timeFrameDropdownListOptions = [];
-    this.selectedTimeFrame = [];
-    this.toalGoalsNumber = ' - ';
-    this.sumitActivity=new Activityclass();
-    this.selfUserInforData='';
+
+    //edit mode parameter
+    editGoal: any;
+    goalNameInputBoxValue: string;
+    goalDescriptionInputBoxValue: string;
+
+
+    //Dropdownlist;
+    public timeFrameDropdownListOptions: any;
+    public selectedTimeFrame: any;
+
+
+    public tagDropdownListOptions :any;
+    public selectedTag: any;
 
 
 
 
+    //For sharing service
+    public toalGoalsNumber: any;
 
-    this.tagDropdownListOptions=[{ id: "None", text: "None" },{ id: "Warning", text: "Warning" },{ id: "Risk", text: "Risk" },{ id: "Complete", text: "Complete" }];
-    this.selectedTag=[{ id: "None", text: "None" }];
+    public overallProgressNumber: any;
 
-
-  }
-
-
-
-  //component functions
-  ngOnInit() {
-
-    this.getCurrentUserInfo();
-
-    this.getGoals();
-    this.getAllTimeFrames();
-    this.getOverallProgressNumber();
-    this.getTotalGoalNumber();
+    private overallProgressNumberSubscription: Subscription;
+    private overallGoalNumberSubscription: Subscription;
 
 
-  }
+    public selfUserInforData:any;
+    public selfInfoSubscription:Subscription;
 
-  ngOnDestroy() {
-    this.overallGoalNumberSubscription.unsubscribe();
-    this.overallProgressNumberSubscription.unsubscribe();
-    this.selfInfoSubscription.unsubscribe();
 
-  }
+    private currentTimeFrameId: any;
+    private timeFrameIdSubscription: any;
+
+
+    constructor(private _activatedRoute: ActivatedRoute,
+                private _router: Router,
+                private _settingGoalService: SettingGoalService,
+                private _settingTimeFrameService: SettingTimeFrameService,
+                private _shareCompanyOkrinfoService: ShareCompanyOkrinfoService,
+                private _userInfoContainerService:UserInfoContainerService,
+                private _okrActivitiesService:OkrActivitiesService) {
+        this.modaltitle="";
+        this.goals = [];
+
+        this.timeframes = [];
+        this.editModeIO = 0;
+        this.editGoal = new Goalclass();
+        this.goalNameInputBoxValue = '';
+        this.goalDescriptionInputBoxValue = '';
+        this.timeFrameDropdownListOptions = [];
+        this.selectedTimeFrame = [];
+        this.toalGoalsNumber = ' - ';
+        this.sumitActivity=new Activityclass();
+        this.selfUserInforData='';
 
 
 
 
 
-  editButton() {
-    this.isLoaded = !this.isLoaded;
-  }
-  refreshButton() {
-    this.getGoals();
-  }
-  addGoalButton() {
-
-    this.modaltitle="Create A Goal";
+        this.tagDropdownListOptions=[{ id: "None", text: "None" },{ id: "Warning", text: "Warning" },{ id: "Risk", text: "Risk" },{ id: "Complete", text: "Complete" }];
+        this.selectedTag=[{ id: "None", text: "None" }];
 
 
-    this.editModeIO = 0;
-
-    this.getAllTimeFrames();
-    this.selectedTag = [{ id: "None", text:"None"}];
-
-    this.selectedTimeFrame = [];
-    this.goalNameInputBoxValue = "";
-    this.goalDescriptionInputBoxValue = "";
-
-    this.modal.open();
-
-  }
-
-  deleteGoalButton(Goal) {
-    //this.showAlert();
-    this._settingGoalService
-      .delete(Goal)
-      .subscribe(
-        data => { this.tempData = data },
-        error => { this.errorMessage = <any>error },
-        () => {
-
-          if (this.tempData.data.affectRows > 0) {
-            swal("Deleted!", "Your goal has been deleted.", "success");
-            this.goals = this.goals.filter(currentGoals => currentGoals !== Goal);
-
-            this.updateOverallNumbers();
-
-          } else {
-            swal("Error!", "Your goal did not been deleted successfully.", "error");
-          }
-        }
-      );
-  }
-
-
-  modalSaveChangeButton(goalNameInput: string, goalDescription: string) {
-
-
-    if (0 == this.editModeIO) {
-      this.createNewGoal(goalNameInput, goalDescription);
-    } else {
-      this.updateGoal(this.editGoal, goalNameInput, goalDescription);
     }
-  }
-
-
-  editGoalsButton(Goal) {
-    this.modaltitle="Update A Goal";
-
-    this.editModeIO = 1;
-    this.editGoal = Goal;
-    this.goalNameInputBoxValue = Goal.goal_name;
-    this.goalDescriptionInputBoxValue = Goal.goal_description;
 
 
 
-    var timeFrameName = Goal.time_frame_description
-      + "    --- (" + Goal.time_frame_start +
-      " To " + Goal.time_frame_end + ")";
-
-    // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
-    //var tempInfo1={id:timeframes[i].time_frame_id, text:timeFrameName};
-    this.selectedTimeFrame = [{ id: Goal.time_frame_id, text: timeFrameName }];
-    this.selectedTag = [{ id: Goal.goal_status, text: Goal.goal_status }];
-
-    this.getAllTimeFrames();
+    //component functions
+    ngOnInit() {
+        this.timeFrameIdParameterSubscribe();
+        this.getCurrentUserInfo();
 
 
-
-    this.modal.open();
-
-  }
+        this.getAllTimeFrames();
+        this.getOverallProgressNumber();
+        this.getTotalGoalNumber();
 
 
 
 
-getCurrentUserInfo(){
-  this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
-  console.log("company OKRs self Info id : "+ JSON.stringify(this.selfUserInforData.user_id));
+    }
 
-}
+    ngOnDestroy() {
+        this.timeFrameIdSubscription.unsubscribe();
+        this.overallGoalNumberSubscription.unsubscribe();
+        this.overallProgressNumberSubscription.unsubscribe();
+        this.selfInfoSubscription.unsubscribe();
 
-
-
-  getAllTimeFrames() {
-    this._settingTimeFrameService.getAllTimeFrames()
-      .subscribe(
-        data => this.tempData = data,
-        error => this.errorMessage = <any>error,
-        () => {
+    }
 
 
-          if (this.tempData.status == "success" && this.tempData.data) {
-            this.timeframes =<Timeframeclass[]> this.tempData.data;
-            this.setTimeFrameDropdownList(this.timeframes);
-          }
+
+
+
+    editButton() {
+        this.isLoaded = !this.isLoaded;
+    }
+    refreshButton() {
+        //  this.getGoals();
+    }
+    addGoalButton() {
+
+        this.modaltitle="Create A Goal";
+
+
+        this.editModeIO = 0;
+
+        this.getAllTimeFrames();
+        this.selectedTag = [{ id: "None", text:"None"}];
+
+        this.selectedTimeFrame = [];
+        this.goalNameInputBoxValue = "";
+        this.goalDescriptionInputBoxValue = "";
+
+        this.modal.open();
+
+    }
+
+    deleteGoalButton(Goal) {
+        //this.showAlert();
+        this._settingGoalService
+            .delete(Goal)
+            .subscribe(
+                data => { this.tempData = data },
+                error => { this.errorMessage = <any>error },
+                () => {
+
+                    if (this.tempData.data.affectRows > 0) {
+                        swal("Deleted!", "Your goal has been deleted.", "success");
+                        this.goals = this.goals.filter(currentGoals => currentGoals !== Goal);
+
+                        this.updateOverallNumbers();
+
+                    } else {
+                        swal("Error!", "Your goal did not been deleted successfully.", "error");
+                    }
+                }
+            );
+    }
+
+
+    modalSaveChangeButton(goalNameInput: string, goalDescription: string) {
+
+
+        if (0 == this.editModeIO) {
+            this.createNewGoal(goalNameInput, goalDescription);
+        } else {
+            this.updateGoal(this.editGoal, goalNameInput, goalDescription);
         }
-      );
-
-  }
+    }
 
 
+    editGoalsButton(Goal) {
+        this.modaltitle="Update A Goal";
 
-
-
-
-
-  updateGoal(editGoal, goalNameInput: string, goalDescription: string) {
-
-    if (!goalNameInput) {
-      //alert("Do not leave any empty!");
-      // swal("Warning", "you did not change any time!", "warning");\
-      return;
-    } else {
-
-      let originalGoal=editGoal;
-
-
-      editGoal.goal_description = goalDescription;
-      editGoal.goal_name = goalNameInput;
-      var timeFrameId = this.selectedTimeFrame[0].id;
-      var goalStatusTag =this.selectedTag[0].id;
+        this.editModeIO = 1;
+        this.editGoal = Goal;
+        this.goalNameInputBoxValue = Goal.goal_name;
+        this.goalDescriptionInputBoxValue = Goal.goal_description;
 
 
 
-      editGoal.time_frame_id = timeFrameId;
+        var timeFrameName = Goal.time_frame_description
+            + "    --- (" + Goal.time_frame_start +
+            " To " + Goal.time_frame_end + ")";
 
-      editGoal.goal_status=goalStatusTag;
+        // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
+        //var tempInfo1={id:timeframes[i].time_frame_id, text:timeFrameName};
+        this.selectedTimeFrame = [{ id: Goal.time_frame_id, text: timeFrameName }];
+        this.selectedTag = [{ id: Goal.goal_status, text: Goal.goal_status }];
+
+        this.getAllTimeFrames();
 
 
 
-      this._settingGoalService.update(editGoal)
-        .subscribe(
-          data => { this.tempData = data },
-          error => this.errorMessage = <any>error,
-          () => {
-            console.log("update Members this.tempData + " + JSON.stringify(this.tempData));
-            console.log(this.tempData.data);
+        this.modal.open();
 
-             if(this.tempData.status == "success" && this.tempData.data)  {
-              swal("Success!", "Your goal has been updated. <br> affectRows: " + this.tempData.data.affectRows, "success");
-              // this.updateTeamMembers(editTeam,this.memberSelectedOptions);
-              this.goalNameInputBoxValue = "";
-              this.goalDescriptionInputBoxValue = "";
-              this.updateOverallNumbers();
-
-              var submitANewActivity= new Activityclass();
-
-              var modifyLog = "";
-              if (originalGoal.goal_description!=editGoal.goal_description){
-                modifyLog=modifyLog+" Change Goal description  to"+ editGoal.goal_description+"; ";
-              }
-               if (originalGoal.goal_name!=editGoal.goal_name){
-                 modifyLog=modifyLog+"Change goal name to"+ editGoal.goal_name+"; ";
-               }
-               if (originalGoal.goal_status!=editGoal.goal_status){
-                 modifyLog=modifyLog+"Change goal tag to"+ editGoal.goal_status+"; ";
-               }
-
-              submitANewActivity.user_id=this.selfUserInforData.user_id;
-              submitANewActivity.activity_detail = "Updated goal : "
-                                                          + editGoal.goal_name+ " update log : "+modifyLog ;
-              submitANewActivity.activity_type="Update";
-              this.submitActivity(submitANewActivity);
+    }
 
 
 
 
-            }else {
-              //swal("Warning", this.tempData.errorMassage, "warning");
-              swal("Error!", this.tempData.errorMassage, "error");
+    getCurrentUserInfo(){
+        this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo=>this.selfUserInforData=userInfo);
+        console.log("company OKRs self Info id : "+ JSON.stringify(this.selfUserInforData.user_id));
+
+    }
+
+
+
+    getAllTimeFrames() {
+        this._settingTimeFrameService.getAllTimeFrames()
+            .subscribe(
+                data => this.tempData = data,
+                error => this.errorMessage = <any>error,
+                () => {
+
+
+                    if (this.tempData.status == "success" && this.tempData.data) {
+                        this.timeframes =<Timeframeclass[]> this.tempData.data;
+                        this.setTimeFrameDropdownList(this.timeframes);
+                    }
+                }
+            );
+
+    }
+
+
+
+
+
+
+
+    updateGoal(editGoal, goalNameInput: string, goalDescription: string) {
+
+        if (!goalNameInput) {
+            //alert("Do not leave any empty!");
+            // swal("Warning", "you did not change any time!", "warning");\
+            return;
+        } else {
+
+            let originalGoal=editGoal;
+
+
+            editGoal.goal_description = goalDescription;
+            editGoal.goal_name = goalNameInput;
+            var timeFrameId = this.selectedTimeFrame[0].id;
+            var goalStatusTag =this.selectedTag[0].id;
+
+
+
+            editGoal.time_frame_id = timeFrameId;
+
+            editGoal.goal_status=goalStatusTag;
+
+
+
+            this._settingGoalService.update(editGoal)
+                .subscribe(
+                    data => { this.tempData = data },
+                    error => this.errorMessage = <any>error,
+                    () => {
+                        console.log("update Members this.tempData + " + JSON.stringify(this.tempData));
+                        console.log(this.tempData.data);
+
+                        if(this.tempData.status == "success" && this.tempData.data)  {
+                            swal("Success!", "Your goal has been updated. <br> affectRows: " + this.tempData.data.affectRows, "success");
+                            // this.updateTeamMembers(editTeam,this.memberSelectedOptions);
+                            this.goalNameInputBoxValue = "";
+                            this.goalDescriptionInputBoxValue = "";
+                            this.updateOverallNumbers();
+
+                            var submitANewActivity= new Activityclass();
+
+                            var modifyLog = "";
+                            if (originalGoal.goal_description!=editGoal.goal_description){
+                                modifyLog=modifyLog+" Change Goal description  to"+ editGoal.goal_description+"; ";
+                            }
+                            if (originalGoal.goal_name!=editGoal.goal_name){
+                                modifyLog=modifyLog+"Change goal name to"+ editGoal.goal_name+"; ";
+                            }
+                            if (originalGoal.goal_status!=editGoal.goal_status){
+                                modifyLog=modifyLog+"Change goal tag to"+ editGoal.goal_status+"; ";
+                            }
+
+                            submitANewActivity.user_id=this.selfUserInforData.user_id;
+                            submitANewActivity.activity_detail = "Updated goal : "
+                                + editGoal.goal_name+ " update log : "+modifyLog ;
+                            submitANewActivity.activity_type="Update";
+                            this.submitActivity(submitANewActivity);
+
+
+
+
+                        }else {
+                            //swal("Warning", this.tempData.errorMassage, "warning");
+                            swal("Error!", this.tempData.errorMassage, "error");
+                        }
+
+                    }
+                );
+
+
+        }
+
+        this.modal.close();
+
+    }
+
+
+
+
+    getGoals() {
+        // this._settingGoalService.getAll()
+        this._settingGoalService.getAllDetailed()
+            .subscribe(
+                data => this.tempData = data,
+                error => this.errorMessage = <any>error,
+                () => {
+                    if (this.tempData.status.toLowerCase() == "success" && this.tempData.data) {
+                        this.goals = this.tempData.data;
+                        this.goals.sort();
+                        this.updateOverallNumbers();
+                    }
+
+                }
+            );
+
+    }
+
+    getGoalsByTimeFrameId(timeFrameId) {
+        // this._settingGoalService.getAll()
+
+
+        this._settingGoalService.getByTimeFrameId(timeFrameId)
+            .subscribe(
+                data => this.tempData = data,
+                error => this.errorMessage = <any>error,
+                () => {
+                    if (this.tempData.status.toLowerCase() == 'success' && this.tempData.data) {
+                        this.goals = this.tempData.data;
+                        this.goals.sort();
+                        this.updateOverallNumbers();
+                    }else{
+                        this.goals = [];
+                        console.log('empty');
+                        this.updateOverallNumbers();
+                    }
+
+                }
+            );
+
+    }
+
+
+
+
+
+    calculateOverallProgress():number{
+        var totalNumber =0;
+        var OverallProgress = 0;
+        var i=0;
+        if(this.goals.length != 0){
+            for (i = 0; i < this.goals.length; i++) {
+                totalNumber = totalNumber + Number(this.goals[i].goal_progress_status);
             }
+            OverallProgress = totalNumber / this.goals.length;
+        }else {
 
-          }
+            OverallProgress = 0;
+        }
+
+        return OverallProgress;
+
+    }
+
+
+
+
+
+    createNewGoal(goalNameInput: string, goalDescription: string) {
+
+
+
+        if (!goalNameInput || !this.selectedTimeFrame[0]) {
+            //alert("Do not leave any empty!");
+            swal("Warning", "Do not leave any empty!", "warning");
+            return;
+        }
+        else {
+
+
+            console.log(this.selectedTag);
+            var timeFrameId = this.selectedTimeFrame[0].id;
+            console.log(this.selectedTimeFrame[0]);
+            var goalStatusTag = this.selectedTag[0].id;
+            console.log(this.selectedTag[0].id);
+
+            this._settingGoalService.addNew(goalNameInput, goalDescription, timeFrameId, goalStatusTag ).subscribe(
+                data => this.tempData = data,
+                error => this.errorMessage = <any>error,
+                () => {
+
+                    if (this.tempData.status == "success" && this.tempData.data) {
+
+                        var tempInfo = <Goalclass>this.tempData.data;
+                        var searchedTimeFrame = this.timeframes.find(x => x.time_frame_id == tempInfo.time_frame_id);
+
+                        tempInfo.time_frame_description = searchedTimeFrame.time_frame_description;
+                        tempInfo.time_frame_start = searchedTimeFrame.time_frame_start;
+                        tempInfo.time_frame_end = searchedTimeFrame.time_frame_end;
+                        var tempArray=[];
+                        tempArray.push(tempInfo);
+                        var i=0;
+                        for (i=0;i<this.goals.length;i++){
+                            tempArray.push(this.goals[i]);
+                        }
+                        this.goals=tempArray;
+                        this.updateOverallNumbers();
+                        this.goalNameInputBoxValue = "";
+                        this.goalDescriptionInputBoxValue = "";
+
+                        var submitANewActivity= new Activityclass();
+                        submitANewActivity.user_id=this.selfUserInforData.user_id;
+                        submitANewActivity.activity_detail = " Created a new goal : " + tempInfo.goal_name;
+                        submitANewActivity.activity_type="Create";
+                        this.submitActivity(submitANewActivity);
+
+                    } else {
+                        swal("Error", this.tempData.errorMassage, "error");
+
+                    }
+
+                }
+            );
+        }
+
+
+
+
+
+        this.modal.close();
+    }
+
+    submitActivity(activity:any){
+
+        this._okrActivitiesService.addNewByClass(activity).subscribe(
+            data=>this.tempData=data,
+            error=>this.errorMessage=<any>error,
+            ()=>{
+                if(this.tempData.data && this.tempData&& <Activityclass>this.tempData.data){
+                    //swal("Success!", "Your goal has been created.", "success");
+                    console.log("activity success");
+                }
+            }
         );
 
 
     }
 
-    this.modal.close();
-
-  }
 
 
 
+    getTotalGoalNumber(){
 
-  getGoals() {
-   // this._settingGoalService.getAll()
-    this._settingGoalService.getAllDetailed()
-      .subscribe(
-        data => this.tempData = data,
-        error => this.errorMessage = <any>error,
-        () => {
-           if (this.tempData.status == "success" && this.tempData.data) {
-            this.goals = this.tempData.data;
-            this.goals.sort();
-            this.updateOverallNumbers();
-          }
 
+        this.overallGoalNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.toalGoalsNumber = data);
+        if (!this.toalGoalsNumber) {
+            this.toalGoalsNumber = ' - ';
         }
-      );
 
-  }
-
-
-
-
-  calculateOverallProgress():number{
-    var totalNumber =0;
-    var i=0;
-    for(i=0;i<this.goals.length;i++){
-      totalNumber=totalNumber+ Number(this.goals[i].goal_progress_status);
     }
-    var OverallProgress=totalNumber/this.goals.length;
 
+    getOverallProgressNumber(){
 
-    return OverallProgress;
+        this.overallProgressNumberSubscription = this._shareCompanyOkrinfoService._shareOverallProgressNumber$.subscribe(data => this.overallProgressNumber = data);
 
-  }
-
-
-
-
-
-  createNewGoal(goalNameInput: string, goalDescription: string) {
-
-
-
-    if (!goalNameInput || !this.selectedTimeFrame[0]) {
-      //alert("Do not leave any empty!");
-      swal("Warning", "Do not leave any empty!", "warning");
-      return;
+        if (!this.overallProgressNumber) {
+            this.overallProgressNumber = ' - ';
+        }
     }
-    else {
 
 
-      console.log(this.selectedTag);
-      var timeFrameId = this.selectedTimeFrame[0].id;
-      console.log(this.selectedTimeFrame[0]);
-      var goalStatusTag = this.selectedTag[0].id;
-      console.log(this.selectedTag[0].id);
 
-      this._settingGoalService.addNew(goalNameInput, goalDescription, timeFrameId, goalStatusTag ).subscribe(
-        data => this.tempData = data,
-        error => this.errorMessage = <any>error,
-        () => {
 
-          if (this.tempData.status == "success" && this.tempData.data) {
 
-            var tempInfo = <Goalclass>this.tempData.data;
-            var searchedTimeFrame = this.timeframes.find(x => x.time_frame_id == tempInfo.time_frame_id);
 
-            tempInfo.time_frame_description = searchedTimeFrame.time_frame_description;
-            tempInfo.time_frame_start = searchedTimeFrame.time_frame_start;
-            tempInfo.time_frame_end = searchedTimeFrame.time_frame_end;
-            var tempArray=[];
-            tempArray.push(tempInfo);
-            var i=0;
-            for (i=0;i<this.goals.length;i++){
-              tempArray.push(this.goals[i]);
+    timeFrameIdParameterSubscribe(){
+
+        this.timeFrameIdSubscription = this._activatedRoute.queryParams.subscribe(params => {
+            this.currentTimeFrameId =  +params['timeFrameId'] || 0;
+            //this.getGoals();
+            console.log('current time frame : ' + this.currentTimeFrameId);
+
+            if (this.currentTimeFrameId==0){
+                this.getGoals();
+            }else {
+                this.getGoalsByTimeFrameId(this.currentTimeFrameId);
             }
-            this.goals=tempArray;
-            this.updateOverallNumbers();
-            this.goalNameInputBoxValue = "";
-            this.goalDescriptionInputBoxValue = "";
 
-            var submitANewActivity= new Activityclass();
-            submitANewActivity.user_id=this.selfUserInforData.user_id;
-            submitANewActivity.activity_detail = " Created a new goal : " + tempInfo.goal_name;
-            submitANewActivity.activity_type="Create";
-            this.submitActivity(submitANewActivity);
+        });
 
-          } else {
-            swal("Error", this.tempData.errorMassage, "error");
+    }
 
-          }
+
+
+
+
+
+
+    setTimeFrameDropdownList(timeframes: Timeframeclass[]) {
+        var i = 0;
+        var tempArray = [];
+
+        //var NonInfo={id:"0", text:"None"};
+        for (i = timeframes.length - 1; i > 0; i--) {
+            var timeFrameName = timeframes[i].time_frame_description
+                + "   --- (" + timeframes[i].time_frame_start +
+                " To " + timeframes[i].time_frame_end + ")";
+
+            // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
+            var tempInfo1 = { id: timeframes[i].time_frame_id, text: timeFrameName };
+            tempArray.push(tempInfo1);
 
         }
-      );
+        // This way is working...
+        this.timeFrameDropdownListOptions = tempArray;
+
+    }
+
+
+
+    updateOverallNumbers() {
+
+        var overAllProgressNumber=this.calculateOverallProgress();
+
+        console.log(overAllProgressNumber);
+
+        this._shareCompanyOkrinfoService.setOverAllProgressSubject(overAllProgressNumber);
+
+
+        this._shareCompanyOkrinfoService.setGoalsSubject(this.goals.length);
     }
 
 
 
 
 
-    this.modal.close();
-  }
-
-  submitActivity(activity:any){
-
-    this._okrActivitiesService.addNewByClass(activity).subscribe(
-      data=>this.tempData=data,
-      error=>this.errorMessage=<any>error,
-      ()=>{
-        if(this.tempData.data && this.tempData&& <Activityclass>this.tempData.data){
-          //swal("Success!", "Your goal has been created.", "success");
-          console.log("activity success");
-        }
-      }
-    );
-
-
-  }
-
-
-
-
-  getTotalGoalNumber(){
-
-
-    this.overallGoalNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.toalGoalsNumber = data);
-    if (!this.toalGoalsNumber) {
-      this.toalGoalsNumber = ' - ';
+    displayWarningMessage(warningMessage:string){
+        swal("Warning", warningMessage, "warning");
+    }
+    displayErrorMessage(errorMessage:string){
+        swal("Error!", errorMessage , "error");
     }
 
-  }
-
-  getOverallProgressNumber(){
-
-    this.overallProgressNumberSubscription = this._shareCompanyOkrinfoService._shareOverallProgressNumber$.subscribe(data => this.overallProgressNumber = data);
-
-    if (!this.overallProgressNumber) {
-      this.overallProgressNumber = ' - ';
+    displaySuccessMessage(successMessage:string){
+        swal("Success!", successMessage, "success");
     }
-  }
 
 
 
+    //modal setting and control
 
 
-
-  //ng2 liftcycle functions
-
-  // onSelect(Goal: Goalclass): void {
-  //   this.selectedGoal = Goal;
-  // }
+    //Modal actions
+    @ViewChild('modal')
+    modal: ModalComponent;
 
 
+    closed() {
+        this.goalDescriptionInputBoxValue = "";
+        this.goalNameInputBoxValue = "";
 
 
-
-
-
-  setTimeFrameDropdownList(timeframes: Timeframeclass[]) {
-    var i = 0;
-    var tempArray = [];
-
-    //var NonInfo={id:"0", text:"None"};
-    for (i = timeframes.length - 1; i > 0; i--) {
-      var timeFrameName = timeframes[i].time_frame_description
-        + "   --- (" + timeframes[i].time_frame_start +
-        " To " + timeframes[i].time_frame_end + ")";
-
-      // var tempInfo={id:teams[i].team_id, name:teams[i].team_name};
-      var tempInfo1 = { id: timeframes[i].time_frame_id, text: timeFrameName };
-      tempArray.push(tempInfo1);
-
+        this.modal.close();
     }
-    // This way is working...
-    this.timeFrameDropdownListOptions = tempArray;
 
-  }
+    open() {
 
-
-
-  updateOverallNumbers() {
-
-    var overAllProgressNumber=this.calculateOverallProgress();
-
-    console.log(overAllProgressNumber);
-
-    this._shareCompanyOkrinfoService.setOverAllProgressSubject(overAllProgressNumber);
-
-
-    this._shareCompanyOkrinfoService.setGoalsSubject(this.goals.length);
-  }
-
-
-
-
-
-  displayWarningMessage(warningMessage:string){
-    swal("Warning", warningMessage, "warning");
-  }
-  displayErrorMessage(errorMessage:string){
-    swal("Error!", errorMessage , "error");
-  }
-
-  displaySuccessMessage(successMessage:string){
-    swal("Success!", successMessage, "success");
-  }
-
-
-
-  //modal setting and control
-
-
-  //Modal actions
-  @ViewChild('modal')
-  modal: ModalComponent;
-
-
-  closed() {
-    this.goalDescriptionInputBoxValue = "";
-    this.goalNameInputBoxValue = "";
-
-
-    this.modal.close();
-  }
-
-  open() {
-
-    this.modal.open();
-  }
+        this.modal.open();
+    }
 
 
 }

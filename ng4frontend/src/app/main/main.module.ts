@@ -8,13 +8,13 @@ import { HttpModule } from '@angular/http';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MainComponent } from './main.component';
-import { HeaderpageComponent } from './headerpage/headerpage.component';
+
 import { FooterpageComponent } from './footerpage/footerpage.component';
 import { NavigationComponent } from './navigation/navigation.component';
 
 
 
-import { AccordionModule } from 'ng2-bootstrap/accordion';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 @NgModule({
     imports: [
@@ -26,7 +26,7 @@ import { AccordionModule } from 'ng2-bootstrap/accordion';
     ],
     declarations: [
         MainComponent,
-        HeaderpageComponent,
+
         FooterpageComponent,
         NavigationComponent
     ]

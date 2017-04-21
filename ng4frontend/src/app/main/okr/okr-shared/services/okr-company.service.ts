@@ -16,9 +16,9 @@ import {CompanyDetailClass} from '../classes/company-detail-class';
 @Injectable()
 export class OkrCompanyService {
 
-    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.companyGetAllUrl;
-    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.companyCreateUrl;
-    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.companyOperateUrl;
+    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.companyGetAllUrl;
+    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.companyCreateUrl;
+    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.companyOperateUrl;
 
 
     private headers = new Headers({ 'Content-Type': 'application/json' });

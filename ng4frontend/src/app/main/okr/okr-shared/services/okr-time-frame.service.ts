@@ -14,9 +14,9 @@ import {MY_CONFIG} from '../../../../app-config';
 @Injectable()
 export class SettingTimeFrameService {
 
-  private getAllTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameGetAllUrl;
-  private createTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameCreateUrl;
-  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.timeFrameOperateUrl;
+  private getAllTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.timeFrameGetAllUrl;
+  private createTimeFrameAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.timeFrameCreateUrl;
+  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.timeFrameOperateUrl;
 
 
   private headers = new Headers({ 'Content-Type': 'application/json' });

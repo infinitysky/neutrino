@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import {SettingTeamService} from '../../okr-shared/services/okr-team.service';
 
 import {Teamclass} from '../../okr-shared/classes/team-class';
@@ -10,51 +10,98 @@ import {Userclass} from '../../../../shared/classes/user-class';
 
 
 @Component({
-  selector: 'app-company-teams',
-  templateUrl: './company-teams.component.html',
-  providers:[SettingTeamService,UserDetailsService],
-  styleUrls: ['./company-teams.component.css']
+    selector: 'app-company-teams',
+    templateUrl: './company-teams.component.html',
+    providers:[SettingTeamService,UserDetailsService],
+    styleUrls: ['./company-teams.component.css']
 })
 export class CompanyTeamsComponent implements OnInit {
 
-  public teams:Teamclass[];
-  public users:Userclass[];
+    public teams: Teamclass[];
+    public users: Userclass[];
 
-  private tempData:any;
-  private errorMessage:any;
+    private tempData: any;
+    private errorMessage: any;
 
-  public teamLength:number;
+    public teamLength: number;
 
-
-
-
-  ngOnInit(){
-    this.getTeams();
-
-  }
-  constructor(private _settingTeamService:SettingTeamService){
-    this.teams=[];
-    this.users=[];
-    this.teamLength = 0;
-  }
+    private currentTimeFrameId: any;
+    private timeFrameIdSubscription: any;
 
 
-  getTeams() {
-    console.log("get All teams");
-    this._settingTeamService.getAll()
-      .subscribe(
-        data => this.tempData = data,
-        error =>  this.errorMessage = <any>error,
-        ()=>{
 
 
-          if(this.tempData.data && <Teamclass[]>this.tempData.data){
-            this.teams=<Teamclass[]>this.tempData.data;
-            this.teamLength=this.teams.length;
-          }
+    constructor(private _activatedRoute: ActivatedRoute,
+                private _router: Router,
+                private _settingTeamService:SettingTeamService){
+        this.teams = [];
+        this.users = [];
+        this.teamLength = 0;
+    }
 
-        }
-      );
+    ngOnInit(){
+        this.timeFrameIdParameterSubscribe();
+        //this.getTeams();
 
-  }
+    }
+
+
+
+    ngOnDestroy(){
+        this.timeFrameIdSubscription.unsubscribe();
+    }
+
+
+    timeFrameIdParameterSubscribe(){
+
+        this.timeFrameIdSubscription = this._activatedRoute.queryParams.subscribe(params => {
+            this.currentTimeFrameId =  +params['timeFrameId'] || 0;
+            console.log('Query param currentTimeFrame: ', this.currentTimeFrameId);
+            this.getTeamsByTimeFrame(this.currentTimeFrameId );
+        });
+
+    }
+
+
+    getTeams() {
+        console.log("get All teams");
+        this._settingTeamService.getAll()
+            .subscribe(
+                data => this.tempData = data,
+                error =>  this.errorMessage = <any>error,
+                ()=>{
+
+
+                    if(this.tempData.data && <Teamclass[]>this.tempData.data){
+                        this.teams=<Teamclass[]>this.tempData.data;
+                        this.teamLength=this.teams.length;
+                    }
+
+                }
+            );
+
+    }
+
+
+    getTeamsByTimeFrame(timeFrameId){
+
+
+        this._settingTeamService.getCurrentTeamProgressAndMember(timeFrameId)
+            .subscribe(
+                data => this.tempData = data,
+                error =>  this.errorMessage = <any>error,
+                () => {
+                    // console.log( "this.TeamsData + "+JSON.stringify(this.TeamsData.data));
+                    if(this.tempData && this.tempData.data ){
+
+                        this.teams = <Teamclass[]>this.tempData.data;
+                        this.teamLength = this.teams.length;
+                    }
+
+                }
+            );
+
+    }
+
+
 }

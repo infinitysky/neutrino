@@ -96,7 +96,7 @@ export class OkrUsersComponent implements OnInit {
 
         this.displayUserInfoData=this.selfUserInfoData;
         this.letterAvatar=(this.displayUserInfoData.first_name.charAt(0)+this.displayUserInfoData.last_name.charAt(0)).toUpperCase();
-        console.log("his.letterAvatar : "+this.letterAvatar);
+
 
 
         this._shareUserOkrinfoService.setTargetUserInfoSubject(this.selfUserInfoData);

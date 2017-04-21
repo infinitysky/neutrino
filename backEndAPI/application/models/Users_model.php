@@ -7,6 +7,8 @@ class Users_model extends CI_Model
 {
 
     public $table = 'users';
+    public $user_Details_table = 'users_details';
+    public $role_table = 'roles';
     public $id = 'user_id';
     public $order = 'DESC';
 
@@ -16,28 +18,36 @@ class Users_model extends CI_Model
         $this->load->database();
     }
 
-    // datatables
-    function json() {
-        $this->datatables->select('user_id,email,username,password,account_status');
-        $this->datatables->from('users');
-        //add this line for join
-        //$this->datatables->join('table2', 'users.field = table2.field');
-        $this->datatables->add_column('action', anchor(site_url('users/read/$1'),'Read')." | ".anchor(site_url('users/update/$1'),'Update')." | ".anchor(site_url('users/delete/$1'),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'user_id');
-        return $this->datatables->generate();
-    }
+
 
     // get all
     function get_all()
     {
-        $this->db->order_by($this->id, $this->order);
-        return $this->db->get($this->table)->result();
+        $this->db->trans_begin();
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join($this->user_Details_table,$this->table.'.user_id='.$this->user_Details_table.'.user_id','left');
+        $this->db->join($this->role_table,$this->user_Details_table.'.role_id='.$this->role_table.'.role_id','left');
+        $this->db->order_by($this->table.'.'.$this->id, $this->order);
+        $result=$this->db->get();
+        $this->db->trans_complete();
+        return $result->result();
     }
 
     // get data by id
     function get_by_id($id)
     {
-        $this->db->where($this->id, $id);
-        return $this->db->get($this->table)->row();
+        $this->db->trans_begin();
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where($this->table.'.'.$this->id, $id);
+        $this->db->join($this->user_Details_table,$this->table.'.user_id='.$this->user_Details_table.'.user_id','left');
+        $this->db->join($this->role_table,$this->user_Details_table.'.role_id='.$this->role_table.'.role_id','left');
+        $this->db->order_by($this->table.'.'.$this->id, $this->order);
+        $result=$this->db->get();
+        $this->db->trans_complete();
+        return $result->row();
+
     }
 
     // get total rows

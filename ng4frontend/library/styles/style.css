@@ -309,6 +309,10 @@
 .homer-notify.alert-info {
   border-left: 6px solid #3498db;
 }
+body.modal-open {
+  padding-right: 0 !important;
+  position: absolute;
+}
 .h-modal-icon {
   font-size: 66px;
 }
@@ -1583,7 +1587,6 @@ body {
   overflow-x: hidden;
   overflow-y: scroll;
   width: 197px;
-  padding-right: 17px;
 }
 .fixed-sidebar.show-sidebar #menu {
   width: 180px;
@@ -3537,7 +3540,7 @@ ul.h-list li:hover a {
   height: 55px;
 }
 .landing-page header {
-  background: url('/images/landing/header.jpg') 50% 0 no-repeat;
+  background: url('/assets/images/landing/header.jpg') 50% 0 no-repeat;
   height: 480px;
   padding-top: 50px;
   margin-bottom: 30px;

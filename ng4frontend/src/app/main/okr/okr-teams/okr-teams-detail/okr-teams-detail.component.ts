@@ -43,8 +43,8 @@ export class OkrTeamsDetailComponent implements OnInit {
         this.teamInfo = new Teamclass();
         this.randerTeamInforData = new Teamclass();
         this.viewTeamId = '';
-        this.overallProgressNumber = ' - ';
-        this.totalObjectivesNumber = ' - ';
+        this.overallProgressNumber = 0;
+        this.totalObjectivesNumber = 0;
         this.lastUpdate = ' - ';
 
     }

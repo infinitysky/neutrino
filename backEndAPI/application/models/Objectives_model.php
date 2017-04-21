@@ -102,5 +102,28 @@ class Objectives_model extends CI_Model
 
     }
 
+    function get_objectives_by_user_id_timeFrame_id($user_id,$timeFrame_id){
+
+        $mysqlQuery="SELECT objectives.*, teams.*
+        FROM objectives
+        INNER JOIN teams_objectives ON teams_objectives.objective_id = objectives.objective_id
+        INNER JOIN teams ON teams_objectives.team_id = teams.team_id
+        INNER JOIN teams_users ON teams_users.team_id = teams.team_id
+        INNER JOIN users ON teams.team_leader_user_id = users.user_id AND teams_users.user_id = users.user_id
+        INNER JOIN goals_objectives ON goals_objectives.objective_id = objectives.objective_id
+        INNER JOIN goals ON goals_objectives.goal_id = goals.goal_id
+        Where teams_users.user_id = $user_id AND goals.time_frame_id=$timeFrame_id
+        GROUP BY objectives.objective_id";
+
+
+        $this->db->trans_start();
+        $result=$this->db->query($mysqlQuery);
+        $this->db->trans_complete();
+
+
+        return $result->result();
+
+    }
+
 }
 

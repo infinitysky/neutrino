@@ -24,10 +24,13 @@ class Users extends CI_Controller
         $this->load->model('Goals_objectives_model');
         $this->load->model('Key_results_model');
         $this->load->model('Users_model');
+        $this->load->model('Users_details_model');
         $this->load->model('Teams_objectives_model');
         $this->load->library('form_validation');
-	    $this->load->library('datatables');
+        $this->load->library('datatables');
     }
+
+
 
     public function index()
     {
@@ -35,25 +38,117 @@ class Users extends CI_Controller
     }
 
 
-
     public function getall()
     {
-        //$this->load->view('users/users_list');
-        //echo $this->Users_model->json();
-        $myanswer=$this->Users_model->get_All();
-        //$myanswer=$this->Users_model->get_All()
-        $this->json($myanswer);
+        $tempData=$this->Users_model->get_all();
 
+        echo $this->json($tempData);
     }
+
 
     public function json($resArray) {
         header('Content-Type: application/json');
         $outputMessageArray=array(
-            "status"=>"success",
+            "status"=>"Success",
             "data"=>$resArray
         );
         echo json_encode($outputMessageArray);
     }
+
+
+
+    public function create_error_messageArray($message){
+        $tempMessageArray=array(
+            "status"=>"error",
+            "errorMessage"=>$message
+        );
+        return $tempMessageArray;
+    }
+
+    function dataValidate($Data){
+        if(empty($Data)){
+            echo json_encode( $this->create_error_messageArray("Message Empty"));
+            return 0;
+        }
+        else {
+            //  goal_description can be empty
+            if (empty($Data['email'])) {
+                echo json_encode($this->create_error_messageArray("email Empty"));
+                return 0;
+            }
+
+            elseif (empty($Data['password'])){
+                echo json_encode($this->create_error_messageArray("password Empty"));
+                return 0;
+            }
+
+            else {
+
+
+                if (empty($Data['account_status'])) {
+                    $Data['account_status']="1";
+                }
+
+
+                $processArray = array(
+                    'email' => $Data['email'],
+                    'password' => $Data['password'],
+                    'account_status' => $Data['account_status'],
+
+                );
+                return $processArray;
+            }
+        }
+    }
+
+
+
+    function userDetailDataValidate($Data){
+        if(empty($Data)){
+            echo json_encode( $this->create_error_messageArray("Message Empty"));
+            return 0;
+        }
+        else {
+            //  goal_description can be empty
+            if (empty($Data['first_name'])) {
+                echo json_encode($this->create_error_messageArray("first_name Empty"));
+                return 0;
+            }
+
+            elseif (empty($Data['last_name'])){
+                echo json_encode($this->create_error_messageArray("last_name Empty"));
+                return 0;
+            }
+
+            else {
+                if (empty($Data['dob'])) {
+                    $Data['dob']="";
+                }
+                if (empty($Data['mobile_number'])) {
+                    $Data['mobile_number']="";
+                }
+
+                if (empty($Data['position'])) {
+                    $Data['position'] = "";
+                }
+                if (empty($Data['role_id'])) {
+                    $Data['role_id']="3";
+                }
+
+                $processArray = array(
+                    'first_name' => $Data['first_name'],
+                    'last_name' => $Data['last_name'],
+                    'dob' => $Data['dob'],
+                    'mobile_number' => $Data['mobile_number'],
+                    'position' => $Data['position'],
+                    'role_id' => $Data['role_id'],
+
+                );
+                return $processArray;
+            }
+        }
+    }
+
 
 
     //Main entrance
@@ -78,113 +173,151 @@ class Users extends CI_Controller
     }
 
 
-    public function read($id) 
+
+
+
+
+
+
+    public function read($id)
     {
+
         $row = $this->Users_model->get_by_id($id);
         if ($row) {
+
             $data = array(
-		'user_id' => $row->user_id,
-		'email' => $row->email,
-		'username' => $row->username,
-		'password' => $row->password,
-		'account_status' => $row->account_status,
-	    );
-            echo json_encode($data);
-            //$this->load->view('users/users_read', $data);
-        } else {
-            //$this->session->set_flashdata('message', 'Record Not Found');
-            //redirect(site_url('users'));
+                'user_id' => set_value('user_id', $row->user_id),
+                'email' => set_value('email', $row->email),
+                'username' => set_value('username', $row->username),
+                'password' => set_value('password', $row->password),
+                'account_status' => set_value('account_status', $row->account_status),
+                'user_details_id' =>set_value('user_details_id',  $row->user_details_id),
+                'first_name' =>set_value( 'first_name', $row->first_name),
+                'last_name' =>set_value( 'last_name', $row->last_name),
+                'dob' =>set_value( 'dob', $row->dob),
+                'mobile_number' => set_value('mobile_number', $row->mobile_number),
+                'position' =>set_value( 'position', $row->position),
+                'role'=>set_value('role', $row->role),
+                'role_id'=>set_value('role_id', $row->role_id)
+
+            );
+            $this->json($data);
         }
-    }
-
-    public function create() 
-    {
-        $data = array(
-            'button' => 'Create',
-            'action' => site_url('users/create_action'),
-	    'user_id' => set_value('user_id'),
-	    'email' => set_value('email'),
-	    'username' => set_value('username'),
-	    'password' => set_value('password'),
-	    'account_status' => set_value('account_status'),
-	);
-        $this->load->view('users/users_form', $data);
-    }
-    
-    public function create_action() 
-    {
-        $this->_rules();
-
-        if ($this->form_validation->run() == FALSE) {
-            $this->create();
-        } else {
-            $data = array(
-		'email' => $this->input->post('email',TRUE),
-		'username' => $this->input->post('username',TRUE),
-		'password' => $this->input->post('password',TRUE),
-		'account_status' => $this->input->post('account_status',TRUE),
-	    );
-
-            $this->Users_model->insert($data);
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('users'));
+        else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
         }
+
+
+
     }
-    
-    public function update($id) 
+
+    public function create()
     {
-        $row = $this->Users_model->get_by_id($id);
 
-        if ($row) {
-            $data = array(
-                'button' => 'Update',
-                'action' => site_url('users/update_action'),
-		'user_id' => set_value('user_id', $row->user_id),
-		'email' => set_value('email', $row->email),
-		'username' => set_value('username', $row->username),
-		'password' => set_value('password', $row->password),
-		'account_status' => set_value('account_status', $row->account_status),
-	    );
-            $this->load->view('users/users_form', $data);
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('users'));
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+
+
+        $checkArray=$this->dataValidate($Data);
+        $userDetailArray=$this->userDetailDataValidate($Data);
+        if($checkArray !=0&& $userDetailArray!=0){
+            $last_insert_id=$this->Users_model->insert($checkArray);
+           if ($last_insert_id){
+               $userDetailArray['user_id']=$last_insert_id;
+               $this->Users_details_model->insert($userDetailArray);
+
+               $this->read($last_insert_id);
+           }
         }
-    }
-    
-    public function update_action() 
-    {
-        $this->_rules();
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->update($this->input->post('user_id', TRUE));
-        } else {
-            $data = array(
-		'email' => $this->input->post('email',TRUE),
-		'username' => $this->input->post('username',TRUE),
-		'password' => $this->input->post('password',TRUE),
-		'account_status' => $this->input->post('account_status',TRUE),
-	    );
 
-            $this->Users_model->update($this->input->post('user_id', TRUE), $data);
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('users'));
-        }
     }
-    
-    public function delete($id) 
+
+
+    public function update($id,$updateData)
     {
         $row = $this->Users_model->get_by_id($id);
 
         if ($row) {
-            $this->Users_model->delete($id);
-            $this->session->set_flashdata('message', 'Delete Record Success');
-            redirect(site_url('users'));
-        } else {
-            $this->session->set_flashdata('message', 'Record Not Found');
-            redirect(site_url('users'));
+            $processArray = $this->dataValidate($updateData);
+            $userDetailArray=$this->userDetailDataValidate($updateData);
+            if ($processArray != 0 && $userDetailArray!=0) {
+                $data1 = array(
+
+
+                    'email' => $processArray['email'],
+                    'password' => $processArray['password'],
+                    'account_status' => $processArray['account_status'],
+
+                );
+
+                $data2 = array(
+
+                    'first_name' => $userDetailArray['first_name'],
+                    'last_name' => $userDetailArray['last_name'],
+                    'dob' => $userDetailArray['dob'],
+                    'mobile_number' => $userDetailArray['mobile_number'],
+                    'position' => $userDetailArray['position'],
+                    'role_id' => $userDetailArray['role_id'],
+
+
+                );
+
+
+                $affectedRowsNumber = $this->Users_model->update($id, $data1);
+                $affectedRowsNumber =$affectedRowsNumber + $this->Users_details_model->update($id, $data2);
+
+
+                $tempReturnArray = array(
+
+                    "affectRows" => $affectedRowsNumber
+                );
+                $this->json($tempReturnArray);
+
+            }
+
+        }
+
+
+
+        else {
+
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
         }
     }
+
+
+
+    public function delete($id)
+    {
+        $row = $this->Users_model->get_by_id($id);
+
+        if ($row) {
+            $affectRow= $this->Users_model->delete($id);
+            $tempReturnArray=array(
+                "status"=>'Success',
+                "affectRows"=>$affectRow
+            );
+            $this->json($tempReturnArray);
+
+        } else {
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+    }
+
+
+
+    //----------------------------------------------------------------------------
+
+
+
+
+
+    //-----------------------------------
 
     public function count_users(){
         $membersNumber=$this->Users_model->total_rows();
@@ -235,7 +368,7 @@ class Users extends CI_Controller
 
             $arrayLength=count($tramResult);
             for ( $i =0; $i<$arrayLength; $i++){
-                 array_push($userTeamsIdArray,$tramResult[$i]->team_id);
+                array_push($userTeamsIdArray,$tramResult[$i]->team_id);
             }
         }else{
             // TODO :  This logic needs to be refactor. (should I set a 0 into the array at the beginning?)
@@ -285,13 +418,13 @@ class Users extends CI_Controller
 
 
             for ($i=0;$i<$objectivesLength;$i++){
-               for ($j=0; $j<$keyResultArrayLength; $j++){
-                   if ($keyResultArray[$j]->objective_id == $objectivesArray[$i]-> objective_id){
+                for ($j=0; $j<$keyResultArrayLength; $j++){
+                    if ($keyResultArray[$j]->objective_id == $objectivesArray[$i]-> objective_id){
 
-                    array_push($objectivesArray[$i]->keyResult_array,$keyResultArray[$j]);
+                        array_push($objectivesArray[$i]->keyResult_array,$keyResultArray[$j]);
 
-                   }
-               }
+                    }
+                }
             }
 
         }

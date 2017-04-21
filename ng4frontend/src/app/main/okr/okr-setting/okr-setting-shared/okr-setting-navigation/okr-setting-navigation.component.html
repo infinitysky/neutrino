@@ -1,18 +1,34 @@
 
 
   <ul class="mailbox-list">
-    <li >
+    <li  routerLinkActive="active">
       <a routerLink="/okr/okr-setting">
         <i class="fa fa-building-o text-primary"></i> Company information
       </a>
     </li>
-    <li>
-      <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-calendar text-primary"></i> Time Frame</a>
-    </li>
+
+      <li  routerLinkActive="active">
+          <a routerLink="/okr/user-profile">
+              <i class="fa fa-address-card text-primary"></i> User Profile
+          </a>
+      </li>
+
+      <li  routerLinkActive="active">
+          <a routerLink="/okr/user-management">
+              <i class="fa fa-server text-primary"></i> User Management
+          </a>
+      </li>
+
+
   </ul>
   <hr>
 
   <ul class="mailbox-list">
+
+      <li  routerLinkActive="active">
+          <a routerLink="/okr/okr-setting/setting-time-frame"><i class="fa fa-calendar text-primary"></i> Time Frame</a>
+      </li>
+
     <li  routerLinkActive="active">
       <a   routerLink="/okr/okr-setting/setting-team"><i class="fa fa-users text-primary"></i> Team </a>
     </li>
@@ -30,13 +46,5 @@
     </li>
   </ul>
 
-  <hr>
-
-  <ul class="mailbox-list">
-
-    <li>
-      <a href="#"><i class="fa fa-info-circle"></i> Support</a>
-    </li>
-  </ul>
 
 

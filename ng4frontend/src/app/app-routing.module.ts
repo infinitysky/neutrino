@@ -2,14 +2,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-
+import {AuthGuard} from './shared/guards/auth.guard';
 
 const routes: Routes = [
 
 
 
 
-    { path: '',  loadChildren: './main/main.module#MainModule'},
+    { path: '',  loadChildren: './main/main.module#MainModule', canActivate:[AuthGuard]},
 
     { path: '404', loadChildren: './not-found/not-found.module#NotFoundModule'},
     { path: 'login', loadChildren: './login/login.module#LoginModule'},

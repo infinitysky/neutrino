@@ -15,10 +15,10 @@
 
 
       <h2 class="font-light m-b-xs">
-        Teams OverView
+        Teams
       </h2>
 
-      <small>{{subPageTitle}}</small>
+      <small> Teams OverView</small>
 
 
     </div>
@@ -43,7 +43,7 @@
 
         <div class="panel-body" style="display: block;border-top:1px solid #e4e5e7;">
           <div class="table-responsive">
-            Set A time Frame
+
 
             <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
               <thead>
@@ -60,18 +60,38 @@
 
                 <tr *ngFor="let tm of teams">
                   <!--truncate :-->
-                  <td> <a [routerLink]="['/okr/okr-teams/team-detail/',tm.team_id]"> {{ tm.team_name }}  </a></td>
-                  <td><a [routerLink]="['/okr/okr-users/user/',tm.team_leader_user_id]"> {{ tm.first_name + ' - ' + tm.last_name }}</a></td>
-                  <td>  <a *ngFor="let member of tm.teamMember_array"> {{member.first_name }} </a>        </td>
+                  <td> <a [routerLink]="['/okr/okr-teams/team-detail/',tm.team_id]"   [queryParams]="{ timeFrameId: currentTimeFrameId }" > {{ tm.team_name }}  </a></td>
+                  <td><a [routerLink]="['/okr/okr-users/user/',tm.team_leader_user_id]" [queryParams]="{ timeFrameId: currentTimeFrameId }"  > {{ tm.first_name + '  ' + tm.last_name }}</a></td>
+                    <td>  <a *ngFor="let member of tm.teamMember_array | slice:0:4; let i=index"  [routerLink]="['/okr/okr-users/user/',member.user_id]" [queryParams]="{ timeFrameId: currentTimeFrameId }"  > {{member.first_name }} {{member.last_name }},  </a>
+
+                        <a *ngIf="tm.teamMember_array.length > 4" [routerLink]="['/okr/okr-teams/team-detail/',tm.team_id]" [queryParams]="{ timeFrameId: currentTimeFrameId }"  >  .... </a>
+
+                    </td>
 
                   <td>
+
+
+
                     <div class="m">
-                        <div class="progress m-t-xs full progress-striped">
+
+
+                        <div class="progress m-t-xs full ">
+
+
+                            <div *ngIf="tm.team_progress_status >= 70 "
+                                 [ngStyle]="{'width':  tm.team_progress_status+'%'} "
+                                 aria-valuemax="100" aria-valuemin="0"
+                                 role="progressbar" class="progress-bar progress-bar-success" >
+                                <b>{{tm.team_progress_status | number : "1.0-2"}}%</b>
+                            </div>
+
                             <div [ngStyle]="{'width':  tm.team_progress_status+'%'} "
                                  aria-valuemax="100" aria-valuemin="0"
+                                 role="progressbar" class="progress-bar progress-bar-info" >
 
-                                 role="progressbar" class=" progress-bar progress-bar-info">
+                                <b>{{tm.team_progress_status | number : "1.0-2"}}%</b>
                             </div>
+
                         </div>
 
 

@@ -15,12 +15,12 @@ import { Userclass } from '../classes/user-class';
 export class UserDetailsService {
 
 
-  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userDetailGetAllUrl;
-  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userDetailCreateUrl;
-  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userDetailOperateUrl;
-  private readFullAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userDetailFullInfo;
+  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userDetailGetAllUrl;
+  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userDetailCreateUrl;
+  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userDetailOperateUrl;
+  private readFullAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userDetailFullInfo;
 
- // private readFullAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userDetailFullInfo;
+ // private readFullAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userDetailFullInfo;
 
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -121,22 +121,6 @@ export class UserDetailsService {
   }
 
 
-
-  addNew(user_description: string, user_name: string,parent_user_id:number,user_leader_id:number,) : Observable<Userclass>  {
-
-    let httpBody = JSON.stringify({ user_description : user_description,user_name:user_name,parent_user_id :parent_user_id,user_leader_id: user_leader_id});
-    // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
-
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
-
-    //console.log('Post message body: '+httpBody);
-    return this.http.post(this.creatAPI,httpBody, {headers: this.headers})
-    //.map(this.extractDataObservable)
-      .map(res => res.json())
-      .catch(this.handleErrorObservable)
-
-  }
 
 
 

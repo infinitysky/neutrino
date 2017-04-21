@@ -16,10 +16,10 @@ import {Goalclass} from '../classes/goal-class';
 @Injectable()
 export class SettingGoalService {
 
-    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalGetAllUrl;
-    private basicOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalGetAllUrl;
-    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalCreateUrl;
-    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.goalOperateUrl;
+    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.goalGetAllUrl;
+    private basicOperateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.goalGetAllUrl;
+    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.goalCreateUrl;
+    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.goalOperateUrl;
 
 
     private headers = new Headers({'Content-Type': 'application/json'});

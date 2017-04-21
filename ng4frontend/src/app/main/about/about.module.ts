@@ -10,7 +10,7 @@ import { AboutComponent } from './about.component';
 
 
 
-import { ModalModule } from 'ng2-bootstrap/modal';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 
 @NgModule({

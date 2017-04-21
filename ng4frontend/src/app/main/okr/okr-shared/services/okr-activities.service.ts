@@ -15,10 +15,10 @@ import {Activityclass} from '../classes/activitie-class';
 @Injectable()
 export class OkrActivitiesService {
 
-    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.activityGetAllUrl;
-    private basicAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.activityGetAllUrl;
-    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.activityCreateUrl;
-    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.activityOperateUrl;
+    private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.activityGetAllUrl;
+    private basicAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.activityGetAllUrl;
+    private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.activityCreateUrl;
+    private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.activityOperateUrl;
 
 
     private headers = new Headers({ 'Content-Type': 'application/json' });

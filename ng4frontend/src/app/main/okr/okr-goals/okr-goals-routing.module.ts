@@ -5,7 +5,7 @@ import {OkrGoalsComponent} from './okr-goals.component';
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
+
     component: OkrGoalsComponent
   },
 ];

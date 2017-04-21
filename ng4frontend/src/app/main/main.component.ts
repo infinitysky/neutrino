@@ -7,7 +7,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {Userclass} from '../shared/classes/user-class';
 import { UsersLoginInfoService } from '../shared/services/users-login-info.service';
 import {UserInfoContainerService} from '../shared/services/user-info-container.service';
-import {userClass} from '../shared/interfaces/user.interface';
+import { CookieService } from '../shared/services/cookie.service';
+
 
 @Component({
     selector: 'app-main',
@@ -25,47 +26,30 @@ export class MainComponent implements OnInit {
     private selfInfoSubscription: Subscription;
 
 
-    constructor(private _userInfoContainerService: UserInfoContainerService,
-                private _usersLoginInfoService: UsersLoginInfoService) {
+    constructor(
+        private _cookieService: CookieService,
+        private _userInfoContainerService: UserInfoContainerService,
+        private _usersLoginInfoService: UsersLoginInfoService) {
 
-        this.selfUserInfo=new Userclass();
+        this.selfUserInfo = new Userclass();
     }
 
     ngOnInit() {
         this.getUserInfo();
-        this.selfInfoSubscription=this._userInfoContainerService.userInfo$.subscribe(userInfo => this.selfUserInfo = userInfo);
+        this.selfInfoSubscription = this._userInfoContainerService.userInfo$.subscribe(userInfo => this.selfUserInfo = userInfo);
 
     }
     ngOnDestroy() {
         this.selfInfoSubscription.unsubscribe();
     }
+
     getUserInfo() {
 
-        const localUserInfo = JSON.parse(localStorage.getItem('currentUser'));
+        const selfInfo = JSON.parse(this._cookieService.getCookie('currentUser'));
+        // const localUserInfo = JSON.parse(localStorage.getItem('currentUser'));
 
-        if(!localUserInfo){
-            console.log('not in local storage');
-            this._usersLoginInfoService.getUserInfo().subscribe(
-                // the first argument is a function which runs on success
-                data => { this.tempData = data},
-                // the second argument is a function which runs on error
-                err => console.error(err),
-                // the third argument is a function which runs on completion
-                () => {
-                    this.selfUserInfo = <any>this.tempData;
-                    console.log('set setUserInfo at app');
-                    this._userInfoContainerService.setUserInfoSubject(this.selfUserInfo);
-                    localStorage.setItem('currentUser', JSON.stringify(this.selfUserInfo));
+        this._userInfoContainerService.setUserInfoSubject(selfInfo);
 
-                    const tem = localStorage.getItem('currentUser');
-                    console.log(tem);
-                }
-            );
-        }else {
-
-            console.log('get User Info from local storage');
-            this._userInfoContainerService.setUserInfoSubject(localUserInfo);
-        }
 
     }
 

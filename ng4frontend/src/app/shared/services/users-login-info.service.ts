@@ -7,8 +7,8 @@ import 'rxjs/Rx';
 import { MY_CONFIG, ApplicationConfig } from '../../app-config';
 @Injectable()
 export class UsersLoginInfoService {
-    private userInfoAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.getUserInfoUrl;
-    private loginAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.loginUrl;
+    private userInfoAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.getUserInfoUrl;
+    private loginAPi = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.loginUrl;
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
 

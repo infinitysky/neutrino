@@ -29,10 +29,11 @@ import { LoginModule } from './login/login.module';
 import { AppComponent } from './app.component';
 
 // developed services here
-import {UserInfoContainerService} from'./shared/services/user-info-container.service'; // global var services
+import {UserInfoContainerService} from './shared/services/user-info-container.service'; // global var services
+import { CookieService } from './shared/services/cookie.service';
 
-
-
+import { AuthGuard } from './shared/guards/auth.guard';
+import {AuthenticationService} from './shared/services/authentication.service';
 // enableProdMode();
 
 
@@ -67,7 +68,7 @@ import {UserInfoContainerService} from'./shared/services/user-info-container.ser
 
     ],
     // sign the UserInfoContainerService as a global data store service.
-    providers: [UserInfoContainerService],
+    providers: [UserInfoContainerService, CookieService, AuthGuard,AuthenticationService],
 
     bootstrap: [AppComponent]
 })

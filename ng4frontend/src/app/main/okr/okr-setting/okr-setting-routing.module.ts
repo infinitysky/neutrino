@@ -9,6 +9,9 @@ import { OkrSettingComponent } from './okr-setting.component'
 // import {OkrSettingGoalModule} from './okr-setting-goal/okr-setting-goal.module';
 // import {OkrSettingObjectiveModule} from './okr-setting-objective/okr-setting-objective.module';
 // import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-key-result.module';
+//import  { UserManagementModule } from './user-management/user-management.module';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -33,6 +36,10 @@ const routes: Routes = [
       {
         path: 'setting-key-result',
         loadChildren: './okr-setting-key-result/okr-setting-key-result.module#OkrSettingKeyResultModule'
+      },
+        {
+        path: 'user-management',
+        loadChildren: './user-management/user-management.module#UserManagementModule'
       },
 
     ]

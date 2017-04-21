@@ -125,7 +125,7 @@
           <ng-select #teamLeaderSelector
                      [allowClear]="true"
                      [items]="teamLeadersDropdownOptions"
-                     [disabled]="disabled"
+
                      [(ngModel)]="teamLeaderSelectedOptions"
                      placeholder="Select a team leader">
           </ng-select>
@@ -159,7 +159,7 @@
         <ng-select #parentTeamSelector
                    [allowClear]="true"
                    [items]="teamDropdownListOptions"
-                   [disabled]="disabled"
+
                    [(ngModel)]="parentTeamSelectedOptions"
                    placeholder="Select a parent team">
         </ng-select>

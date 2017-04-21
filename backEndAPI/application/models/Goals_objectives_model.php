@@ -7,6 +7,8 @@ class Goals_objectives_model extends CI_Model
 {
 
     public $table = 'goals_objectives';
+    public $goals_table = 'goals';
+    public $objectives_table = 'objectives';
     public $id = 'record_id';
     public $order = 'DESC';
 
@@ -207,8 +209,6 @@ class Goals_objectives_model extends CI_Model
 
         return $result->result();
 
-
-
     }
     function get_by_goal_id($goalId){
 
@@ -294,6 +294,22 @@ class Goals_objectives_model extends CI_Model
         $this->db->trans_complete();
 
         //echo $this->db->last_query();
+
+        return $result->result();
+    }
+
+
+    function get_by_timeFrame_id($time_frame_id)
+    {
+        $this->db->trans_start();
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where($this->goals_table.'.time_frame_id',$time_frame_id);
+        $this->db->join($this->goals_table,$this->goals_table.'.goal_id='.$this->table.'.goal_id','left');
+        $this->db->join($this->objectives_table,$this->objectives_table.'.objective_id='.$this->table.'.objective_id','left');
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
 
         return $result->result();
     }

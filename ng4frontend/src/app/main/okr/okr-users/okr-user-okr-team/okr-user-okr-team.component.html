@@ -4,13 +4,7 @@
 <!--</div>-->
 <!--</div>-->
 
-<div class="row" *ngIf="selfUserInfoData.user_id == targetTeamInfoData.team_leader_user_id || selfUserInfoData.role=='admin' "><!-- check the viewing user the 'addObjectiveButton' -->
-    <div style="padding-right: 20px;" >
-        <button type="button" class="btn w-xs btn-primary pull-right" (click)="addObjectiveButton()"><i class="fa fa-plus"></i> Add Team Objective</button>
-    </div>
 
-
-</div>
 
 
 
@@ -321,7 +315,7 @@
                             </div>
 
                             <div class="panel-footer">
-                                <div  *ngIf="selfUserInfoData.user_id == targetTeamInfoData.team_leader_user_id || selfUserInfoData.role=='admin' "><!-- check the viewing user the 'addObjectiveButton' -->
+                                <div  *ngIf="selfUserInfoData.user_id == teamObjective.team_leader_user_id || selfUserInfoData.role=='admin' "><!-- check the viewing user the 'addObjectiveButton' -->
 
                                     <button class="btn" (click)="addKeyResultButton(teamObjective)"> add new key result </button>
 
@@ -361,181 +355,181 @@
 
 
 
-<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  [config]="{backdrop: 'static'}">
-    <div class="modal-dialog modal-lg">
-        <div class="color-line"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"> {{modalTitle}}  </h4>
-                <!--<button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">-->
-                <!--<span aria-hidden="true">&times;</span>-->
-                <!--</button>-->
-            </div>
-            <div class="modal-body">
-                <div class="stage">
+<!--<div bsModal #childModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  [config]="{backdrop: 'static'}">-->
+    <!--<div class="modal-dialog modal-lg">-->
+        <!--<div class="color-line"></div>-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<h4 class="modal-title"> {{modalTitle}}  </h4>-->
+                <!--&lt;!&ndash;<button type="button" class="close pull-right" aria-label="Close" (click)="hideChildModal()">&ndash;&gt;-->
+                <!--&lt;!&ndash;<span aria-hidden="true">&times;</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;</button>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<div class="stage">-->
 
-                    <div  [ngSwitch]="modalType" >
-                        <div *ngSwitchCase="'objective'">
-                            <!--<form class="form-horizontal">-->
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Objective Name (*)</label>
+                    <!--<div  [ngSwitch]="modalType" >-->
+                        <!--<div *ngSwitchCase="'objective'">-->
+                            <!--&lt;!&ndash;<form class="form-horizontal">&ndash;&gt;-->
+                            <!--<div class="form-horizontal">-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-sm-3 control-label">Objective Name (*)</label>-->
 
-                                    <div class="col-sm-9">
-                                        <input name="objectiveNameInputBoxValue" type="text"
-                                               placeholder="Please enter your objective name"
-                                               autocomplete="off" class="form-control"
-                                               [(ngModel)]="objectiveNameInputBoxValue"
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<input name="objectiveNameInputBoxValue" type="text"-->
+                                               <!--placeholder="Please enter your objective name"-->
+                                               <!--autocomplete="off" class="form-control"-->
+                                               <!--[(ngModel)]="objectiveNameInputBoxValue"-->
 
-                                               #objectiveNameInput>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Objective Description  (*)</label>
-                                    <div class="col-sm-9">
-              <textarea style="height: 85px" type="text"
-                        placeholder="Please enter your objective description"
-                        autocomplete="off" class="form-control"
-                        name="goalDescriptionInputBoxValue"
-                        [(ngModel)]="objectiveDescriptionInputBoxValue"
-                        #objectiveDescriptionInput>
-              </textarea>
+                                               <!--#objectiveNameInput>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="hr-line-dashed"></div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-sm-3 control-label">Objective Description  (*)</label>-->
+                                    <!--<div class="col-sm-9">-->
+              <!--<textarea style="height: 85px" type="text"-->
+                        <!--placeholder="Please enter your objective description"-->
+                        <!--autocomplete="off" class="form-control"-->
+                        <!--name="goalDescriptionInputBoxValue"-->
+                        <!--[(ngModel)]="objectiveDescriptionInputBoxValue"-->
+                        <!--#objectiveDescriptionInput>-->
+              <!--</textarea>-->
 
-                                    </div>
-                                </div>
+                                    <!--</div>-->
+                                <!--</div>-->
 
-                                <div class="hr-line-dashed"></div>
-
-
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Select A Goal</label>
-                                    <div class="col-sm-9">
-                                        <ss-multiselect-dropdown [options]="goalsDropDownListOptions"
-                                                                 [texts]="goalsSelectorTexts"
-                                                                 [settings]="goalsSelectorSettings"
-                                                                 [(ngModel)]="selectedGoal" #goalSelector>
-
-                                        </ss-multiselect-dropdown>
-
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
-
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Select A Tag</label>
-                                    <div class="col-sm-9">
-                                        <ng-select #tagSelector [allowClear]="true"
-                                                   [items]="tagDropDownListOptions"
-                                                   [disabled]="disabled"
-                                                   [(ngModel)]="selectedTag"
-                                                   placeholder="Select a Tag">
-                                        </ng-select>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!--</form>-->
-
-                        </div>
-
-                        <div *ngSwitchCase="'keyresult'">
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Key Result Name (*)</label>
-
-                                    <div class="col-sm-9">
-                                        <input name="objectiveNameInputBoxValue" type="text"
-                                               placeholder="Please enter your key result name"
-                                               autocomplete="off" class="form-control"
-                                               [(ngModel)]="keyresultNameInputBoxValue"
-
-                                               #keyresultNameInput>
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Key Result Description  (*)</label>
-                                    <div class="col-sm-9">
-              <textarea style="height: 85px" type="text"
-                        placeholder="Please enter your key result description"
-                        autocomplete="off" class="form-control"
-                        name="goalDescriptionInputBoxValue"
-                        [(ngModel)]="keyresultDescriptionInputBoxValue"
-                        #objectiveDescriptionInput>
-              </textarea>
-
-                                    </div>
-                                </div>
-
-                                <div class="hr-line-dashed"></div>
+                                <!--<div class="hr-line-dashed"></div>-->
 
 
-                            </div>
-                            <!--</form>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-sm-3 control-label">Select A Goal</label>-->
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<ss-multiselect-dropdown [options]="goalsDropDownListOptions"-->
+                                                                 <!--[texts]="goalsSelectorTexts"-->
+                                                                 <!--[settings]="goalsSelectorSettings"-->
+                                                                 <!--[(ngModel)]="selectedGoal" #goalSelector>-->
 
-                        </div>
+                                        <!--</ss-multiselect-dropdown>-->
 
-                        <div *ngSwitchCase="'progressUpdate'">
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    <h2>What did you do for this key result?</h2>
-                                    <P> Update current progress to  <input style="width: 60px;" name="objectiveNameInputBoxValue" type="text"
+                                    <!--</div>-->
+                                <!--</div>-->
 
-                                                                           autocomplete="off"
-                                                                           [(ngModel)]="editKeyResult.result_progress_status"
+                                <!--<div class="hr-line-dashed"></div>-->
 
-                                                                           #objectiveNameInput> %</P>
-                                </div>
-                                <div class="hr-line-dashed"></div>
-                                <div class="form-group">
-                                    <div class="col-sm-9">
-                                        <input name="progressUpdateDescription" type="text"
-                                               placeholder="Please enter your description"
-                                               autocomplete="off" class="form-control"
-                                               [(ngModel)]="progressUpdateDescription" >
-                                    </div>
-                                </div>
-                                <div class="hr-line-dashed"></div>
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-sm-3 control-label">Select A Tag</label>-->
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<ng-select #tagSelector [allowClear]="true"-->
+                                                   <!--[items]="tagDropDownListOptions"-->
 
-                            </div>
-                            <!--</form>-->
-                        </div>
-                    </div>
+                                                   <!--[(ngModel)]="selectedTag"-->
+                                                   <!--placeholder="Select a Tag">-->
+                                        <!--</ng-select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            <!--</div>-->
+                            <!--&lt;!&ndash;</form>&ndash;&gt;-->
+
+                        <!--</div>-->
+
+                        <!--<div *ngSwitchCase="'keyresult'">-->
+                            <!--<div class="form-horizontal">-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-sm-3 control-label">Key Result Name (*)</label>-->
+
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<input name="objectiveNameInputBoxValue" type="text"-->
+                                               <!--placeholder="Please enter your key result name"-->
+                                               <!--autocomplete="off" class="form-control"-->
+                                               <!--[(ngModel)]="keyresultNameInputBoxValue"-->
+
+                                               <!--#keyresultNameInput>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="hr-line-dashed"></div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<label class="col-sm-3 control-label">Key Result Description  (*)</label>-->
+                                    <!--<div class="col-sm-9">-->
+              <!--<textarea style="height: 85px" type="text"-->
+                        <!--placeholder="Please enter your key result description"-->
+                        <!--autocomplete="off" class="form-control"-->
+                        <!--name="goalDescriptionInputBoxValue"-->
+                        <!--[(ngModel)]="keyresultDescriptionInputBoxValue"-->
+                        <!--#objectiveDescriptionInput>-->
+              <!--</textarea>-->
+
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                                <!--<div class="hr-line-dashed"></div>-->
 
 
-                </div>
+                            <!--</div>-->
+                            <!--&lt;!&ndash;</form>&ndash;&gt;-->
+
+                        <!--</div>-->
+
+                        <!--<div *ngSwitchCase="'progressUpdate'">-->
+                            <!--<div class="form-horizontal">-->
+                                <!--<div class="form-group">-->
+                                    <!--<h2>What did you do for this key result?</h2>-->
+                                    <!--<P> Update current progress to  <input style="width: 60px;" name="objectiveNameInputBoxValue" type="text"-->
+
+                                                                           <!--autocomplete="off"-->
+                                                                           <!--[(ngModel)]="editKeyResult.result_progress_status"-->
+
+                                                                           <!--#objectiveNameInput> %</P>-->
+                                <!--</div>-->
+                                <!--<div class="hr-line-dashed"></div>-->
+                                <!--<div class="form-group">-->
+                                    <!--<div class="col-sm-9">-->
+                                        <!--<input name="progressUpdateDescription" type="text"-->
+                                               <!--placeholder="Please enter your description"-->
+                                               <!--autocomplete="off" class="form-control"-->
+                                               <!--[(ngModel)]="progressUpdateDescription" >-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="hr-line-dashed"></div>-->
+
+                            <!--</div>-->
+                            <!--&lt;!&ndash;</form>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
 
 
-            </div> <!--End of modal Body-->
-            <div class="modal-footer">
-
-                <div  [ngSwitch]="modalType" >
-
-                    <div *ngSwitchCase="'objective'">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeObjectiveButton()">Close</button>
-                        <button type="button" class="btn btn-primary" autofocus (click)="modalSaveObjectiveChangeButton()"> Save changes</button>
-                    </div>
-
-                    <div *ngSwitchCase="'keyresult'">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeKeyResultButton()"> Close</button>
-                        <button type="button" class="btn btn-primary" autofocus (click)="modalSaveKeyResultChangeButton()"> Save changes</button>
-                    </div>
-
-                    <div *ngSwitchCase="'progressUpdate'">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeKeyResultProgressChangeButton()"> Cancel</button>
-                        <button type="button" class="btn btn-primary" autofocus (click)="modalSaveKeyResultProgressChangeButton()"> Save changes</button>
-                    </div>
-
-                </div>
+                <!--</div>-->
 
 
-            </div>
+            <!--</div> &lt;!&ndash;End of modal Body&ndash;&gt;-->
+            <!--<div class="modal-footer">-->
 
-        </div>
-    </div>
-</div>
+                <!--<div  [ngSwitch]="modalType" >-->
+
+                    <!--<div *ngSwitchCase="'objective'">-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeObjectiveButton()">Close</button>-->
+                        <!--<button type="button" class="btn btn-primary" autofocus (click)="modalSaveObjectiveChangeButton()"> Save changes</button>-->
+                    <!--</div>-->
+
+                    <!--<div *ngSwitchCase="'keyresult'">-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeKeyResultButton()"> Close</button>-->
+                        <!--<button type="button" class="btn btn-primary" autofocus (click)="modalSaveKeyResultChangeButton()"> Save changes</button>-->
+                    <!--</div>-->
+
+                    <!--<div *ngSwitchCase="'progressUpdate'">-->
+                        <!--<button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeKeyResultProgressChangeButton()"> Cancel</button>-->
+                        <!--<button type="button" class="btn btn-primary" autofocus (click)="modalSaveKeyResultProgressChangeButton()"> Save changes</button>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+
+
+            <!--</div>-->
+
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 
 
 <!--Objectives Modal -->
@@ -597,7 +591,7 @@
                             <div class="col-sm-9">
                                 <ng-select #tagSelector [allowClear]="true"
                                            [items]="tagDropDownListOptions"
-                                           [disabled]="disabled"
+
                                            [(ngModel)]="selectedTag"
                                            placeholder="Select a Tag">
                                 </ng-select>

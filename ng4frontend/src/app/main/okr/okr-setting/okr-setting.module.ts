@@ -16,25 +16,26 @@ import {OkrSettingTeamModule} from './okr-setting-team/okr-setting-team.module';
 import {OkrSettingGoalModule} from './okr-setting-goal/okr-setting-goal.module';
 import {OkrSettingObjectiveModule} from './okr-setting-objective/okr-setting-objective.module';
 import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-key-result.module';
+import { UserManagementModule } from './user-management/user-management.module';
 
 import {OkrSettingNavigationComponent}from './okr-setting-shared/okr-setting-navigation/okr-setting-navigation.component';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    HttpModule,
-    CommonModule,
+    imports: [
+        FormsModule,
+        HttpModule,
+        CommonModule,
 
-    OkrSettingRoutingModule,
-    OkrSettingTimeFrameModule,
-    OkrSettingTeamModule,
-    OkrSettingGoalModule,
-    OkrSettingObjectiveModule,
-    OkrSettingKeyResultModule
+        OkrSettingRoutingModule,
+        OkrSettingTimeFrameModule,
+        OkrSettingTeamModule,
+        OkrSettingGoalModule,
+        OkrSettingObjectiveModule,
+        OkrSettingKeyResultModule,
+        UserManagementModule
 
 
-
-  ],
-  declarations: [OkrSettingComponent,OkrSettingNavigationComponent]
+    ],
+    declarations: [OkrSettingComponent,OkrSettingNavigationComponent]
 })
 export class OkrSettingModule { }

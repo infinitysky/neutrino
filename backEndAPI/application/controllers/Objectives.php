@@ -8,7 +8,7 @@ class Objectives extends CI_Controller
     function __construct()
     {
 
-        header('Content-type: application/json');
+        header('Content-Type: application/json');
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
@@ -28,7 +28,7 @@ class Objectives extends CI_Controller
 
 
         $this->load->library('form_validation');
-	    $this->load->library('datatables');
+        $this->load->library('datatables');
     }
 
     public function index()
@@ -38,7 +38,7 @@ class Objectives extends CI_Controller
 
 
     public function json($resArray) {
-        header('Content-Type: application/json');
+
         $outputMessageArray=array(
             "status"=>"success",
             "data"=>$resArray
@@ -141,7 +141,7 @@ class Objectives extends CI_Controller
     }
 
 
-    public function read($id) 
+    public function read($id)
     {
 
         $row = $this->Objectives_model->get_by_id($id);
@@ -173,7 +173,7 @@ class Objectives extends CI_Controller
 
     }
 
-    public function create() 
+    public function create()
     {
         $Data = json_decode(trim(file_get_contents('php://input')), true);
 
@@ -224,10 +224,10 @@ class Objectives extends CI_Controller
 
 
     }
-    
 
-    
-    public function delete($id) 
+
+
+    public function delete($id)
     {
 
 
@@ -377,8 +377,8 @@ class Objectives extends CI_Controller
             $keyResultArrayLength=count($keyResultArray);
 
 
-                for ($j=0; $j<$keyResultArrayLength; $j++){
-                    for ($i=0;$i<$objectivesLength;$i++){
+            for ($j=0; $j<$keyResultArrayLength; $j++){
+                for ($i=0;$i<$objectivesLength;$i++){
                     if ($keyResultArray[$j]->objective_id == $objectivesArray[$i]-> objective_id){
 
                         array_push($objectivesArray[$i]->keyResult_array,$keyResultArray[$j]);
@@ -438,6 +438,163 @@ class Objectives extends CI_Controller
 
 
 
+    public function get_by_team_id_timeFrame(){
+        $Data = json_decode(trim(file_get_contents('php://input')), true);
+
+
+        if ($Data){
+
+            if(empty($Data['time_frame_id'])){
+                $tempReturnArray=$this->create_error_messageArray('time_frame_id Not Found');
+                echo json_encode($tempReturnArray);
+            }
+            elseif (empty($Data['team_id'])){
+                $tempReturnArray=$this->create_error_messageArray('user_id Not Found');
+                echo json_encode($tempReturnArray);
+            }else{
+                // $goalsArray=$this->searchGoalsForUserByTimeFrame($Data['user_id'],$Data['timeFrameId']);
+
+                $objectivesArray = $this->searchObjectivesForTeamByTimeFrame($Data['team_id'],$Data['time_frame_id']);
+
+                $this->json($objectivesArray);
+            }
+
+        }else{
+            $tempReturnArray=$this->create_error_messageArray('$Data Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
+
+
+    }
+
+
+    // Find out the objective Ids that belong to the time frame.
+
+    function searchObjectivesForTeamByTimeFrame($teamId,$timeFrameId){
+        $objectives=[];
+        $objectivesIdArray=[];
+        $teamIdArray=[];
+        array_push($teamIdArray,$teamId);
+
+        $i=0;
+        $j = 0;
+
+        $keyResultsArray=[];
+
+        //$objectivesInTimeFrame = $this->Goals_objectives_model->get_by_timeFrame_id($timeFrameId);
+
+        if ($timeFrameId!=0){
+            $objectivesArray=$this->Teams_objectives_model->get_by_team_id_array_time_frame_id($teamIdArray,$timeFrameId);
+
+        }else{
+            $objectivesArray=$this->Teams_objectives_model->get_by_team_id_array($teamIdArray);
+        }
+
+
+        // avoid search empty array
+        if (empty($objectivesArray)){
+            array_push($objectivesIdArray,'0');
+        }
+
+        if ($objectivesArray){
+            $lengthOfObjectivesArray=count($objectivesArray);
+
+            for ($i=0 ; $i < $lengthOfObjectivesArray; $i++ ){
+
+                $objectivesArray[$i]->keyResult_array=[];
+
+                array_push($objectivesIdArray,$objectivesArray[$i]->objective_id);
+            }
+
+            $keyResultsArray=$this->searchKeyResultsForObjective($objectivesIdArray);
+
+            if ($keyResultsArray){
+                $lengthOfkeyResultsArray=count($keyResultsArray);
+                for ($i = 0; $i <$lengthOfkeyResultsArray ;$i++ ){
+                    for ( $j = 0 ; $j < $lengthOfObjectivesArray ; $j ++){
+                        if ($keyResultsArray[$i]->objective_id == $objectivesArray[$j]->objective_id){
+
+                            array_push($objectivesArray[$j]->keyResult_array, $keyResultsArray[$i]);
+
+                        }
+                    }
+
+                }
+            }
+            $objectives=$objectivesArray;
+        }
+        return $objectives;
+    }
+
+
+
+    function searchTeamMembersForTeam($teamIdArray){
+        $teamMembersArray=[];
+        $i=0;
+
+        $menberResultArray=$this->Teams_users_model->get_by_team_id_array($teamIdArray);
+
+        if ($menberResultArray){
+            $teamMembersArray=$menberResultArray;
+
+        }
+
+        return $teamMembersArray;
+    }
+
+
+    function calculateProgress($teamsArray){
+        $calculatedArray=[];
+        $x = 0;
+        $y = 0;
+        $z = 0;
+        $objectivesLength=0;
+        $teamsLength=count($teamsArray);
+        for ($x=0; $x<$teamsLength ; $x++){
+
+            $currentTeamProgress=0;
+            $totalObjectiveProgress=0;
+            $objectivesLength=count($teamsArray[$x]->objective_array);
+            if ($objectivesLength==0){
+                $teamsArray[$x]->team_progress_status=$currentTeamProgress;
+            }else{
+
+
+                for ($y=0; $y<$objectivesLength; $y++){
+
+                    $keyResultLength=count( $teamsArray[$x]->objective_array[$y]->keyResult_array );
+                    $keyResultProgressTotal=0;
+                    $currentObjectiveProgress=0;
+
+                    if ($keyResultLength==0){
+                        $teamsArray[$x]->objective_array[$y]->objective_progress_status=$currentObjectiveProgress;
+
+                    }else{
+
+                        for ($z=0; $z<$keyResultLength; $z++){
+                            $keyResultProgressTotal=$keyResultProgressTotal+ $teamsArray[$x]->objective_array[$y]->keyResult_array[$z]->result_progress_status;
+                        }
+                        $currentObjectiveProgress=$keyResultProgressTotal/$keyResultLength;
+                        $teamsArray[$x]->objective_array[$y]->objective_progress_status=$currentObjectiveProgress;
+                    }
+
+                    $totalObjectiveProgress=$totalObjectiveProgress+ $teamsArray[$x]->objective_array[$y]->objective_progress_status;
+                }
+
+                $teamsArray[$x]->team_progress_status=$totalObjectiveProgress/$objectivesLength;
+            }
+
+
+
+        }
+
+
+
+        $calculatedArray=$teamsArray;
+        return $calculatedArray;
+    }
 
 
 

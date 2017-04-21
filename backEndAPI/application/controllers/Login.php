@@ -24,6 +24,7 @@ class Login extends CI_Controller
 	    };
         parent::__construct();
         $this->load->model('Login_model');
+        $this->load->model('Time_frames_model');
         $this->load->library('datatables');
 //        $this->load->library("Server", "server");
     }
@@ -117,12 +118,16 @@ class Login extends CI_Controller
             "dob"=> $userInfo[0]['dob'],
             "mobile_number"=> $userInfo[0]['mobile_number'],
             "user_details_id"=>$userInfo[0]['user_details_id'],
-
         );
 
+        $currentTimeFrame=[];
+
+        $currentTimeFrame = $this->findRangeFromToday();
+
         $inforArray=array(
-            "status"=>'OK',
+            "status"=>'Success',
             "data" =>$tempMessageArray,
+            "time_frame" =>$currentTimeFrame,
         );
 
 
@@ -134,7 +139,22 @@ class Login extends CI_Controller
         header('Content-Type: application/json');
 
         echo json_encode($resArray);
-        //echo $this->Time_frames_model->json();
+
+    }
+
+
+
+
+    function findRangeFromToday(){
+        $timeLine=[];
+        $temp=$this->Time_frames_model->getRangeTime();
+        if ($temp){
+            $timeLine=$temp;
+        }
+        return $timeLine;
+
+
+
     }
 
 

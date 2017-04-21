@@ -61,7 +61,7 @@
                 <td> {{ objt.objective_description }} </td>
                 <td> {{ objt.objective_unit }} </td>
                 <td> {{ objt.objective_status }} </td>
-                <td> {{ objt.objective_process_status }} </td>
+                <td> {{ objt.objective_progress_status }} </td>
 
 
                 <td [hidden]=isLoaded>
@@ -92,39 +92,38 @@
 
 <!--Add New Record modal module-->
 
-<modal [animation]="animation" [keyboard]="keyboard"  [backdrop]="backdrop"  #modal>
-  <div class="color-line"></div>
-  <modal-header [show-close]="true">
-    <h4 class="modal-title">Create New Time Frame</h4>
-  </modal-header>
-  <modal-body>
-    <div class="stage">
-      <fieldset >
-        <label >Time Frame Name</label>
-        <div class="palos-input block" >
+<!--<modal [animation]="animation" [keyboard]="keyboard"  [backdrop]="backdrop"  #modal>-->
+  <!--<div class="color-line"></div>-->
+  <!--<modal-header [show-close]="true">-->
+    <!--<h4 class="modal-title">Create New Time Frame</h4>-->
+  <!--</modal-header>-->
+  <!--<modal-body>-->
+    <!--<div class="stage">-->
+      <!--<fieldset >-->
+        <!--<label >Time Frame Name</label>-->
+        <!--<div class="palos-input block" >-->
 
-          <input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{ObjectiveNameInputBoxValue}}" #ObjectiveNameInput> <!---->
+          <!--<input type="text" placeholder="Please enter your time frame description" autocomplete="off" class="form-control" value="{{ObjectiveNameInputBoxValue}}" #ObjectiveNameInput> &lt;!&ndash;&ndash;&gt;-->
 
-        </div>
-      </fieldset>
+        <!--</div>-->
+      <!--</fieldset>-->
 
-      <div class="selector-ctn ">
-        <fieldset class="form-group">
-          <label >Starting Date And Enging Date</label>
-          <div class="datepicker " ><!---->
-            <!--<i class="el-input__icon el-icon-date"></i>-->
-            <!--<input type="text" placeholder="选择开始日期" readonly="readonly" autocomplete="off" class="el-input__inner">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;-->
+      <!--<div class="selector-ctn ">-->
+        <!--<fieldset class="form-group">-->
+          <!--<label >Starting Date And Enging Date</label>-->
+          <!--<div class="datepicker " >&lt;!&ndash;&ndash;&gt;-->
 
-          </div>
-        </fieldset>
-      </div>
-    </div>
-  </modal-body>
-  <modal-footer>
-    <button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>
-    <button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(ObjectiveNameInput.value);" > Save changes</button>
-  </modal-footer>
-</modal>
+
+          <!--</div>-->
+        <!--</fieldset>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</modal-body>-->
+  <!--<modal-footer>-->
+    <!--<button type="button" class="btn btn-default" data-dismiss="modal" (click)="modal.close()">Close</button>-->
+    <!--<button type="button" class="btn btn-primary" autofocus (click)="modalSaveChangeButton(ObjectiveNameInput.value);" > Save changes</button>-->
+  <!--</modal-footer>-->
+<!--</modal>-->
 
 
 

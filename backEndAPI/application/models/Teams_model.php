@@ -119,5 +119,16 @@ class Teams_model extends CI_Model
 
     }
 
+    function get_by_user_id($user_id)
+    {
+        $this->db->order_by($this->id, $this->order);
+        $this->db->select("teams.*, users_details.first_name, users_details.last_name");
+        $this->db->from($this->table);
+        $this->db->join("users_details","teams.team_leader_user_id = users_details.user_id",'left');
+        $this->db->where(' users_details.user_id',$user_id);
+        // return $this->db->get($this->table)->result();
+        return $this->db->get()->result();
+    }
+
 }
 

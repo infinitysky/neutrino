@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { NouisliderModule } from 'ng2-nouislider';
 
 
 //import swal from 'sweetalert2'
@@ -28,8 +30,8 @@ import { SettingTimeFrameService } from '../../okr-shared/services/okr-time-fram
 import { SettingTeamService } from '../../okr-shared/services/okr-team.service';//team data service
 import { SettingObjectiveService } from '../../okr-shared/services/okr-objective.service';//objective data service
 import { SettingKeyResultService } from '../../okr-shared/services/okr-key-result.service';//key result data service
-import {OkrActivitiesService}from '../../okr-shared/services/okr-activities.service'; // activity data service. submit 'create' and 'update'
-
+import {OkrActivitiesService} from '../../okr-shared/services/okr-activities.service'; // activity data service. submit 'create' and 'update'
+import { OkrUserTeamsObjectivesService } from '../../okr-shared/services/okr-user-teams-objectives.service';
 
 //sharing info services
 import { ShareUserOkrinfoService } from '../share-user-okrinfo.service';//in module global services... this service must set as provider in module, but not set in any component
@@ -41,19 +43,24 @@ import { Timeframeclass } from '../../okr-shared/classes/time-frame-class';
 import { Teamclass } from '../../okr-shared/classes/team-class';
 import { Goalclass } from '../../okr-shared/classes/goal-class';
 import { Objectiveclass } from '../../okr-shared/classes/objective-class';
-import {Keyresultclass}from '../../okr-shared/classes/key-restult-class';
-import {Activityclass}from '../../okr-shared/classes/activitie-class';
-import {Userclass}from '../../../../shared/classes/user-class';
+import {Keyresultclass} from '../../okr-shared/classes/key-restult-class';
+import {Activityclass} from '../../okr-shared/classes/activitie-class';
+import {Userclass} from '../../../../shared/classes/user-class';
+
 
 
 
 @Component({
   selector: 'app-okr-user-okr-team',
   templateUrl: './okr-user-okr-team.component.html',
-  providers:[SettingGoalService, SettingTimeFrameService, SettingTeamService, SettingObjectiveService, SettingKeyResultService, OkrActivitiesService],
+    providers:[SettingGoalService,
+        SettingTimeFrameService, SettingTeamService,
+        SettingObjectiveService, SettingKeyResultService,
+        OkrActivitiesService, OkrUserTeamsObjectivesService],
   styleUrls: ['./okr-user-okr-team.component.css']
 })
 export class OkrUserOkrTeamComponent implements OnInit {
+
 
     public modalTitle: string;
 
@@ -64,6 +71,7 @@ export class OkrUserOkrTeamComponent implements OnInit {
     public personalObjectives: Objectiveclass[];
     public teamObjectives: Objectiveclass[];
     public keyresults: Keyresultclass[];
+    public teamkeyresults: Keyresultclass[];
 
 
     public newSubmitActivity: Activityclass;
@@ -84,35 +92,51 @@ export class OkrUserOkrTeamComponent implements OnInit {
     animation: boolean = true;
     keyboard: boolean = true;
     backdrop: string | boolean = "static";
+    public modalType:string=''; //objective | keyresult
+
 
 
     //current model
-    editModeIO: number;
+    public editModeIO: number;
+
+
     //edit mode parameter
     public editObjective: any;
+    public parentObjective: any;
     public editKeyResult: any;
     public editReview: any;
 
 
-    objectiveNameInputBoxValue: string;
-    objectiveDescriptionInputBoxValue: string;
 
-    keyresultNameInputBoxValue: string;
-    keyresultDescriptionInputBoxValue: string;
+
+
+
+
+    public objectiveNameInputBoxValue: string;
+    public objectiveDescriptionInputBoxValue: string;
+
+    public keyresultNameInputBoxValue: string;
+    public keyresultDescriptionInputBoxValue: string;
+
+
+    public keyresultProgressValue: any;
+    public progressUpdateDescription: string;
 
 
     //Dropdownlist;
-    private timeFrameDropDownListOptions: any;
-    private selectedTimeFrame: any;
+    public timeFrameDropDownListOptions: any;
+    public selectedTimeFrame: any;
 
-    private goalsDropDownListOptions: any;
-    private selectedGoal: any;
+    public goalsDropDownListOptions: any;
+    public selectedGoal: any;
 
 
 
 //TODO: DO we have to set the tag on key-result?
-    private tagDropdownListOptions: any;
-    private selectedTag: any;
+
+
+    public tagDropDownListOptions: any;
+    public selectedTag: any;
 
 
 
@@ -122,19 +146,24 @@ export class OkrUserOkrTeamComponent implements OnInit {
 
     public overallProgressNumber: any;
 
-    private overallProgressNumberSubscription: Subscription;
-    private overallObjectivesNumberSubscription: Subscription;
+    public overallProgressNumberSubscription: Subscription;
+    public overallObjectivesNumberSubscription: Subscription;
 
-    private selfUserInfoData: Userclass;
-    private selfInfoSubscription: Subscription;
-    private targetUserInfoData: Userclass;
-    private targetInfoSubscription: Subscription;
+    public selfUserInfoData: Userclass;
+    public selfInfoSubscription: Subscription;
+    public targetUserInfoData: Userclass;
+    public targetInfoSubscription: Subscription;
 
-    private routerParamsSubscription:any;
-    private viewUserID:any;
+
+    public currentTimeFrameId: any;
+    public timeFrameIdSubscription: any;
+
+
+    public routerParamsSubscription:any;
+    public viewUserID: any;
 
 //Multi Selection for Goals
-    private goalsSelectorSettings: IMultiSelectSettings = {
+    public goalsSelectorSettings: IMultiSelectSettings = {
         pullRight: false,
         enableSearch: true,
         checkedStyle: 'fontawesome',
@@ -147,7 +176,7 @@ export class OkrUserOkrTeamComponent implements OnInit {
         maxHeight: '300px',
     };
 
-    private goalsSelectorTexts: IMultiSelectTexts = {
+    public goalsSelectorTexts: IMultiSelectTexts = {
         checkAll: 'Check all',
         uncheckAll: 'Uncheck all',
         checked: 'checked',
@@ -161,7 +190,8 @@ export class OkrUserOkrTeamComponent implements OnInit {
 
 
 
-    constructor(private _settingGoalService: SettingGoalService,
+    constructor(private _okrUserTeamsObjectivesService:OkrUserTeamsObjectivesService,
+        private _settingGoalService: SettingGoalService,
                 private _settingTimeFrameService: SettingTimeFrameService,
                 private _settingTeamService: SettingTeamService,
                 private _settingObjectiveService: SettingObjectiveService,
@@ -213,7 +243,8 @@ export class OkrUserOkrTeamComponent implements OnInit {
 
 
 
-        this.tagDropdownListOptions = [{ id: "None", text: "None" }, { id: "Warning", text: "Warning" }, { id: "Risk", text: "Risk" }, { id: "Complete", text: "Complete" }];
+        this.tagDropDownListOptions = [{ id: "None", text: "None" }, { id: "Warning", text: "Warning" }, { id: "Risk", text: "Risk" }, { id: "Complete", text: "Complete" }];
+
         this.selectedTag = [{ id: "None", text: "None" }];
 
 
@@ -221,16 +252,18 @@ export class OkrUserOkrTeamComponent implements OnInit {
 
 
     ngOnInit() {
-        this.getCurrentUserInfo();
         this.routerSubscription();
+        this.getCurrentUserInfo();
+
         this.getOverallProgressNumber();
         this.getTotalObjectivesNumber();
-        this.targetSubscription()
+        this.targetSubscription();
 
 
 
     }
     ngOnDestroy() {
+        this.timeFrameIdSubscription.unsubscribe();
         this.overallObjectivesNumberSubscription.unsubscribe();
         this.overallProgressNumberSubscription.unsubscribe();
         this.routerParamsSubscription.unsubscribe();
@@ -239,41 +272,45 @@ export class OkrUserOkrTeamComponent implements OnInit {
 
 
     routerSubscription(){
-        console.log("Router params userID:"+ this._activatedRoute.snapshot.params['userid']);
+        //console.log("Router params userID:"+ this._activatedRoute.snapshot.params['userid']);
         this.routerParamsSubscription = this._activatedRoute.params.subscribe(params => {
             this.viewUserID = ''+params['userid']; // (+) converts string 'id' to a number
             console.log("User OKRs this.viewUserID"+this.viewUserID);
             // In a real app: dispatch action to load the details here.
             this.viewUserID=Number(this._activatedRoute.snapshot.params['userid']);
-            this.getTargetUserTeamOKRs(this.viewUserID);
+
+
+
+            this.timeFrameIdSubscribe();
+
+
 
         });
     }
 
 
+    timeFrameIdSubscribe(){
+
+        this.timeFrameIdSubscription = this._activatedRoute.queryParams.subscribe(params => {
+            // Defaults to 0 if no query param provided.
+            this.currentTimeFrameId = +params['timeFrameId'] || 0;
+
+            console.log('Query param currentTimeFrame: ', this.currentTimeFrameId);
 
 
-
-    addObjectiveButton() {
-
-        this.modalTitle="Create A Objective";
-        this.editModeIO = 0;
-        this.getAllTimeFrames();
-        this.getAllGoals();
-        this.selectedTag = [{ id: "None", text:"None"}];
-        this.selectedGoal = [];
-        this.objectiveNameInputBoxValue = "";
-        this.objectiveDescriptionInputBoxValue = "";
-
-        this.modal.open();
+            this.getTargetUserTeamOKRs(this.viewUserID,this.currentTimeFrameId );
+           // this.getCurrentInfo();
+        });
 
     }
 
 
+
+
     modalSaveChangeButton() {
         // read the 2 way binding;
-        var objectiveNameInput=this.objectiveNameInputBoxValue;
-        var objectiveDescription=this.objectiveDescriptionInputBoxValue;
+        var objectiveNameInput= this.objectiveNameInputBoxValue;
+        var objectiveDescription= this.objectiveDescriptionInputBoxValue;
 
 
         console.log("objectiveNameInput : "+ objectiveNameInput);
@@ -285,6 +322,59 @@ export class OkrUserOkrTeamComponent implements OnInit {
         } else {
             this.updateObjective(this.editObjective, objectiveNameInput, objectiveDescription);
         }
+    }
+
+
+
+
+
+    modalSaveObjectiveChangeButton() {
+        // read the 2 way binding;
+        var objectiveNameInput = this.objectiveNameInputBoxValue;
+        var objectiveDescription = this.objectiveDescriptionInputBoxValue;
+
+        if (0 == this.editModeIO) {
+            this.createNewObjective(objectiveNameInput, objectiveDescription);
+        } else {
+            this.updateObjective(this.editObjective, objectiveNameInput, objectiveDescription);
+        }
+    }
+
+
+    modalSaveKeyResultChangeButton() {
+        // read the 2 way binding;
+        var keyResultNameInput=this.keyresultNameInputBoxValue;
+        var keyResultDescription=this.keyresultDescriptionInputBoxValue;
+
+
+
+
+
+        if (0 == this.editModeIO) {
+            this.createNewKeyResult(keyResultNameInput, keyResultDescription,this.parentObjective);
+        } else {
+            this.updateKeyResult(this.editKeyResult, keyResultNameInput, keyResultDescription);
+        }
+    }
+
+
+
+
+    modalSaveKeyResultProgressChangeButton() {
+        // read the 2 way binding;
+        var progressUpdateDescription=this.progressUpdateDescription;
+
+        this.progressUpdate( this.editKeyResult, progressUpdateDescription );
+
+        this.modalType='';
+        this.modalTitle='';
+        this.progressUpdateDescription='';
+        this.editModeIO = 0;
+        this.editKeyResult=new Keyresultclass();
+
+
+        this.updateProgressModal.hide();
+
     }
 
 
@@ -307,6 +397,240 @@ export class OkrUserOkrTeamComponent implements OnInit {
     }
 
 
+    addObjectiveButton() {
+        this.getAllGoals();
+
+        this.modalTitle="Create A Objective";
+        this.editModeIO = 0;
+        this.selectedTag = [{ id: "None", text:"None"}];
+        this.selectedGoal = [];
+        this.objectiveNameInputBoxValue = '';
+        this.objectiveDescriptionInputBoxValue = '';
+
+        this.objectiveModal.show();
+
+    }
+
+    addKeyResultButton(parentObjective) {
+        this.modalType = 'keyresult';
+        this.modalTitle = 'Create A Key Result';
+        this.editModeIO = 0;
+
+        this.parentObjective = parentObjective;
+
+        this.keyresultNameInputBoxValue = '';
+        this.objectiveDescriptionInputBoxValue = '';
+        this.keyresultProgressValue=0;
+        this.keyResultModal.show();
+
+    }
+
+    closeObjectiveButton() {
+
+        this.modalType = '';
+        this.modalTitle = '';
+        this.editModeIO = 0;
+        this.objectiveNameInputBoxValue = '';
+        this.objectiveDescriptionInputBoxValue = '';
+        this.objectiveModal.hide();
+
+    }
+
+    closeKeyResultButton() {
+        this.modalType='';
+        this.modalTitle='';
+        this.editModeIO = 0;
+        this.keyresultNameInputBoxValue = '';
+        this.keyresultDescriptionInputBoxValue = '';
+        this.keyresultProgressValue=0;
+        this.keyResultModal.hide();
+    }
+
+
+    closeKeyResultProgressChangeButton() {
+        this.updateProgressModal.hide();
+
+
+        this.rollBackObjectiveKeyResults();
+
+        this.progressUpdateDescription = '';
+        this.modalType='';
+        this.modalTitle='';
+        this.editModeIO = 0;
+
+
+    }
+
+
+
+
+    createNewKeyResult(keyResultNameInput: string, keyResultDescription: string, parentObjective:Objectiveclass) { // now I start use 2-way binding to process this
+
+        if (!keyResultNameInput || !keyResultDescription || !parentObjective) {
+            //alert("Do not leave any empty!");
+
+            this.displayWarningMessage("Objective Name or Objective Description empty!");
+            return;
+        }
+        else {
+
+            var newKeyResult = new Keyresultclass();
+            newKeyResult.result_name=keyResultNameInput;
+            newKeyResult.result_description=keyResultDescription;
+            newKeyResult.result_progress_status="0";
+            newKeyResult.objective_id=parentObjective.objective_id;
+            this._settingKeyResultService.addNewbyResult(newKeyResult).subscribe(
+                data => this.tempData = data,
+                error => this.errorMessage = <any>error,
+                () => {
+
+                    if (this.tempData.status == "success" && this.tempData.data) {
+                        var tempInfo = <Keyresultclass>this.tempData.data;
+
+                        var i = 0;
+                        for (i = 0; i < this.teamObjectives.length; i++) {
+                            if(this.teamObjectives[i].objective_id == tempInfo.objective_id){
+                                this.teamObjectives[i].keyResult_array.push(tempInfo);
+                                this.teamkeyresults.push(tempInfo);
+                                break;
+                            }
+                        }
+
+                        this.keyresultDescriptionInputBoxValue = '';
+                        this.keyresultNameInputBoxValue = '';
+                        this.editModeIO = 0;
+                        this.modalTitle = '';
+                        this.modalType = '' ;
+
+                        var submitANewActivity = new Activityclass();
+                        submitANewActivity.user_id = this.selfUserInfoData.user_id;
+                        submitANewActivity.activity_detail = ' Created a new Key Result :' + tempInfo.result_name;
+                        submitANewActivity.activity_type = 'Create';
+                        this.submitActivity(submitANewActivity);
+
+                        this.calculateObjectivesProgress();
+                    }
+
+                    else{
+                        this.displayErrorMessage(this.tempData.errorMassage);
+                    }
+                }
+            );
+
+
+        }
+
+        this.keyResultModal.hide();
+    }
+
+
+
+    updateKeyResult(editObjective, objectiveNameInput: string, objectiveDescription: string) {
+
+        if (!objectiveNameInput||!objectiveDescription) {
+
+            this.displayWarningMessage("Objective Name or Objective Description empty!");
+
+            return;
+        } else {
+
+            let originalObjective = editObjective;
+
+
+            editObjective.objective_description = objectiveDescription;
+            editObjective.objective_name = objectiveNameInput;
+            var goalIds = this.selectedGoal;
+            var goalStatusTag =this.selectedTag[0].id;
+
+            // editObjective.object = timeFrameId;
+
+            editObjective.goal_status=goalStatusTag;
+
+            this._settingObjectiveService.update(editObjective)
+                .subscribe(
+                    data => { this.tempData = data },
+                    error => this.errorMessage = <any>error,
+                    () => {
+
+
+                        if(this.tempData.status == "success" && this.tempData.data)  {
+
+
+
+                            // this.updateTeamMembers(editTeam,this.memberSelectedOptions);
+                            this.objectiveNameInputBoxValue = '';
+                            this.objectiveDescriptionInputBoxValue = '';
+
+                            var submitANewActivity= new Activityclass();
+
+                            var modifyLog = " ";
+                            if (originalObjective.objective_description !=editObjective.objective_description){
+                                modifyLog=modifyLog+" Change Objective description  to"+ editObjective.objective_description+"; ";
+                            }
+                            if (originalObjective.objective_name!=editObjective.objective_name){
+                                modifyLog=modifyLog+"Change Objective name to"+ editObjective.objective_name+"; ";
+                            }
+                            if (originalObjective.objective_status!=editObjective.objective_status){
+                                modifyLog=modifyLog+"Change Objective tag to"+ editObjective.objective_status+"; ";
+                            }
+
+                            submitANewActivity.user_id=this.selfUserInfoData.user_id;
+                            submitANewActivity.activity_detail = "Updated key Result : "
+                                + editObjective.goal_name+ " update log : "+modifyLog ;
+                            submitANewActivity.activity_type="Update";
+                            this.submitActivity(submitANewActivity);
+
+                            this.calculateObjectivesProgress();
+
+                            this.displaySuccessMessage("Your key Result has been updated. <br> affectRows: " + this.tempData.data.affectRows);
+                        }else {
+
+                            swal("Error!", this.tempData.errorMassage, "error");
+                            this.displayErrorMessage(this.tempData.errorMassage);
+                        }
+
+                    }
+                );
+
+        }
+
+        this.keyResultModal.hide();
+
+    }
+
+
+    progressUpdate(keyResult: Keyresultclass , progressUpdateDescription){
+        this._settingKeyResultService.update(keyResult).subscribe(
+            data => this.tempData = data,
+            error => this.errorMessage = <any> error,
+            () => {
+                if(this.tempData.status == 'success' && this.tempData.data){
+                    if(this.tempData.data.affectRows && this.tempData.data.affectRows >0){
+                        var submitANewActivity = new Activityclass();
+                        submitANewActivity.user_id = this.selfUserInfoData.user_id;
+                        submitANewActivity.activity_detail = ' Updated a new Key Result Progress Status :' + progressUpdateDescription;
+                        submitANewActivity.activity_type = 'Update';
+                        this.submitActivity(submitANewActivity);
+                        this.displaySuccessMessage('Success Update Progress');
+
+
+                        this.calculateObjectivesProgress();
+                    }
+                }
+            }
+        );
+
+
+    }
+
+
+
+
+
+
+
+
+
 
     targetSubscription(){
         this.targetInfoSubscription=this._shareUserOkrinfoService._targetUserInfo$.subscribe(targetInfo=>this.targetUserInfoData=targetInfo);
@@ -321,18 +645,22 @@ export class OkrUserOkrTeamComponent implements OnInit {
 
 
 
-    getTargetUserTeamOKRs(targetUserId:any){
+    getTargetUserTeamOKRs(targetUserId:any,timeFrameId:any){
 
-        this._settingObjectiveService.getUsersTeamByUserId(targetUserId).subscribe(
-            data=> this.tempData=data,
+
+        this._okrUserTeamsObjectivesService.getUserTeamsInfoByTimeFrameId(targetUserId, timeFrameId ).subscribe(
+            data=> this.tempData = data,
             error=> this.errorMessage = <any>error,
             ()=>{
                 if(this.tempData.data && <Objectiveclass[]>this.tempData.data){
-                    this.personalObjectives=this.tempData.data;
+                    this.teamObjectives = this.tempData.data;
+                    console.log( this.teamObjectives );
                 }
 
             }
         );
+
+
 
 
     }
@@ -567,6 +895,35 @@ export class OkrUserOkrTeamComponent implements OnInit {
 
 
 
+    rollBackObjectiveKeyResults(){
+
+        this.updateProgressModal.hide();
+        // if(this.editKeyResult){
+        // Find out the original value from backup group
+
+        var rollbackKeyResult = this.teamkeyresults.find(keyResult => keyResult.result_id == this.editKeyResult.result_id );
+        console.log('roll back key' + rollbackKeyResult.result_progress_status);
+        var i = 0;
+        var j = 0;
+
+
+        for( i = 0; i < this.teamObjectives.length; i++){
+            for(j=0; j<this.teamObjectives[i].keyResult_array.length;j++){
+                if (this.teamObjectives[i].keyResult_array[j].result_id == rollbackKeyResult.result_id){
+
+                    this.teamObjectives[i].keyResult_array[j].result_progress_status = rollbackKeyResult.result_progress_status;
+
+                }
+            }
+        }
+
+
+
+        // }
+
+
+    }
+
 
 
 
@@ -601,6 +958,41 @@ export class OkrUserOkrTeamComponent implements OnInit {
         }
         // This way is working...
         this.goalsDropDownListOptions = tempArray;
+
+    }
+
+
+    calculateObjectivesProgress(){
+        var i=0;
+        var j=0;
+        if(this.teamObjectives){
+            for(i=0; i<this.teamObjectives.length; i++){
+
+                var averageProgress=0;
+                var currentResultProgress =0;
+
+                if(this.teamObjectives[i].keyResult_array.length < 1){
+                    this.teamObjectives[i].objective_progress_status = 0;
+                }else {
+                    for(j=0; j < this.teamObjectives[i].keyResult_array.length; j++){
+                        currentResultProgress = currentResultProgress + Number(this.teamObjectives[i].keyResult_array[j].result_progress_status);
+
+                    }
+                    averageProgress=currentResultProgress/this.teamObjectives[i].keyResult_array.length;
+                    this.teamObjectives[i].objective_progress_status = averageProgress;
+
+                }
+
+            }
+        }
+        this.updateOverAllNumbers();
+    }
+
+    updateOverAllNumbers() {
+        var overAllProgressNumber=this.calculateOverallProgress();
+
+        // this._shareTeamsOkrinfoService.setOverAllProgressSubject(overAllProgressNumber);
+        // this._shareTeamsOkrinfoService.setObjectivesSubjectNumber(this.teamObjectives.length);
 
     }
 
@@ -673,6 +1065,16 @@ export class OkrUserOkrTeamComponent implements OnInit {
     //modal setting and control
 
     //Modal actions
+
+
+
+    @ViewChild('childModal') public childModal: ModalDirective;
+
+    @ViewChild('objectiveModal') public objectiveModal: ModalDirective;
+    @ViewChild('keyResultModal') public keyResultModal: ModalDirective;
+    @ViewChild('updateProgressModal') public updateProgressModal: ModalDirective;
+
+
     @ViewChild('modal')
     modal: ModalComponent;
 

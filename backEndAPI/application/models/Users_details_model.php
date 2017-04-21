@@ -35,6 +35,7 @@ class Users_details_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from($this->table);
+
         $this->db->join('roles',$this->table.'.role_id='.$this->role_table.'.role_id','left');
         $this->db->order_by($this->id, $this->order);
 

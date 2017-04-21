@@ -14,7 +14,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { SelectModule} from 'ng2-select';
-
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 
 
@@ -30,23 +30,23 @@ import {ShareCompanyOkrinfoService} from './share-company-okrinfo.service';
 
 
 @NgModule({
-  imports: [
+    imports: [
 
+        ProgressbarModule.forRoot(),
+        ToastyModule.forRoot(),
+        Ng2Bs3ModalModule,
+        MyDatePickerModule,
+        MyDateRangePickerModule,
+        MultiselectDropdownModule,
+        SelectModule,
+        FormsModule,
+        HttpModule,
+        CommonModule,
 
-    ToastyModule.forRoot(),
-    Ng2Bs3ModalModule,
-    MyDatePickerModule,
-    MyDateRangePickerModule,
-    MultiselectDropdownModule,
-    SelectModule,
-    FormsModule,
-    HttpModule,
-    CommonModule,
-
-    CommonModule,
-    OkrCompanyRoutingModule
-  ],
-  providers:[ShareCompanyOkrinfoService],
-  declarations: [OkrCompanyComponent, CompanyActivityComponent, CompanyTeamsComponent, CompanyOkrsComponent]
+        CommonModule,
+        OkrCompanyRoutingModule
+    ],
+    providers:[ShareCompanyOkrinfoService],
+    declarations: [OkrCompanyComponent, CompanyActivityComponent, CompanyTeamsComponent, CompanyOkrsComponent]
 })
 export class OkrCompanyModule { }

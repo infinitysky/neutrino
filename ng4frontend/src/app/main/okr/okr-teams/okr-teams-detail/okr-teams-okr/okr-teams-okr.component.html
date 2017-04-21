@@ -428,7 +428,7 @@
                                     <div class="col-sm-9">
                                         <ng-select #tagSelector [allowClear]="true"
                                                    [items]="tagDropDownListOptions"
-                                                   [disabled]="disabled"
+
                                                    [(ngModel)]="selectedTag"
                                                    placeholder="Select a Tag">
                                         </ng-select>
@@ -540,7 +540,7 @@
 
 <!--Objectives Modal -->
 <div bsModal #objectiveModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  [config]="{backdrop: 'static'}">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog ">
         <div class="color-line"></div>
         <div class="modal-content">
             <div class="modal-header">
@@ -580,6 +580,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Select A Goal</label>
                             <div class="col-sm-9">
+
                                 <ss-multiselect-dropdown [options]="goalsDropDownListOptions"
                                                          [texts]="goalsSelectorTexts"
                                                          [settings]="goalsSelectorSettings"
@@ -597,7 +598,7 @@
                             <div class="col-sm-9">
                                 <ng-select #tagSelector [allowClear]="true"
                                            [items]="tagDropDownListOptions"
-                                           [disabled]="disabled"
+
                                            [(ngModel)]="selectedTag"
                                            placeholder="Select a Tag">
                                 </ng-select>
@@ -621,7 +622,7 @@
 
 <!--Key result Modal -->
 <div bsModal #keyResultModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"  [config]="{backdrop: 'static'}">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog ">
         <div class="color-line"></div>
         <div class="modal-content">
             <div class="modal-header">

@@ -1,2 +1,475 @@
-<p>it works</p>
+
+
+<div class="normalheader ">
+
+    <div class="hpanel">
+
+
+        <div class="panel-body">
+
+            <a class="small-header-action">
+                <div class="clip-header">
+                    <i class="fa fa-arrow-up"></i>
+                </div>
+            </a>
+
+
+            <h2 class="font-light m-b-xs">
+                Goals
+            </h2>
+
+            <small> Goals List </small>
+
+
+        </div>
+
+    </div>
+</div>
+
+<div class="content animate-panel">
+
+    <!--start Of project-->
+    <div class="row projects" >
+        <div class="col-md-6" *ngFor=" let goal of goals">
+            <!--START COL-LG-12-->
+
+            <div class="ngswitch" [ngSwitch]="goal.goal_status">
+
+                <div *ngSwitchCase="'Complete'">
+                    <!-- START Yellow/Warning HPANEL-->
+                    <div class="hpanel hgreen">
+                        <div class="panel-body">
+                            <span class="label label-success pull-right">{{goal.goal_status}}</span>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+
+                                    <p>
+                                        {{goal.goal_description}}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="project-label">DEADLINE</div>
+                                            <small>{{goal.time_frame_end | date:'dd-MM-y'}}</small>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="project-label">PROGRESS</div>
+                                            <div class="progress m-t-xs full progress-small">
+                                                <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-success">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 project-info">
+                                    <div class="project-action m-t-md">
+                                        <div class="btn-group">
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
+                                            <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
+                                        </div>
+                                    </div>
+                                    <div class="project-value">
+                                        <h2 class="text-success">
+                                            {{goal.goal_progress_status | number : "1.0-2"}} %
+                                        </h2>
+                                    </div>
+                                    <div class="project-people">
+                                        <!-- <img alt="logo" class="img-circle" src="images/a1.jpg">-->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <accordion>
+                            <accordion-group #group>
+                                <div accordion-heading>
+                                    Objectives
+                                    <i class="pull-right float-xs-right glyphicon"
+                                       [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                                </div>
+                                <div class="table-responsive project-list">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+
+                                            <th >Objective Name</th>
+                                            <th>Completed</th>
+                                            <th>%</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let objective of goal.objective_array">
+                                            <td> {{objective.objective_name}} </td>
+                                            <td>
+                                                <div class="progress m-t-xs full progress-small animate">
+                                                    <div [ngStyle]="{'width': objective.objective_progress_status+'%'} "
+                                                         aria-valuemax="100" aria-valuemin="0"
+                                                         aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-info">
+                                                        <span class="sr-only">{{objective.objective_progress_status |  number : "1.0-2" }}% Complete (success)</span>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td> {{objective.objective_progress_status}} % </td>
+
+                                        </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </accordion-group>
+
+                        </accordion>
+
+
+                    </div>
+                    <!-- END green/complete HPANEL-->
+                </div>
+                <!--End of ngSwitchcomplete-->
+
+
+                <div *ngSwitchCase="'Warning'">
+                    <!-- START Yellow/Warning HPANEL-->
+                    <div class="hpanel hyellow">
+                        <div class="panel-body">
+                            <span class="label label-warning pull-right">{{goal.goal_status}}</span>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+
+                                    <p>
+                                        {{goal.goal_description}}
+                                    </p>
+
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="project-label">DEADLINE</div>
+                                            <small>{{ goal.time_frame_end | date:'dd-MM-y'}}</small>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="project-label">PROGRESS</div>
+                                            <div class="progress m-t-xs full progress-small">
+                                                <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-warning">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 project-info">
+                                    <div class="project-action m-t-md">
+                                        <div class="btn-group">
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
+                                            <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
+                                        </div>
+                                    </div>
+                                    <div class="project-value">
+                                        <h2 class="text-warning">
+                                            {{goal.goal_progress_status | number : "1.0-2"}} %
+                                        </h2>
+                                    </div>
+                                    <div class="project-people">
+                                        <!-- <img alt="logo" class="img-circle" src="images/a1.jpg">-->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <accordion>
+                            <accordion-group #group>
+                                <div accordion-heading>
+                                    Objectives
+                                    <i class="pull-right float-xs-right glyphicon"
+                                       [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                                </div>
+                                <div class="table-responsive project-list">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+
+                                            <th >Objective Name</th>
+                                            <th>Completed</th>
+                                            <th>%</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let objective of goal.objective_array">
+                                            <td> {{objective.objective_name}} </td>
+                                            <td>
+                                                <div class="progress m-t-xs full progress-small animate">
+                                                    <div [ngStyle]="{'width': objective.objective_progress_status+'%'} "
+                                                         aria-valuemax="100" aria-valuemin="0"
+                                                         aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-info">
+                                                        <span class="sr-only">{{objective.objective_progress_status |  number : "1.0-2" }}% Complete (success)</span>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td> {{objective.objective_progress_status}} % </td>
+
+                                        </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </accordion-group>
+
+                        </accordion>
+
+
+                    </div>
+                    <!-- END Yellow/Warning HPANEL-->
+                </div>
+                <!--End of ngSwitchWarning-->
+
+
+
+
+                <!--Start of ngSwitch Risk-->
+                <div *ngSwitchCase="'Risk'">
+                    <!-- START hred/Risk HPANEL-->
+                    <div class="hpanel hred">
+                        <div class="panel-body">
+                            <span class="label label-danger pull-right">{{goal.goal_status}}</span>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+
+                                    <p>
+                                        {{goal.goal_description}}
+                                    </p>
+
+                                    <div class="row">
+
+                                        <div class="col-sm-3">
+                                            <div class="project-label">DEADLINE</div>
+                                            <small>{{ goal.time_frame_end | date:'dd-MM-y'}}</small>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <div class="project-label">PROGRESS</div>
+                                            <div class="progress m-t-xs full progress-small">
+                                                <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-danger">
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-4 project-info">
+                                    <div class="project-action m-t-md">
+                                        <div class="btn-group">
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
+                                            <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
+                                        </div>
+                                    </div>
+                                    <div class="project-value">
+                                        <h2 class="text-danger">
+                                            {{goal.goal_progress_status | number : "1.0-2"}} %
+                                        </h2>
+                                    </div>
+                                    <div class="project-people">
+                                        <!-- <img alt="logo" class="img-circle" src="images/a1.jpg">-->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <accordion>
+                            <accordion-group #group>
+                                <div accordion-heading>
+                                    Objectives
+                                    <i class="pull-right float-xs-right glyphicon"
+                                       [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                                </div>
+                                <div class="table-responsive project-list">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+
+                                            <th >Objective Name</th>
+                                            <th>Completed</th>
+                                            <th>%</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let objective of goal.objective_array">
+                                            <td> {{objective.objective_name}} </td>
+                                            <td>
+                                                <div class="progress m-t-xs full progress-small animate">
+                                                    <div [ngStyle]="{'width': objective.objective_progress_status+'%'} "
+                                                         aria-valuemax="100" aria-valuemin="0"
+                                                         aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-info">
+                                                        <span class="sr-only">{{objective.objective_progress_status |  number : "1.0-2" }}% Complete (success)</span>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td> {{objective.objective_progress_status}} % </td>
+
+                                        </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </accordion-group>
+
+                        </accordion>
+
+
+                    </div>
+                    <!-- END Yellow/Warning HPANEL-->
+                </div>
+
+                <!--End of NgSwitch Risk-->
+
+
+
+
+                <div *ngSwitchDefault>
+                    <!-- START GREEN HPANEL-->
+                    <div class="hpanel hblue">
+                        <div class="panel-body">
+                            <span class="label label-info pull-right"></span> <!--Tag Here-->
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+
+                                    <p>
+                                        {{goal.goal_description}}
+                                    </p>
+
+                                    <div class="row">
+
+
+                                        <div class="col-sm-3">
+                                            <div class="project-label">DEADLINE</div>
+                                            <small>{{goal.time_frame_end | date:'dd-MM-y'}}</small>
+                                        </div>
+
+                                        <div class="col-sm-9">
+                                            <div class="project-label">PROGRESS</div>
+                                            <div class="progress m-t-xs full progress-small">
+                                                <div [ngStyle]="{'width':  goal.goal_progress_status+'%'} " aria-valuemax="100" aria-valuemin="0" aria-valuenow="goal.goal_progress_status" role="progressbar" class=" progress-bar progress-bar-info">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-sm-4 project-info">
+                                    <div class="project-action m-t-md">
+                                        <div class="btn-group">
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
+                                            <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
+                                        </div>
+                                    </div>
+                                    <div class="project-value">
+                                        <h2 class="text-info">
+                                            {{goal.goal_progress_status | number : "1.0-2"}} %
+                                        </h2>
+                                    </div>
+                                    <div class="project-people">
+                                        <!-- <img alt="logo" class="img-circle" src="images/a1.jpg">-->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <accordion>
+                            <accordion-group #group>
+                                <div accordion-heading>
+                                   Objectives
+                                    <i class="pull-right float-xs-right glyphicon"
+                                       [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
+                                </div>
+                                <div class="table-responsive project-list">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+
+                                            <th >Objective Name</th>
+                                            <th>Completed</th>
+                                            <th>%</th>
+
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr *ngFor="let objective of goal.objective_array">
+                                            <td> {{objective.objective_name}} </td>
+                                            <td>
+                                                <div class="progress m-t-xs full progress-small animate">
+                                                    <div [ngStyle]="{'width': objective.objective_progress_status+'%'} "
+                                                         aria-valuemax="100" aria-valuemin="0"
+                                                         aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-info">
+                                                        <span class="sr-only">{{objective.objective_progress_status |  number : "1.0-2" }}% Complete (success)</span>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td> {{objective.objective_progress_status}} % </td>
+
+                                        </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </accordion-group>
+
+                        </accordion>
+
+
+
+                    </div>
+                    <!-- END GREEN HPANEL-->
+                </div>
+                <!--End of ngSwitchDefault-->
+            </div>
+            <!--Eng of NG Switch-->
+
+        </div>
+        <!--END COL-LG-12-->
+
+    </div>
+    <!--End of Project/ Goal-->
+
+
+
+
+
+
+
+
+</div>
 

@@ -7,63 +7,63 @@ import {UserDetailsService} from '../../../../shared/services/user-details.servi
 import {Userclass} from '../../../../shared/classes/user-class';
 
 @Component({
-  selector: 'app-okr-teams-members',
-  templateUrl: './okr-teams-members.component.html',
-  providers:[SettingTeamService,UserDetailsService],
-  styleUrls: ['./okr-teams-members.component.css']
+    selector: 'app-okr-teams-members',
+    templateUrl: './okr-teams-members.component.html',
+    providers:[SettingTeamService,UserDetailsService],
+    styleUrls: ['./okr-teams-members.component.css']
 })
 export class OkrTeamsMembersComponent implements OnInit {
 
-  public isLoaded = false;
+    public isLoaded = false;
 
-  private teams:Teamclass[];
-  private users:Userclass[];
-  public  viewTeamId:any;
-  public tempData:any
-  public errorMessage:any;
+    public teams:Teamclass[];
+    public users:Userclass[];
+    public  viewTeamId:any;
+    public tempData:any
+    public errorMessage:any;
 
-  public subscribeTeamInfo:any;
+    public subscribeTeamInfo:any;
 
-  constructor(private _userDetailsService:UserDetailsService,
-              private _settingTeamService:SettingTeamService,
-              private _activatedRoute:ActivatedRoute) {
-    this.teams=[];
-    this.users=[];
-    this.viewTeamId=null;
-}
-
-  ngOnInit() {
-
-    this.viewTeamId=this._activatedRoute.snapshot.params['teamid'];
-
-
-
-    this.subscribeTeamInfo=this._activatedRoute.params.subscribe(
-      params=>{
-        this.viewTeamId = ''+params['teamid']; // (+) converts string 'id' to a number
-
-
-        this.getTeamMembers();
-      });
-
-  }
-
-
-  ngOnDestroy() {
-    this.subscribeTeamInfo.unsubscribe();
-  }
-
-  getTeamMembers(){
-    this._settingTeamService.getTeamMembersByTeamId(this.viewTeamId).subscribe(
-      data=>this.tempData=data,
-      error=>this.errorMessage=<any>error,
-      ()=>{
-        if(this.tempData.data&&<Userclass[]>this.tempData.data){
-          this.users=<Userclass[]>this.tempData.data;
-        }
+    constructor(private _userDetailsService:UserDetailsService,
+                private _settingTeamService:SettingTeamService,
+                private _activatedRoute:ActivatedRoute) {
+        this.teams=[];
+        this.users=[];
+        this.viewTeamId=null;
     }
-    );
-  }
+
+    ngOnInit() {
+
+        this.viewTeamId=this._activatedRoute.snapshot.params['teamid'];
+
+
+
+        this.subscribeTeamInfo=this._activatedRoute.params.subscribe(
+            params=>{
+                this.viewTeamId = ''+params['teamid']; // (+) converts string 'id' to a number
+
+
+                this.getTeamMembers();
+            });
+
+    }
+
+
+    ngOnDestroy() {
+        this.subscribeTeamInfo.unsubscribe();
+    }
+
+    getTeamMembers(){
+        this._settingTeamService.getTeamMembersByTeamId(this.viewTeamId).subscribe(
+            data=>this.tempData=data,
+            error=>this.errorMessage=<any>error,
+            ()=>{
+                if(this.tempData.data&&<Userclass[]>this.tempData.data){
+                    this.users=<Userclass[]>this.tempData.data;
+                }
+            }
+        );
+    }
 
 
 }

@@ -15,9 +15,9 @@ import { Userclass } from '../classes/user-class';
 @Injectable()
 export class UsersInfoService {
 
-  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userGetAllUrl;
-  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userCreateUrl;
-  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.userOperateUrl;
+  private getallAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userGetAllUrl;
+  private creatAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userCreateUrl;
+  private operateAPI = MY_CONFIG.apiEndpoint + MY_CONFIG.apiPath +  MY_CONFIG.userOperateUrl;
 
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
@@ -108,6 +108,7 @@ export class UsersInfoService {
 
     return this.http.delete(url, options)
       .map(res => res.json())
+      .timeout(10000)
       .catch(this.handleErrorObservable);
   }
 
@@ -117,30 +118,35 @@ export class UsersInfoService {
     let httpBody = JSON.stringify(user)
 
     const url = `${this.operateAPI}/${user.user_id}`;
-    return this.http
-      .put(url,httpBody , options)
+    return this.http.put(url,httpBody , options)
       .map(res => res.json())
+      .timeout(10000)
       .catch(this.handleErrorObservable)
   }
 
 
 
-  addNew(user_description: string, user_name: string,parent_user_id:number,user_leader_id:number,) : Observable<Userclass>  {
 
-    let httpBody = JSON.stringify({ user_description : user_description,user_name:user_name,parent_user_id :parent_user_id,user_leader_id: user_leader_id});
-    // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
 
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    addNewUserByClass(newUserInfo: Userclass ) : Observable<Userclass>  {
 
-    //console.log('Post message body: '+httpBody);
-    return this.http.post(this.creatAPI,httpBody, {headers: this.headers})
-    //.map(this.extractDataObservable)
-      .map(res => res.json())
-      .catch(this.handleErrorObservable)
 
-  }
 
+        let httpBody = JSON.stringify({ first_name : newUserInfo.first_name, last_name: newUserInfo.last_name,
+            email: newUserInfo.email, password: newUserInfo.password});
+        // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
+
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        //console.log('Post message body: '+httpBody);
+        return this.http.post(this.creatAPI,httpBody, {headers: this.headers})
+        //.map(this.extractDataObservable)
+            .map(res => res.json())
+          .timeout(10000)
+            .catch(this.handleErrorObservable)
+
+    }
 
 
 

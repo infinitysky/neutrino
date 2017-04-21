@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { UsersInfoService } from '../../../shared/services/users-info.service';
@@ -25,16 +26,25 @@ export class OkrCompanyComponent implements OnInit {
 
 
     public errorMessage: string;
-    public toalMembersNumber: any;
-    public toalGoalsNumber: any;
+    public totalMemberNumber: any;
+    public totalGoalsNumber: any;
+
     public overallProgressNumber: any;
     private overallProgressNumberSubscription: Subscription;
     private overallGoalNumberSubscription: Subscription;
 
-    constructor(private _okrCompanyService: OkrCompanyService, private _usersInfoService: UsersInfoService, private _shareCompanyOkrinfoService: ShareCompanyOkrinfoService) {
+    private currentTimeFrameId: any;
+    private timeFrameIdSubscription: any;
+
+
+    constructor(private _activatedRoute: ActivatedRoute,
+                private _router: Router,
+                private _okrCompanyService: OkrCompanyService,
+                private _usersInfoService: UsersInfoService,
+                private _shareCompanyOkrinfoService: ShareCompanyOkrinfoService) {
         this.companyinfo = new CompanyDetailClass;
-        this.toalMembersNumber = ' - ';
-        this.toalGoalsNumber = ' - ';
+        this.totalMemberNumber = ' - ';
+        this.totalGoalsNumber = ' - ';
         this.overallProgressNumber = ' - ';
         this.goals = "";
 
@@ -45,23 +55,33 @@ export class OkrCompanyComponent implements OnInit {
         this.getTotalNumber();
         this.getTotalGoalNumber();
         this.getOverallPragressNumber();
+        this.timeFrameIdParameterSubscribe();
 
 
     }
 
     ngOnDestroy() {
+        this.timeFrameIdSubscription.unsubscribe();
         this.overallGoalNumberSubscription.unsubscribe();
         this.overallProgressNumberSubscription.unsubscribe();
 
     }
 
+    timeFrameIdParameterSubscribe(){
+
+        this.timeFrameIdSubscription = this._activatedRoute.queryParams.subscribe(params => {
+            this.currentTimeFrameId =  +params['timeFrameId'] || 0;
+
+        });
+
+    }
 
     getTotalGoalNumber() {
 
-        this.overallGoalNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.toalGoalsNumber = data);
+        this.overallGoalNumberSubscription = this._shareCompanyOkrinfoService._shareGoals$.subscribe(data => this.totalGoalsNumber = data);
 
-        if (!this.toalGoalsNumber) {
-            this.toalGoalsNumber = ' - ';
+        if (!this.totalGoalsNumber) {
+            this.totalGoalsNumber = ' - ';
         }
     }
 
@@ -84,7 +104,7 @@ export class OkrCompanyComponent implements OnInit {
             error => this.errorMessage = <any>error,
             () => {
                 if (this.tempData.data) {
-                    this.toalMembersNumber = this.tempData.data.membersNumber;
+                    this.totalMemberNumber = this.tempData.data.membersNumber;
                 }
 
             }
@@ -108,6 +128,10 @@ export class OkrCompanyComponent implements OnInit {
 
 
     }
+
+
+
+    /*
     changeName() {
         this.companyinfo.company_name = 'lololo';
 
@@ -117,6 +141,6 @@ export class OkrCompanyComponent implements OnInit {
     updateOverallNumber(event) {
         this.toalGoalsNumber = event;
     }
-
+*/
 
 }

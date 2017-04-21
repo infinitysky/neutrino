@@ -10,6 +10,8 @@ class Teams_objectives_model extends CI_Model
     public $team_table='teams';
     public $users_table='users';
     public $objective_table='objectives';
+    public $goals_table='goals';
+    public $goals_objectives_table='goals_objectives';
 
 
 
@@ -261,6 +263,40 @@ class Teams_objectives_model extends CI_Model
         $this->db->trans_complete();
 
         //echo $this->db->last_query();
+
+        return $result->result();
+    }
+
+    function get_by_team_id_array_time_frame_id($teamIdArray,$timeFrameId)
+    {
+
+        // mysql :
+        /*        SELECT *
+                FROM teams_objectives
+        LEFT JOIN objectives ON teams_objectives.objective_id = objectives.objective_id
+        LEFT JOIN goals_objectives ON goals_objectives.objective_id = objectives.objective_id
+        LEFT JOIN goals ON goals_objectives.goal_id = goals.goal_id
+        where time_frame_id = 68
+        */
+
+        $this->db->trans_start();
+
+        $this->db->trans_start();
+        $this->db->order_by($this->table.'.'.$this->id, $this->order);
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where_in($this->table.'.team_id',$teamIdArray);
+        $this->db->where($this->goals_table.'.time_frame_id',$timeFrameId);
+
+        $this->db->join($this->objective_table, $this->table.'.objective_id='.$this->objective_table.'.objective_id','left');
+        $this->db->join($this->goals_objectives_table,$this->goals_objectives_table.'.objective_id='.$this->objective_table.'.objective_id','left');
+        $this->db->join($this->goals_table,$this->goals_table.'.goal_id='.$this->goals_objectives_table.'.goal_id','left');
+
+        $this->db->group_by($this->table.'.objective_id');
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+       // echo $this->db->last_query();
 
         return $result->result();
     }

@@ -17,35 +17,38 @@ import {ShareUserOkrinfoService} from './share-user-okrinfo.service';
 
 
 //3rd party library module
-import {ToastyModule} from 'ng2-toasty';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { NouisliderModule } from 'ng2-nouislider';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
 import { SelectModule} from 'ng2-select';
+import { DoorgetsTruncateModule } from 'doorgets-ng-truncate';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
-//import { Ng2LetterAvatar } from "ng2LAjs/ng2letteravatar";
 
-import { Ng2LetterAvatar } from "ng2letteravatar/ng2letteravatar";
+
 
 
 
 @NgModule({
-  imports: [
-    ToastyModule.forRoot(),
-    Ng2Bs3ModalModule,
-    MyDatePickerModule,
-    MyDateRangePickerModule,
-    MultiselectDropdownModule,
-    SelectModule,
+    imports: [
+        ModalModule.forRoot(),
+        DoorgetsTruncateModule,
+        Ng2Bs3ModalModule,
+        MyDatePickerModule,
+        MyDateRangePickerModule,
+        MultiselectDropdownModule,
+        SelectModule,
+        NouisliderModule,
 
 
-    HttpModule,
-    FormsModule,
-    CommonModule,
-    OkrUsersRoutingModule
-  ],
-  providers:[ShareUserOkrinfoService],
-  declarations: [OkrUsersComponent,OkrUsersActivityComponent,OkrUsersTeamsComponent, OkrsUsersOkrsComponent,Ng2LetterAvatar, OkrUserOkrTeamComponent]
+        HttpModule,
+        FormsModule,
+        CommonModule,
+        OkrUsersRoutingModule
+    ],
+    providers:[ShareUserOkrinfoService],
+    declarations: [OkrUsersComponent, OkrUsersActivityComponent, OkrUsersTeamsComponent, OkrsUsersOkrsComponent, OkrUserOkrTeamComponent]
 })
 export class OkrUsersModule { }

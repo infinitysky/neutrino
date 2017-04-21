@@ -32,549 +32,549 @@ import { OkrSettingNavigationComponent } from '../okr-setting-shared/okr-setting
 
 
 @Component({
-  selector: 'setting-content',
-  providers: [SettingTimeFrameService],
-  templateUrl: './okr-setting-time-frame.component.html',
-  styleUrls: ['./okr-setting-time-frame.component.css']
+    selector: 'setting-content',
+    providers: [SettingTimeFrameService],
+    templateUrl: './okr-setting-time-frame.component.html',
+    styleUrls: ['./okr-setting-time-frame.component.css']
 })
 export class OkrSettingTimeFrameComponent implements OnInit {
-  public pageTitle = "OKRs Setting";
-  public subPageTitle = "Time Frame Setting";
+    public pageTitle = "OKRs Setting";
+    public subPageTitle = "Time Frame Setting";
 
-  public timeFrames: Timeframeclass[];
+    public timeFrames: Timeframeclass[];
 
-  public timeFramesData: any;
-  public errorMessage: any;
+    public timeFramesData: any;
+    public errorMessage: any;
 
-  public isLoaded: boolean = true;
-
-
-  //datepicker configration
-  startDateInEpoch: any;
-  endDateInEpoch: any;
-  startDateInDate: any;
-  endDateInDate: any;
-
-  public pushData: any;
-  public databases;
-  public tempData: any;
-
-  animation: boolean = true;
-  keyboard: boolean = true;
-  backdrop: string | boolean = true;
-
-  editDateRangeNormal: string = null;
-  public checkFlag: number = 0;
+    public isLoaded: boolean = true;
 
 
-  public editTimeFrame: any;
+    //datepicker configration
+    startDateInEpoch: any;
+    endDateInEpoch: any;
+    startDateInDate: any;
+    endDateInDate: any;
 
-  rangeTextPlaceholder: string = "Please select your range";
-  edit_startDate: Date;
-  edit_EndDate: Date;
-  //edit_dateRange:string="";
+    public pushData: any;
+    public databases;
+    public tempData: any;
 
-  edit_dateRange: string = null;
+    animation: boolean = true;
+    keyboard: boolean = true;
+    backdrop: string | boolean = true;
 
-  editModeIO: number = 0;//this is for check edit Mode on or off.
-  timeFrameNameInputBoxValue: string = "";
-  public AfterUpdateData: any;
-
-
+    editDateRangeNormal: string = null;
+    public checkFlag: number = 0;
 
 
-  constructor(private _settingTimeFrameService: SettingTimeFrameService,
-    private router: Router,
-    private toastyService: ToastyService, private toastyConfig: ToastyConfig
-  ) {
+    public editTimeFrame: any;
 
-    console.log('constructor(): SampleDateRangePickerNormal');
-    this.timeFrames = [];
-    this.edit_startDate = new Date();
-    this.edit_EndDate = new Date();
-    this.editModeIO = 0;
-    this.editTimeFrame = null;
+    rangeTextPlaceholder: string = "Please select your range";
+    edit_startDate: Date;
+    edit_EndDate: Date;
+    //edit_dateRange:string="";
 
-  }
+    edit_dateRange: string = null;
 
-  editButton() {
-    this.isLoaded = !this.isLoaded;
-  }
-  refreshButton() {
-    this.getTimeFrames();
-  }
-  addTimeFrameButton() {
+    editModeIO: number = 0;//this is for check edit Mode on or off.
+    timeFrameNameInputBoxValue: string = "";
+    public AfterUpdateData: any;
 
-    this.timeFrameNameInputBoxValue = "";
-    this.edit_dateRange = null;
-    this.edit_startDate = null;
-    this.edit_EndDate = null;
-    this.editModeIO = 0;
-    this.modal.open();
-  }
 
-  deleteTimeFrameButton(timeFrame) {
-    //this.showAlert();
-    this._settingTimeFrameService
-      .deleteTheTimeFrame(timeFrame)
-      .subscribe(
-      data => { this.tempData = data },
-      error => { this.errorMessage = <any>error },
-      () => {
-        console.log(this.tempData);
-        if (this.tempData.data.affectRows > 0) {
-          swal("Deleted!", "Your time frame has been deleted.", "success");
-          this.timeFrames = this.timeFrames.filter(currentTimeFrames => currentTimeFrames !== timeFrame);
 
+
+    constructor(private _settingTimeFrameService: SettingTimeFrameService,
+                private router: Router,
+                private toastyService: ToastyService, private toastyConfig: ToastyConfig
+    ) {
+
+        console.log('constructor(): SampleDateRangePickerNormal');
+        this.timeFrames = [];
+        this.edit_startDate = new Date();
+        this.edit_EndDate = new Date();
+        this.editModeIO = 0;
+        this.editTimeFrame = null;
+
+    }
+
+    editButton() {
+        this.isLoaded = !this.isLoaded;
+    }
+    refreshButton() {
+        this.getTimeFrames();
+    }
+    addTimeFrameButton() {
+
+        this.timeFrameNameInputBoxValue = "";
+        this.edit_dateRange = null;
+        this.edit_startDate = null;
+        this.edit_EndDate = null;
+        this.editModeIO = 0;
+        this.modal.open();
+    }
+
+    deleteTimeFrameButton(timeFrame) {
+        //this.showAlert();
+        this._settingTimeFrameService
+            .deleteTheTimeFrame(timeFrame)
+            .subscribe(
+                data => { this.tempData = data },
+                error => { this.errorMessage = <any>error },
+                () => {
+                    console.log(this.tempData);
+                    if (this.tempData.data.affectRows > 0) {
+                        swal("Deleted!", "Your time frame has been deleted.", "success");
+                        this.timeFrames = this.timeFrames.filter(currentTimeFrames => currentTimeFrames !== timeFrame);
+
+                    } else {
+                        swal("Error!", "Your time frame did not been deleted successfully.", "error");
+                    }
+                }
+            );
+    }
+
+
+    modalSaveChangeButton(timeFrameNameInput: string) {
+        if (0 == this.editModeIO) {
+            this.createNewTimeFrame(timeFrameNameInput);
         } else {
-          swal("Error!", "Your time frame did not been deleted successfully.", "error");
+            this.updateTimeFrame(this.editTimeFrame, timeFrameNameInput);
         }
-      }
-      );
-  }
-
-
-  modalSaveChangeButton(timeFrameNameInput: string) {
-    if (0 == this.editModeIO) {
-      this.createNewTimeFrame(timeFrameNameInput);
-    } else {
-      this.updateTimeFrame(this.editTimeFrame, timeFrameNameInput);
     }
-  }
 
-  quickSetTimeFrameModalSaveChangeButton(timeFrameStartingYearInput: string, timeFrameEndingYearInput: string) {
-    this.quickSetTimeFrame(timeFrameStartingYearInput, timeFrameEndingYearInput);
-  }
-
-
-  editTimeFramesButton(timeFrame) {
-    this.editModeIO = 1;
-    this.editTimeFrame = timeFrame;
-    this.timeFrameNameInputBoxValue = timeFrame.time_frame_description;
-
-    this.edit_dateRange = timeFrame.time_frame_start + ' - ' + timeFrame.time_frame_end;
-    this.edit_startDate = timeFrame.time_frame_start;
-    this.edit_EndDate = timeFrame.time_frame_end;
-    // var displayStartDate:Date= new Date(timeFrame.time_frame_start);
-    // var displayEndDate:Date= new Date(timeFrame.time_frame_end);
-    // this.edit_dateRange={beginDate: {year: displayStartDate.getFullYear(), month: displayStartDate.getMonth(), day: 1},
-    //   endDate: {year: 2017, month: 1, day: 1}};
-
-    this.startDateInDate = timeFrame.time_frame_start;
-    this.endDateInDate = timeFrame.time_frame_end;
-
-
-
-
-    this.modal.open();
-
-  }
-
-
-  quickSetTimeFrame(timeFrameStartingYearInput: string, timeFrameEndingYearInput: string) {
-    var starDate = "01/01/" + timeFrameStartingYearInput;
-    var endDate = "12/31/" + timeFrameEndingYearInput;
-
-    this._settingTimeFrameService.quickSetTimeFrame(starDate, endDate).subscribe(
-      data => { this.tempData = data },
-      error => this.errorMessage = <any>error,
-      () => {
-        if (this.tempData.data.affectRows > 0) {
-          swal("Success!", "Your time frames been added.", "success");
-          this.getTimeFrames();
-          this.quickSetModal.close();
-         
-        }
-      }
-
-
-    );
-
-
-  }
-
-
-
-  //TODO: Fix the date format handling issue.
-  updateTimeFrame(editTimeFrame, timeFrameNameInput: string) {
-    console.log(editTimeFrame);
-
-    if (!timeFrameNameInput || !this.startDateInEpoch || !this.endDateInEpoch) {
-      //alert("Do not leave any empty!");
-      //swal("Warning", "Do not leave any empty!", "warning");
-      this.showUnChangedInfoToast();
-      return;
+    quickSetTimeFrameModalSaveChangeButton(timeFrameStartingYearInput: string, timeFrameEndingYearInput: string) {
+        this.quickSetTimeFrame(timeFrameStartingYearInput, timeFrameEndingYearInput);
     }
 
 
-    let tempTimeFrame = editTimeFrame;
-    tempTimeFrame.time_frame_description = timeFrameNameInput;
-    tempTimeFrame.time_frame_start = this.startDateInEpoch;
-    tempTimeFrame.time_frame_end = this.endDateInEpoch;
+    editTimeFramesButton(timeFrame) {
+        this.editModeIO = 1;
+        this.editTimeFrame = timeFrame;
+        this.timeFrameNameInputBoxValue = timeFrame.time_frame_description;
 
-    var NewStartDate: Date = new Date(this.startDateInEpoch);
-    var NewEndDate: Date = new Date(this.endDateInEpoch);
+        this.edit_dateRange = timeFrame.time_frame_start + ' - ' + timeFrame.time_frame_end;
+        this.edit_startDate = timeFrame.time_frame_start;
+        this.edit_EndDate = timeFrame.time_frame_end;
+        // var displayStartDate:Date= new Date(timeFrame.time_frame_start);
+        // var displayEndDate:Date= new Date(timeFrame.time_frame_end);
+        // this.edit_dateRange={beginDate: {year: displayStartDate.getFullYear(), month: displayStartDate.getMonth(), day: 1},
+        //   endDate: {year: 2017, month: 1, day: 1}};
 
-    console.log(NewStartDate.toLocaleDateString());
-    console.log(NewEndDate.toLocaleDateString());
-
-
-    console.log("editTimeFrame: " + JSON.stringify(editTimeFrame));
-    this._settingTimeFrameService.update(tempTimeFrame)
-      .subscribe(
-      data => { this.tempData = data },
-      error => this.errorMessage = <any>error,
-      () => {
-        console.log("Updat this.tempData + " + JSON.stringify(this.tempData.data));
-        //this.childtimeFrames=this.tempData;
-        console.log(this.tempData.data);
-        if (this.tempData.data.affectRows > 0) {
-          swal("Success!", "Your time frame has been updated.", "success");
-          // this.timeFrames = this.timeFrames.filter(currentTimeFrames => currentTimeFrames !== timeFrame);
-          editTimeFrame.time_frame_description = timeFrameNameInput;
-          editTimeFrame.time_frame_start = NewStartDate;
-          editTimeFrame.time_frame_end = NewEndDate;
-
-
-          // editTimeFrame.time_frame_start =this.startDateInDate;
-          // editTimeFrame.time_frame_end=this.endDateInDate;
-          //this.getTimeFrameByID(editTimeFrame);
-
-        } else {
-          swal("Error!", "Your time frame did not been deleted successfully.", "error");
-        }
-        // this.timeFrames.push(this.tempData);
-
-      }
-      );
-    this.modal.close();
-
-  }
-
-
-
-  getTimeFrameByID(timeFrame: Timeframeclass) {
-    this._settingTimeFrameService.getById(timeFrame.time_frame_id).subscribe(
-      data => this.tempData = data,
-      error => this.errorMessage = <any>error,
-      () => {
-        if (this.tempData.data && this.tempData.status == "success") {
-          this.editTimeFrame = this.tempData.data;
-          console.log('timeframe: ' + JSON.stringify(this.editTimeFrame));
-        }
-
-        // timeFrame=this.tempData.data;
-      }
-    );
-
-  }
-
-
-
-  getTimeFrames() {
-    this._settingTimeFrameService.getAllTimeFrames()
-      .subscribe(
-      data => this.tempData = data,
-      error => this.errorMessage = <any>error,
-      () => {
-
-        if (this.tempData.data && this.tempData.status == "success") {
-          this.timeFrames = <Timeframeclass[]>this.tempData.data;
-        }
-
-      }
-      );
-
-  }
+        this.startDateInDate = timeFrame.time_frame_start;
+        this.endDateInDate = timeFrame.time_frame_end;
 
 
 
 
+        this.modal.open();
 
-  createNewTimeFrame(timeFrameNameInput: string) {
-    if (!timeFrameNameInput || !this.startDateInEpoch || !this.endDateInEpoch) {
-      //alert("Do not leave any empty!");
-      swal("Warning", "Do not leave any empty!", "warning");
-      return;
     }
-    // console.log("timeFrameName: "+ timeFrameNameInput +"this.startDate" + this.startDate + "this.endDate ： " + this.endDate);
-    this._settingTimeFrameService.addNewTimeFrame(timeFrameNameInput, this.startDateInEpoch, this.endDateInEpoch)
-      .subscribe(
-      data => { this.tempData = data },
-      error => this.errorMessage = <any>error,
-      () => {
-        console.log("this.tempData + " + JSON.stringify(this.tempData.data));
-        //this.childtimeFrames=this.tempData;
-
-        //TODO: Fix the error handle issue when the system fail to create new time frame.
-        if (!this.tempData.data) {
-          console.log(this.tempData.data);
-          swal({
-            title: "Error!",
-            text: "Your time frame has not created successfully.!",
-            type: "error"
-          });
-
-        } else {
-          // swal("Error!", "Your time frame not been deleted successfully.", "error");
-          this.timeFrames.push(this.tempData.data);
-          swal({
-            title: "Success!",
-            text: "The New Record has been add into the system!",
-            type: "success"
-          });
 
 
+    quickSetTimeFrame(timeFrameStartingYearInput: string, timeFrameEndingYearInput: string) {
+        var starDate = "01/01/" + timeFrameStartingYearInput;
+        var endDate = "12/31/" + timeFrameEndingYearInput;
+
+        this._settingTimeFrameService.quickSetTimeFrame(starDate, endDate).subscribe(
+            data => { this.tempData = data },
+            error => this.errorMessage = <any>error,
+            () => {
+                if (this.tempData.data.affectRows > 0) {
+                    swal("Success!", "Your time frames been added.", "success");
+                    this.getTimeFrames();
+                    this.quickSetModal.close();
+
+                }
+            }
+
+
+        );
+
+
+    }
+
+
+
+    //TODO: Fix the date format handling issue.
+    updateTimeFrame(editTimeFrame, timeFrameNameInput: string) {
+        console.log(editTimeFrame);
+
+        if (!timeFrameNameInput || !this.startDateInEpoch || !this.endDateInEpoch) {
+            //alert("Do not leave any empty!");
+            //swal("Warning", "Do not leave any empty!", "warning");
+            this.showUnChangedInfoToast();
+            return;
         }
 
-      }
-      );
-    this.modal.close();
-  }
+
+        let tempTimeFrame = editTimeFrame;
+        tempTimeFrame.time_frame_description = timeFrameNameInput;
+        tempTimeFrame.time_frame_start = this.startDateInEpoch;
+        tempTimeFrame.time_frame_end = this.endDateInEpoch;
+
+        var NewStartDate: Date = new Date(this.startDateInEpoch);
+        var NewEndDate: Date = new Date(this.endDateInEpoch);
+
+        console.log(NewStartDate.toLocaleDateString());
+        console.log(NewEndDate.toLocaleDateString());
 
 
-  //warning functions
-  //this function is not a native angular 2 function, it was implemented by third-party javascript library!
+        console.log("editTimeFrame: " + JSON.stringify(editTimeFrame));
+        this._settingTimeFrameService.update(tempTimeFrame)
+            .subscribe(
+                data => { this.tempData = data },
+                error => this.errorMessage = <any>error,
+                () => {
+                    console.log("Updat this.tempData + " + JSON.stringify(this.tempData.data));
+                    //this.childtimeFrames=this.tempData;
+                    console.log(this.tempData.data);
+                    if (this.tempData.data.affectRows > 0) {
+                        swal("Success!", "Your time frame has been updated.", "success");
+                        // this.timeFrames = this.timeFrames.filter(currentTimeFrames => currentTimeFrames !== timeFrame);
+                        editTimeFrame.time_frame_description = timeFrameNameInput;
+                        editTimeFrame.time_frame_start = NewStartDate;
+                        editTimeFrame.time_frame_end = NewEndDate;
 
 
+                        // editTimeFrame.time_frame_start =this.startDateInDate;
+                        // editTimeFrame.time_frame_end=this.endDateInDate;
+                        //this.getTimeFrameByID(editTimeFrame);
 
+                    } else {
+                        swal("Error!", "Your time frame did not been deleted successfully.", "error");
+                    }
+                    // this.timeFrames.push(this.tempData);
 
+                }
+            );
+        this.modal.close();
 
-
-
-
-
-  //ng2 liftcycle functions
-
-  // onSelect(timeFrame: Timeframeclass ): void {
-  //   this.selectedHero = timeFrame;
-  // }
-
-  //component functions
-  ngOnInit() {
-    console.log('onInit(): SampleDateRangePickerNormal');
-    this.getTimeFrames();
-  }
-
-  onInputFieldChanged(event: IMyInputFieldChanged) {
-    console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
-  }
-
-  onCalendarViewChanged(event: IMyCalendarViewChanged) {
-    console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //calendar setting and functions
-
-
-  private myDateRangePickerOptionsNormal: IMyOptions = {
-    clearBtnTxt: 'Clear',
-    beginDateBtnTxt: 'Begin Date',
-    endDateBtnTxt: 'End Date',
-    acceptBtnTxt: 'Apply',
-    dateFormat: 'dd-mm-yyyy',
-    firstDayOfWeek: 'mo',
-    sunHighlight: true,
-    height: '34px',
-    width: '50%',
-    inline: false,
-    alignSelectorRight: false,
-    indicateInvalidDateRange: true,
-    minYear: 2000,
-    maxYear: 2099,
-    componentDisabled: false,
-    markCurrentDay: true,
-    showClearDateRangeBtn: true,
-    showSelectorArrow: true
-  };
-
-  //selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
-  selectedDateRangeNormal: IMyDateRange = { beginDate: { year: 2017, month: 1, day: 1 }, endDate: { year: 2017, month: 1, day: 1 } };
-
-  selectedTextNormal: string = '';
-  border: string = 'none';
-
-  placeholderTxt: string = '';
-
-
-
-  clearDateRange() {
-    this.selectedDateRangeNormal = null;
-  }
-
-  onDisableComponent(checked: boolean) {
-    let copy = this.getCopyOfOptions();
-    copy.componentDisabled = checked;
-    this.myDateRangePickerOptionsNormal = copy;
-  }
-
-  onEditableDateField(checked: boolean) {
-    let copy = this.getCopyOfOptions();
-    copy.editableDateRangeField = checked;
-    this.myDateRangePickerOptionsNormal = copy;
-  }
-
-  onAlignSelectorRight(checked: boolean) {
-    let copy = this.getCopyOfOptions();
-    copy.alignSelectorRight = checked;
-    this.myDateRangePickerOptionsNormal = copy;
-  }
-
-  onShowClearButton(checked: boolean) {
-    let copy = this.getCopyOfOptions();
-    copy.showClearDateRangeBtn = checked;
-    this.myDateRangePickerOptionsNormal = copy;
-  }
-
-  onShowPlaceholderText(checked: boolean) {
-    this.placeholderTxt = checked ? 'Select a date range' : '';
-  }
-
-
-
-  onDateRangeChanged(event: IMyDateRangeModel) {
-    console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' - beginJsDate: ', new Date(event.beginJsDate).toLocaleDateString(), ' - End: ', event.endDate, ' - endJsDate: ', new Date(event.endJsDate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
-    if (event.formatted !== '') {
-      this.selectedTextNormal = 'Formatted: ' + event.formatted;
-      this.border = '1px solid #CCC';
-
-      this.selectedDateRangeNormal = { beginDate: event.beginDate, endDate: event.endDate };
-      this.startDateInEpoch = event.beginEpoc;
-      this.endDateInEpoch = event.endEpoc;
-      this.startDateInDate = event.beginDate;
-      this.endDateInDate = event.endDate;
-
-      console.log("this.startDate " + this.startDateInDate + " this.endDate " + this.endDateInDate);
     }
-    else {
-      this.selectedTextNormal = '';
-      this.border = 'none';
+
+
+
+    getTimeFrameByID(timeFrame: Timeframeclass) {
+        this._settingTimeFrameService.getById(timeFrame.time_frame_id).subscribe(
+            data => this.tempData = data,
+            error => this.errorMessage = <any>error,
+            () => {
+                if (this.tempData.data && this.tempData.status == "success") {
+                    this.editTimeFrame = this.tempData.data;
+                    console.log('timeframe: ' + JSON.stringify(this.editTimeFrame));
+                }
+
+                // timeFrame=this.tempData.data;
+            }
+        );
+
     }
-  }
 
 
 
-  ngOnDestroy() {
-    // prevent memory leak when component destroyed
+    getTimeFrames() {
+        this._settingTimeFrameService.getAllTimeFrames()
+            .subscribe(
+                data => this.tempData = data,
+                error => this.errorMessage = <any>error,
+                () => {
 
-  }
+                    if (this.tempData.data && this.tempData.status == "success") {
+                        this.timeFrames = <Timeframeclass[]>this.tempData.data;
+                    }
+
+                }
+            );
+
+    }
 
 
 
-  getCopyOfOptions(): IMyOptions {
-    return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
-  }
+
+
+    createNewTimeFrame(timeFrameNameInput: string) {
+        if (!timeFrameNameInput || !this.startDateInEpoch || !this.endDateInEpoch) {
+            //alert("Do not leave any empty!");
+            swal("Warning", "Do not leave any empty!", "warning");
+            return;
+        }
+        // console.log("timeFrameName: "+ timeFrameNameInput +"this.startDate" + this.startDate + "this.endDate ： " + this.endDate);
+        this._settingTimeFrameService.addNewTimeFrame(timeFrameNameInput, this.startDateInEpoch, this.endDateInEpoch)
+            .subscribe(
+                data => { this.tempData = data },
+                error => this.errorMessage = <any>error,
+                () => {
+                    console.log("this.tempData + " + JSON.stringify(this.tempData.data));
+                    //this.childtimeFrames=this.tempData;
+
+                    //TODO: Fix the error handle issue when the system fail to create new time frame.
+                    if (!this.tempData.data) {
+                        console.log(this.tempData.data);
+                        swal({
+                            title: "Error!",
+                            text: "Your time frame has not created successfully.!",
+                            type: "error"
+                        });
+
+                    } else {
+                        // swal("Error!", "Your time frame not been deleted successfully.", "error");
+                        this.timeFrames.push(this.tempData.data);
+                        swal({
+                            title: "Success!",
+                            text: "The New Record has been add into the system!",
+                            type: "success"
+                        });
+
+
+                    }
+
+                }
+            );
+        this.modal.close();
+    }
+
+
+    //warning functions
+    //this function is not a native angular 2 function, it was implemented by third-party javascript library!
 
 
 
 
 
 
-  //Modal actions
-  @ViewChild('modal')
-  modal: ModalComponent;
+
+
+
+    //ng2 liftcycle functions
+
+    // onSelect(timeFrame: Timeframeclass ): void {
+    //   this.selectedHero = timeFrame;
+    // }
+
+    //component functions
+    ngOnInit() {
+        console.log('onInit(): SampleDateRangePickerNormal');
+        this.getTimeFrames();
+    }
+
+    onInputFieldChanged(event: IMyInputFieldChanged) {
+        console.log('onInputFieldChanged(): Value: ', event.value, ' - dateRangeFormat: ', event.dateRangeFormat, ' - valid: ', event.valid);
+    }
+
+    onCalendarViewChanged(event: IMyCalendarViewChanged) {
+        console.log('onCalendarViewChanged(): Year: ', event.year, ' - month: ', event.month, ' - first: ', event.first, ' - last: ', event.last);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //calendar setting and functions
+
+
+    public myDateRangePickerOptionsNormal: IMyOptions = {
+        // clearBtnTxt: 'Clear',
+        // beginDateBtnTxt: 'Begin Date',
+        // endDateBtnTxt: 'End Date',
+        // acceptBtnTxt: 'Apply',
+        dateFormat: 'dd-mm-yyyy',
+        firstDayOfWeek: 'mo',
+        sunHighlight: true,
+        height: '34px',
+        width: '50%',
+        inline: false,
+        alignSelectorRight: false,
+        indicateInvalidDateRange: true,
+        minYear: 2000,
+        maxYear: 2099,
+        componentDisabled: false,
+        markCurrentDay: true,
+        showClearDateRangeBtn: true,
+        showSelectorArrow: true
+    };
+
+    //selectedDateRangeNormal:string = '04 Nov 2016 - 26 Nov 2016';
+    selectedDateRangeNormal: IMyDateRange = { beginDate: { year: 2017, month: 1, day: 1 }, endDate: { year: 2017, month: 1, day: 1 } };
+
+    selectedTextNormal: string = '';
+    border: string = 'none';
+
+    placeholderTxt: string = '';
+
+
+
+    clearDateRange() {
+        this.selectedDateRangeNormal = null;
+    }
+
+    onDisableComponent(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.componentDisabled = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onEditableDateField(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.editableDateRangeField = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onAlignSelectorRight(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.alignSelectorRight = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowClearButton(checked: boolean) {
+        let copy = this.getCopyOfOptions();
+        copy.showClearDateRangeBtn = checked;
+        this.myDateRangePickerOptionsNormal = copy;
+    }
+
+    onShowPlaceholderText(checked: boolean) {
+        this.placeholderTxt = checked ? 'Select a date range' : '';
+    }
+
+
+
+    onDateRangeChanged(event: IMyDateRangeModel) {
+        console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' - beginJsDate: ', new Date(event.beginJsDate).toLocaleDateString(), ' - End: ', event.endDate, ' - endJsDate: ', new Date(event.endJsDate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
+        if (event.formatted !== '') {
+            this.selectedTextNormal = 'Formatted: ' + event.formatted;
+            this.border = '1px solid #CCC';
+
+            this.selectedDateRangeNormal = { beginDate: event.beginDate, endDate: event.endDate };
+            this.startDateInEpoch = event.beginEpoc;
+            this.endDateInEpoch = event.endEpoc;
+            this.startDateInDate = event.beginDate;
+            this.endDateInDate = event.endDate;
+
+            console.log("this.startDate " + this.startDateInDate + " this.endDate " + this.endDateInDate);
+        }
+        else {
+            this.selectedTextNormal = '';
+            this.border = 'none';
+        }
+    }
+
+
+
+    ngOnDestroy() {
+        // prevent memory leak when component destroyed
+
+    }
+
+
+
+    getCopyOfOptions(): IMyOptions {
+        return JSON.parse(JSON.stringify(this.myDateRangePickerOptionsNormal));
+    }
+
+
+
+
+
+
+    //Modal actions
+    @ViewChild('modal')
+    modal: ModalComponent;
 
     @ViewChild('quickSetModal')
-  quickSetModal: ModalComponent;
+    quickSetModal: ModalComponent;
 
 
-  closed() {
-    this.timeFrameNameInputBoxValue = "";
-    this.edit_dateRange = "";
-    this.edit_startDate = null;
-    this.edit_EndDate = null;
-    this.modal.close();
-  }
+    closed() {
+        this.timeFrameNameInputBoxValue = "";
+        this.edit_dateRange = "";
+        this.edit_startDate = null;
+        this.edit_EndDate = null;
+        this.modal.close();
+    }
 
-  dismissed() {
+    dismissed() {
 
-  }
+    }
 
-  opened() {
-
-
-  }
-
-  navigate() {
-
-  }
-
-  open() {
-    this.timeFrameNameInputBoxValue = "";
-    this.edit_dateRange = "";
-    this.edit_startDate = null;
-    this.edit_EndDate = null;
-    this.modal.open();
-  }
+    opened() {
 
 
+    }
 
+    navigate() {
 
+    }
 
-  // major functions
-  submitInfo() {
-
-
-  }
+    open() {
+        this.timeFrameNameInputBoxValue = "";
+        this.edit_dateRange = "";
+        this.edit_startDate = null;
+        this.edit_EndDate = null;
+        this.modal.open();
+    }
 
 
 
-  closeModal() {
-
-  }
 
 
-  //toast info
-  showUnChangedInfoToast() {
-    // Just add default Toast with title only
-    this.toastyService.default('Hi there');
-    // Or create the instance of ToastOptions
-    var toastOptions: ToastOptions = {
-      title: "Warning",
-      msg: "You did not change any thing",
-      showClose: true,
-      timeout: 5000,
-      theme: 'default',
-      onAdd: (toast: ToastData) => {
-        console.log('Toast ' + toast.id + ' has been added!');
-      },
-      onRemove: function (toast: ToastData) {
-        console.log('Toast ' + toast.id + ' has been removed!');
-      }
-    };
-    // Add see all possible types in one shot
-    //this.toastyService.info(toastOptions);
-    //this.toastyService.success(toastOptions);
-    this.toastyService.wait(toastOptions);
-    // this.toastyService.error(toastOptions);
-    //this.toastyService.warning(toastOptions);
-  }
+    // major functions
+    submitInfo() {
 
 
-  /*
-   add(name: string): void {
-   name = name.trim();
-   if (!name) { return; }
-   this.heroService.create(name)
-   .then(hero => {
-   this.heroes.push(hero);
-   this.selectedHero = null;
-   });
-   }
-   */
+    }
+
+
+
+    closeModal() {
+
+    }
+
+
+    //toast info
+    showUnChangedInfoToast() {
+        // Just add default Toast with title only
+        this.toastyService.default('Hi there');
+        // Or create the instance of ToastOptions
+        var toastOptions: ToastOptions = {
+            title: "Warning",
+            msg: "You did not change any thing",
+            showClose: true,
+            timeout: 5000,
+            theme: 'default',
+            onAdd: (toast: ToastData) => {
+                console.log('Toast ' + toast.id + ' has been added!');
+            },
+            onRemove: function (toast: ToastData) {
+                console.log('Toast ' + toast.id + ' has been removed!');
+            }
+        };
+        // Add see all possible types in one shot
+        //this.toastyService.info(toastOptions);
+        //this.toastyService.success(toastOptions);
+        this.toastyService.wait(toastOptions);
+        // this.toastyService.error(toastOptions);
+        //this.toastyService.warning(toastOptions);
+    }
+
+
+    /*
+     add(name: string): void {
+     name = name.trim();
+     if (!name) { return; }
+     this.heroService.create(name)
+     .then(hero => {
+     this.heroes.push(hero);
+     this.selectedHero = null;
+     });
+     }
+     */
 
 
 }
