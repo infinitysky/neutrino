@@ -1,15 +1,8 @@
-<!--<div class="row">-->
-<!--<div style="padding-right: 20px;">-->
-<!--<button type="button" class="btn w-xs btn-primary pull-right" (click)="addObjectiveButton()"><i class="fa fa-plus"></i> Add New Objective</button>-->
-<!--</div>-->
-<!--</div>-->
 
 <div class="row" *ngIf="selfUserInfoData.user_id == targetTeamInfoData.team_leader_user_id || selfUserInfoData.role=='admin' "><!-- check the viewing user the 'addObjectiveButton' -->
     <div style="padding-right: 20px;" >
         <button type="button" class="btn w-xs btn-primary pull-right" (click)="addObjectiveButton()"><i class="fa fa-plus"></i> Add Team Objective</button>
     </div>
-
-
 </div>
 
 

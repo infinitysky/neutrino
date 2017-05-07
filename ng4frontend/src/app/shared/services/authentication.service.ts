@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 
 import { MY_CONFIG, ApplicationConfig } from '../../app-config';
 
-import { CookieService } from './cookie.service';
+import { MyCookieService } from './my-cookie.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -22,7 +22,7 @@ export class AuthenticationService {
 
 
     constructor(public http: Http,
-    private _cookieService: CookieService
+    private _cookieService: MyCookieService
     ) {
         this.http = http;
     }
@@ -52,16 +52,16 @@ export class AuthenticationService {
         return this.http.post(url, httpBody, {headers: this.headers})
             .map(res => res.json())
             .timeout(1000)
-            .catch(this.handleErrorObservable)
+            .catch(this.handleErrorObservable);
     }
 
     logout(){
 
         // remove user from local storage to log user out
-
-       // localStorage.removeItem('currentUser');
+        this._cookieService.removeCookie('currentUser');
+        this._cookieService.removeCookie('currentLoginTime');
+        this._cookieService.removeCookie('currentTimeFrame');
         this._cookieService.removeAll();
-
         localStorage.clear();
 
     }

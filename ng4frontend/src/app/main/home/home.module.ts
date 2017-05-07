@@ -11,20 +11,21 @@ import { HomeComponent } from './home.component';
 // 3rd-party library
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
-
+import { ChartsModule } from 'ng2-charts';
 @NgModule({
-    imports: [
-
-        ProgressbarModule.forRoot(),
-
-        CommonModule,
-        FormsModule,
-        HttpModule,
-
-        HomeRoutingModule,
+  imports: [
 
 
-    ],
-    declarations: [HomeComponent]
+    ProgressbarModule.forRoot(),
+    ChartsModule,
+    CommonModule,
+    FormsModule,
+    HttpModule,
+
+    HomeRoutingModule,
+
+
+  ],
+  declarations: [HomeComponent]
 })
 export class HomeModule { }

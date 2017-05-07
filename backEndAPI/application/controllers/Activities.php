@@ -65,7 +65,6 @@ class Activities extends CI_Controller
         }
         else {
 
-
             //  goal_description can be empty
             if (empty($Data['activity_detail'])) {
                 echo json_encode($this->create_error_messageArray("activity_detail Empty"));
@@ -77,6 +76,12 @@ class Activities extends CI_Controller
             elseif (empty($Data['user_id'])){
                 echo json_encode($this->create_error_messageArray("user_id Empty"));
                 return 0;
+            }elseif (empty($Data['activity_group'])){
+                echo json_encode($this->create_error_messageArray("activity_group Empty"));
+                return 0;
+            }elseif (empty($Data['activity_group_id'])){
+                echo json_encode($this->create_error_messageArray("activity_group_id Empty"));
+                return 0;
             }
             else {
                 $date = new DateTime();
@@ -86,6 +91,8 @@ class Activities extends CI_Controller
                     'activity_type' => $Data['activity_type'],
                     'activity_timestamp' => $date->format('Y-m-d H:i:s'),
                     'user_id' =>$Data['user_id'],
+                    'activity_group' =>$Data['activity_group'],  // type of the gorup Goals / Objectives /  Key result
+                    'activity_group_id' =>$Data['activity_group_id'], // the Id of Goals / Objectives /  Key result
                 );
                 return $processArray;
             }
@@ -129,6 +136,8 @@ class Activities extends CI_Controller
                 'activity_type' => $row->activity_type,
                 'activity_timestamp' => $row->activity_timestamp,
                 'user_id' =>$row->user_id,
+                'activity_group' =>$row->activity_group,  // type of the gorup Goals / Objectives /  Key result
+                'activity_group_id' => $row->activity_group_id, // the Id of Goals / Objectives /  Key result
 
             );
             $this->json($data);
@@ -230,6 +239,11 @@ class Activities extends CI_Controller
                     'activity_type' => set_value('activity_type', $row[$i]->activity_type),
                     'activity_timestamp' => set_value('activity_timestamp', $row[$i]->activity_timestamp),
 
+                    'activity_group' => set_value('activity_group', $row[$i]->activity_group),
+                    'activity_group_id' => set_value('activity_group_id', $row[$i]->activity_group_id),
+
+
+
 
                     'first_name' => set_value('first_name', $row[$i]->first_name),
                     'last_name' => set_value('last_name', $row[$i]->last_name),
@@ -263,6 +277,12 @@ class Activities extends CI_Controller
                     'activity_timestamp' => set_value('activity_timestamp', $row[$i]->activity_timestamp),
 
 
+                    'activity_group' => set_value('activity_group', $row[$i]->activity_group),
+                    'activity_group_id' => set_value('activity_group_id', $row[$i]->activity_group_id),
+
+
+
+
                     'first_name' => set_value('first_name', $row[$i]->first_name),
                     'last_name' => set_value('last_name', $row[$i]->last_name),
 
@@ -279,6 +299,81 @@ class Activities extends CI_Controller
         }
 
     }
+
+// get by goal id
+    public function get_by_goal_id($id){
+        $row = $this->Activities_model->get_by_goal_id($id);
+        $i=0;
+        $data=[];
+        if ($row) {
+            $length= count($row);
+            for($i=0;$i<$length;$i++) {
+                $info = array(
+                    'activity_id' => set_value('activity_id', $row[$i]->activity_id),
+                    'activity_detail' => set_value('activity_detail', $row[$i]->activity_detail),
+                    'user_id' => set_value('user_id', $row[$i]->user_id),
+                    'activity_type' => set_value('activity_type', $row[$i]->activity_type),
+                    'activity_timestamp' => set_value('activity_timestamp', $row[$i]->activity_timestamp),
+
+                    'activity_group' => set_value('activity_group', $row[$i]->activity_group),
+                    'activity_group_id' => set_value('activity_group_id', $row[$i]->activity_group_id),
+
+                    'first_name' => set_value('first_name', $row[$i]->first_name),
+                    'last_name' => set_value('last_name', $row[$i]->last_name),
+
+                );
+                array_push($data, $info);
+
+            }
+            $this->json($data);
+        }
+        else {
+            $tempErrorArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempErrorArray);
+
+        }
+
+    }
+
+
+    public function get_by_objectives_id($id){
+        $row = $this->Activities_model->get_by_objectives_id($id);
+        $i=0;
+        $data=[];
+        if ($row) {
+            $length= count($row);
+            for($i=0;$i<$length;$i++) {
+                $info = array(
+                    'activity_id' => set_value('activity_id', $row[$i]->activity_id),
+                    'activity_detail' => set_value('activity_detail', $row[$i]->activity_detail),
+                    'user_id' => set_value('user_id', $row[$i]->user_id),
+                    'activity_type' => set_value('activity_type', $row[$i]->activity_type),
+                    'activity_timestamp' => set_value('activity_timestamp', $row[$i]->activity_timestamp),
+
+
+                    'activity_group' => set_value('activity_group', $row[$i]->activity_group),
+                    'activity_group_id' => set_value('activity_group_id', $row[$i]->activity_group_id),
+
+
+
+
+                    'first_name' => set_value('first_name', $row[$i]->first_name),
+                    'last_name' => set_value('last_name', $row[$i]->last_name),
+
+                );
+                array_push($data, $info);
+
+            }
+            $this->json($data);
+        }
+        else {
+            $tempErrorArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempErrorArray);
+
+        }
+
+    }
+
 
 
 }

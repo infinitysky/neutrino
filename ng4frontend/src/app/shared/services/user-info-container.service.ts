@@ -25,7 +25,7 @@ export class UserInfoContainerService {
 
   // Observable navItem source
   //this is using BehaviorSubjects to solve the global variable
-  private _userInfo = new BehaviorSubject<Userclass>(new Userclass());
+  public _userInfo = new BehaviorSubject<Userclass>(new Userclass());
   // Observable userInfo stream
   userInfo$ = this._userInfo.asObservable();
   // service command
@@ -33,7 +33,7 @@ export class UserInfoContainerService {
     this._userInfo.next(userInfo);
   }
 
-  private _timeFrame = new BehaviorSubject<Timeframeclass>(new Timeframeclass());
+  public _timeFrame = new BehaviorSubject<Timeframeclass>(new Timeframeclass());
   // Observable userInfo stream
   timeFrame$ = this._timeFrame.asObservable();
   // service command
@@ -42,7 +42,7 @@ export class UserInfoContainerService {
   }
 
 
-  private _defaultTimeFrame = new BehaviorSubject<Timeframeclass>(new Timeframeclass());
+  public _defaultTimeFrame = new BehaviorSubject<Timeframeclass>(new Timeframeclass());
   defaultTimeFrame$ = this._defaultTimeFrame.asObservable();
 
   setDefaultTimeFrameSubject(timeFrame:Timeframeclass) {

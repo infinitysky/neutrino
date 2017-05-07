@@ -260,6 +260,66 @@ class Goals extends CI_Controller
 
     }
 
+
+
+
+    public function get_detailed_goal_item($id){
+        $goalInfoArray=[];
+        $goalsArray=[];
+        if (!empty($id)){
+            $goalInfoArray=$this->Goals_model->get_detailed_goal_by_id($id);
+        }
+        $i=0;
+        $j=0;
+        $goalsIdArray=[];
+
+
+        if ($goalInfoArray){
+            // share same functions and ideas with get_detailed_goals. But! the goals must be an array!!!!!
+//            array_push($goalsArray,$goalInfoArray);
+            $goalsArray=$goalInfoArray;
+
+            $lengthOfGoalsArray=count($goalsArray);
+
+            for ($i=0 ; $i < $lengthOfGoalsArray; $i++ ){
+                //init a empty array for later objective array push in
+                $emptyArray=[];
+                $goalsArray[$i]->objective_array=$emptyArray;
+
+
+                array_push($goalsIdArray,$goalsArray[$i]->goal_id);
+            }
+
+            $objectives=$this->searchObjectivesForGoal($goalsIdArray);
+
+            if ($objectives){
+                $lengthOfObjectivesArray=count($objectives);
+
+                for ($i=0 ; $i < $lengthOfObjectivesArray; $i++ ){
+
+                    for ( $j = 0; $j<$lengthOfGoalsArray ; $j++){
+                        if ($objectives[$i]->goal_id == $goalsArray[$j]->goal_id){
+                            array_push($goalsArray[$j]->objective_array,$objectives[$i]);
+                        }
+                    }
+                }
+            }
+
+            $calculatedArray=$this->calculateProgress($goalsArray);
+            $this->json($calculatedArray);
+
+
+
+        }else{
+            $tempReturnArray=$this->create_error_messageArray('Record Not Found');
+            echo json_encode($tempReturnArray);
+        }
+
+
+    }
+
+
+
     public function get_detailed_goals(){
         $goalsArray=$this->Goals_model->get_all();
         $i=0;
@@ -371,6 +431,8 @@ class Goals extends CI_Controller
 
         $objectivesArray=$this->Goals_objectives_model->get_by_goal_id_array($goalsIdArray);
 
+
+
         if ($objectivesArray){
             $lengthOfObjectivesArray=count($objectivesArray);
 
@@ -414,12 +476,78 @@ class Goals extends CI_Controller
         if ($keyResultArray){
             $keyResult=$keyResultArray;
 
+        }else{
+            $keyResult=[];
         }
 
         return $keyResult;
     }
 
     function calculateProgress($goalsArray){
+
+
+
+        $calculatedArray=[];
+        $x = 0;
+        $y = 0;
+        $z = 0;
+        $goalsLength=count($goalsArray);
+        if($goalsLength)
+        for ($x=0; $x<$goalsLength ; $x++){
+            $objectivesLength=0;
+
+            $objectivesLength=count($goalsArray[$x]->objective_array);
+
+            $currentGoalProgress=0;
+            $totalObjectiveProgress=0;
+
+            if ($objectivesLength == 0){
+                $goalsArray[$x]->goal_progress_status=$currentGoalProgress;
+            }else{
+
+
+                for ($y=0; $y<$objectivesLength; $y++){
+                    if ($goalsArray[$x]->objective_array[$y]->keyResult_array){
+                        $keyResultLength=count( $goalsArray[$x]->objective_array[$y]->keyResult_array );
+                    }else{
+                        $keyResultLength=0;
+                    }
+
+                    $keyResultProgressTotal=0;
+                    $currentObjectiveProgress=0;
+
+                    if ($keyResultLength==0){
+                        $goalsArray[$x]->objective_array[$y]->objective_progress_status=0;
+
+                    }else{
+
+                        for ($z=0; $z<$keyResultLength; $z++){
+                            $keyResultProgressTotal=$keyResultProgressTotal+ $goalsArray[$x]->objective_array[$y]->keyResult_array[$z]->result_progress_status;
+                        }
+                        $currentObjectiveProgress=$keyResultProgressTotal/$keyResultLength;
+                        $goalsArray[$x]->objective_array[$y]->objective_progress_status=$currentObjectiveProgress;
+                    }
+
+                    $totalObjectiveProgress=$totalObjectiveProgress+ $goalsArray[$x]->objective_array[$y]->objective_progress_status;
+                }
+
+                $goalsArray[$x]->goal_progress_status=$totalObjectiveProgress/$objectivesLength;
+            }
+
+
+
+        }
+
+
+
+        $calculatedArray=$goalsArray;
+        return $calculatedArray;
+    }
+
+
+
+
+    function calculateGoalsProgress($goalsArray){
         $calculatedArray=[];
         $x = 0;
         $y = 0;
@@ -456,15 +584,9 @@ class Goals extends CI_Controller
 
                     $totalObjectiveProgress=$totalObjectiveProgress+ $goalsArray[$x]->objective_array[$y]->objective_progress_status;
                 }
-
                 $goalsArray[$x]->goal_progress_status=$totalObjectiveProgress/$objectivesLength;
             }
-
-
-
         }
-
-
 
         $calculatedArray=$goalsArray;
         return $calculatedArray;

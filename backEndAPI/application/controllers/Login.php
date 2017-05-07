@@ -109,15 +109,29 @@ class Login extends CI_Controller
 
     public function success_user_info($userInfo){
         $tempMessageArray=array(
-            "user_id"=>$userInfo[0]['user_id'],
-            "email"=>$userInfo[0]['email'],
-            "username"=>$userInfo[0]['username'],
-            "account_status"=>$userInfo[0]['account_status'],
-            "first_name"=> $userInfo[0]['first_name'],
-            "last_name"=> $userInfo[0]['last_name'],
-            "dob"=> $userInfo[0]['dob'],
-            "mobile_number"=> $userInfo[0]['mobile_number'],
-            "user_details_id"=>$userInfo[0]['user_details_id'],
+//            "user_id"=>$userInfo['user_id'],
+//            "email"=>$userInfo['email'],
+//            "username"=>$userInfo['username'],
+//            "account_status"=>$userInfo['account_status'],
+//            "first_name"=> $userInfo['first_name'],
+//            "last_name"=> $userInfo['last_name'],
+//            "dob"=> $userInfo['dob'],
+//            "mobile_number"=> $userInfo['mobile_number'],
+//            "user_details_id"=>$userInfo['user_details_id'],
+//            "role_id"=>$userInfo['role_id'],
+//            "role"=>$userInfo['role'],
+//
+            "user_id"=>$userInfo->user_id,
+            "email"=>$userInfo->email,
+            "username"=>$userInfo->username,
+            "account_status"=>$userInfo->account_status,
+            "first_name"=> $userInfo->first_name,
+            "last_name"=> $userInfo->last_name  ,
+            "dob"=> $userInfo->dob ,
+            "mobile_number"=> $userInfo->mobile_number,
+            "user_details_id"=>$userInfo->user_details_id,
+            "role_id"=>$userInfo->role_id,
+            "role"=>$userInfo->role  ,
         );
 
         $currentTimeFrame=[];

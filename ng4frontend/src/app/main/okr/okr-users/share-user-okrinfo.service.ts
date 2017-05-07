@@ -4,6 +4,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import 'rxjs/add/operator/share';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+
+import { Goalclass } from '../okr-shared/classes/goal-class';
+
 @Injectable()
 export class ShareUserOkrinfoService {
 
@@ -32,11 +35,11 @@ export class ShareUserOkrinfoService {
   }
 
 
-  private _shareObjectives = new BehaviorSubject<any>("");
-  _shareObjectives$ = this._shareObjectives.asObservable();
+  private _sharedGoal = new BehaviorSubject<any>(new Goalclass);
+  _sharedGoal$ = this._sharedGoal.asObservable();
   setObjectiveSubject(setSubject:any) {
     console.log("Set Goals Subject: "+ JSON.stringify( setSubject));
-    this._shareObjectives.next(setSubject);
+    this._sharedGoal.next(setSubject);
   }
 
   private _shareUsers = new BehaviorSubject<any>("");

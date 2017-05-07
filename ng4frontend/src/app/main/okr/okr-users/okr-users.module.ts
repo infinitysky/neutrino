@@ -21,7 +21,7 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { NouisliderModule } from 'ng2-nouislider';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
-import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import { SelectModule} from 'ng2-select';
 import { DoorgetsTruncateModule } from 'doorgets-ng-truncate';
 import { ModalModule } from 'ngx-bootstrap/modal';

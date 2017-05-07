@@ -10,13 +10,18 @@ import { OkrSettingComponent } from './okr-setting.component'
 // import {OkrSettingObjectiveModule} from './okr-setting-objective/okr-setting-objective.module';
 // import {OkrSettingKeyResultModule} from './okr-setting-key-result/okr-setting-key-result.module';
 //import  { UserManagementModule } from './user-management/user-management.module';
-
+//import  { OkrSettingCompanyInfoModule } from  './okr-setting-company-info/okr-setting-company-info.module';
 
 const routes: Routes = [
   {
     path: '',
     component: OkrSettingComponent,
     children:[
+
+      {
+        path: 'setting-company-info',
+        loadChildren: './okr-setting-company-info/okr-setting-company-info.module#OkrSettingCompanyInfoModule'
+      },
       {
         path: 'setting-team',
         loadChildren: './okr-setting-team/okr-setting-team.module#OkrSettingTeamModule'
@@ -37,10 +42,10 @@ const routes: Routes = [
         path: 'setting-key-result',
         loadChildren: './okr-setting-key-result/okr-setting-key-result.module#OkrSettingKeyResultModule'
       },
-        {
+      {
         path: 'user-management',
         loadChildren: './user-management/user-management.module#UserManagementModule'
-      },
+      }
 
     ]
   }

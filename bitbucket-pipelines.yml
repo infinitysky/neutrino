@@ -4,15 +4,15 @@
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
 # image: docker-image:tag
-image: node:6.10.0
+image: node:6.10.2
 pipelines:
   default:
     - step:
         script:
         - apt-get update
         - node -v
-        - npm install -g @angular/cli typescript
+        - npm install -g @angular/cli
         - cd ng4frontend
         - npm install
-        - ng build
+        - ng build --aot --prod
  

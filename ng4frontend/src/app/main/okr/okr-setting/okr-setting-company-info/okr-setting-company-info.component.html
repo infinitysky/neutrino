@@ -1,0 +1,73 @@
+
+<!--Start right context-->
+<div class="col-md-9">
+  <div class="hpanel">
+
+
+    <div class="panel-body">
+      <!--Left Button Group-->
+      <div class="panel-body">
+
+        <div  class="form-horizontal">
+          <div class="form-group"><label class="col-sm-2 control-label">Company name</label>
+
+            <div class="col-sm-10"><input type="text" class="form-control"  [disabled]="isAdmin" ></div>
+          </div>
+
+          <div class="hr-line-dashed"></div>
+          <div class="form-group"><label class="col-sm-2 control-label">Company Mission</label>
+
+            <div class="col-sm-10">
+              <textarea style="height: 85px" type="text" placeholder="Company Mission" autocomplete="off" class="form-control" [disabled]="isAdmin"  #companyMission></textarea>
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+          <div class="form-group"><label class="col-sm-2 control-label">Company Vision</label>
+
+            <div class="col-sm-10">
+              <textarea style="height: 85px" type="text" placeholder="Company Vision" autocomplete="off" class="form-control"  [disabled]="isAdmin" #companyVision></textarea>
+
+            </div>
+          </div>
+          <div class="hr-line-dashed"></div>
+          <div class="form-group"><label class="col-sm-2 control-label">Company Address</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Company address" class="form-control"  [disabled]="isAdmin" >
+            </div>
+          </div>
+
+
+          <div class="hr-line-dashed"></div>
+          <div class="form-group"><label class="col-sm-2 control-label">Company Phone</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Company Phone" class="form-control"  [disabled]="isAdmin" >
+            </div>
+          </div>
+
+
+          <div class="hr-line-dashed"></div>
+          <div class="form-group"><label class="col-sm-2 control-label">Company Email Address</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Company Email Address" class="form-control"  [disabled]="isAdmin" >
+            </div>
+          </div>
+
+
+          <div class="hr-line-dashed"></div>
+          <div class="form-group ">
+            <div class="col-sm-8 col-sm-offset-2 ">
+              <button class="btn btn-default" type="submit"   [disabled]="isAdmin" >Cancel</button>
+              <button class="btn btn-primary" type="submit"   [disabled]="isAdmin" >Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+  </div>
+</div>
+<!--End right context-->
+
+

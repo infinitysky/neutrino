@@ -12,7 +12,7 @@ import {ToastyModule} from 'ng2-toasty';
 import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
-import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+import { MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import { SelectModule} from 'ng2-select';
 import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 

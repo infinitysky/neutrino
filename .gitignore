@@ -9,6 +9,7 @@
 /*/node_modules
 
 # IDEs and editors
+/*/.idea
 /.idea
 .project
 .classpath
@@ -22,6 +23,10 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# IDE -  VS 2017
+/*/.vs
+
 
 # misc
 /.sass-cache
@@ -39,3 +44,7 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+
+# Unwanted files
+/ng4frontend/src/app/**/*.js

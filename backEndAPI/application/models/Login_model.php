@@ -9,6 +9,8 @@
 class Login_model extends CI_Model
 {
     public $table = 'users';
+    public $users_details_table = 'users_details';
+    public $roles_table = 'roles';
     public $id = 'user_id';
 
 
@@ -62,10 +64,11 @@ class Login_model extends CI_Model
         $tableName=$this->table;
         $this->db->select('*');
         $this->db->from($tableName);
-        $this->db->join('users_details',$tableName.'.user_id=users_details.user_id');
+        $this->db->join($this->users_details_table,$tableName.'.user_id='.$this->users_details_table.'.user_id');
+        $this->db->join($this->roles_table,$this->roles_table.'.role_id='.$this->users_details_table.'.role_id');
         $this->db->where('email',$authData['email']);
         $this->db->where('password',$authData['password']);
-        $result = $this->db->get()->result_array();;
+        $result = $this->db->get()->row();
         //$sql = $this->db->last_query();
         //echo $sql;
         return $result;

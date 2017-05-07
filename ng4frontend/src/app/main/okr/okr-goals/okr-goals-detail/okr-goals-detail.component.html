@@ -1,3 +1,98 @@
-<p>
-  okr-goals-detail works!
-</p>
+<div class="content animate-panel ">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="hpanel "  [ngClass]="displayStyle">
+
+
+        <div class="panel-body ">
+          <div class="pull-right text-right">
+
+          </div>
+          <h1>{{goalInfo.goal_name}}</h1>
+
+
+          <dl>
+            <dt>Goal Description: </dt>
+            <dd>{{goalInfo.goal_description}} </dd>
+            <dt>Goal Status: </dt>
+            <dd>   <span class="label" [ngClass]="labelStyle" >{{goalInfo.goal_status}}</span>  </dd>
+            <!--<dt>Email: </dt>-->
+            <!--<dd><i class="fa fa-envelope"></i> <a href="mailto:{{displayUserInfoData.email}}">{{displayUserInfoData.email}}</a> </dd>-->
+            <!--<dt>Phone Number: </dt>-->
+            <!--<dd><i class="fa fa-phone"></i> <a>{{displayUserInfoData.mobile_number}}</a> </dd>-->
+          </dl>
+        </div>
+        <div class="panel-footer contact-footer">
+          <div class="row">
+            <div class="col-xs-6  border-right">
+
+              <div class="okr-info-container">
+                <div class="okr-info-number okr-info-blue font-extra-bold "><span > {{overallProgressNumber}}</span><span >%</span></div>
+                <div class="okr-info-label">Overall Progress</div>
+              </div>
+            </div>
+
+            <div class="col-xs-6  border-right">
+
+              <div class="okr-info-container">
+                <div class="okr-info-number okr-info-green font-extra-bold "><span ></span> <span >{{totalObjectivesNumber}} </span> </div>
+                <div class="okr-info-label">Overall Objectives</div>
+              </div>
+
+            </div>
+            <!--<div class="col-sm-4 col-md-4">-->
+            <!--<div class="okr-infor-container">-->
+            <!--<div class="okr-infor-number okr-infor-red font-extra-bold"><span >33</span><span >D</span></div>-->
+            <!--<div class="okr-infor-label">Last Update</div>-->
+            <!--</div>-->
+            <!--</div>-->
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="hpanel">
+        <div class="hpanel">
+
+          <ul class="nav nav-tabs">
+
+            <li class="active"><a data-toggle="tab" href="#tab-1">Team OKRs</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2">Activities</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-3">Teams</a></li>
+          </ul>
+
+          <div class="tab-content">
+
+
+            <div id="tab-1" class="tab-pane active">
+              <div class="panel-body">
+                <app-goal-okrs> </app-goal-okrs>
+
+              </div>
+            </div>
+            <!--Start users activity view-->
+            <div id="tab-2" class="tab-pane">
+              <div class="panel-body">
+                <app-goal-activities> </app-goal-activities>
+
+              </div>
+            </div>
+            <!--End users activity view-->
+
+            <!--Start users teams view-->
+            <div id="tab-3" class="tab-pane">
+              <div class="panel-body">
+                <app-goal-teams> </app-goal-teams>
+
+              </div>
+            </div>
+          </div><!--End  users activity view-->
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

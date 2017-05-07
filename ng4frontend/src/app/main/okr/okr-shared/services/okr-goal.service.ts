@@ -94,7 +94,15 @@ export class SettingGoalService {
 
     }
 
-    getByTimeFrameId(timeFrameId: number): Observable<Goalclass> {
+  getDetailedById(goal_id: number): Observable<Goalclass> {
+    const url = `${this.basicOperateAPI}/get_detailed_goal_item/${goal_id}`;
+    return this.http.get(url)
+      .map(res => res.json())
+      .catch(this.handleErrorObservable);
+
+  }
+
+    getByTimeFrameId(timeFrameId: number): Observable<Goalclass[]> {
         const url = `${this.basicOperateAPI}/get_detail_by_time_frame/${timeFrameId}`;
         return this.http.get(url)
             .map(res => res.json())

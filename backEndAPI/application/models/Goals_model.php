@@ -135,6 +135,9 @@ class Goals_model extends CI_Model
     }
 
 
+
+
+
     function get_by_user_id_timeFrame_id($user_id,$time_frame_id)
     {
         $mysqlQuery="SELECT
@@ -161,6 +164,26 @@ class Goals_model extends CI_Model
 
 
         return $result->result();
+    }
+
+
+    function get_detailed_goal_by_id($id){
+
+        $this->db->trans_start();
+        $this->db->select('*');
+
+        $this->db->from($this->table);
+        $this->db->join($this->timeFrame_table, $this->timeFrame_table.'.time_frame_id='.$this->table.'.time_frame_id');
+        $this->db->where($this->table.'.goal_id',$id);
+
+        $result=$this->db->get();
+        $this->db->trans_complete();
+
+
+        return $result->result();
+
+
+
     }
 
 }

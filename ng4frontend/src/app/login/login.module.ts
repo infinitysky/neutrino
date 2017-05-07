@@ -9,17 +9,17 @@ import { ControlMessagesComponent } from './control-messages/control-messages.co
 import {ValidationService} from '../shared/services/validation.service';
 
 @NgModule({
-    imports: [
-        FormsModule,
-        HttpModule,
-        CommonModule,
-        LoginRoutingModule,
-        ReactiveFormsModule
+  imports: [
+    FormsModule,
+    HttpModule,
+    CommonModule,
+    LoginRoutingModule,
+    ReactiveFormsModule
 
-    ],
+  ],
 
 
-    declarations: [LoginComponent, ControlMessagesComponent],
-    providers: [ ValidationService ]
+  declarations: [LoginComponent, ControlMessagesComponent],
+  providers: [ ValidationService ]
 })
 export class LoginModule { }

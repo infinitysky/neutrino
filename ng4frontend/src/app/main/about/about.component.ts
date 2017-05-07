@@ -2,8 +2,11 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter} from '@angul
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
+
+
 @Component({
   selector: 'app-about',
+
   templateUrl: 'about.component.html',
   styleUrls: ['about.component.css']
 })
@@ -14,7 +17,9 @@ export class AboutComponent implements OnInit {
   private sub: any;
   private userIdSub: any;
   constructor( private _activatedRoute: ActivatedRoute,
-               private _router: Router) {
+               private _router: Router
+
+  ) {
 
   }
 
@@ -58,13 +63,14 @@ export class AboutComponent implements OnInit {
 
 
 
+
     @ViewChild('childModal') public childModal: ModalDirective;
 
-    public showChildModal():void {
+    public showChildModal(): void {
         this.childModal.show();
     }
 
-    public hideChildModal():void {
+    public hideChildModal(): void {
         this.childModal.hide();
     }
 

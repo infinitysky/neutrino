@@ -2,6 +2,7 @@
 
 ## Environment:
 * Nodejs 6.x LTS
+* Apache/Nginx Web server
 * PHP 7.x
 * Mysql 5.6.x
 
@@ -20,7 +21,7 @@ Go to Angular/cli  [https://github.com/angular/angular-cli](https://github.com/a
 #### Start front end  
 Go to folder `ng4 frontend`, then use command-line in the `ng4frontend` to type `ng serve` or `ng s`.
 
-#### Build front end  for distribution 
+#### Build front end for distribution 
 Go to folder `ng4 frontend`, then use command-line in the `ng4frontend` to type `ng build --aot --prod`.
 The `@angular/cli` will generate a `dist` folder for the production application.
 

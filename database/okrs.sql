@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2017-04-18 10:07:24
+Date: 2017-05-05 12:54:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,12 +25,13 @@ CREATE TABLE `activities` (
   `activity_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `activity_timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `activity_group` varchar(255) DEFAULT NULL,
+  `activity_group` varchar(255) NOT NULL,
   `activity_group_id` int(11) unsigned zerofill DEFAULT NULL,
+  `receiver_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`activity_id`),
   KEY `fk_activities_users` (`user_id`),
   CONSTRAINT `fk_activities_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for company_infos
@@ -60,6 +61,7 @@ CREATE TABLE `goals` (
   `goal_unit` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `goal_progress_status` int(255) DEFAULT '0',
   `goal_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `reviewed` int(1) unsigned zerofill DEFAULT '0',
   PRIMARY KEY (`goal_id`),
   KEY `goal_id` (`goal_id`),
   KEY `fk_goals_time_frame` (`time_frame_id`),
@@ -79,7 +81,7 @@ CREATE TABLE `goals_objectives` (
   KEY `fk_goals_objectives_objectivs` (`objective_id`),
   CONSTRAINT `fk_goals_objectives_goals` FOREIGN KEY (`goal_id`) REFERENCES `goals` (`goal_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_goals_objectives_objectivs` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for key_results
@@ -97,7 +99,7 @@ CREATE TABLE `key_results` (
   PRIMARY KEY (`result_id`),
   KEY `fk_key_results_objectives` (`objective_id`),
   CONSTRAINT `fk_key_results_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for objectives
@@ -109,10 +111,11 @@ CREATE TABLE `objectives` (
   `objective_description` text COLLATE utf8mb4_bin,
   `objective_unit` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `objective_progress_status` int(255) DEFAULT '0',
+  `objective_progress_status` int(3) unsigned zerofill DEFAULT '000',
   `objective_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `reviewed` int(1) unsigned zerofill NOT NULL DEFAULT '0',
   PRIMARY KEY (`objective_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for roles
@@ -152,7 +155,7 @@ CREATE TABLE `teams_objectives` (
   KEY `fk_teams_objectives_objectives` (`objective_id`),
   CONSTRAINT `fk_teams_objectives_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_teams_objectives_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for teams_users
@@ -179,7 +182,7 @@ CREATE TABLE `time_frames` (
   `time_frame_start` date DEFAULT NULL,
   `time_frame_end` date DEFAULT NULL,
   PRIMARY KEY (`time_frame_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for users
@@ -203,7 +206,7 @@ CREATE TABLE `users_details` (
   `first_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `last_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `mobile_number` int(11) DEFAULT NULL,
+  `mobile_number` varchar(11) COLLATE utf8mb4_bin DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `position` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,

@@ -11,7 +11,9 @@ declare var swal: any;
 
 // Services
 import { UsersInfoService } from '../../../../shared/services/users-info.service';
-import { CookieService } from './../../../../shared/services/cookie.service';
+import { MyCookieService } from '../../../../shared/services/my-cookie.service';
+import { AlertService } from './../../../../shared/services/alert.service';
+
 // Classes
 import { Userclass } from '../../../../shared/classes/user-class';
 
@@ -19,7 +21,7 @@ import { Userclass } from '../../../../shared/classes/user-class';
 @Component({
     selector: 'app-user-management',
     templateUrl: './user-management.component.html',
-    providers: [UsersInfoService],
+    providers: [UsersInfoService,AlertService],
     styleUrls: ['./user-management.component.css']
 })
 export class UserManagementComponent implements OnInit {
@@ -36,8 +38,9 @@ export class UserManagementComponent implements OnInit {
     public editUser: Userclass; // temp edit user
 
 
-    constructor( private _usersInfoService: UsersInfoService,
-                 private _cookieService: CookieService) {
+    constructor( private _alertService:AlertService,
+      private _usersInfoService: UsersInfoService,
+                 private _cookieService: MyCookieService) {
         // -------------------- init data ------------------------------
         this.tempData = '';
         this.users = [];
@@ -72,7 +75,8 @@ export class UserManagementComponent implements OnInit {
     loadSelfInfo(){
 
 
-        this.selfInfoFromCookie = <Userclass> JSON.parse(this._cookieService.getCookieCurrentUser().toString());
+       this.selfInfoFromCookie =  <Userclass>  this._cookieService.getCookieCurrentUser();
+
 
         if (this.selfInfoFromCookie.role == 'admin'){
             this.isAdmin = true;
@@ -104,7 +108,8 @@ export class UserManagementComponent implements OnInit {
                 error => this.errorMessage = <any>error,
                 () => {
                     if (this.tempData && this.tempData.status === 'success'){
-                        this.displaySuccessMessage(this.tempData.data);
+                      this._alertService.displaySuccessMessage(this.tempData.data);
+
                     }
                 }
             );
@@ -114,17 +119,6 @@ export class UserManagementComponent implements OnInit {
 
 
 
-    // ---------------- Display Message -----------------
-    displayWarningMessage(warningMessage:string){
-        swal( 'Warning!', warningMessage, 'Warning');
-    }
-    displayErrorMessage(errorMessage:string){
-        swal('Error!', errorMessage , 'error');
-    }
-
-    displaySuccessMessage(successMessage:string){
-        swal('Success!', successMessage, 'success');
-    }
 
 
 }

@@ -31,7 +31,7 @@ export class UsersLoginInfoService {
         const httpBody = JSON.stringify({email: loginInfo.email, password: loginInfo.password });
         return this.http.post(url, httpBody, {headers: this.headers})
             .map(res => res.json())
-            .catch(this.handleErrorObservable)
+            .catch(this.handleErrorObservable);
     }
 
     logout(){

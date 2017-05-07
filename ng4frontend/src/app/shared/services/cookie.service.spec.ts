@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { CookieService } from './cookie.service';
+import { MyCookieService } from './my-cookie.service';
 
-describe('CookieService', () => {
+describe('MyCookieService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [CookieService]
+      providers: [MyCookieService]
     });
   });
 
-  it('should ...', inject([CookieService], (service: CookieService) => {
+  it('should ...', inject([MyCookieService], (service: MyCookieService) => {
     expect(service).toBeTruthy();
   }));
 });

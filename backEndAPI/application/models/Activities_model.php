@@ -110,14 +110,36 @@ class Activities_model extends CI_Model
         $this->db->trans_complete();
         return  $affectedRowsNumber;
     }
+
+
+
+    //get activities by user id and receiver_user_id
     function get_by_user_id($userId){
         $this->db->trans_start();
-        $this->db->order_by($this->orderByDate, $this->order);
-        $this->db->select("*");
-        $this->db->from($this->table);
-        $this->db->join("users_details",$this->table.".user_id = users_details.user_id",'left');
-        $this->db->where($this->table.'.user_id',$userId);
-        $result=$this->db->get();
+
+
+        $mysqlQuery = "SELECT
+                        activities.*,
+                        users_details.first_name,
+                        users_details.last_name,
+                        receiver_details.first_name AS receiver_first_name,
+                        receiver_details.last_name AS receiver_last_name
+                        FROM activities
+                        
+                        LEFT JOIN users ON activities.user_id = users.user_id
+                        LEFT JOIN users_details ON users_details.user_id = users.user_id
+                        
+                        LEFT JOIN users as receiver ON activities.receiver_user_id = receiver.user_id 
+                        LEFT JOIN users_details as receiver_details ON receiver_details.user_id = receiver.user_id
+                        
+                        WHERE activities.user_id = $userId
+                        OR activities.receiver_user_id = $userId
+                        
+                        GROUP BY activities.activity_id
+                        ORDER BY activities.activity_id DESC
+                        ";
+
+        $result = $this->db->query($mysqlQuery);
         $this->db->trans_complete();
         return  $result->result();
     }
@@ -132,6 +154,17 @@ class Activities_model extends CI_Model
 
         $this->db->join("users_details",$this->table.".user_id = users_details.user_id",'left');
         $this->db->where('teams_users.team_id',$team_Id);
+        $result=$this->db->get();
+        $this->db->trans_complete();
+        return  $result->result();
+    }
+
+    function get_last_activities($timeFrame, $numbers){
+        $this->db->trans_start();
+
+
+
+
         $result=$this->db->get();
         $this->db->trans_complete();
         return  $result->result();

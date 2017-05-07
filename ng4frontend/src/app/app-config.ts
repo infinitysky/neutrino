@@ -1,161 +1,163 @@
 /**
  * Created by cliff on 1/24/2017.
  */
-import {OpaqueToken} from "@angular/core";
+import {OpaqueToken} from '@angular/core';
 
 // Although the ApplicationConfig interface plays no role in dependency injection,
 // it supports typing of the configuration object within the class.
 export interface ApplicationConfig {
-    appName:  string;
-    apiEndpoint:  string;
-    apiPath : string;
+  companyName: string; // Menu company name
+  appName:  string; // app name
+  apiEndpoint:  string; // app backend domain
+  apiPath: string; // backend path.
 
 
-    getBarChartUrl: string;
-    getUserInfoUrl: string;
-    loginUrl: string;
+  getBarChartUrl: string;
+  getUserInfoUrl: string;
+  loginUrl: string;
 
 
-    timeFrameOperateUrl: string;
-    timeFrameGetAllUrl: string;
-    timeFrameCreateUrl: string;
+  timeFrameOperateUrl: string;
+  timeFrameGetAllUrl: string;
+  timeFrameCreateUrl: string;
 
 
-    teamGetAllUrl: string;
-    teamCreateUrl: string;
-    teamOperateUrl: string;
+  teamGetAllUrl: string;
+  teamCreateUrl: string;
+  teamOperateUrl: string;
 
-    goalGetAllUrl: string;
-    goalCreateUrl: string;
-    goalOperateUrl: string;
-
-
-    objectiveGetAllUrl: string;
-    objectiveCreateUrl: string;
-    objectiveOperateUrl: string;
+  goalGetAllUrl: string;
+  goalCreateUrl: string;
+  goalOperateUrl: string;
 
 
-    userObjectiveOperateUrl: string;
-    goalObjectiveOperateUrl: string;
+  objectiveGetAllUrl: string;
+  objectiveCreateUrl: string;
+  objectiveOperateUrl: string;
 
 
-
-
-
-    keyResultGetAllUrl: string;
-    keyResultCreateUrl: string;
-    keyResultOperateUrl: string;
-
-
-    activityGetAllUrl: string;
-    activityCreateUrl: string;
-    activityOperateUrl: string;
+  userObjectiveOperateUrl: string;
+  goalObjectiveOperateUrl: string;
 
 
 
-    companyGetAllUrl: string;
-    companyCreateUrl: string;
-    companyOperateUrl: string;
+
+
+  keyResultGetAllUrl: string;
+  keyResultCreateUrl: string;
+  keyResultOperateUrl: string;
+
+
+  activityGetAllUrl: string;
+  activityCreateUrl: string;
+  activityOperateUrl: string;
 
 
 
-    userGetAllUrl: string;
-    userCreateUrl: string;
-    userOperateUrl: string;
+  companyGetAllUrl: string;
+  companyCreateUrl: string;
+  companyOperateUrl: string;
 
 
-    //User-detail Urls:
-    userDetailGetAllUrl: string;
-    userDetailCreateUrl: string;
-    userDetailOperateUrl: string;
-    userDetailFullInfo: string;
-    userTeamsObjectivesUrl: string;
+
+  userGetAllUrl: string;
+  userCreateUrl: string;
+  userOperateUrl: string;
 
 
-    teamsUsersOperateUrl: string;
-    teamsObjectiveOperateUrl: string;
+  //User-detail Urls:
+  userDetailGetAllUrl: string;
+  userDetailCreateUrl: string;
+  userDetailOperateUrl: string;
+  userDetailFullInfo: string;
+  userTeamsObjectivesUrl: string;
 
-    homepageUrl: string;
+
+  teamsUsersOperateUrl: string;
+  teamsObjectiveOperateUrl: string;
+
+  homepageUrl: string;
 
 
 }
 
 // Configuration values for our app
 export const MY_CONFIG:  ApplicationConfig = {
-    appName:  'My new App',
-    apiEndpoint:  'http://127.0.0.1:8080',
-    apiPath : '/neutrino/backEndAPI/index.php',
+  companyName: 'Rock IT Cloud',
+  appName:  'My new App',
+  apiEndpoint:  'http://127.0.0.1:8080',
+  apiPath : '/neutrino/backEndAPI/index.php',
 
-    getBarChartUrl: '/uniBackEnd/index.php/BarChart',
+  getBarChartUrl: '/uniBackEnd/index.php/BarChart',
 
-    loginUrl: '/Login',
-    getUserInfoUrl: '/assets/mockUserInfo.json',
-
-
-    // time frame Urls:
-    timeFrameGetAllUrl: '/Time_frames',
-    timeFrameCreateUrl: '/Time_frames/create',
-    timeFrameOperateUrl: '/Time_frames/items',
+  loginUrl: '/Login',
+  getUserInfoUrl: '/assets/mockUserInfo.json',
 
 
-    // team Urls:
-    teamGetAllUrl: '/Teams',
-    teamCreateUrl: '/Teams/create',
-    teamOperateUrl: '/Teams/items',
-
-    teamsObjectiveOperateUrl: '/Teams_objectives',
-    teamsUsersOperateUrl: '/Teams_users',
+  // time frame Urls:
+  timeFrameGetAllUrl: '/Time_frames',
+  timeFrameCreateUrl: '/Time_frames/create',
+  timeFrameOperateUrl: '/Time_frames/items',
 
 
-    // goal Urls:
-    goalGetAllUrl: '/Goals',
-    goalCreateUrl: '/Goals/create',
-    goalOperateUrl: '/Goals/items',
+  // team Urls:
+  teamGetAllUrl: '/Teams',
+  teamCreateUrl: '/Teams/create',
+  teamOperateUrl: '/Teams/items',
+
+  teamsObjectiveOperateUrl: '/Teams_objectives',
+  teamsUsersOperateUrl: '/Teams_users',
 
 
-    // objective Urls:
-    objectiveGetAllUrl: '/Objectives',
-    objectiveCreateUrl: '/Objectives/create',
-    objectiveOperateUrl: '/Objectives/items',
+  // goal Urls:
+  goalGetAllUrl: '/Goals',
+  goalCreateUrl: '/Goals/create',
+  goalOperateUrl: '/Goals/items',
 
 
-    // key result Urls:
-    keyResultGetAllUrl: '/Key_results',
-    keyResultCreateUrl: '/Key_results/create',
-    keyResultOperateUrl: '/Key_results/items',
+  // objective Urls:
+  objectiveGetAllUrl: '/Objectives',
+  objectiveCreateUrl: '/Objectives/create',
+  objectiveOperateUrl: '/Objectives/items',
 
 
-    // activity Urls:
-    activityGetAllUrl: '/Activities',
-    activityCreateUrl: '/Activities/create',
-    activityOperateUrl: '/Activities/items',
+  // key result Urls:
+  keyResultGetAllUrl: '/Key_results',
+  keyResultCreateUrl: '/Key_results/create',
+  keyResultOperateUrl: '/Key_results/items',
 
 
-    // company Urls:
-    companyGetAllUrl: '/Company_info',
-    companyCreateUrl: '/Company_info/create',
-    companyOperateUrl: '/Company_info/items',
+  // activity Urls:
+  activityGetAllUrl: '/Activities',
+  activityCreateUrl: '/Activities/create',
+  activityOperateUrl: '/Activities/items',
 
 
-    // User Urls:
-    userGetAllUrl: '/Users',
-    userCreateUrl: '/Users/create',
-    userOperateUrl: '/Users/items',
-
-    // User-detail Urls:
-    userDetailGetAllUrl: '/Users_details',
-    userDetailFullInfo: '/Users_details/items_full_info',
-    userDetailCreateUrl: '/Users_details/create',
-    userDetailOperateUrl: '/Users_details/items',
-    userTeamsObjectivesUrl: '/User_teams_objectives',
+  // company Urls:
+  companyGetAllUrl: '/Company_info',
+  companyCreateUrl: '/Company_info/create',
+  companyOperateUrl: '/Company_info/items',
 
 
-    userObjectiveOperateUrl: '/Users_objectives/',
+  // User Urls:
+  userGetAllUrl: '/Users',
+  userCreateUrl: '/Users/create',
+  userOperateUrl: '/Users/items',
 
-    goalObjectiveOperateUrl: '/Goals_objectives/',
+  // User-detail Urls:
+  userDetailGetAllUrl: '/Users_details',
+  userDetailFullInfo: '/Users_details/items_full_info',
+  userDetailCreateUrl: '/Users_details/create',
+  userDetailOperateUrl: '/Users_details/items',
+  userTeamsObjectivesUrl: '/User_teams_objectives',
 
 
-    homepageUrl: '/Home_page',
+  userObjectiveOperateUrl: '/Users_objectives/',
+
+  goalObjectiveOperateUrl: '/Goals_objectives/',
+
+
+  homepageUrl: '/Home_page',
 
 
 

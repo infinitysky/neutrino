@@ -10,8 +10,10 @@
   </div>
 
 
-  <div class="row">
-    <div class="col-md-3">
+  <div class="row ">
+
+    <!-- Current Objectives Numbers-->
+    <div class="col-lg-3">
       <div class="hpanel">
         <div class="panel-body text-center h-200">
           <i class="pe-7s-display1 fa-4x"></i>
@@ -27,36 +29,39 @@
 
       </div>
     </div>
-      <div class="col-md-3">
-          <div class="hpanel">
-              <div class="panel-body text-center h-200">
-                  <i class="pe-7s-box1 fa-4x"></i>
-
-                  <h1 class="m-xs">{{keyResultNumber}}</h1>
-
-                  <h3 class="font-extra-bold no-margins text-success">
-                      Current Key Results
-                  </h3>
-                  <small>To Do</small>
-              </div>
 
 
-          </div>
+    <!-- Current KeyResults Numbers-->
+    <div class="col-lg-3 ">
+      <div class="hpanel">
+        <div class="panel-body text-center h-200">
+          <i class="pe-7s-box1 fa-4x"></i>
+
+          <h1 class="m-xs">{{keyResultNumber}}</h1>
+
+          <h3 class="font-extra-bold no-margins text-success">
+            Current Key Results
+          </h3>
+          <small>To Do</small>
+        </div>
+
+
       </div>
-    <div class="col-md-6">
+    </div>
+
+    <!-- Current self Goals Numbers-->
+    <div class="col-lg-3 ">
       <div class="hpanel stats">
         <div class="panel-body h-200">
           <div class="stats-title pull-left">
-            <h4>Current Status</h4>
+            <h4>My Goals' Status</h4>
           </div>
           <div class="stats-icon pull-right">
             <i class="pe-7s-share fa-4x"></i>
           </div>
           <div class="m-t-xl">
             <h3 class="m-b-xs">{{goalsNumber}}</h3>
-            <span class="font-bold no-margins">
-                        Current Goals
-                    </span>
+            <span class="font-bold no-margins"> Current Status </span>
 
 
 
@@ -64,8 +69,8 @@
               <div [ngStyle]="{'width': goalsTotalProgress+'%'} "
                    aria-valuemax="100" aria-valuemin="0"
                    aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-success">
-                  <span class="sr-only">{{goalsTotalProgress |  number : "1.0-2" }}% Complete (success)</span>
-                  </div>
+                <span class="sr-only">{{goalsTotalProgress |  number : "1.0-2" }}% Complete (success)</span>
+              </div>
             </div>
 
             <div class="row">
@@ -74,8 +79,8 @@
                 <!--<h4>7.80</h4>-->
               </div>
 
-              <div class="col-xs-6 pull-right">
-                <small class="stats-label">% Current Completed</small>
+              <div class="col-md-6 pull-right">
+                <small class="stats-label">%  Completed</small>
                 <h4>{{goalsTotalProgress |  number : "1.0-2" }}%</h4>
               </div>
             </div>
@@ -86,6 +91,90 @@
       </div>
     </div>
 
+
+    <!-- Current Company Numbers-->
+    <div class="col-lg-3">
+      <div class="hpanel stats">
+        <div class="panel-body h-200">
+          <div class="stats-title pull-left">
+            <h4>Company's Goals</h4>
+          </div>
+          <!--<div class="stats-icon pull-right">-->
+            <!--<i class="pe-7s-culture fa-4x"></i>-->
+          <!--</div>-->
+          <div class="clearfix"></div>
+          <a  [routerLink]="['/okr/okr-goals']" [queryParams]="{ timeFrameId: currentTimeFrameId }" >
+          <div style=" height: 100px;width: 100px; overflow: visible">
+
+            <canvas baseChart
+                    [options]="doughnutChartOptions"
+
+                    [data]="doughnutChartData"
+                    [labels]="doughnutChartLabels"
+                    [chartType]="doughnutChartType"></canvas>
+          </div></a>
+          <!--<div class="flot-chart">-->
+            <!--<div class="flot-chart-content" id="flot-income-chart" style="padding: 0px; position: relative;"><canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 171px; height: 60px;" width="171" height="60"></canvas><canvas class="flot-overlay" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 171px; height: 60px;" width="171" height="60"></canvas></div>-->
+          <!--</div>-->
+          <div class="m-t-xs">
+
+            <div class="row">
+
+              <div class="col-md-7 pull-right">
+                <small class="stat-label"> Completed </small>
+                <h4>  <a  [routerLink]="['/okr/okr-goals']" [queryParams]="{ timeFrameId: currentTimeFrameId }" > {{companyGoalsTotalProgress |  number : "1.0-2" }}% </a> </h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!--<div class="col-md-3">-->
+      <!--<div class="hpanel stats">-->
+        <!--<div class="panel-body h-200">-->
+          <!--<div class="stats-title pull-left">-->
+            <!--<h4>Current Status</h4>-->
+          <!--</div>-->
+          <!--<div class="stats-icon pull-right">-->
+            <!--<i class="pe-7s-culture fa-4x"></i>-->
+          <!--</div>-->
+          <!--<div class="m-t-xl">-->
+            <!--<h3 class="m-b-xs">{{goalsNumber}}</h3>-->
+            <!--<span class="font-bold no-margins">-->
+                        <!--Company's Goals Status-->
+                    <!--</span>-->
+
+
+
+            <!--<div class="progress m-t-xs full progress-small animate">-->
+              <!--<div [ngStyle]="{'width': goalsTotalProgress+'%'} "-->
+                   <!--aria-valuemax="100" aria-valuemin="0"-->
+                   <!--aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-success">-->
+                <!--<span class="sr-only">{{goalsTotalProgress |  number : "1.0-2" }}% Complete (success)</span>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="row">-->
+              <!--<div class="col-xs-6">-->
+                <!--&lt;!&ndash;<small class="stats-label">Pages / Visit</small>&ndash;&gt;-->
+                <!--&lt;!&ndash;<h4>7.80</h4>&ndash;&gt;-->
+              <!--</div>-->
+
+              <!--<div class="col-xs-6 pull-right">-->
+                <!--<small class="stats-label">% Current Completed</small>-->
+                <!--<h4>{{goalsTotalProgress |  number : "1.0-2" }}%</h4>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+
+
+      <!--</div>-->
+    <!--</div>-->
+
   </div>
   <div class="row">
 
@@ -93,8 +182,7 @@
       <div class="hpanel">
         <div class="panel-heading">
           <div class="panel-tools">
-            <a class="showhide"><i class="fa fa-chevron-up"></i></a>
-            <a class="closebox"><i class="fa fa-times"></i></a>
+
           </div>
           Recently active Objectives
         </div>
@@ -103,25 +191,22 @@
             <table class="table table-striped">
               <thead>
               <tr>
-
                 <th >Objective Name</th>
                 <th>Completed</th>
                 <th>%</th>
-
-
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let objective of objectivesInfo">
                 <td> {{objective.objective_name}} </td>
                 <td>
-                    <div class="progress m-t-xs full progress-small animate">
-                        <div [ngStyle]="{'width': objective.objective_progress_status+'%'} "
-                             aria-valuemax="100" aria-valuemin="0"
-                             aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-info">
-                            <span class="sr-only">{{objective.objective_progress_status |  number : "1.0-2" }}% Complete (success)</span>
-                        </div>
+                  <div class="progress m-t-xs full progress-small animate">
+                    <div [ngStyle]="{'width': objective.objective_progress_status+'%'} "
+                         aria-valuemax="100" aria-valuemin="0"
+                         aria-valuenow="goalsTotalProgress" role="progressbar" class=" progress-bar  progress-bar-info">
+                      <span class="sr-only">{{objective.objective_progress_status |  number : "1.0-2" }}% Complete (success)</span>
                     </div>
+                  </div>
 
                 </td>
                 <td> {{objective.objective_progress_status}} % </td>

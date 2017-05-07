@@ -1,6 +1,5 @@
-<?php
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+﻿<?php
+//defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Home_page extends CI_Controller
@@ -85,13 +84,16 @@ class Home_page extends CI_Controller
 
                 $objectivesArray = $this->searchObjectiveForUserByTimeFrame($Data['user_id'],$Data['timeFrameId']);
 
+                $companyGoalsArray = $this->get_detail_by_time_frame($Data['timeFrameId']);
+
 
                 $returnDataArray=array(
                     "status"=>"success",
                     "goals"=>$goalsArray,
+                    "companyGoals"=>$companyGoalsArray,
                     "objectives"=>$objectivesArray
                 );
-
+				
 
 
                 echo json_encode($returnDataArray);
@@ -111,6 +113,65 @@ class Home_page extends CI_Controller
         }
 
     }
+
+
+
+    function get_detail_by_time_frame($timeFrame_id){
+        $goalsArray=$this->Goals_model->get_by_timeFrame_id($timeFrame_id);
+        $i=0;
+        $j=0;
+        $goalsIdArray=[];
+        $calculatedArray=[];
+
+
+        if ($goalsArray){
+            $lengthOfGoalsArray=count($goalsArray);
+
+            for ($i=0 ; $i < $lengthOfGoalsArray; $i++ ){
+                //init a empty array for later objective array push in
+                $emptyArray=[];
+                $goalsArray[$i]->objective_array=$emptyArray;
+
+
+                array_push($goalsIdArray,$goalsArray[$i]->goal_id);
+            }
+
+            $objectives=$this->searchObjectivesForGoal($goalsIdArray);
+
+            if ($objectives){
+                $lengthOfObjectivesArray=count($objectives);
+
+                for ($i=0 ; $i < $lengthOfObjectivesArray; $i++ ){
+
+                    for ( $j = 0; $j<$lengthOfGoalsArray ; $j++){
+                        if ($objectives[$i]->goal_id == $goalsArray[$j]->goal_id){
+                            array_push($goalsArray[$j]->objective_array,$objectives[$i]);
+
+
+                        }
+                    }
+
+
+                }
+            }
+
+
+
+
+
+            $calculatedArray=$this->calculateGoalsProgress($goalsArray);
+
+           // $this->json($calculatedArray);
+            //return $calculatedArray;
+
+        }
+
+        return $calculatedArray;
+
+
+
+    }
+
 
 
 
@@ -385,6 +446,10 @@ class Home_page extends CI_Controller
 
         $calculatedArray=$ObjectivesArray;
         return $calculatedArray;
+    }
+
+    function get_Last_activities($timeFrame){
+
     }
 
 

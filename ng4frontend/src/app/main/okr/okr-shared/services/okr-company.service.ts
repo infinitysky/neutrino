@@ -116,22 +116,6 @@ export class OkrCompanyService {
 
 
 
-    addNew(company_description: string, company_name: string,parent_company_id:number,company_leader_id:number,) : Observable<CompanyDetailClass>  {
-
-        let httpBody = JSON.stringify({ company_description : company_description,company_name:company_name,parent_company_id :parent_company_id,company_leader_id: company_leader_id});
-        // let body2 = "{time_frame_description:Team_description,time_frame_start:Team_start,time_frame_end :Team_end}";
-
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-
-        //console.log('Post message body: '+httpBody);
-        return this.http.post(this.creatAPI,httpBody, {headers: this.headers})
-        //.map(this.extractDataObservable)
-            .map(res => res.json())
-            .catch(this.handleErrorObservable)
-
-    }
-
 
 
 

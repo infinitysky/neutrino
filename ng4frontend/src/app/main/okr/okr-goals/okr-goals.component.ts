@@ -61,7 +61,9 @@ export class OkrGoalsComponent implements OnInit {
     constructor(private _userInfoContainerService: UserInfoContainerService,
         private _activatedRoute: ActivatedRoute,
                 private _router: Router,
-                private _settingGoalService: SettingGoalService) { }
+                private _settingGoalService: SettingGoalService) {
+      this.goals = new Array<Goalclass>();
+    }
 
     //component functions
     ngOnInit() {
@@ -81,7 +83,7 @@ export class OkrGoalsComponent implements OnInit {
         this.timeFrameIdSubscription = this._activatedRoute.queryParams.subscribe(params => {
             this.currentTimeFrameId =  +params['timeFrameId'] || 0;
 
-            console.log('current time frame : ' + this.currentTimeFrameId);
+//            console.log('current time frame : ' + this.currentTimeFrameId);
 
             if (this.currentTimeFrameId==0){
                 this.getGoals();
@@ -97,6 +99,7 @@ export class OkrGoalsComponent implements OnInit {
 
     getGoalsByTimeFrameId(timeFrameId) {
         // this._settingGoalService.getAll()
+      this.goals = new Array<Goalclass>();
         this._settingGoalService.getByTimeFrameId(timeFrameId)
             .subscribe(
                 data => this.tempData = data,
@@ -121,6 +124,7 @@ export class OkrGoalsComponent implements OnInit {
 
     getGoals() {
         // this._settingGoalService.getAll()
+      this.goals = new Array<Goalclass>();
         this._settingGoalService.getAllDetailed()
             .subscribe(
                 data => this.tempData = data,

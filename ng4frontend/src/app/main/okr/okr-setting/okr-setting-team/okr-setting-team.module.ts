@@ -12,7 +12,7 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 
 
-import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import {SelectModule} from 'ng2-select';
 
 

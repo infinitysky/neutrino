@@ -5,13 +5,15 @@ import { OkrGoalsRoutingModule } from './okr-goals-routing.module';
 import { OkrGoalsComponent } from './okr-goals.component';
 
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
-    imports: [
-        AccordionModule.forRoot(),
-        CommonModule,
-        OkrGoalsRoutingModule
-    ],
-    declarations: [OkrGoalsComponent]
+  imports: [
+    PopoverModule.forRoot(),
+    AccordionModule.forRoot(),
+    CommonModule,
+    OkrGoalsRoutingModule
+  ],
+  declarations: [OkrGoalsComponent]
 })
 export class OkrGoalsModule { }

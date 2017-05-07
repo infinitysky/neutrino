@@ -17,18 +17,18 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 
 @NgModule({
-    imports: [
-        AccordionModule.forRoot(),
-        FormsModule,
-        HttpModule,
-        CommonModule,
-        MainRoutingModule
-    ],
-    declarations: [
-        MainComponent,
+  imports: [
+    AccordionModule.forRoot(),
+    FormsModule,
+    HttpModule,
+    CommonModule,
+    MainRoutingModule
+  ],
+  declarations: [
+    MainComponent,
 
-        FooterpageComponent,
-        NavigationComponent
-    ]
+    FooterpageComponent,
+    NavigationComponent
+  ]
 })
 export class MainModule { }

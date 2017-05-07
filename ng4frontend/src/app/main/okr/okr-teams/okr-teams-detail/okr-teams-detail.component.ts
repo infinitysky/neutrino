@@ -7,7 +7,7 @@ import {Teamclass} from '../../okr-shared/classes/team-class';
 import {SettingTeamService} from '../../okr-shared/services/okr-team.service';
 import {UserDetailsService} from '../../../../shared/services/user-details.service';
 import { ShareTeamsOkrinfoService } from '../share-teams-okrinfo.service';
-import {Subscribable} from 'rxjs/Observable';
+
 @Component({
     selector: 'app-okr-teams-detail',
     templateUrl: './okr-teams-detail.component.html',

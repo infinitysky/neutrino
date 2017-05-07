@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2017-04-18 10:07:16
+Date: 2017-05-05 12:54:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,37 +25,55 @@ CREATE TABLE `activities` (
   `activity_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `activity_timestamp` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `activity_group` varchar(255) DEFAULT NULL,
+  `activity_group` varchar(255) NOT NULL,
   `activity_group_id` int(11) unsigned zerofill DEFAULT NULL,
+  `receiver_user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`activity_id`),
   KEY `fk_activities_users` (`user_id`),
   CONSTRAINT `fk_activities_users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of activities
 -- ----------------------------
-INSERT INTO `activities` VALUES ('105', 0x72727272, 'note', '1', '2017-03-29 09:17:08', null, null);
-INSERT INTO `activities` VALUES ('106', 0x7070707070, 'note', '1', '2017-03-29 09:29:55', null, null);
-INSERT INTO `activities` VALUES ('107', 0x64, 'note', '1', '2017-03-29 09:32:28', null, null);
-INSERT INTO `activities` VALUES ('108', 0x383838, 'note', '1', '2017-03-29 09:36:14', null, null);
-INSERT INTO `activities` VALUES ('109', 0x303030, 'note', '1', '2017-03-29 09:36:31', null, null);
-INSERT INTO `activities` VALUES ('110', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 11:20:30', null, null);
-INSERT INTO `activities` VALUES ('111', 0x20437265617465642061206E6577204F626A656374697665203A206164642074656D206F626A656374697665, 'Create', '1', '2017-03-29 14:34:36', null, null);
-INSERT INTO `activities` VALUES ('112', 0x55706461746564204F626A656374697665203A206164642074656D206F626A65637469766520757064617465206C6F67203A20, 'Update', '1', '2017-03-29 14:34:43', null, null);
-INSERT INTO `activities` VALUES ('113', 0x20437265617465642061206E6577204B657920526573756C74203A646464, 'Create', '1', '2017-03-29 14:34:47', null, null);
-INSERT INTO `activities` VALUES ('114', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 14:34:56', null, null);
-INSERT INTO `activities` VALUES ('115', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 14:35:48', null, null);
-INSERT INTO `activities` VALUES ('116', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-03-29 14:35:58', null, null);
-INSERT INTO `activities` VALUES ('117', 0x20437265617465642061206E657720676F616C203A204E6F74206F6E65, 'Create', '1', '2017-04-04 17:26:54', null, null);
-INSERT INTO `activities` VALUES ('118', 0x20437265617465642061206E6577204F626A656374697665203A20313131, 'Create', '1', '2017-04-04 17:27:43', null, null);
-INSERT INTO `activities` VALUES ('119', 0x20437265617465642061206E6577204B657920526573756C74203A3232323232, 'Create', '1', '2017-04-04 17:45:04', null, null);
-INSERT INTO `activities` VALUES ('120', 0x20437265617465642061206E6577204F626A656374697665203A2032333333, 'Create', '1', '2017-04-04 17:51:58', null, null);
-INSERT INTO `activities` VALUES ('121', 0x20437265617465642061206E6577204F626A656374697665203A20323232, 'Create', '1', '2017-04-04 17:52:11', null, null);
-INSERT INTO `activities` VALUES ('122', 0x20437265617465642061206E6577204F626A656374697665203A203333, 'Create', '1', '2017-04-05 09:32:33', null, null);
-INSERT INTO `activities` VALUES ('123', 0x20437265617465642061206E6577204B657920526573756C74203A373736, 'Create', '1', '2017-04-05 09:32:41', null, null);
-INSERT INTO `activities` VALUES ('124', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Update', '1', '2017-04-05 09:32:44', null, null);
-INSERT INTO `activities` VALUES ('125', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A6473, 'Update', '1', '2017-04-10 15:13:39', null, null);
+INSERT INTO `activities` VALUES ('105', 0x72727272, 'note', '1', '2017-03-03 11:27:28', 'n', null, null);
+INSERT INTO `activities` VALUES ('106', 0x7070707070, 'note', '1', '2017-05-03 11:27:26', 'n', null, null);
+INSERT INTO `activities` VALUES ('107', 0x64, 'note', '1', '2017-05-03 11:27:26', 'n', null, null);
+INSERT INTO `activities` VALUES ('108', 0x383838, 'note', '1', '2017-05-03 11:27:26', 'n', null, null);
+INSERT INTO `activities` VALUES ('109', 0x303030, 'note', '1', '2017-05-03 11:27:25', 'n', null, null);
+INSERT INTO `activities` VALUES ('110', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-05-03 11:27:18', 'o', null, null);
+INSERT INTO `activities` VALUES ('111', 0x20437265617465642061206E6577204F626A656374697665203A206164642074656D206F626A656374697665, 'Create', '1', '2017-05-03 11:27:17', 'o', null, null);
+INSERT INTO `activities` VALUES ('112', 0x55706461746564204F626A656374697665203A206164642074656D206F626A65637469766520757064617465206C6F67203A20, 'Update', '1', '2017-05-03 11:27:14', 'o', null, null);
+INSERT INTO `activities` VALUES ('113', 0x20437265617465642061206E6577204B657920526573756C74203A646464, 'Create', '1', '2017-05-03 11:26:12', 'k', null, null);
+INSERT INTO `activities` VALUES ('114', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-05-03 11:26:12', 'k', null, null);
+INSERT INTO `activities` VALUES ('115', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-05-03 11:26:14', 'k', null, null);
+INSERT INTO `activities` VALUES ('116', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Updated', '1', '2017-05-03 11:26:16', 'k', null, null);
+INSERT INTO `activities` VALUES ('117', 0x20437265617465642061206E657720676F616C203A204E6F74206F6E65, 'Create', '1', '2017-05-03 11:26:19', 'g', null, null);
+INSERT INTO `activities` VALUES ('118', 0x20437265617465642061206E6577204F626A656374697665203A20313131, 'Create', '1', '2017-05-03 11:26:21', 'o', null, null);
+INSERT INTO `activities` VALUES ('119', 0x20437265617465642061206E6577204B657920526573756C74203A3232323232, 'Create', '1', '2017-05-03 11:26:27', 'k', null, null);
+INSERT INTO `activities` VALUES ('120', 0x20437265617465642061206E6577204F626A656374697665203A2032333333, 'Create', '1', '2017-05-03 11:26:33', 'o', null, null);
+INSERT INTO `activities` VALUES ('121', 0x20437265617465642061206E6577204F626A656374697665203A20323232, 'Create', '1', '2017-05-03 11:26:34', 'o', null, null);
+INSERT INTO `activities` VALUES ('122', 0x20437265617465642061206E6577204F626A656374697665203A203333, 'Create', '1', '2017-05-03 11:26:35', 'o', null, null);
+INSERT INTO `activities` VALUES ('123', 0x20437265617465642061206E6577204B657920526573756C74203A373736, 'Create', '1', '2017-05-03 11:26:37', 'k', null, null);
+INSERT INTO `activities` VALUES ('124', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Update', '1', '2017-05-03 11:26:38', 'k', null, null);
+INSERT INTO `activities` VALUES ('125', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A6473, 'Update', '1', '2017-05-03 11:26:38', 'k', null, null);
+INSERT INTO `activities` VALUES ('126', 0x55706461746564204F626A656374697665203A20333320757064617465206C6F67203A20, 'Update', '105', '2017-05-03 11:26:41', 'o', null, null);
+INSERT INTO `activities` VALUES ('127', 0x20437265617465642061206E6577204F626A656374697665203A2032333132333132, 'Create', '105', '2017-05-03 11:26:45', 'o', null, null);
+INSERT INTO `activities` VALUES ('128', 0x20437265617465642061206E6577204B657920526573756C74203A31313233, 'Create', '105', '2017-05-03 11:26:46', 'k', null, null);
+INSERT INTO `activities` VALUES ('129', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Update', '105', '2017-05-03 11:26:46', 'k', null, null);
+INSERT INTO `activities` VALUES ('130', 0x20437265617465642061206E6577204F626A656374697665203A20E4B8ADE69687E6B58BE8AF95, 'Create', '105', '2017-05-03 11:26:47', 'k', null, null);
+INSERT INTO `activities` VALUES ('131', 0x55706461746564204F626A656374697665203A20E4B8ADE69687E6B58BE8AF9520757064617465206C6F67203A20, 'Update', '105', '2017-05-03 11:26:48', 'o', null, null);
+INSERT INTO `activities` VALUES ('132', 0x20437265617465642061206E6577204F626A656374697665203A20E4B8ADE69687E6B58BE8AF95, 'Create', '105', '2017-05-03 11:26:55', 'o', null, null);
+INSERT INTO `activities` VALUES ('133', 0x20437265617465642061206E6577204F626A656374697665203A20E58F8DE58F8DE5A48DE5A48D, 'Create', '105', '2017-05-03 11:26:55', 'o', null, null);
+INSERT INTO `activities` VALUES ('134', 0x20437265617465642061206E6577204F626A656374697665203A20414441536461, 'Create', '105', '2017-05-03 11:26:56', 'o', null, null);
+INSERT INTO `activities` VALUES ('135', 0x20437265617465642061206E6577204F626A656374697665203A20666473616673646166, 'Create', '105', '2017-05-03 11:52:24', 'o', null, null);
+INSERT INTO `activities` VALUES ('136', 0x20437265617465642061206E6577204F626A656374697665203A204F626A65637469766520666F72207465616D2041, 'Create', '105', '2017-05-03 11:52:25', 'o', null, null);
+INSERT INTO `activities` VALUES ('137', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Update', '105', '2017-05-03 11:52:29', 'k', null, null);
+INSERT INTO `activities` VALUES ('138', 0x20437265617465642061206E6577204F626A656374697665203A20416C6C205465616D204F626A656374697665732031, 'Create', '1', '2017-05-03 11:52:30', 'o', null, null);
+INSERT INTO `activities` VALUES ('139', 0x20437265617465642061206E6577204B657920526573756C74203A204B657920526573756C74, 'Create', '105', '2017-05-03 11:52:32', 'k', null, null);
+INSERT INTO `activities` VALUES ('140', 0x20437265617465642061206E6577204B657920526573756C74203A416C6C205465616D204F626A656374697665732031, 'Create', '105', '2017-05-03 11:52:33', 'k', null, null);
+INSERT INTO `activities` VALUES ('141', 0x20557064617465642061206E6577204B657920526573756C742050726F677265737320537461747573203A, 'Update', '105', '2017-05-03 11:52:34', 'k', null, null);
+INSERT INTO `activities` VALUES ('142', 0x616464206E6F746520, 'Create', '105', '2017-05-03 12:01:37', 'n', null, '1');
 
 -- ----------------------------
 -- Table structure for company_infos
@@ -90,6 +108,7 @@ CREATE TABLE `goals` (
   `goal_unit` varchar(255) COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `goal_progress_status` int(255) DEFAULT '0',
   `goal_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `reviewed` int(1) unsigned zerofill DEFAULT '0',
   PRIMARY KEY (`goal_id`),
   KEY `goal_id` (`goal_id`),
   KEY `fk_goals_time_frame` (`time_frame_id`),
@@ -99,11 +118,11 @@ CREATE TABLE `goals` (
 -- ----------------------------
 -- Records of goals
 -- ----------------------------
-INSERT INTO `goals` VALUES ('12', 0x496D70726F7665203230252073616C6573, 0x496D70726F7665203230252073616C6573, 'None', '63', '%', '0', '0');
-INSERT INTO `goals` VALUES ('13', 0x496D70726F7665203235252073616C6573, 0x496D70726F7665203235252073616C6573, 'Warning', '63', '%', '0', null);
-INSERT INTO `goals` VALUES ('14', 0x66696E6420323025206D6F726520637573746F6D6572, 0x66696E6420323025206D6F726520637573746F6D6572, 'Risk', '63', '%', '0', null);
-INSERT INTO `goals` VALUES ('15', 0x636F6D65706C65746564205461736B, 0x636F6D65706C65746564205461736B, 'Complete', '63', '%', '0', null);
-INSERT INTO `goals` VALUES ('16', 0x4E6F74206F6E65, 0x4E6F74206F6E65, 'None', '63', '0', '0', '0');
+INSERT INTO `goals` VALUES ('12', 0x496D70726F7665203230252073616C6573, 0x496D70726F7665203230252073616C6573, 'None', '63', '%', '0', '0', '0');
+INSERT INTO `goals` VALUES ('13', 0x496D70726F7665203235252073616C6573, 0x496D70726F7665203235252073616C6573, 'Warning', '63', '%', '0', '0', '0');
+INSERT INTO `goals` VALUES ('14', 0x66696E6420323025206D6F726520637573746F6D6572, 0x66696E6420323025206D6F726520637573746F6D6572, 'Risk', '64', '%', '0', '0', '0');
+INSERT INTO `goals` VALUES ('15', 0x636F6D65706C65746564205461736B, 0x636F6D65706C65746564205461736B, 'Complete', '63', '%', '0', '0', '0');
+INSERT INTO `goals` VALUES ('16', 0x4E6F74206F6E65, 0x4E6F74206F6E65, 'None', '63', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for goals_objectives
@@ -118,7 +137,7 @@ CREATE TABLE `goals_objectives` (
   KEY `fk_goals_objectives_objectivs` (`objective_id`),
   CONSTRAINT `fk_goals_objectives_goals` FOREIGN KEY (`goal_id`) REFERENCES `goals` (`goal_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_goals_objectives_objectivs` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of goals_objectives
@@ -133,6 +152,16 @@ INSERT INTO `goals_objectives` VALUES ('27', '14', '38');
 INSERT INTO `goals_objectives` VALUES ('28', '13', '38');
 INSERT INTO `goals_objectives` VALUES ('29', '16', '38');
 INSERT INTO `goals_objectives` VALUES ('30', '16', '40');
+INSERT INTO `goals_objectives` VALUES ('31', '13', '41');
+INSERT INTO `goals_objectives` VALUES ('32', '12', '41');
+INSERT INTO `goals_objectives` VALUES ('33', '14', '41');
+INSERT INTO `goals_objectives` VALUES ('34', '16', '42');
+INSERT INTO `goals_objectives` VALUES ('47', '16', '47');
+INSERT INTO `goals_objectives` VALUES ('48', '14', '47');
+INSERT INTO `goals_objectives` VALUES ('49', '13', '47');
+INSERT INTO `goals_objectives` VALUES ('50', '12', '47');
+INSERT INTO `goals_objectives` VALUES ('51', '14', '48');
+INSERT INTO `goals_objectives` VALUES ('52', '14', '49');
 
 -- ----------------------------
 -- Table structure for key_results
@@ -150,7 +179,7 @@ CREATE TABLE `key_results` (
   PRIMARY KEY (`result_id`),
   KEY `fk_key_results_objectives` (`objective_id`),
   CONSTRAINT `fk_key_results_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of key_results
@@ -166,6 +195,9 @@ INSERT INTO `key_results` VALUES ('25', 'key result  1', 0x6B657920726573756C742
 INSERT INTO `key_results` VALUES ('26', 'ddd', 0x646464, '%', 'None', '80', '', '36');
 INSERT INTO `key_results` VALUES ('27', '22222', 0x3232323232, '%', 'None', '0', '', '37');
 INSERT INTO `key_results` VALUES ('28', '776', 0x3636, '%', 'None', '90', '', '40');
+INSERT INTO `key_results` VALUES ('29', '1123', 0x3131313233, '%', 'None', '92', '', '41');
+INSERT INTO `key_results` VALUES ('30', ' Key Result', 0x204B657920526573756C74, '%', 'None', '0', '', '47');
+INSERT INTO `key_results` VALUES ('31', 'All Team Objectives 1', 0x416C6C205465616D204F626A656374697665732031, '%', 'None', '23', '', '49');
 
 -- ----------------------------
 -- Table structure for objectives
@@ -177,28 +209,34 @@ CREATE TABLE `objectives` (
   `objective_description` text COLLATE utf8mb4_bin,
   `objective_unit` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `objective_status` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `objective_progress_status` int(255) DEFAULT '0',
+  `objective_progress_status` int(3) unsigned zerofill DEFAULT '000',
   `objective_target` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `reviewed` int(1) unsigned zerofill NOT NULL DEFAULT '0',
   PRIMARY KEY (`objective_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of objectives
 -- ----------------------------
-INSERT INTO `objectives` VALUES ('8', 'team 123 objective1', 0x7465616D20313233206F626A65637469766531, '%', 'None', '0', null);
-INSERT INTO `objectives` VALUES ('19', ' f', 0x66, '%', 'None', '0', null);
-INSERT INTO `objectives` VALUES ('20', 'fff', 0x666666, '%', 'None', '0', null);
-INSERT INTO `objectives` VALUES ('27', 'find more customer111', 0x492066696E64206F6E6520676F6F64206578616D706C6531, '%', 'Warning', '0', '');
-INSERT INTO `objectives` VALUES ('28', 'team 24', 0x7465616D203234, '%', 'None', '0', null);
-INSERT INTO `objectives` VALUES ('29', 'Personal Objective 1', 0x506572736F6E616C204F626A6563746976652031, '%', 'None', '0', null);
-INSERT INTO `objectives` VALUES ('30', 'Personal Objective 1', 0x506572736F6E616C204F626A6563746976652031, null, 'None', '0', null);
-INSERT INTO `objectives` VALUES ('34', 'tt1', 0x74747431, '%', 'None', '0', '');
-INSERT INTO `objectives` VALUES ('35', 'Objective test1', 0x4F626A656374697665207465737431, '%', 'None', '0', '');
-INSERT INTO `objectives` VALUES ('36', 'add tem objective', 0x6164642074656D206F626A656374697665, '%', 'Risk', '0', '');
-INSERT INTO `objectives` VALUES ('37', '111', 0x313131, '%', 'None', '0', '');
-INSERT INTO `objectives` VALUES ('38', '2333', 0x33333333, '%', 'None', '0', '');
-INSERT INTO `objectives` VALUES ('39', '222', 0x33333332, '%', 'None', '0', '');
-INSERT INTO `objectives` VALUES ('40', '33', 0x6664, '%', 'Risk', '0', '');
+INSERT INTO `objectives` VALUES ('8', 'objectives 1', 0x7465616D20313233206F626A65637469766531, '%', 'None', '000', null, '0');
+INSERT INTO `objectives` VALUES ('19', ' f', 0x66, '%', 'None', '000', null, '0');
+INSERT INTO `objectives` VALUES ('20', 'fff', 0x666666, '%', 'None', '000', null, '0');
+INSERT INTO `objectives` VALUES ('27', 'find more customer111', 0x492066696E64206F6E6520676F6F64206578616D706C6531, '%', 'Warning', '000', '', '0');
+INSERT INTO `objectives` VALUES ('28', 'team 24', 0x7465616D203234, '%', 'None', '000', null, '0');
+INSERT INTO `objectives` VALUES ('29', 'Personal Objective 1', 0x506572736F6E616C204F626A6563746976652031, '%', 'None', '000', null, '0');
+INSERT INTO `objectives` VALUES ('30', 'Personal Objective 1', 0x506572736F6E616C204F626A6563746976652031, null, 'None', '000', null, '0');
+INSERT INTO `objectives` VALUES ('34', 'tt1', 0x74747431, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('35', 'Objective test1', 0x4F626A656374697665207465737431, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('36', 'add tem objective', 0x6164642074656D206F626A656374697665, '%', 'Risk', '000', '', '0');
+INSERT INTO `objectives` VALUES ('37', '111', 0x313131, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('38', '2333', 0x33333333, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('39', '222', 0x33333332, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('40', '33', 0x6664, '%', 'Warning', '090', '', '0');
+INSERT INTO `objectives` VALUES ('41', 'objectives `', 0x3132333132333132333132333132, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('42', 'objectives 2', 0x7465616D203239, '%', 'None', '000', null, '0');
+INSERT INTO `objectives` VALUES ('47', 'objectives 3', 0x7364667364616673616466736164667364667361, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('48', 'Objective for team A', 0x6465736372697074696F6E204F626A65637469766520666F72207465616D2041, '%', 'None', '000', '', '0');
+INSERT INTO `objectives` VALUES ('49', 'All Team Objectives 1', 0x416C6C205465616D204F626A656374697665732031, '%', 'None', '000', '', '0');
 
 -- ----------------------------
 -- Table structure for roles
@@ -256,7 +294,7 @@ CREATE TABLE `teams_objectives` (
   KEY `fk_teams_objectives_objectives` (`objective_id`),
   CONSTRAINT `fk_teams_objectives_objectives` FOREIGN KEY (`objective_id`) REFERENCES `objectives` (`objective_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_teams_objectives_teams` FOREIGN KEY (`team_id`) REFERENCES `teams` (`team_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of teams_objectives
@@ -270,6 +308,11 @@ INSERT INTO `teams_objectives` VALUES ('23', '19', '37');
 INSERT INTO `teams_objectives` VALUES ('24', '28', '38');
 INSERT INTO `teams_objectives` VALUES ('25', '19', '39');
 INSERT INTO `teams_objectives` VALUES ('26', '25', '40');
+INSERT INTO `teams_objectives` VALUES ('27', '29', '41');
+INSERT INTO `teams_objectives` VALUES ('28', '29', '42');
+INSERT INTO `teams_objectives` VALUES ('33', '29', '47');
+INSERT INTO `teams_objectives` VALUES ('34', '29', '48');
+INSERT INTO `teams_objectives` VALUES ('35', '19', '49');
 
 -- ----------------------------
 -- Table structure for teams_users
@@ -528,7 +571,7 @@ CREATE TABLE `time_frames` (
   `time_frame_start` date DEFAULT NULL,
   `time_frame_end` date DEFAULT NULL,
   PRIMARY KEY (`time_frame_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of time_frames
@@ -537,62 +580,6 @@ INSERT INTO `time_frames` VALUES ('63', 0x323031372C205131, '2017-01-01', '2017-
 INSERT INTO `time_frames` VALUES ('64', 0x323031372C205132, '2017-04-01', '2017-07-01');
 INSERT INTO `time_frames` VALUES ('65', 0x323031372C205133, '2017-07-01', '2017-10-01');
 INSERT INTO `time_frames` VALUES ('66', 0x323031372C205134, '2017-10-01', '2018-01-01');
-INSERT INTO `time_frames` VALUES ('67', 0x323031372C205131, '2017-01-01', '2017-03-31');
-INSERT INTO `time_frames` VALUES ('68', 0x323031372C205132, '2017-04-01', '2017-06-30');
-INSERT INTO `time_frames` VALUES ('69', 0x323031372C205133, '2017-07-01', '2017-09-30');
-INSERT INTO `time_frames` VALUES ('70', 0x323031372C205134, '2017-10-01', '2017-12-31');
-INSERT INTO `time_frames` VALUES ('71', 0x323031382C205131, '2018-01-01', '2018-03-31');
-INSERT INTO `time_frames` VALUES ('72', 0x323031382C205132, '2018-04-01', '2018-06-30');
-INSERT INTO `time_frames` VALUES ('73', 0x323031382C205133, '2018-07-01', '2018-09-30');
-INSERT INTO `time_frames` VALUES ('74', 0x323031382C205134, '2018-10-01', '2018-12-31');
-INSERT INTO `time_frames` VALUES ('75', 0x323031392C205131, '2019-01-01', '2019-03-31');
-INSERT INTO `time_frames` VALUES ('76', 0x323031392C205132, '2019-04-01', '2019-06-30');
-INSERT INTO `time_frames` VALUES ('77', 0x323031392C205133, '2019-07-01', '2019-09-30');
-INSERT INTO `time_frames` VALUES ('78', 0x323031392C205134, '2019-10-01', '2019-12-31');
-INSERT INTO `time_frames` VALUES ('79', 0x323032302C205131, '2020-01-01', '2020-03-31');
-INSERT INTO `time_frames` VALUES ('80', 0x323032302C205132, '2020-04-01', '2020-06-30');
-INSERT INTO `time_frames` VALUES ('81', 0x323032302C205133, '2020-07-01', '2020-09-30');
-INSERT INTO `time_frames` VALUES ('82', 0x323032302C205134, '2020-10-01', '2020-12-31');
-INSERT INTO `time_frames` VALUES ('83', 0x323032312C205131, '2021-01-01', '2021-03-31');
-INSERT INTO `time_frames` VALUES ('84', 0x323032312C205132, '2021-04-01', '2021-06-30');
-INSERT INTO `time_frames` VALUES ('85', 0x323032312C205133, '2021-07-01', '2021-09-30');
-INSERT INTO `time_frames` VALUES ('86', 0x323032312C205134, '2021-10-01', '2021-12-31');
-INSERT INTO `time_frames` VALUES ('87', 0x323032322C205131, '2022-01-01', '2022-03-31');
-INSERT INTO `time_frames` VALUES ('88', 0x323032322C205132, '2022-04-01', '2022-06-30');
-INSERT INTO `time_frames` VALUES ('89', 0x323032322C205133, '2022-07-01', '2022-09-30');
-INSERT INTO `time_frames` VALUES ('90', 0x323032322C205134, '2022-10-01', '2022-12-31');
-INSERT INTO `time_frames` VALUES ('91', 0x323032332C205131, '2023-01-01', '2023-03-31');
-INSERT INTO `time_frames` VALUES ('92', 0x323032332C205132, '2023-04-01', '2023-06-30');
-INSERT INTO `time_frames` VALUES ('93', 0x323032332C205133, '2023-07-01', '2023-09-30');
-INSERT INTO `time_frames` VALUES ('94', 0x323032332C205134, '2023-10-01', '2023-12-31');
-INSERT INTO `time_frames` VALUES ('95', 0x323032342C205131, '2024-01-01', '2024-03-31');
-INSERT INTO `time_frames` VALUES ('96', 0x323032342C205132, '2024-04-01', '2024-06-30');
-INSERT INTO `time_frames` VALUES ('97', 0x323032342C205133, '2024-07-01', '2024-09-30');
-INSERT INTO `time_frames` VALUES ('98', 0x323032342C205134, '2024-10-01', '2024-12-31');
-INSERT INTO `time_frames` VALUES ('99', 0x323032352C205131, '2025-01-01', '2025-03-31');
-INSERT INTO `time_frames` VALUES ('100', 0x323032352C205132, '2025-04-01', '2025-06-30');
-INSERT INTO `time_frames` VALUES ('101', 0x323032352C205133, '2025-07-01', '2025-09-30');
-INSERT INTO `time_frames` VALUES ('102', 0x323032352C205134, '2025-10-01', '2025-12-31');
-INSERT INTO `time_frames` VALUES ('103', 0x323032362C205131, '2026-01-01', '2026-03-31');
-INSERT INTO `time_frames` VALUES ('104', 0x323032362C205132, '2026-04-01', '2026-06-30');
-INSERT INTO `time_frames` VALUES ('105', 0x323032362C205133, '2026-07-01', '2026-09-30');
-INSERT INTO `time_frames` VALUES ('106', 0x323032362C205134, '2026-10-01', '2026-12-31');
-INSERT INTO `time_frames` VALUES ('107', 0x323032372C205131, '2027-01-01', '2027-03-31');
-INSERT INTO `time_frames` VALUES ('108', 0x323032372C205132, '2027-04-01', '2027-06-30');
-INSERT INTO `time_frames` VALUES ('109', 0x323032372C205133, '2027-07-01', '2027-09-30');
-INSERT INTO `time_frames` VALUES ('110', 0x323032372C205134, '2027-10-01', '2027-12-31');
-INSERT INTO `time_frames` VALUES ('111', 0x323032382C205131, '2028-01-01', '2028-03-31');
-INSERT INTO `time_frames` VALUES ('112', 0x323032382C205132, '2028-04-01', '2028-06-30');
-INSERT INTO `time_frames` VALUES ('113', 0x323032382C205133, '2028-07-01', '2028-09-30');
-INSERT INTO `time_frames` VALUES ('114', 0x323032382C205134, '2028-10-01', '2028-12-31');
-INSERT INTO `time_frames` VALUES ('115', 0x323032392C205131, '2029-01-01', '2029-03-31');
-INSERT INTO `time_frames` VALUES ('116', 0x323032392C205132, '2029-04-01', '2029-06-30');
-INSERT INTO `time_frames` VALUES ('117', 0x323032392C205133, '2029-07-01', '2029-09-30');
-INSERT INTO `time_frames` VALUES ('118', 0x323032392C205134, '2029-10-01', '2029-12-31');
-INSERT INTO `time_frames` VALUES ('119', 0x323033302C205131, '2030-01-01', '2030-03-31');
-INSERT INTO `time_frames` VALUES ('120', 0x323033302C205132, '2030-04-01', '2030-06-30');
-INSERT INTO `time_frames` VALUES ('121', 0x323033302C205133, '2030-07-01', '2030-09-30');
-INSERT INTO `time_frames` VALUES ('122', 0x323033302C205134, '2030-10-01', '2030-12-31');
 
 -- ----------------------------
 -- Table structure for users
@@ -611,8 +598,8 @@ CREATE TABLE `users` (
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES ('1', 'admin@admin.com', 'admin', '81dc9bdb52d04dc20036dbd8313ed055', '1');
-INSERT INTO `users` VALUES ('2', 'manager@admin.com', 'manager', '1234', '1');
-INSERT INTO `users` VALUES ('3', 'staff@admin.com', 'staff', '1234', '1');
+INSERT INTO `users` VALUES ('2', 'manager@admin.com', 'manager', '81dc9bdb52d04dc20036dbd8313ed055', '1');
+INSERT INTO `users` VALUES ('3', 'staff@admin.com', 'staff', '81dc9bdb52d04dc20036dbd8313ed055', '1');
 INSERT INTO `users` VALUES ('4', 'director@admin.com', 'director', '1234', '1');
 INSERT INTO `users` VALUES ('5', 'nisi.Aenean.eget@posuereenim.ca', 'Morse', '1234', '1');
 INSERT INTO `users` VALUES ('6', 'massa@Maurisblanditenim.org', 'Roberts', '1234', '1');
@@ -725,7 +712,7 @@ CREATE TABLE `users_details` (
   `first_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `last_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `dob` date DEFAULT NULL,
-  `mobile_number` int(11) DEFAULT NULL,
+  `mobile_number` varchar(11) COLLATE utf8mb4_bin DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `position` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
@@ -841,7 +828,7 @@ INSERT INTO `users_details` VALUES ('99', 'Yeo', 'Hardy', '1938-02-15', null, '9
 INSERT INTO `users_details` VALUES ('100', 'Aline', 'Greene', '1989-04-23', null, '100', '3', '3');
 INSERT INTO `users_details` VALUES ('103', 'Alie++', 'Greene+', '0000-00-00', '0', '103', '', '3');
 INSERT INTO `users_details` VALUES ('104', 'Kiona1', 'Jimenez', '1955-10-23', '0', '104', '1', '1');
-INSERT INTO `users_details` VALUES ('105', 'Nan', 'Li', '0000-00-00', '0', '105', '', '3');
+INSERT INTO `users_details` VALUES ('105', 'Nan', 'Li', '0000-00-00', '430305838', '105', '', '1');
 INSERT INTO `users_details` VALUES ('106', 'Lim', 'Ink', '0000-00-00', '0', '106', '', '3');
 INSERT INTO `users_details` VALUES ('107', 'aaa', 'bbb', '0000-00-00', '0', '107', '', '3');
 

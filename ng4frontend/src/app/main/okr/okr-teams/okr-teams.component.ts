@@ -37,7 +37,7 @@ export class OkrTeamsComponent implements OnInit {
                 private _router: Router,
                 private _settingTeamService: SettingTeamService,
     ){
-        this.teams = [];
+        this.teams = new Array<Teamclass>();
         this.users = [];
         this.teamLength = 0;
 
@@ -67,7 +67,7 @@ export class OkrTeamsComponent implements OnInit {
 
     getTeamsByTimeFrame(timeFrameId){
 
-
+      this.teams = new Array<Teamclass>();
         this._settingTeamService.getCurrentTeamProgressAndMember(timeFrameId)
             .subscribe(
                 data => this.tempData = data,
@@ -87,6 +87,7 @@ export class OkrTeamsComponent implements OnInit {
 
 
     getTeams() {
+      this.teams = new Array<Teamclass>();
         console.log("get All teams");
         this._settingTeamService.getAllTeamProgressAndMember()
             .subscribe(

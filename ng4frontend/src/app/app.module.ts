@@ -12,9 +12,9 @@ import { Ng2Bs3ModalModule } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { MyDatePickerModule } from 'mydatepicker';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
-import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect/src/multiselect-dropdown';
+import {MultiselectDropdownModule} from 'angular-2-dropdown-multiselect';
 import {SelectModule} from 'ng2-select';
-
+import { CookieService } from 'ng2-cookies';
 
 // import { Ng2LetterAvatar } from "node_modules/ng2letteravatar/ng2letteravatar.js";
 
@@ -30,7 +30,7 @@ import { AppComponent } from './app.component';
 
 // developed services here
 import {UserInfoContainerService} from './shared/services/user-info-container.service'; // global var services
-import { CookieService } from './shared/services/cookie.service';
+import { MyCookieService } from './shared/services/my-cookie.service';
 
 import { AuthGuard } from './shared/guards/auth.guard';
 import {AuthenticationService} from './shared/services/authentication.service';
@@ -68,7 +68,7 @@ import {AuthenticationService} from './shared/services/authentication.service';
 
     ],
     // sign the UserInfoContainerService as a global data store service.
-    providers: [UserInfoContainerService, CookieService, AuthGuard,AuthenticationService],
+    providers: [UserInfoContainerService, MyCookieService, AuthGuard, AuthenticationService, CookieService],
 
     bootstrap: [AppComponent]
 })

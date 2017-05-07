@@ -42,7 +42,7 @@
                             <span class="label label-success pull-right">{{goal.goal_status}}</span>
                             <div class="row">
                                 <div class="col-sm-8">
-                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+                                    <h4><a [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
 
                                     <p>
                                         {{goal.goal_description}}
@@ -66,7 +66,7 @@
                                 <div class="col-sm-4 project-info">
                                     <div class="project-action m-t-md">
                                         <div class="btn-group">
-                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> View</button>-->
                                             <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
                                             <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
                                         </div>
@@ -84,13 +84,13 @@
                             </div>
                         </div>
                         <accordion>
-                            <accordion-group #group>
+                            <accordion-group #group >
                                 <div accordion-heading>
                                     Objectives
-                                    <i class="pull-right float-xs-right glyphicon"
+                                    <i class="pull-right float-xs-right glyphicon  "
                                        [ngClass]="{'glyphicon-chevron-down': group?.isOpen, 'glyphicon-chevron-right': !group?.isOpen}"></i>
                                 </div>
-                                <div class="table-responsive project-list">
+                                <div class="table-responsive project-list ">
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
@@ -115,7 +115,11 @@
                                                 </div>
 
                                             </td>
-                                            <td> {{objective.objective_progress_status}} % </td>
+                                            <td> {{objective.objective_progress_status |  number : "1.0-2"}} %
+                                              <!--<button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>-->
+
+
+                                            </td>
 
                                         </tr>
 
@@ -136,6 +140,7 @@
                 <!--End of ngSwitchcomplete-->
 
 
+
                 <div *ngSwitchCase="'Warning'">
                     <!-- START Yellow/Warning HPANEL-->
                     <div class="hpanel hyellow">
@@ -143,7 +148,7 @@
                             <span class="label label-warning pull-right">{{goal.goal_status}}</span>
                             <div class="row">
                                 <div class="col-sm-8">
-                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+                                    <h4><a [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
 
                                     <p>
                                         {{goal.goal_description}}
@@ -167,7 +172,7 @@
                                 <div class="col-sm-4 project-info">
                                     <div class="project-action m-t-md">
                                         <div class="btn-group">
-                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> View</button>-->
                                             <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
                                             <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
                                         </div>
@@ -216,7 +221,7 @@
                                                 </div>
 
                                             </td>
-                                            <td> {{objective.objective_progress_status}} % </td>
+                                            <td> {{objective.objective_progress_status |  number : "1.0-2"}} % </td>
 
                                         </tr>
 
@@ -247,7 +252,7 @@
                             <span class="label label-danger pull-right">{{goal.goal_status}}</span>
                             <div class="row">
                                 <div class="col-sm-8">
-                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+                                    <h4><a [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
 
                                     <p>
                                         {{goal.goal_description}}
@@ -276,7 +281,7 @@
                                 <div class="col-sm-4 project-info">
                                     <div class="project-action m-t-md">
                                         <div class="btn-group">
-                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> View</button>-->
                                             <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
                                             <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
                                         </div>
@@ -325,7 +330,7 @@
                                                 </div>
 
                                             </td>
-                                            <td> {{objective.objective_progress_status}} % </td>
+                                            <td> {{objective.objective_progress_status |  number : "1.0-2"}} % </td>
 
                                         </tr>
 
@@ -356,7 +361,7 @@
                             <span class="label label-info pull-right"></span> <!--Tag Here-->
                             <div class="row">
                                 <div class="col-sm-8">
-                                    <h4><a [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
+                                    <h4><a [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> {{goal.goal_name}}</a></h4>
 
                                     <p>
                                         {{goal.goal_description}}
@@ -385,7 +390,7 @@
                                 <div class="col-sm-4 project-info">
                                     <div class="project-action m-t-md">
                                         <div class="btn-group">
-                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goal/goal/',goal.goal_id]"> View</button>-->
+                                            <!--<button class="btn btn-xs btn-default" [routerLink]="['/okr/okr-goals/goal/',goal.goal_id]"> View</button>-->
                                             <!--<button class="btn btn-xs btn-default" (click)="editGoalsButton(goal)"> Edit</button>-->
                                             <!--<button class="btn btn-xs btn-default"(click)="deleteGoalButton(goal)"> Delete</button>-->
                                         </div>
@@ -435,7 +440,7 @@
                                                 </div>
 
                                             </td>
-                                            <td> {{objective.objective_progress_status}} % </td>
+                                            <td> {{objective.objective_progress_status |  number : "1.0-2"}} % </td>
 
                                         </tr>
 
